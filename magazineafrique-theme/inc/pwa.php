@@ -58,7 +58,10 @@ if (!function_exists('magazineafrique_render_pwa_banners')) {
         <!-- Android / Chrome PWA Install Prompt (Hidden by default) -->
         <div id="pwa-install-banner" class="pwa-banner-card hidden" style="background: #072714; color: #FFFFFF; border: 1px solid #D97706;">
             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span style="font-size: 1.5rem;">📲</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
                 <div>
                     <div style="font-weight: 800; font-size: 0.875rem; color: #F59E0B;">Install Magazine Afrique</div>
                     <div style="font-size: 0.75rem; color: #D1D5DB;">Fast offline reading & breaking alerts.</div>
@@ -83,6 +86,26 @@ if (!function_exists('magazineafrique_render_pwa_banners')) {
             <p style="font-size: 0.75rem; color: #57534E; line-height: 1.5; margin: 0;">
                 Tap the <strong>Share</strong> button (<span>⎋</span> or <span>⬆</span>) below and select <strong>"Add to Home Screen"</strong> to receive push alerts and read offline.
             </p>
+        </div>
+
+        <!-- New Version / Cache Purge Toast Notification -->
+        <div id="magafrique-update-toast" class="magafrique-update-toast" role="alert" aria-live="polite">
+            <div class="toast-top-row">
+                <div class="toast-pulse-icon"></div>
+                <div class="toast-text-wrap">
+                    <div class="toast-headline">New Edition Available</div>
+                    <div class="toast-subtext">Magazine Afrique has been updated. Reload to view the latest edition.</div>
+                </div>
+            </div>
+            <div class="toast-actions">
+                <button id="toast-reload-btn" type="button" class="toast-btn-update">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                    </svg>
+                    Reload &amp; Update
+                </button>
+                <button id="toast-dismiss-btn" type="button" class="toast-btn-close" aria-label="Dismiss">✕</button>
+            </div>
         </div>
         <?php
     }

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.0.0');
+    define('MAGAZINEAFRIQUE_VERSION', '1.0.4');
 }
 
 /**
@@ -99,10 +99,11 @@ if (!function_exists('magazineafrique_scripts')) {
             true
         );
 
-        // Localize script with AJAX URL and nonce
+        // Localize script with AJAX URL, nonce, and version
         wp_localize_script('magazineafrique-script', 'magazineafrique_vars', array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('magazineafrique_nonce')
+            'nonce'    => wp_create_nonce('magazineafrique_nonce'),
+            'version'  => MAGAZINEAFRIQUE_VERSION
         ));
     }
 }

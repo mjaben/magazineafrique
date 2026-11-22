@@ -726,3 +726,141 @@ a:hover {
   font-size: 0.75rem;
   color: #A8A094;
 }
+
+/* ==========================================================================
+   UPDATE NOTIFICATION TOAST & CACHE PURGE
+   ========================================================================== */
+.magafrique-update-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 99999;
+  background-color: #0E1A13; /* Deep Obsidian Green */
+  color: #FAF7F2;
+  border: 1px solid rgba(217, 119, 6, 0.45); /* Saharan Amber Accent */
+  border-radius: 0.5rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+  width: calc(100vw - 2rem);
+  transform: translateY(140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.magafrique-update-toast.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-top-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.toast-pulse-icon {
+  width: 10px;
+  height: 10px;
+  background-color: #10B981;
+  border-radius: 50%;
+  margin-top: 0.35rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: toastPulse 2s infinite;
+}
+
+@keyframes toastPulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.toast-text-wrap {
+  flex: 1;
+}
+
+.toast-headline {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #FAF7F2;
+  line-height: 1.25;
+  margin-bottom: 0.2rem;
+}
+
+.toast-subtext {
+  font-size: 0.75rem;
+  color: #C4BCB0;
+  line-height: 1.4;
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.toast-btn-update {
+  background-color: #D97706; /* Saharan Amber */
+  color: #FFFFFF !important;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background-color 0.2s ease;
+}
+
+.toast-btn-update:hover {
+  background-color: #B45309;
+}
+
+.toast-btn-close {
+  background: none;
+  border: none;
+  color: #8C847A;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.toast-btn-close:hover {
+  color: #FAF7F2;
+}
+
+.footer-cache-reload-link {
+  color: #8C847A;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-cache-reload-link:hover {
+  color: #FAF7F2;
+}
+
+@media (max-width: 640px) {
+  .magafrique-update-toast {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+}

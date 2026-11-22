@@ -77,11 +77,12 @@
             <div>
                 &copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique. All rights reserved.
             </div>
-            <div style="display: flex; gap: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 1.25rem;">
                 <a href="<?php echo esc_url(home_url('/legal-notice/')); ?>">Legal Notice</a>
                 <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy</a>
                 <a href="<?php echo esc_url(home_url('/terms/')); ?>">Terms</a>
                 <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a>
+                <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload &amp;&amp; window.magazineafriquePurgeCacheAndReload()" class="footer-cache-reload-link" title="Purge local cache and load newest edition">↻ Reload Edition</a>
             </div>
         </div>
     </div>

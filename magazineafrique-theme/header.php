@@ -126,8 +126,9 @@
                 <span class="lang-dot">·</span>
                 <a href="?lang=sw" class="lang-link">SW</a>
             </div>
-            <div class="drawer-copyright">
-                &copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique. All rights reserved.
+            <div class="drawer-copyright" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                <span>&copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique</span>
+                <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload &amp;&amp; window.magazineafriquePurgeCacheAndReload()" style="color: #8C847A; text-decoration: underline; font-size: 0.6875rem;">↻ Reload Edition</a>
             </div>
         </div>
 

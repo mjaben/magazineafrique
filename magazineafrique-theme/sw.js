@@ -3,7 +3,7 @@
  * Compatible with Android & iOS (16.4+)
  */
 
-const CACHE_NAME = 'magazineafrique-v1.0.0';
+const CACHE_NAME = 'magazineafrique-v1.0.4';
 const STATIC_ASSETS = [
   '/',
   '/wp-content/themes/magazineafrique-theme/assets/css/main.css',
@@ -22,23 +22,45 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// 2. Activate & Clean Old Caches
+// 2. Activate & Clean Old Caches immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('[SW] Purging outdated cache:', key);
             return caches.delete(key);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// 3. Fetch Strategy: Network-First for Articles, Cache-First for Static Assets
+// 3. Message Listener for Instant Cache Clear & SkipWaiting
+self.addEventListener('message', (event) => {
+  if (!event.data) return;
+
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+
+  if (event.data.action === 'clearCache') {
+    caches.keys().then((keys) => {
+      return Promise.all(keys.map(key => caches.delete(key)));
+    }).then(() => {
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: true });
+      }
+    });
+  }
+});
+
+// 4. Fetch Strategy:
+// - CSS / JS: Network-First with Cache Fallback (guarantees updates take effect immediately)
+// - Static Images / Fonts: Stale-While-Revalidate
+// - HTML Pages: Network-First with Offline Cache Fallback
 self.addEventListener('fetch', (event) => {
   const req = event.request;
 
@@ -47,15 +69,39 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static Assets (Cache-First)
-  if (req.url.match(/\.(css|js|woff2|jpg|png|webp|svg)$/)) {
+  // CSS & JS: Network-First (ensures style and script revisions update without waiting)
+  if (req.url.match(/\.(css|js)(\?.*)?$/)) {
+    event.respondWith(
+      fetch(req)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(req, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(req);
+        })
+    );
+    return;
+  }
+
+  // Images & Fonts: Cache-First with Network Revalidation
+  if (req.url.match(/\.(woff2|woff|ttf|jpg|jpeg|png|webp|svg|gif|ico)(\?.*)?$/)) {
     event.respondWith(
       caches.match(req).then((cached) => {
-        return cached || fetch(req).then((response) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(req, response.clone());
-            return response;
-          });
+        if (cached) return cached;
+        return fetch(req).then((response) => {
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(req, responseClone);
+            });
+          }
+          return response;
         });
       })
     );
