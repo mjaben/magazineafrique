@@ -1,7 +1,7 @@
 <?php
 /**
  * Magazine Afrique — Footer Template
- * Primary Language: English with Pan-African Multilingual Support
+ * With Mobile App Bottom Navigation Bar
  *
  * @package MagazineAfrique
  */
@@ -92,6 +92,36 @@
         </div>
     </div>
 </footer>
+
+<!-- ===================================================
+     NATIVE MOBILE APP BOTTOM NAVIGATION BAR (TAB BAR)
+     =================================================== -->
+<nav class="mobile-app-tabbar" aria-label="Mobile Navigation">
+    <a href="<?php echo esc_url(home_url('/')); ?>" class="app-tab-item <?php echo is_front_page() ? 'active' : ''; ?>">
+        <span class="tab-icon">🏠</span>
+        <span>Home</span>
+    </a>
+
+    <button type="button" id="app-tab-sections" class="app-tab-item">
+        <span class="tab-icon">🧭</span>
+        <span>Sections</span>
+    </button>
+
+    <button type="button" id="app-tab-search" class="app-tab-item">
+        <span class="tab-icon">🔍</span>
+        <span>Search</span>
+    </button>
+
+    <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="app-tab-item tab-prestige">
+        <span class="tab-icon">★</span>
+        <span>Prestige</span>
+    </a>
+
+    <button type="button" id="app-tab-alerts" class="app-tab-item" onclick="if(window.magazineafriqueRequestPush) window.magazineafriqueRequestPush();">
+        <span class="tab-icon">🔔</span>
+        <span>Alerts</span>
+    </button>
+</nav>
 
 <?php wp_footer(); ?>
 </body>

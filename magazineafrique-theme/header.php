@@ -1,7 +1,7 @@
 <?php
 /**
  * Magazine Afrique — Header Template
- * Primary Language: English with Pan-African Multilingual Support (FR, AR, PT, SW)
+ * Mobile App UI/UX with Bottom Navigation & Pan-African Multilingual Support
  *
  * @package MagazineAfrique
  */
@@ -9,7 +9,7 @@
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     
     <!-- Preload Featured Google Fonts -->
@@ -25,11 +25,9 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<!-- Top Utility Bar -->
-<div class="top-nav-bar">
+<!-- Desktop Top Utility Bar (Hidden on Mobile) -->
+<div class="top-nav-bar" style="display: none;">
     <div class="container-editorial" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        
-        <!-- Left: Edition, Date & Language Switcher -->
         <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem;">
             <span style="font-weight: 800; color: #0B5128;">Pan-African Edition</span>
             <span style="color: #A8A29E;">|</span>
@@ -38,39 +36,35 @@
             <!-- Language Switcher Pill -->
             <span style="color: #A8A29E;">|</span>
             <div class="lang-selector-wrapper" style="position: relative; display: inline-block;">
-                <button id="lang-menu-btn" style="background: #FFFFFF; border: 1px solid #E8E2D8; border-radius: 9999px; padding: 0.15rem 0.6rem; font-size: 0.6875rem; font-weight: 700; color: #1C1917; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                <button id="lang-menu-btn" type="button" style="background: #FFFFFF; border: 1px solid #E8E2D8; border-radius: 9999px; padding: 0.2rem 0.65rem; font-size: 0.6875rem; font-weight: 700; color: #1C1917; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
                     <span>🌍</span>
                     <span id="current-lang-label">English (EN)</span>
-                    <span style="font-size: 0.6rem;">▼</span>
+                    <span style="font-size: 0.55rem; color: #78716C;">▼</span>
                 </button>
-                <div id="lang-dropdown" class="hidden" style="position: absolute; top: 120%; left: 0; background: #FFFFFF; border: 1px solid #E8E2D8; border-radius: 0.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.08); min-width: 150px; z-index: 70; padding: 0.35rem 0;">
-                    <a href="?lang=en" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.75rem; font-size: 0.75rem; font-weight: 700; color: #0B5128; background: #EFF5EE;">
+                <div id="lang-dropdown" class="hidden" style="position: absolute; top: 125%; left: 0; background: #FFFFFF; border: 1px solid #E8E2D8; border-radius: 0.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.12); min-width: 155px; z-index: 70; padding: 0.35rem 0;">
+                    <a href="?lang=en" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem; font-size: 0.75rem; font-weight: 700; color: #0B5128; background: #EFF5EE;">
                         <span>English</span><span style="font-size: 0.65rem; color: #78716C;">EN</span>
                     </a>
-                    <a href="?lang=fr" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.75rem; font-size: 0.75rem; color: #1C1917;">
+                    <a href="?lang=fr" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem; font-size: 0.75rem; color: #1C1917;">
                         <span>Français</span><span style="font-size: 0.65rem; color: #78716C;">FR</span>
                     </a>
-                    <a href="?lang=ar" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.75rem; font-size: 0.75rem; color: #1C1917;">
+                    <a href="?lang=ar" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem; font-size: 0.75rem; color: #1C1917;">
                         <span>العربية</span><span style="font-size: 0.65rem; color: #78716C;">AR</span>
                     </a>
-                    <a href="?lang=pt" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.75rem; font-size: 0.75rem; color: #1C1917;">
+                    <a href="?lang=pt" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem; font-size: 0.75rem; color: #1C1917;">
                         <span>Português</span><span style="font-size: 0.65rem; color: #78716C;">PT</span>
                     </a>
-                    <a href="?lang=sw" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.75rem; font-size: 0.75rem; color: #1C1917;">
+                    <a href="?lang=sw" class="lang-option" style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.85rem; font-size: 0.75rem; color: #1C1917;">
                         <span>Kiswahili</span><span style="font-size: 0.65rem; color: #78716C;">SW</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Right: Newsletter, Subscribe & Auth Links -->
+        <!-- Right Links -->
         <div style="display: flex; align-items: center; gap: 0.85rem; font-size: 0.75rem;">
-            <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" style="color: #66615B; font-weight: 600;">
-                ✉ Newsletter
-            </a>
-            <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" style="background-color: #0B5128; color: #FFFFFF !important; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-weight: 700; transition: background 0.2s;">
-                Subscribe
-            </a>
+            <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" style="color: #66615B; font-weight: 600;">✉ Newsletter</a>
+            <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" style="background-color: #0B5128; color: #FFFFFF !important; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-weight: 700;">Subscribe</a>
             <?php if (is_user_logged_in()) : ?>
                 <a href="<?php echo esc_url(wp_logout_url(home_url())); ?>" style="color: #66615B;">Sign Out</a>
             <?php else : ?>
@@ -80,106 +74,176 @@
     </div>
 </div>
 
-<!-- Main Masthead -->
-<header class="site-masthead">
-    <div class="container-editorial" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.75rem;">
-        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-            <!-- Mobile Menu Toggle Button -->
-            <button id="mobile-menu-toggle" aria-label="Menu" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #1C1917; display: flex; align-items: center; gap: 0.35rem;">
-                <span>☰</span>
-                <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Menu</span>
-            </button>
+<!-- ===================================================
+     NATIVE APP HEADER (Sticky Top Bar on Mobile & Desktop)
+     =================================================== -->
+<header class="site-masthead" style="position: sticky; top: 0; z-index: 50; background: rgba(250, 248, 245, 0.96); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+    <div class="container-editorial" style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 1rem;">
+        
+        <!-- Left: App Menu Drawer Trigger -->
+        <button id="mobile-menu-toggle" type="button" aria-label="Open App Menu" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #1C1917; width: 40px; height: 40px; display: flex; align-items: center; justify-content: flex-start;">
+            <span>☰</span>
+        </button>
 
-            <!-- Brand Logo -->
-            <div style="flex: 1; display: flex; justify-content: center;">
-                <a href="<?php echo esc_url(home_url('/')); ?>" rel="home" style="display: inline-block;">
-                    <?php if (has_custom_logo()) : ?>
-                        <?php the_custom_logo(); ?>
-                    <?php else : ?>
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo.jpg'); ?>" alt="<?php bloginfo('name'); ?>" style="max-height: 65px; width: auto; object-fit: contain;" />
-                    <?php endif; ?>
-                </a>
-            </div>
-
-            <!-- Search Toggle Button -->
-            <button id="search-toggle" aria-label="Search" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: #1C1917;">
-                🔍
-            </button>
+        <!-- Center: App Brand Logo -->
+        <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+            <a href="<?php echo esc_url(home_url('/')); ?>" rel="home" style="display: flex; align-items: center; justify-content: center;">
+                <?php if (has_custom_logo()) : ?>
+                    <?php the_custom_logo(); ?>
+                <?php else : ?>
+                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/logo.jpg')); ?>" alt="<?php bloginfo('name'); ?>" style="max-height: 48px; width: auto; object-fit: contain;" />
+                <?php endif; ?>
+            </a>
         </div>
 
-        <p style="font-size: 0.8125rem; color: #66615B; font-style: italic; max-width: 620px; margin: 0 auto;">
-            The Premier Pan-African Review: Strategic Economics, Geopolitics, Technology, and Cultural Foresight.
-        </p>
+        <!-- Right: Push Notification Bell & Search Buttons -->
+        <div style="display: flex; align-items: center; gap: 0.35rem; width: 40px; justify-content: flex-end;">
+            <button id="push-bell-btn" type="button" aria-label="Enable Push Notifications" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #1C1917; padding: 0.25rem;" onclick="if(window.magazineafriqueRequestPush) window.magazineafriqueRequestPush();">
+                🔔
+            </button>
+        </div>
     </div>
 </header>
 
-<!-- Sticky Navigation Bar -->
-<nav class="main-nav" aria-label="<?php esc_attr_e('Main Menu', 'magazineafrique'); ?>">
+<!-- ===================================================
+     SWIPEABLE APP CATEGORY CHIPS (Horizontal Scroll)
+     =================================================== -->
+<div class="app-category-chips">
+    <a href="<?php echo esc_url(home_url('/')); ?>" class="app-chip active">🔥 Top Stories</a>
+    <?php
+    $categories = get_categories(array('number' => 7, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC'));
+    foreach ($categories as $cat) {
+        $is_gold = in_array(strtolower($cat->slug), array('economy', 'business', 'tech', 'exclusive'));
+        $chip_class = $is_gold ? 'app-chip chip-gold' : 'app-chip';
+        echo '<a href="' . esc_url(get_category_link($cat->term_id)) . '" class="' . esc_attr($chip_class) . '">' . esc_html($cat->name) . '</a>';
+    }
+    ?>
+    <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="app-chip chip-gold">★ Club Prestige</a>
+</div>
+
+<!-- Desktop Classic Nav Bar (Hidden on Mobile via CSS) -->
+<nav class="main-nav" style="display: none;" aria-label="<?php esc_attr_e('Main Menu', 'magazineafrique'); ?>">
     <div class="container-editorial">
         <?php
         wp_nav_menu(array(
             'theme_location' => 'primary',
             'menu_class'     => 'nav-links',
             'container'      => false,
-            'fallback_cb'    => function() {
-                echo '<ul class="nav-links">';
-                echo '<li><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
-                $cats = get_categories(array('number' => 6));
-                foreach ($cats as $cat) {
-                    echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
-                }
-                echo '<li><a href="' . esc_url(home_url('/club-afrique/')) . '" style="color: #D97706;">★ Club Prestige</a></li>';
-                echo '</ul>';
-            }
+            'fallback_cb'    => 'magazineafrique_desktop_menu_fallback'
         ));
         ?>
     </div>
 </nav>
 
-<!-- Mobile Navigation Drawer -->
-<div id="mobile-nav-drawer" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 80;">
-    <div style="background: #FAF8F5; width: 85%; max-width: 320px; height: 100%; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; box-shadow: 2px 0 10px rgba(0,0,0,0.1);">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E8E2D8; padding-bottom: 1rem;">
-            <span style="font-weight: 800; color: #0B5128; font-size: 1.125rem;">Magazine Afrique</span>
-            <button id="close-mobile-menu" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+<!-- ===================================================
+     MOBILE APP SLIDING DRAWER (NATIVE APP SHEET)
+     =================================================== -->
+<div id="mobile-nav-drawer" class="app-drawer-backdrop hidden" role="dialog" aria-modal="true">
+    <div id="mobile-nav-panel" class="app-drawer-panel">
+        
+        <!-- Drawer Header / User Profile Card -->
+        <div class="app-drawer-user-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 44px; height: 44px; border-radius: 9999px; background: #0B5128; border: 2px solid #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #FFFFFF;">
+                        MA
+                    </div>
+                    <div>
+                        <div style="font-weight: 800; font-size: 1rem; color: #FFFFFF; line-height: 1.2;">
+                            Magazine Afrique
+                        </div>
+                        <div style="font-size: 0.75rem; color: #F59E0B; font-weight: 600;">
+                            Pan-African Edition
+                        </div>
+                    </div>
+                </div>
+                <button id="close-mobile-menu" type="button" aria-label="Close menu" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #D1D5DB; padding: 0.2rem;">✕</button>
+            </div>
+
+            <!-- Upgrade / Subscribe App Banner -->
+            <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" style="display: flex; align-items: center; justify-content: space-between; background: rgba(217, 119, 6, 0.18); border: 1px solid #D97706; border-radius: 0.5rem; padding: 0.6rem 0.85rem; color: #FFFFFF; text-decoration: none;">
+                <div>
+                    <div style="font-size: 0.6875rem; font-weight: 800; color: #F59E0B; text-transform: uppercase;">Club Prestige</div>
+                    <div style="font-size: 0.8125rem; font-weight: 700;">Unlock All In-Depth Investigations</div>
+                </div>
+                <span style="font-size: 0.9rem; color: #F59E0B;">➔</span>
+            </a>
         </div>
 
-        <div>
-            <h4 style="font-size: 0.6875rem; font-weight: 800; text-transform: uppercase; color: #78716C; margin-bottom: 0.75rem;">Sections</h4>
+        <!-- Language Segmented Control Pill -->
+        <div style="padding: 1rem 1rem 0.5rem; background: #FAF8F5; border-bottom: 1px solid #E8E2D8;">
+            <div style="font-size: 0.6875rem; font-weight: 800; text-transform: uppercase; color: #78716C; margin-bottom: 0.5rem;">
+                Select Language
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.25rem; background: #F3EFEA; padding: 0.25rem; border-radius: 0.5rem;">
+                <a href="?lang=en" style="text-align: center; padding: 0.35rem 0; font-size: 0.6875rem; font-weight: 800; border-radius: 0.35rem; background: #0B5128; color: #FFFFFF; text-decoration: none;">EN</a>
+                <a href="?lang=fr" style="text-align: center; padding: 0.35rem 0; font-size: 0.6875rem; font-weight: 700; border-radius: 0.35rem; color: #1C1917; text-decoration: none;">FR</a>
+                <a href="?lang=ar" style="text-align: center; padding: 0.35rem 0; font-size: 0.6875rem; font-weight: 700; border-radius: 0.35rem; color: #1C1917; text-decoration: none;">AR</a>
+                <a href="?lang=pt" style="text-align: center; padding: 0.35rem 0; font-size: 0.6875rem; font-weight: 700; border-radius: 0.35rem; color: #1C1917; text-decoration: none;">PT</a>
+                <a href="?lang=sw" style="text-align: center; padding: 0.35rem 0; font-size: 0.6875rem; font-weight: 700; border-radius: 0.35rem; color: #1C1917; text-decoration: none;">SW</a>
+            </div>
+        </div>
+
+        <!-- Sections Nav -->
+        <nav class="app-drawer-nav">
+            <div class="app-drawer-section-title">Navigation</div>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="app-drawer-link">
+                <span><span class="link-icon">🏠</span> Home Feed</span>
+                <span class="chevron">›</span>
+            </a>
+
+            <div class="app-drawer-section-title">Sections</div>
             <?php
-            wp_nav_menu(array(
-                'theme_location' => 'primary',
-                'container'      => false
-            ));
+            $cats = get_categories(array('number' => 8, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC'));
+            foreach ($cats as $cat) {
+                echo '<a href="' . esc_url(get_category_link($cat->term_id)) . '" class="app-drawer-link">';
+                echo '<span><span class="link-icon">📌</span> ' . esc_html($cat->name) . '</span>';
+                echo '<span class="chevron">›</span>';
+                echo '</a>';
+            }
             ?>
+
+            <div class="app-drawer-section-title">Intelligence & Club</div>
+            <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="app-drawer-link" style="color: #D97706;">
+                <span><span class="link-icon">★</span> Club Prestige Membership</span>
+                <span class="chevron">›</span>
+            </a>
+            <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" class="app-drawer-link">
+                <span><span class="link-icon">✉</span> The Africa Brief Newsletter</span>
+                <span class="chevron">›</span>
+            </a>
+        </nav>
+
+        <!-- Push Notifications Toggle & App Footer -->
+        <div style="padding: 1rem; border-top: 1px solid #E8E2D8; background: #FAF8F5; margin-top: auto;">
+            <button type="button" onclick="if(window.magazineafriqueRequestPush) window.magazineafriqueRequestPush();" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #0B5128; color: #FFFFFF; font-weight: 700; font-size: 0.8125rem; border-radius: 0.5rem; border: none; cursor: pointer; margin-bottom: 0.75rem;">
+                <span>🔔</span> Enable Push Alerts
+            </button>
+            <div style="text-align: center; font-size: 0.6875rem; color: #A8A29E;">
+                Magazine Afrique App • PWA v1.0
+            </div>
         </div>
 
-        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #E8E2D8; display: flex; flex-direction: column; gap: 0.75rem;">
-            <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="btn-paywall-cta" style="text-align: center;">
-                Join Club Prestige
-            </a>
-            <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" style="text-align: center; font-size: 0.8125rem; font-weight: 700; color: #0B5128;">
-                ✉ The Africa Brief Newsletter
-            </a>
-        </div>
     </div>
 </div>
 
-<!-- Search Modal -->
-<div id="search-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 90; display: flex; align-items: flex-start; justify-content: center; padding-top: 5rem;">
-    <div style="background: #FAF8F5; width: 90%; max-width: 600px; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <h3 class="font-serif" style="font-size: 1.25rem; font-weight: 700;">Search Magazine Afrique</h3>
-            <button id="search-close" style="background: none; border: none; font-size: 1.25rem; cursor: pointer;">✕</button>
+<!-- ===================================================
+     NATIVE APP SEARCH BOTTOM SHEET / OVERLAY
+     =================================================== -->
+<div id="search-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div id="search-panel" class="card-editorial" style="background: #FAF8F5; width: 100%; max-width: 580px; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 20px 45px rgba(0,0,0,0.3); border: 1px solid #E8E2D8; margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 class="font-serif" style="font-size: 1.25rem; font-weight: 700; color: #1C1917; margin: 0;">Search Magazine Afrique</h3>
+            <button id="search-close" type="button" aria-label="Close search" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: #66615B;">✕</button>
         </div>
         <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" style="display: flex; gap: 0.5rem;">
-            <input type="search" name="s" placeholder="Search by topic, country, leader..." style="flex: 1; padding: 0.75rem; border: 1px solid #E8E2D8; border-radius: 0.375rem; outline: none;" />
-            <button type="submit" class="btn-newsletter-submit">Search</button>
+            <input type="search" name="s" placeholder="Search by topic, country, leader..." style="flex: 1; padding: 0.85rem 1rem; border: 1px solid #E8E2D8; border-radius: 0.5rem; outline: none; font-size: 0.875rem; background: #FFFFFF;" />
+            <button type="submit" class="btn-newsletter-submit" style="padding: 0.85rem 1.25rem; border-radius: 0.5rem;">Search</button>
         </form>
     </div>
 </div>
 
-<!-- Header Leaderboard Ad Slot (Zero-CLS container) -->
+<!-- Leaderboard Ad Slot -->
 <div class="container-editorial">
     <?php magazineafrique_render_ad_leaderboard(); ?>
 </div>

@@ -78,3 +78,35 @@ if (!function_exists('magazineafrique_posted_by')) {
         <?php
     }
 }
+
+/**
+ * Desktop Nav Menu Fallback
+ */
+if (!function_exists('magazineafrique_desktop_menu_fallback')) {
+    function magazineafrique_desktop_menu_fallback() {
+        echo '<ul class="nav-links">';
+        echo '<li><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
+        $cats = get_categories(array('number' => 7, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC'));
+        foreach ($cats as $cat) {
+            echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
+        }
+        echo '<li><a href="' . esc_url(home_url('/subscribe/')) . '" style="color: #D97706;">★ Club Prestige</a></li>';
+        echo '</ul>';
+    }
+}
+
+/**
+ * Mobile Drawer Menu Fallback (Guarantees zero bullet points and no internal membership pages)
+ */
+if (!function_exists('magazineafrique_mobile_menu_fallback')) {
+    function magazineafrique_mobile_menu_fallback() {
+        echo '<ul class="mobile-menu-list">';
+        echo '<li><a href="' . esc_url(home_url('/')) . '"><span>Home</span><span style="color: #78716C;">›</span></a></li>';
+        $cats = get_categories(array('number' => 8, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC'));
+        foreach ($cats as $cat) {
+            echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '"><span>' . esc_html($cat->name) . '</span><span style="color: #78716C;">›</span></a></li>';
+        }
+        echo '<li><a href="' . esc_url(home_url('/subscribe/')) . '" style="color: #D97706;"><span>★ Club Prestige</span><span style="color: #D97706;">›</span></a></li>';
+        echo '</ul>';
+    }
+}

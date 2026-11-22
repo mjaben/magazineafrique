@@ -1,48 +1,109 @@
 /**
  * Magazine Afrique — Main Client Script
- * Lightweight vanilla JavaScript (zero framework bloat)
+ * Native Mobile App UI/UX & Interactions
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mobile Menu Toggle
-  const menuToggle = document.getElementById('mobile-menu-toggle');
+  // Elements
   const mobileDrawer = document.getElementById('mobile-nav-drawer');
+  const drawerPanel = document.getElementById('mobile-nav-panel');
+  const menuToggle = document.getElementById('mobile-menu-toggle');
   const closeMenu = document.getElementById('close-mobile-menu');
+  const bottomTabSections = document.getElementById('app-tab-sections');
 
-  if (menuToggle && mobileDrawer) {
-    menuToggle.addEventListener('click', () => {
-      mobileDrawer.classList.toggle('hidden');
-      document.body.classList.toggle('overflow-hidden');
-    });
-
-    if (closeMenu) {
-      closeMenu.addEventListener('click', () => {
-        mobileDrawer.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      });
-    }
-  }
-
-  // 2. Search Overlay Toggle
-  const searchToggle = document.getElementById('search-toggle');
   const searchModal = document.getElementById('search-modal');
+  const searchPanel = document.getElementById('search-panel');
+  const searchToggle = document.getElementById('search-toggle');
   const searchClose = document.getElementById('search-close');
+  const bottomTabSearch = document.getElementById('app-tab-search');
 
-  if (searchToggle && searchModal) {
-    searchToggle.addEventListener('click', () => {
-      searchModal.classList.toggle('hidden');
-      const input = searchModal.querySelector('input[type="search"]');
-      if (input) input.focus();
-    });
-
-    if (searchClose) {
-      searchClose.addEventListener('click', () => {
-        searchModal.classList.add('hidden');
-      });
+  // Helper: Open Drawer
+  function openDrawer() {
+    if (mobileDrawer) {
+      mobileDrawer.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (searchModal) searchModal.classList.add('hidden');
     }
   }
 
-  // 2b. Language Switcher Dropdown Toggle
+  // Helper: Close Drawer
+  function closeDrawer() {
+    if (mobileDrawer) {
+      mobileDrawer.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Helper: Open Search
+  function openSearch() {
+    if (searchModal) {
+      searchModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (mobileDrawer) mobileDrawer.classList.add('hidden');
+      const input = searchModal.querySelector('input[type="search"]');
+      if (input) setTimeout(() => input.focus(), 50);
+    }
+  }
+
+  // Helper: Close Search
+  function closeSearch() {
+    if (searchModal) {
+      searchModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // 1. Mobile App Drawer Triggers
+  if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+  if (bottomTabSections) bottomTabSections.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  });
+  if (closeMenu) closeMenu.addEventListener('click', closeDrawer);
+
+  // Close Drawer on Backdrop Click
+  if (mobileDrawer) {
+    mobileDrawer.addEventListener('click', (e) => {
+      if (drawerPanel && !drawerPanel.contains(e.target)) {
+        closeDrawer();
+      }
+    });
+  }
+
+  // 2. Search Sheet Triggers
+  if (searchToggle) searchToggle.addEventListener('click', openSearch);
+  if (bottomTabSearch) bottomTabSearch.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (searchModal && !searchModal.classList.contains('hidden')) {
+      closeSearch();
+    } else {
+      openSearch();
+    }
+  });
+  if (searchClose) searchClose.addEventListener('click', closeSearch);
+
+  // Close Search on Backdrop Click
+  if (searchModal) {
+    searchModal.addEventListener('click', (e) => {
+      if (searchPanel && !searchPanel.contains(e.target)) {
+        closeSearch();
+      }
+    });
+  }
+
+  // Global ESC Key Handler
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeDrawer();
+      closeSearch();
+    }
+  });
+
+  // 3. Language Switcher Dropdown (Desktop)
   const langBtn = document.getElementById('lang-menu-btn');
   const langDropdown = document.getElementById('lang-dropdown');
   if (langBtn && langDropdown) {
@@ -56,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Newsletter AJAX Form Handler
+  // 4. Newsletter AJAX Form Handler
   const newsletterForms = document.querySelectorAll('.magazine-newsletter-form');
   newsletterForms.forEach(form => {
     form.addEventListener('submit', async (e) => {
@@ -70,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = emailInput.value;
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Inscription...';
+        submitBtn.textContent = 'Subscribing...';
       }
 
       try {
@@ -91,24 +152,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) {
           emailInput.value = '';
           if (feedback) {
-            feedback.textContent = '✓ Merci ! Vous êtes désormais inscrit au Brief Afrique.';
+            feedback.textContent = '✓ Subscribed! Welcome to The Africa Brief.';
             feedback.className = 'newsletter-feedback text-xs mt-2 text-emerald-800 font-bold';
           }
         } else {
           if (feedback) {
-            feedback.textContent = data.data || 'Une erreur est survenue. Veuillez réessayer.';
+            feedback.textContent = data.data || 'An error occurred. Please try again.';
             feedback.className = 'newsletter-feedback text-xs mt-2 text-red-700 font-semibold';
           }
         }
       } catch (err) {
         if (feedback) {
-          feedback.textContent = 'Inscription confirmée ! Bienvenue.';
+          feedback.textContent = 'Subscription confirmed! Welcome.';
           feedback.className = 'newsletter-feedback text-xs mt-2 text-emerald-800 font-bold';
         }
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "S'inscrire";
+          submitBtn.textContent = 'Subscribe Free';
         }
       }
     });

@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* Critical Display Utilities */
+.hidden {
+  display: none !important;
+}
+
 /* Reset & Base Setup */
 *, ::before, ::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -22,6 +28,13 @@ body {
   font-size: 16px;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Mobile App Layout Adjustments */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 74px; /* Space for the sticky bottom mobile app tab bar */
+  }
 }
 
 /* Typography Classes */
@@ -45,17 +58,268 @@ body {
   }
 }
 
-/* African Geometric Motifs */
-.pattern-continent-hatch {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(11, 81, 40, 0.04),
-    rgba(11, 81, 40, 0.04) 2px,
-    transparent 2px,
-    transparent 8px
-  );
+/* ===================================================
+   MOBILE APP NAVIGATION: BOTTOM TAB BAR
+   =================================================== */
+.mobile-app-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(250, 248, 245, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #E8E2D8;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 900;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
 }
 
+@media (min-width: 768px) {
+  .mobile-app-tabbar {
+    display: none !important;
+  }
+}
+
+.app-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  color: #66615B;
+  text-decoration: none;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.app-tab-item svg,
+.app-tab-item .tab-icon {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+  transition: transform 0.15s;
+}
+
+.app-tab-item:active {
+  transform: scale(0.92);
+}
+
+.app-tab-item.active,
+.app-tab-item:hover {
+  color: #0B5128;
+}
+
+.app-tab-item.tab-prestige {
+  color: #D97706;
+}
+
+/* ===================================================
+   MOBILE APP DRAWER (SLIDE-OVER SHEET)
+   =================================================== */
+.app-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 990;
+  display: flex;
+  transition: opacity 0.25s ease;
+}
+
+.app-drawer-backdrop.hidden {
+  display: none !important;
+}
+
+.app-drawer-panel {
+  background-color: #FAF8F5;
+  width: 86%;
+  max-width: 340px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.2);
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* User Card in App Drawer */
+.app-drawer-user-card {
+  background: linear-gradient(135deg, #072714 0%, #11381E 100%);
+  color: #FFFFFF;
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: 2px solid #D97706;
+}
+
+/* Section links in Mobile App Drawer */
+.app-drawer-nav {
+  padding: 0.75rem 0.5rem;
+  flex: 1;
+}
+
+.app-drawer-section-title {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #78716C;
+  padding: 0.5rem 0.75rem 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.app-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #1C1917;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.app-drawer-link:active,
+.app-drawer-link:hover {
+  background-color: rgba(11, 81, 40, 0.06);
+  color: #0B5128;
+}
+
+.app-drawer-link .link-icon {
+  width: 24px;
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.app-drawer-link .chevron {
+  color: #A8A29E;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+/* ===================================================
+   SWIPEABLE HORIZONTAL CATEGORY PILLS (APP FEED UX)
+   =================================================== */
+.app-category-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.75rem 1rem;
+  background: #FAF8F5;
+  border-bottom: 1px solid #E8E2D8;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.app-category-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.app-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #57534E;
+  background: #FFFFFF;
+  border: 1px solid #E8E2D8;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.app-chip:active,
+.app-chip.active {
+  background: #0B5128;
+  color: #FFFFFF;
+  border-color: #0B5128;
+}
+
+.app-chip.chip-gold {
+  background: rgba(217, 119, 6, 0.1);
+  color: #B45309;
+  border-color: #D97706;
+}
+
+/* Overlays & Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+/* Universal Menu Reset: NEVER show black bullet points */
+.nav-links, 
+.nav-links ul, 
+.nav-links li,
+.mobile-menu-list, 
+.mobile-menu-list ul, 
+.mobile-menu-list li,
+#mobile-nav-drawer ul, 
+#mobile-nav-drawer li,
+.menu, 
+.menu ul, 
+.menu li {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* PWA Banners */
+.pwa-banner-card {
+  position: fixed;
+  bottom: 4.5rem; /* Sits cleanly above the mobile tab bar */
+  left: 1rem;
+  right: 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+  z-index: 950;
+  border-radius: 0.75rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.pwa-banner-card.hidden {
+  display: none !important;
+}
+
+/* African Geometric Motifs */
 .divider-africa {
   display: flex;
   align-items: center;
@@ -108,33 +372,15 @@ a:hover {
   border-bottom: 1px solid #E8E2D8;
   font-size: 0.75rem;
   color: #66615B;
-  padding: 0.35rem 0;
+  padding: 0.45rem 0;
 }
 
 /* Main Masthead */
 .site-masthead {
   background-color: #FAF8F5;
   border-bottom: 2px solid #1C1917;
-  padding: 1.25rem 0;
+  padding: 1rem 0;
 }
-
-.brand-title {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .brand-title {
-    font-size: 3rem;
-  }
-}
-
-.brand-green { color: #0B5128; }
-.brand-gold { color: #D97706; }
 
 /* Navigation */
 .main-nav {
