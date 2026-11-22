@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Drawer Listeners
+  const bottomMenuToggle = document.getElementById('bottom-menu-toggle');
   if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+  if (bottomMenuToggle) bottomMenuToggle.addEventListener('click', openDrawer);
   if (closeMenu) closeMenu.addEventListener('click', closeDrawer);
   if (drawerOverlay) {
     drawerOverlay.addEventListener('click', (e) => {
@@ -59,7 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Search Listeners
+  const bottomSearchToggle = document.getElementById('bottom-search-toggle');
   if (searchToggle) searchToggle.addEventListener('click', openSearch);
+  if (bottomSearchToggle) bottomSearchToggle.addEventListener('click', openSearch);
   if (searchClose) searchClose.addEventListener('click', closeSearch);
   if (searchModal) {
     searchModal.addEventListener('click', (e) => {

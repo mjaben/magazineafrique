@@ -20,15 +20,15 @@
 
 html {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  background-color: #FAF7F2; /* Warm Literary Paper / Nubian Alabaster — NOT stark white */
-  color: #1F1C1A;
+  background-color: #F6F1E8; /* Authentic Unbleached Broadsheet Newsprint */
+  color: #171513;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #FAF7F2;
-  color: #24201D; /* Deep Warm Kohl */
+  background-color: #F6F1E8;
+  color: #171513; /* Deep Printer's Lampblack */
   line-height: 1.7;
   font-size: 16px;
   overflow-x: hidden;
@@ -72,11 +72,74 @@ a:hover {
    MINIMALIST EDITORIAL HEADER (Quiet, Spaced, Pristine)
    ========================================================================== */
 .site-masthead {
-  background-color: #FAF7F2;
-  border-bottom: 1px solid #EAE3D6;
+  background-color: #F6F1E8;
+  border-bottom: 2px solid #231F1D;
   position: sticky;
   top: 0;
   z-index: 40;
+}
+
+.brand-nameplate-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  text-align: center;
+}
+
+.masthead-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #171513;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .masthead-title {
+    font-size: 2.15rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+.masthead-subline {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #5C564E;
+  margin-top: 2px;
+}
+
+@media (min-width: 768px) {
+  .masthead-subline {
+    font-size: 0.625rem;
+  }
+}
+
+/* Dateline Strip */
+.masthead-dateline-strip {
+  border-top: 1px solid #231F1D;
+  background-color: #EFE9DE;
+  padding: 0.25rem 0;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5C564E;
+}
+
+.dateline-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dateline-edition {
+  color: #8B2500;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .header-inner {
@@ -862,5 +925,501 @@ a:hover {
     left: 1rem;
     right: 1rem;
     width: auto;
+  }
+}
+
+/* ==========================================================================
+   VINTAGE BROADSHEET NEWSPAPER STYLING
+   ========================================================================== */
+.broadsheet-main {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.broadsheet-hero-section {
+  margin-bottom: 2.5rem;
+}
+
+.broadsheet-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .broadsheet-hero-grid {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.broadsheet-lead-story {
+  display: flex;
+  flex-direction: column;
+}
+
+.broadsheet-kicker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.broadsheet-kicker-tag {
+  color: #8B2500; /* Printer's madder red */
+}
+
+.kicker-sep {
+  color: #CDC5B5;
+}
+
+.kicker-meta {
+  color: #5C564E;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+}
+
+.broadsheet-lead-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.85rem, 3.8vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: #171513;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+}
+
+.broadsheet-deck-subhead {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #38332C;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #DCD3C4;
+}
+
+.broadsheet-framed-photo {
+  border: 1px solid #231F1D;
+  background-color: #FFFFFF;
+  padding: 4px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.broadsheet-img-cut {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+
+.broadsheet-photo-caption {
+  padding-top: 0.35rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.6875rem;
+  color: #5C564E;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #EFE9DE;
+  margin-top: 4px;
+}
+
+.caption-archive-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+}
+
+.drop-cap-classic:first-letter {
+  float: left;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.25rem;
+  line-height: 0.85;
+  padding-top: 3px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  font-weight: 900;
+  color: #171513;
+}
+
+.broadsheet-lead-excerpt {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #2E2925;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.broadsheet-lead-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid #231F1D;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.broadsheet-byline-text {
+  color: #5C564E;
+  font-weight: 600;
+}
+
+.broadsheet-read-link {
+  font-weight: 800;
+  color: #8B2500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.6875rem;
+}
+
+.broadsheet-read-link:hover {
+  text-decoration: underline;
+}
+
+/* Secondary Column */
+.broadsheet-secondary-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.broadsheet-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid #231F1D;
+  padding-bottom: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.broadsheet-section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #171513;
+  margin: 0;
+}
+
+.broadsheet-edition-stamp {
+  font-size: 0.625rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #8B2500;
+  font-weight: 700;
+}
+
+/* Framed Newspaper Box */
+.vintage-framed-box {
+  border: 2px solid #231F1D;
+  background-color: #EFE9DE;
+  padding: 1rem;
+  border-radius: 2px;
+}
+
+.framed-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.framed-box-badge {
+  background-color: #231F1D;
+  color: #FFFFFF;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 1px;
+}
+
+.framed-box-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+  color: #8B2500;
+  font-weight: 700;
+}
+
+.framed-box-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #171513;
+  margin-bottom: 0.5rem;
+}
+
+.framed-box-excerpt {
+  font-size: 0.8125rem;
+  color: #443E36;
+  line-height: 1.5;
+  margin-bottom: 0.65rem;
+}
+
+.framed-box-footer {
+  font-size: 0.6875rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #5C564E;
+  border-top: 1px solid #DCD3C4;
+  padding-top: 0.4rem;
+}
+
+/* Ledger Item */
+.broadsheet-ledger-item {
+  border-bottom: 1px solid #DCD3C4;
+  padding-bottom: 1.25rem;
+}
+
+.ledger-item-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0B5128;
+  margin-bottom: 0.25rem;
+}
+
+.ledger-item-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #171513;
+  margin-bottom: 0.35rem;
+}
+
+.ledger-item-excerpt {
+  font-size: 0.8125rem;
+  color: #554F49;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.ledger-item-meta {
+  font-size: 0.6875rem;
+  color: #8C847A;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.broadsheet-double-rule {
+  border-top: 3px double #231F1D;
+  margin: 3rem 0;
+}
+
+/* Dispatches Grid */
+.broadsheet-ledger-section {
+  margin-bottom: 3.5rem;
+}
+
+.broadsheet-ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem 1.75rem;
+}
+
+.vintage-grid-card {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #DCD3C4;
+}
+
+.vintage-card-thumb-link {
+  display: block;
+  margin-bottom: 0.75rem;
+  border: 1px solid #231F1D;
+  padding: 3px;
+  background-color: #FFFFFF;
+}
+
+.vintage-card-img {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  display: block;
+}
+
+.vintage-card-kicker {
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8B2500;
+  margin-bottom: 0.25rem;
+}
+
+.vintage-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #171513;
+  margin-bottom: 0.4rem;
+}
+
+.vintage-card-excerpt {
+  font-size: 0.8125rem;
+  color: #554F49;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.vintage-card-date {
+  margin-top: auto;
+  font-size: 0.6875rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #8C847A;
+}
+
+/* Circular Notice */
+.vintage-circular-notice {
+  border: 2px dashed #231F1D;
+  background-color: #EFE9DE;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  margin: 3rem 0;
+  border-radius: 2px;
+}
+
+.circular-notice-badge {
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #8B2500;
+  margin-bottom: 0.4rem;
+}
+
+.circular-notice-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #171513;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.circular-notice-desc {
+  font-size: 0.8125rem;
+  color: #554F49;
+  max-width: 480px;
+  margin: 0 auto 1.25rem;
+  line-height: 1.55;
+}
+
+.circular-notice-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.circular-notice-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #231F1D;
+  background: #FFFFFF;
+  font-size: 0.8125rem;
+  outline: none;
+  border-radius: 2px;
+  color: #171513;
+}
+
+.circular-notice-btn {
+  background-color: #231F1D;
+  color: #FFFFFF;
+  font-weight: 800;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+}
+
+.circular-notice-btn:hover {
+  background-color: #8B2500;
+}
+
+/* ==========================================================================
+   VINTAGE BROADSHEET BOTTOM MOBILE NAVIGATION
+   ========================================================================== */
+.vintage-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 65px !important;
+  }
+
+  .vintage-bottom-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9990;
+    height: 56px;
+    background-color: #F6F1E8;
+    border-top: 3px double #231F1D;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .vintage-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: #5C564E;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    flex: 1;
+    transition: color 0.15s ease;
+  }
+
+  .vintage-nav-item:hover,
+  .vintage-nav-item.active {
+    color: #8B2500;
+  }
+
+  .vintage-nav-item.active .vintage-nav-icon {
+    stroke: #8B2500;
+  }
+
+  .vintage-nav-label {
+    font-size: 0.5625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+
+  .magafrique-update-toast {
+    bottom: 4.5rem !important; /* Positioned above vintage bottom bar */
   }
 }

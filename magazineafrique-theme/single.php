@@ -72,18 +72,19 @@ get_header(); ?>
 
         <!-- Featured Media -->
         <?php if (has_post_thumbnail()) : ?>
-            <figure class="article-featured-figure">
-                <?php the_post_thumbnail('full', array('class' => 'article-featured-img')); ?>
+            <figure class="broadsheet-framed-photo" style="margin-bottom: 2rem;">
+                <?php the_post_thumbnail('full', array('class' => 'broadsheet-img-cut')); ?>
                 <?php if (get_the_post_thumbnail_caption()) : ?>
-                    <figcaption class="article-img-caption">
-                        <?php the_post_thumbnail_caption(); ?>
+                    <figcaption class="broadsheet-photo-caption">
+                        <span><?php the_post_thumbnail_caption(); ?></span>
+                        <span class="caption-archive-tag">[PHOTO: ARCHIVE]</span>
                     </figcaption>
                 <?php endif; ?>
             </figure>
         <?php endif; ?>
 
         <!-- Long-Form Reading Body -->
-        <div class="article-reading-body">
+        <div class="article-reading-body drop-cap-classic">
             <?php the_content(); ?>
         </div>
 

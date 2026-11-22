@@ -12,9 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     
-    <!-- Preload Featured Google Fonts -->
+    <!-- Google Fonts: Playfair Display, Newsreader, Plus Jakarta Sans, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400;1,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Google AdSense / GPT Tag (Async) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
@@ -25,12 +26,12 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<!-- Calm Top Editorial Header -->
+<!-- Calm Broadsheet Masthead -->
 <header class="site-masthead">
     <div class="container-editorial header-inner">
         
-        <!-- Left: Quiet Menu Button -->
-        <button id="mobile-menu-toggle" type="button" aria-label="Open Menu" class="menu-text-btn">
+        <!-- Left: Quiet 2-Line Menu Button -->
+        <button id="mobile-menu-toggle" type="button" aria-label="Open Gazette Menu" class="menu-text-btn">
             <span class="menu-icon-lines">
                 <span class="line"></span>
                 <span class="line"></span>
@@ -38,18 +39,15 @@
             <span class="menu-label">Menu</span>
         </button>
 
-        <!-- Center: Logo -->
+        <!-- Center: Pure Typographic Broadsheet Nameplate (No white box clash) -->
         <div class="brand-logo-wrap">
-            <a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
-                <?php if (has_custom_logo()) : ?>
-                    <?php the_custom_logo(); ?>
-                <?php else : ?>
-                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/logo.jpg')); ?>" alt="<?php bloginfo('name'); ?>" class="brand-logo" />
-                <?php endif; ?>
+            <a href="<?php echo esc_url(home_url('/')); ?>" rel="home" class="brand-nameplate-link">
+                <span class="masthead-title">MAGAZINE AFRIQUE</span>
+                <span class="masthead-subline">The Pan-African Gazette</span>
             </a>
         </div>
 
-        <!-- Right: Actions (Search & Subscribe) -->
+        <!-- Right: Actions (Search & Club Pill) -->
         <div class="header-right-actions">
             <button id="search-toggle" type="button" aria-label="Search" class="search-text-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -58,10 +56,18 @@
                 </svg>
             </button>
             <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="header-subscribe-pill">
-                Subscribe
+                Club
             </a>
         </div>
 
+    </div>
+
+    <!-- Quiet Single-Line Dateline Strip -->
+    <div class="masthead-dateline-strip">
+        <div class="container-editorial dateline-inner">
+            <span class="dateline-city"><?php echo esc_html(date_i18n('l, j F Y')); ?></span>
+            <span class="dateline-edition">Pan-African Edition · Vol. XLVIII</span>
+        </div>
     </div>
 </header>
 
