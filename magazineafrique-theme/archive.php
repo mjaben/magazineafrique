@@ -25,16 +25,21 @@ get_header(); ?>
     </header>
 
     <?php if (have_posts()) : ?>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem 2rem; margin-bottom: 3.5rem;">
-            <?php while (have_posts()) : the_post(); ?>
-            <article style="display: flex; flex-direction: column;">
+        <div class="editorial-masonry-grid">
+            <?php while (have_posts()) : the_post(); 
+                $p_id = get_the_ID();
+                $is_bookmarked = function_exists('magazineafrique_is_bookmarked') ? magazineafrique_is_bookmarked($p_id, 'post') : false;
+                $is_liked = function_exists('magazineafrique_has_liked') ? magazineafrique_has_liked($p_id) : false;
+                $likes = function_exists('magazineafrique_get_likes_count') ? magazineafrique_get_likes_count($p_id) : 0;
+            ?>
+            <article class="editorial-masonry-card">
                 <?php if (has_post_thumbnail()) : ?>
-                    <a href="<?php the_permalink(); ?>" style="display: block; margin-bottom: 1rem; overflow: hidden; border-radius: 0.25rem;">
-                        <?php the_post_thumbnail('magazine-card', array('style' => 'width: 100%; height: 175px; object-fit: cover; display: block;')); ?>
+                    <a href="<?php the_permalink(); ?>" class="vintage-double-frame" style="display: block; margin-bottom: 0.85rem; overflow: hidden; border-radius: 2px;">
+                        <?php the_post_thumbnail('magazine-card', array('style' => 'width: 100%; height: auto; max-height: 220px; object-fit: cover; display: block;')); ?>
                     </a>
                 <?php endif; ?>
 
-                <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #B45309; margin-bottom: 0.35rem;">
+                <div style="font-size: 0.6875rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: #8B2500; margin-bottom: 0.35rem;">
                     <?php
                     $cats = get_the_category();
                     if (!empty($cats) && strtolower($cats[0]->slug) !== 'uncategorized') {
@@ -43,16 +48,26 @@ get_header(); ?>
                     ?>
                 </div>
 
-                <h2 style="font-family: 'Newsreader', Georgia, serif; font-size: 1.15rem; font-weight: 600; line-height: 1.35; color: #171412; margin-bottom: 0.5rem;">
-                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 800; line-height: 1.35; color: var(--text-primary, #171412); margin: 0 0 0.5rem;">
+                    <a href="<?php the_permalink(); ?>" style="color: inherit; text-decoration: none;"><?php the_title(); ?></a>
                 </h2>
 
-                <p style="font-size: 0.875rem; color: #554F49; line-height: 1.55; margin-bottom: 0.75rem;">
-                    <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                <p style="font-size: 0.875rem; color: var(--text-secondary, #554F49); line-height: 1.55; margin: 0 0 0.85rem;">
+                    <?php echo wp_trim_words(get_the_excerpt(), 22); ?>
                 </p>
 
-                <div style="margin-top: auto; font-size: 0.75rem; color: #8C847A;">
-                    <?php echo esc_html(get_the_date('M j, Y')); ?>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 0.5rem; border-top: 1px dashed var(--border-color, #4A433B); font-size: 0.75rem;">
+                    <span style="color: var(--text-muted, #8C847A); font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;">
+                        <?php echo esc_html(get_the_date('M j, Y')); ?>
+                    </span>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <button type="button" class="btn-live-like <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" style="background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 0.75rem; display: flex; align-items: center; gap: 0.25rem;">
+                            <span>❤️</span> <span><?php echo esc_html($likes); ?></span>
+                        </button>
+                        <button type="button" class="btn-bookmark-action <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-id="<?php echo esc_attr($p_id); ?>" data-type="post" style="background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 0.75rem;">
+                            <span>🔖</span>
+                        </button>
+                    </div>
                 </div>
             </article>
             <?php endwhile; ?>

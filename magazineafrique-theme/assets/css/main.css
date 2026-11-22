@@ -2522,3 +2522,154 @@ body {
     stroke: #E5A84B !important;
   }
 }
+
+/* ==========================================================================
+   VINTAGE HARD-SHADOW BROADSHEET PAGINATION (MATCHES RETRO SPEC)
+   ========================================================================== */
+.navigation.pagination {
+  margin: 3.5rem 0 2.5rem !important;
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+  clear: both !important;
+}
+
+.navigation.pagination .screen-reader-text {
+  display: none !important;
+}
+
+.navigation.pagination .nav-links {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  flex-wrap: wrap !important;
+}
+
+.navigation.pagination .nav-links .page-numbers {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  padding: 0 0.85rem !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.875rem !important;
+  font-weight: 800 !important;
+  color: var(--text-primary, #171513) !important;
+  background-color: var(--bg-card, #FAF6EE) !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  border-radius: 2px !important;
+  text-decoration: none !important;
+  transition: all 0.12s ease !important;
+  box-sizing: border-box !important;
+}
+
+.navigation.pagination .nav-links .page-numbers:hover:not(.current):not(.dots) {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
+  background-color: var(--bg-card-subtle, #EFE9DE) !important;
+  color: #8B2500 !important;
+}
+
+.navigation.pagination .nav-links .page-numbers:active:not(.current):not(.dots) {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+.navigation.pagination .nav-links .page-numbers.current {
+  background-color: #0B5128 !important; /* African Forest Green */
+  color: #FFFFFF !important;
+  border-color: #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  cursor: default !important;
+}
+
+.navigation.pagination .nav-links .page-numbers.dots {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-width: 28px !important;
+  font-size: 1.125rem !important;
+  color: var(--text-muted, #736B5E) !important;
+  letter-spacing: 0.15em !important;
+}
+
+.navigation.pagination .nav-links .prev.page-numbers,
+.navigation.pagination .nav-links .next.page-numbers {
+  padding: 0 1.25rem !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  background-color: var(--bg-card, #FAF6EE) !important;
+  color: var(--text-primary, #171513) !important;
+}
+
+[data-theme="dark"] .navigation.pagination .nav-links .page-numbers {
+  background-color: #2F2C27 !important;
+  color: #EDE7DC !important;
+  border-color: #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+[data-theme="dark"] .navigation.pagination .nav-links .page-numbers.current {
+  background-color: #0B5128 !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .navigation.pagination .nav-links .prev.page-numbers,
+[data-theme="dark"] .navigation.pagination .nav-links .next.page-numbers {
+  background-color: #2F2C27 !important;
+  color: #EDE7DC !important;
+}
+
+/* ==========================================================================
+   VINTAGE EDITORIAL MASONRY CARD GRID
+   ========================================================================== */
+.editorial-masonry-grid {
+  column-count: 1;
+  column-gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 640px) {
+  .editorial-masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .editorial-masonry-grid {
+    column-count: 3;
+    column-gap: 1.75rem;
+  }
+}
+
+.editorial-masonry-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 1.75rem;
+  display: block;
+  background-color: var(--bg-card, #FAF6EE);
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  border-radius: 3px;
+  padding: 1.25rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.editorial-masonry-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+[data-theme="dark"] .editorial-masonry-card {
+  background-color: #2F2C27;
+  border-color: #000000;
+  box-shadow: 4px 4px 0px #000000;
+}
