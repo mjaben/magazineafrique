@@ -1,0 +1,35 @@
+/*
+Theme Name: Magazine Afrique
+Theme URI: https://magazineafrique.org
+Author: Magazine Afrique Team
+Author URI: https://magazineafrique.org
+Description: A modern, ultra-fast, African-rooted editorial theme for Magazine Afrique. Features warm alabaster light mode, server-side paywall engine, Google-compliant NewsArticle SEO schema, zero-CLS Google Ads containers, and newsletter integration.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: magazineafrique
+*/
+
+/*
+ * Design Tokens & Variables
+ * Brand: Heritage Horizon (Sahel Forest & Savannah Gold)
+ */
+:root {
+  --color-sahel-emerald: #0B5128;
+  --color-sahel-dark: #072714;
+  --color-savannah-gold: #D97706;
+  --color-savannah-light: #F59E0B;
+  --color-terracotta: #C2410C;
+  --color-paper-ground: #FAF8F5;
+  --color-paper-surface: #FFFFFF;
+  --color-paper-muted: #F3EFEA;
+  --color-border-parchment: #E8E2D8;
+  --color-ink-headline: #1C1917;
+  --color-ink-body: #292524;
+  --color-ink-muted: #66615B;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
