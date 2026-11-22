@@ -1,7 +1,7 @@
 <?php
 /**
  * Magazine Afrique — Single Article Template
- * Calm, Minimalist, Literary African Journalism
+ * Vintage Broadsheet Journalism, Archival Framing, Live Likes, Shares & Bookmarks
  *
  * @package MagazineAfrique
  */
@@ -12,28 +12,46 @@ get_header(); ?>
 
     <?php
     while (have_posts()) : the_post();
+        $post_id = get_the_ID();
         $is_premium = function_exists('magazineafrique_is_premium_post') && magazineafrique_is_premium_post();
+        $likes_count = function_exists('magazineafrique_get_likes_count') ? magazineafrique_get_likes_count($post_id) : 0;
+        $shares_count = function_exists('magazineafrique_get_shares_count') ? magazineafrique_get_shares_count($post_id) : 0;
+        $is_bookmarked = function_exists('magazineafrique_is_bookmarked') ? magazineafrique_is_bookmarked($post_id, 'post') : false;
+        $is_liked = function_exists('magazineafrique_has_liked') ? magazineafrique_has_liked($post_id) : false;
     ?>
 
     <article class="article-reading-container">
         
-        <!-- Breadcrumbs & Meta -->
+        <!-- Breadcrumbs, Category & Bookmark Button -->
         <div class="article-meta-top">
-            <?php
-            $cats = get_the_category();
-            if (!empty($cats)) {
-                $cat = $cats[0];
-                if (strtolower($cat->slug) !== 'uncategorized') {
-                    echo '<a href="' . esc_url(get_category_link($cat->term_id)) . '" class="article-category-tag">' . esc_html($cat->name) . '</a>';
-                    echo '<span>·</span>';
+            <div class="meta-left-tags">
+                <?php
+                $cats = get_the_category();
+                $primary_cat = null;
+                if (!empty($cats)) {
+                    $primary_cat = $cats[0];
+                    if (strtolower($primary_cat->slug) !== 'uncategorized') {
+                        $is_cat_followed = function_exists('magazineafrique_is_followed') ? magazineafrique_is_followed($primary_cat->term_id, 'category') : false;
+                        echo '<div class="cat-follow-badge-wrap">';
+                        echo '<a href="' . esc_url(get_category_link($primary_cat->term_id)) . '" class="article-category-tag">' . esc_html($primary_cat->name) . '</a>';
+                        echo '<button type="button" class="btn-follow-cat ' . ($is_cat_followed ? 'is-following' : '') . '" data-id="' . esc_attr($primary_cat->term_id) . '" data-type="category" title="Follow this topic">' . ($is_cat_followed ? '✓ Following' : '+ Follow') . '</button>';
+                        echo '</div>';
+                        echo '<span class="meta-dot">·</span>';
+                    }
                 }
-            }
-            ?>
-            <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-            <?php if ($is_premium) : ?>
-                <span>·</span>
-                <span style="color: #B45309; font-weight: 700;">★ Subscriber Exclusive</span>
-            <?php endif; ?>
+                ?>
+                <span class="meta-read-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                <?php if ($is_premium) : ?>
+                    <span class="meta-dot">·</span>
+                    <span class="subscriber-exclusive-tag">★ Club Prestige Dossier</span>
+                <?php endif; ?>
+            </div>
+
+            <!-- Top Bookmark Dispatch -->
+            <button type="button" class="btn-bookmark-action <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-id="<?php echo esc_attr($post_id); ?>" data-type="post" title="Save to reading list">
+                <span class="bookmark-icon">🔖</span>
+                <span class="bookmark-label"><?php echo $is_bookmarked ? 'Saved' : 'Save'; ?></span>
+            </button>
         </div>
 
         <!-- Article Headline -->
@@ -43,41 +61,65 @@ get_header(); ?>
 
         <!-- Dek / Subtitle -->
         <?php if (has_excerpt()) : ?>
-            <p style="font-family: 'Newsreader', Georgia, serif; font-size: 1.25rem; font-style: italic; color: #554F49; line-height: 1.5; margin-bottom: 1.5rem;">
+            <p class="article-dek-lead">
                 <?php echo esc_html(get_the_excerpt()); ?>
             </p>
         <?php endif; ?>
 
-        <!-- Author & Date Byline Bar -->
+        <!-- Author, Dateline, Live Likes & Shares Byline Bar -->
         <div class="article-byline-bar">
-            <div>
-                <span style="color: #70685E;">By</span>
+            <div class="byline-author-group">
+                <span class="byline-by">By</span>
                 <span class="byline-author-text"><?php the_author(); ?></span>
-                <span style="margin: 0 0.5rem; color: #C4BCB0;">—</span>
-                <span><?php echo esc_html(get_the_date('F j, Y')); ?></span>
+                <span class="byline-divider">—</span>
+                <span class="byline-date"><?php echo esc_html(get_the_date('F j, Y')); ?></span>
             </div>
 
-            <!-- Minimalist Share Links -->
-            <div class="article-share-links">
-                <span style="font-size: 0.75rem; color: #8C847A;">Share:</span>
-                <?php
-                $share_url = urlencode(get_permalink());
-                $share_title = urlencode(get_the_title());
-                ?>
-                <a href="https://api.whatsapp.com/send?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="share-text-link">WhatsApp</a>
-                <a href="https://twitter.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>" target="_blank" rel="noopener" class="share-text-link">𝕏</a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" rel="noopener" class="share-text-link">LinkedIn</a>
+            <!-- Live Interactions (Likes & Shares) -->
+            <div class="article-interactive-actions">
+                
+                <!-- Live Like Button -->
+                <button type="button" class="btn-live-like <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($post_id); ?>" title="Applaud this reporting">
+                    <svg class="like-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="<?php echo $is_liked ? 'currentColor' : 'none'; ?>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="like-count" id="like-count-<?php echo esc_attr($post_id); ?>"><?php echo esc_html($likes_count); ?></span>
+                </button>
+
+                <!-- Live Share Cluster -->
+                <div class="share-live-cluster">
+                    <span class="share-counter-tag"><span id="share-count-<?php echo esc_attr($post_id); ?>"><?php echo esc_html($shares_count); ?></span> shares</span>
+                    <?php
+                    $share_url = urlencode(get_permalink());
+                    $share_title = urlencode(get_the_title());
+                    ?>
+                    <a href="https://api.whatsapp.com/send?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="share-pill-btn share-whatsapp" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on WhatsApp">
+                        WhatsApp
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>" target="_blank" rel="noopener" class="share-pill-btn share-x" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on 𝕏">
+                        𝕏
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" rel="noopener" class="share-pill-btn share-linkedin" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on LinkedIn">
+                        LinkedIn
+                    </a>
+                    <button type="button" class="share-pill-btn share-copy-link" data-post-id="<?php echo esc_attr($post_id); ?>" data-url="<?php echo esc_url(get_permalink()); ?>" title="Copy Article Link">
+                        Link
+                    </button>
+                </div>
+
             </div>
         </div>
 
-        <!-- Featured Media -->
+        <!-- Featured Media (Vintage Double-Border Framing) -->
         <?php if (has_post_thumbnail()) : ?>
-            <figure class="broadsheet-framed-photo" style="margin-bottom: 2rem;">
-                <?php the_post_thumbnail('full', array('class' => 'broadsheet-img-cut')); ?>
+            <figure class="vintage-double-frame" style="margin-bottom: 2rem;">
+                <div class="vintage-frame-inner">
+                    <?php the_post_thumbnail('full', array('class' => 'vintage-framed-img')); ?>
+                </div>
                 <?php if (get_the_post_thumbnail_caption()) : ?>
-                    <figcaption class="broadsheet-photo-caption">
-                        <span><?php the_post_thumbnail_caption(); ?></span>
-                        <span class="caption-archive-tag">[PHOTO: ARCHIVE]</span>
+                    <figcaption class="vintage-photo-caption">
+                        <span class="caption-text"><?php the_post_thumbnail_caption(); ?></span>
+                        <span class="caption-archive-tag">[ARCHIVE DOSSIER]</span>
                     </figcaption>
                 <?php endif; ?>
             </figure>
@@ -88,71 +130,68 @@ get_header(); ?>
             <?php the_content(); ?>
         </div>
 
-        <!-- Tags -->
+        <!-- Article Footer Interactions (Repeat Like & Share for Reader Convenience) -->
+        <div class="article-bottom-interaction-bar">
+            <div class="bottom-like-wrap">
+                <button type="button" class="btn-live-like <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($post_id); ?>">
+                    <svg class="like-heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="<?php echo $is_liked ? 'currentColor' : 'none'; ?>" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span>Applaud Report (<span class="like-count-sub"><?php echo esc_html($likes_count); ?></span>)</span>
+                </button>
+            </div>
+            <button type="button" class="btn-bookmark-action <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-id="<?php echo esc_attr($post_id); ?>" data-type="post">
+                <span>🔖 <?php echo $is_bookmarked ? 'Saved to Dossiers' : 'Bookmark this Dossier'; ?></span>
+            </button>
+        </div>
+
+        <!-- Tags with Follow Buttons -->
         <?php
         $tags = get_the_tags();
         if ($tags) :
         ?>
-        <div style="margin: 3rem 0 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-size: 0.8125rem;">
-            <span style="color: #8C847A; font-weight: 600;">Tags:</span>
+        <div class="article-tags-wrapper">
+            <span class="tags-label">Topics:</span>
             <?php
             foreach ($tags as $tag) {
-                echo '<a href="' . esc_url(get_tag_link($tag->term_id)) . '" class="share-text-link">#' . esc_html($tag->name) . '</a>';
+                $is_tag_followed = function_exists('magazineafrique_is_followed') ? magazineafrique_is_followed($tag->term_id, 'tag') : false;
+                echo '<span class="tag-follow-pill">';
+                echo '<a href="' . esc_url(get_tag_link($tag->term_id)) . '">#' . esc_html($tag->name) . '</a>';
+                echo '<button type="button" class="btn-follow-tag ' . ($is_tag_followed ? 'is-following' : '') . '" data-id="' . esc_attr($tag->term_id) . '" data-type="tag" title="Follow #' . esc_attr($tag->name) . '">' . ($is_tag_followed ? '✓' : '+') . '</button>';
+                echo '</span>';
             }
             ?>
         </div>
         <?php endif; ?>
 
-        <!-- Author Bio (Calm & Typographic) -->
-        <div style="border-top: 1px solid #EAE3D6; border-bottom: 1px solid #EAE3D6; padding: 2rem 0; margin: 3rem 0; display: flex; gap: 1.5rem; align-items: center;">
-            <div style="width: 56px; height: 56px; border-radius: 9999px; overflow: hidden; background: #0B5128; flex-shrink: 0;">
-                <?php echo get_avatar(get_the_author_meta('ID'), 56); ?>
+        <!-- Author Bio (Vintage Literary Card) -->
+        <div class="vintage-author-card">
+            <div class="author-avatar-frame">
+                <?php echo get_avatar(get_the_author_meta('ID'), 64); ?>
             </div>
-            <div>
-                <h4 style="font-family: 'Newsreader', Georgia, serif; font-size: 1.15rem; font-weight: 700; color: #171412; margin-bottom: 0.25rem;">
+            <div class="author-details">
+                <h4 class="author-name">
                     <?php the_author(); ?>
                 </h4>
-                <p style="font-size: 0.875rem; color: #615B55; line-height: 1.5; margin: 0;">
-                    <?php echo esc_html(get_the_author_meta('description') ?: "Writer and analyst at Magazine Afrique."); ?>
+                <p class="author-desc">
+                    <?php echo esc_html(get_the_author_meta('description') ?: "Correspondent and strategic analyst at Magazine Afrique."); ?>
                 </p>
             </div>
         </div>
 
-        <!-- Related Stories (Quiet Editorial Grid) -->
-        <div style="margin-top: 4rem;">
-            <h3 style="font-family: 'Newsreader', Georgia, serif; font-size: 1.35rem; font-weight: 700; color: #0B5128; padding-bottom: 0.75rem; border-bottom: 1px solid #EAE3D6; margin-bottom: 2rem;">
-                Related Dossiers
-            </h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem;">
-                <?php
-                $related_query = new WP_Query(array(
-                    'category__in'   => wp_get_post_categories(get_the_ID()),
-                    'post__not_in'   => array(get_the_ID()),
-                    'posts_per_page' => 3
-                ));
-                if ($related_query->have_posts()) :
-                    while ($related_query->have_posts()) : $related_query->the_post();
-                ?>
-                <article style="display: flex; flex-direction: column;">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" style="display: block; margin-bottom: 0.75rem; overflow: hidden; border-radius: 0.25rem;">
-                            <?php the_post_thumbnail('magazine-card', array('style' => 'width: 100%; height: 140px; object-fit: cover; display: block;')); ?>
-                        </a>
-                    <?php endif; ?>
-                    <h4 style="font-family: 'Newsreader', Georgia, serif; font-size: 1.05rem; font-weight: 600; line-height: 1.35; color: #171412; margin-bottom: 0.5rem;">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                    </h4>
-                    <span style="font-size: 0.75rem; color: #8C847A; margin-top: auto;">
-                        <?php echo esc_html(get_the_date('M j, Y')); ?>
-                    </span>
-                </article>
-                <?php
-                    endwhile;
-                    wp_reset_postdata();
-                endif;
-                ?>
-            </div>
-        </div>
+        <!-- Paywall Benefits Card (if post is premium) -->
+        <?php
+        if ($is_premium && function_exists('magazineafrique_render_paywall_card')) {
+            magazineafrique_render_paywall_card();
+        }
+        ?>
+
+        <!-- Comments -->
+        <?php
+        if (comments_open() || get_comments_number()) :
+            comments_template();
+        endif;
+        ?>
 
     </article>
 

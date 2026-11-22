@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.1.2');
+    define('MAGAZINEAFRIQUE_VERSION', '1.2.0');
 }
 
 /**
@@ -99,8 +99,23 @@ if (!function_exists('magazineafrique_scripts')) {
             true
         );
 
+        // Unified Reader Engine (Multilingual, Smart Scroll, Live Likes & Shares, Bookmarks, Dark Mode)
+        wp_enqueue_script(
+            'magazineafrique-reader-engine',
+            $uri . '/assets/js/reader-engine.js',
+            array(),
+            MAGAZINEAFRIQUE_VERSION,
+            true
+        );
+
         // Localize script with AJAX URL, nonce, and version
         wp_localize_script('magazineafrique-script', 'magazineafrique_vars', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('magazineafrique_nonce'),
+            'version'  => MAGAZINEAFRIQUE_VERSION
+        ));
+
+        wp_localize_script('magazineafrique-reader-engine', 'magazineafrique_vars', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('magazineafrique_nonce'),
             'version'  => MAGAZINEAFRIQUE_VERSION
@@ -136,7 +151,8 @@ $inc_files = array(
     __DIR__ . '/inc/ads.php',
     __DIR__ . '/inc/newsletter.php',
     __DIR__ . '/inc/pwa.php',
-    __DIR__ . '/inc/onboarding-profile.php'
+    __DIR__ . '/inc/onboarding-profile.php',
+    __DIR__ . '/inc/admin-dashboard.php'
 );
 
 foreach ($inc_files as $file) {

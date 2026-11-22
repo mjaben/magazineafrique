@@ -3,7 +3,7 @@
  * Compatible with Android & iOS (16.4+)
  */
 
-const CACHE_NAME = 'magazineafrique-v1.1.2';
+const CACHE_NAME = 'magazineafrique-v1.2.0';
 const STATIC_ASSETS = [
   '/',
   '/wp-content/themes/magazineafrique-theme/assets/css/main.css',

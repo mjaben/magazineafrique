@@ -1,7 +1,7 @@
 <?php
 /**
  * Magazine Afrique — Footer Template
- * Minimalist Editorial Architecture
+ * Minimalist Editorial Architecture with Vintage Bottom Mobile Bar
  *
  * @package MagazineAfrique
  */
@@ -17,12 +17,27 @@
             
             <!-- Column 1: Brand Info -->
             <div class="footer-col" style="max-width: 340px;">
-                <div style="font-family: 'Newsreader', Georgia, serif; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.75rem;">
-                    <span style="color: #FAF7F2;">Magazine</span> <span style="color: #F59E0B;">Afrique</span>
+                <div class="footer-brand-wrap" style="margin-bottom: 0.75rem;">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="Magazine Afrique" class="footer-logo-img" height="40" style="object-fit: contain;" />
                 </div>
                 <p style="font-size: 0.8125rem; color: #C7BFB3; line-height: 1.6; margin-bottom: 1rem;">
-                    Independent pan-African journal of strategic analysis, economics, politics, and culture.
+                    Independent pan-African journal of strategic analysis, economics, politics, diplomacy, and culture.
                 </p>
+                
+                <!-- Footer Multi-Lingual Switcher -->
+                <div class="footer-lang-selector" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #9E968B;">
+                    <span>Edition:</span>
+                    <button type="button" class="lang-chip-footer active" onclick="window.magazineafriqueSwitchLanguage('en')">EN</button>
+                    <span>·</span>
+                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('fr')">FR</button>
+                    <span>·</span>
+                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('ar')">AR</button>
+                    <span>·</span>
+                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('pt')">PT</button>
+                    <span>·</span>
+                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('sw')">SW</button>
+                </div>
+
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #D1C9BE;">
                     <a href="https://twitter.com" target="_blank" rel="noopener">𝕏</a>
                     <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
@@ -44,13 +59,14 @@
                 </ul>
             </div>
 
-            <!-- Column 3: Membership -->
+            <!-- Column 3: Membership & Reader Portal -->
             <div class="footer-col">
-                <h4>Club & Subscriptions</h4>
+                <h4>Club &amp; Readers</h4>
                 <ul>
-                    <li><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Membership Plans</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/subscriber-portal/')); ?>">Prestige Dossiers</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>">The Africa Brief</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige Membership</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/profile/')); ?>">Reader Profile &amp; Following Wire</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>">Breaking News Alerts</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>">The Africa Brief Newsletter</a></li>
                     <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Editorial Desk</a></li>
                 </ul>
             </div>
@@ -77,7 +93,7 @@
             <div>
                 &copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique. All rights reserved.
             </div>
-            <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
                 <a href="<?php echo esc_url(home_url('/legal-notice/')); ?>">Legal Notice</a>
                 <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy</a>
                 <a href="<?php echo esc_url(home_url('/terms/')); ?>">Terms</a>
@@ -88,8 +104,8 @@
     </div>
 </footer>
 
-<!-- Vintage Broadsheet Bottom Mobile Navigation -->
-<nav class="vintage-bottom-nav" aria-label="Mobile Navigation">
+<!-- Vintage Broadsheet Bottom Mobile Navigation (With Smart Scroll Behavior) -->
+<nav class="vintage-bottom-nav" id="vintage-mobile-nav" aria-label="Mobile Navigation">
     <a href="<?php echo esc_url(home_url('/')); ?>" class="vintage-nav-item <?php echo is_front_page() ? 'active' : ''; ?>">
         <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>

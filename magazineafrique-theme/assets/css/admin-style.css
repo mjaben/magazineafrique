@@ -1,0 +1,435 @@
+/**
+ * Magazine Afrique — Custom Dark Workspace WP-Admin Styles
+ * High-End Creative SaaS UI/UX (Inspired by ArtCraft Workspace)
+ *
+ * @package MagazineAfrique
+ */
+
+:root {
+  --wp-dark-canvas: #0E0F12;
+  --wp-dark-sidebar: #131418;
+  --wp-dark-surface: #181A1F;
+  --wp-dark-card-hover: #1F2229;
+  --wp-dark-border: rgba(255, 255, 255, 0.08);
+  --wp-dark-border-hover: rgba(56, 189, 248, 0.4);
+  --wp-accent-blue: #38BDF8;
+  --wp-accent-gold: #F59E0B;
+  --wp-accent-emerald: #10B981;
+  --wp-text-white: #FFFFFF;
+  --wp-text-gray: #94A3B8;
+  --wp-text-muted: #64748B;
+}
+
+/* ==========================================================================
+   GLOBAL WP-ADMIN DARK THEME OVERRIDES
+   ========================================================================== */
+body.wp-admin {
+  background-color: var(--wp-dark-canvas) !important;
+  color: #E2E8F0 !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+#wpwrap {
+  background-color: var(--wp-dark-canvas) !important;
+}
+
+#wpcontent, #wpbody-content {
+  background-color: var(--wp-dark-canvas) !important;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Top Admin Bar */
+#wpadminbar {
+  background-color: var(--wp-dark-sidebar) !important;
+  border-bottom: 1px solid var(--wp-dark-border) !important;
+}
+
+#wpadminbar .ab-item, #wpadminbar .ab-label {
+  color: var(--wp-text-gray) !important;
+}
+
+#wpadminbar .menupop .ab-sub-wrapper {
+  background-color: var(--wp-dark-surface) !important;
+  border: 1px solid var(--wp-dark-border) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+#wpadminbar .ab-submenu .ab-item {
+  color: #CBD5E1 !important;
+}
+
+/* Admin Sidebar */
+#adminmenuback, #adminmenuwrap, #adminmenu {
+  background-color: var(--wp-dark-sidebar) !important;
+  border-right: 1px solid var(--wp-dark-border) !important;
+}
+
+#adminmenu li.menu-top {
+  border: none !important;
+}
+
+#adminmenu a {
+  color: var(--wp-text-gray) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 8px 12px !important;
+  transition: all 0.15s ease;
+}
+
+#adminmenu li.menu-top:hover,
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li > a.menu-top:focus {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: var(--wp-text-white) !important;
+}
+
+#adminmenu li.current a.menu-top,
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+  background-color: rgba(56, 189, 248, 0.12) !important;
+  color: var(--wp-accent-blue) !important;
+  font-weight: 700 !important;
+  border-left: 3px solid var(--wp-accent-blue) !important;
+}
+
+#adminmenu .wp-submenu {
+  background-color: var(--wp-dark-surface) !important;
+  border: 1px solid var(--wp-dark-border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 6px;
+}
+
+#adminmenu .wp-submenu a {
+  color: #CBD5E1 !important;
+}
+
+#adminmenu .wp-submenu a:hover {
+  color: var(--wp-accent-blue) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Standard WP Dashboard Widget Container Cleared */
+#dashboard-widgets-wrap {
+  margin-top: 10px;
+}
+
+#dashboard-widgets .postbox {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#dashboard-widgets .postbox-header {
+  display: none !important;
+}
+
+#dashboard-widgets .inside {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ==========================================================================
+   WORKSPACE EDITORIAL DASHBOARD UI (MATCHING ARTCRAFT UI/UX)
+   ========================================================================== */
+.workspace-editorial-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+/* Hero Header */
+.workspace-hero-header {
+  margin-bottom: 2rem;
+}
+
+.workspace-tag-badge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--wp-accent-blue);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.workspace-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--wp-text-white);
+  letter-spacing: -0.025em;
+  margin: 0 0 0.5rem;
+}
+
+.workspace-main-title .highlight-blue {
+  color: var(--wp-accent-blue);
+  background: linear-space;
+}
+
+.workspace-subtitle {
+  font-size: 0.9375rem;
+  color: var(--wp-text-gray);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Metrics Quick-Bar */
+.workspace-metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  padding: 0.85rem 1.25rem;
+  background-color: var(--wp-dark-sidebar);
+  border: 1px solid var(--wp-dark-border);
+  border-radius: 10px;
+}
+
+.metric-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.metric-pill:last-child {
+  border-right: none;
+}
+
+.metric-label {
+  color: var(--wp-text-muted);
+}
+
+.metric-value {
+  color: var(--wp-text-white);
+  font-weight: 700;
+}
+
+.metric-live {
+  color: #4ADE80;
+}
+
+/* Section Label */
+.workspace-section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--wp-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+/* 3x3 Tools Grid */
+.workspace-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+  .workspace-tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .workspace-tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tool Card */
+.workspace-tool-card {
+  background-color: var(--wp-dark-surface);
+  border: 1px solid var(--wp-dark-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.workspace-tool-card:hover {
+  background-color: var(--wp-dark-card-hover);
+  border-color: var(--wp-dark-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.tool-card-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Tool Icon Badges */
+.tool-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #FFFFFF;
+}
+
+.tool-icon-box.bg-blue { background: linear-gradient(135deg, #0284C7, #0369A1); }
+.tool-icon-box.bg-purple { background: linear-gradient(135deg, #9333EA, #7E22CE); }
+.tool-icon-box.bg-gold { background: linear-gradient(135deg, #D97706, #B45309); }
+.tool-icon-box.bg-cyan { background: linear-gradient(135deg, #0891B2, #0E7490); }
+.tool-icon-box.bg-emerald { background: linear-gradient(135deg, #059669, #047857); }
+.tool-icon-box.bg-amber { background: linear-gradient(135deg, #EA580C, #C2410C); }
+.tool-icon-box.bg-orange { background: linear-gradient(135deg, #F97316, #EA580C); }
+.tool-icon-box.bg-indigo { background: linear-gradient(135deg, #4F46E5, #4338CA); }
+.tool-icon-box.bg-teal { background: linear-gradient(135deg, #0D9488, #0F766E); }
+
+.tool-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-name {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--wp-text-white);
+  letter-spacing: 0.04em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tool-desc {
+  font-size: 0.75rem;
+  color: var(--wp-text-gray);
+  line-height: 1.4;
+  margin: 0.25rem 0 0;
+}
+
+.tool-card-arrow {
+  color: var(--wp-text-muted);
+  font-size: 1.15rem;
+  padding-left: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.workspace-tool-card:hover .tool-card-arrow {
+  color: var(--wp-accent-blue);
+  transform: translateX(4px);
+}
+
+/* Footer Banner */
+.workspace-footer-banner {
+  margin-top: 2.5rem;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--wp-dark-sidebar);
+  border: 1px solid var(--wp-dark-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.banner-badge {
+  font-size: 0.625rem;
+  font-weight: 800;
+  color: #4ADE80;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+}
+
+.banner-title {
+  color: var(--wp-text-white);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.btn-workspace-preview {
+  display: inline-block;
+  background-color: var(--wp-dark-surface);
+  border: 1px solid var(--wp-dark-border);
+  color: var(--wp-text-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none !important;
+  transition: all 0.18s ease;
+}
+
+.btn-workspace-preview:hover {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+/* Desk Form Card (Options Page) */
+.desk-form-card {
+  background-color: var(--wp-dark-surface);
+  border: 1px solid var(--wp-dark-border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.form-card-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--wp-text-white);
+  margin: 0 0 0.5rem;
+}
+
+.form-card-desc {
+  font-size: 0.8125rem;
+  color: var(--wp-text-gray);
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+.workspace-input-text {
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--wp-dark-sidebar) !important;
+  border: 1px solid var(--wp-dark-border) !important;
+  border-radius: 6px !important;
+  color: #FFFFFF !important;
+  padding: 0.65rem 0.85rem !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.875rem !important;
+}
+
+.workspace-input-text:focus {
+  border-color: var(--wp-accent-blue) !important;
+  box-shadow: 0 0 0 1px var(--wp-accent-blue) !important;
+  outline: none !important;
+}
+
+.btn-workspace-submit {
+  background-color: var(--wp-accent-blue) !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  font-size: 0.8125rem !important;
+  padding: 0.65rem 1.25rem !important;
+  border-radius: 6px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn-workspace-submit:hover {
+  background-color: #7DD3FC !important;
+}
