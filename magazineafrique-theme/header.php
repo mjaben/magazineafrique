@@ -287,11 +287,12 @@
         </form>
         <div class="vintage-search-topics">
             <span class="search-topics-label">Desks:</span>
-            <a href="<?php echo esc_url(home_url('/?s=Geopolitics')); ?>" class="search-topic-tag">#Geopolitics</a>
-            <a href="<?php echo esc_url(home_url('/?s=Mining')); ?>" class="search-topic-tag">#Mining</a>
-            <a href="<?php echo esc_url(home_url('/?s=Finance')); ?>" class="search-topic-tag">#Finance</a>
-            <a href="<?php echo esc_url(home_url('/?s=Diplomacy')); ?>" class="search-topic-tag">#Diplomacy</a>
-            <a href="<?php echo esc_url(home_url('/?s=Energy')); ?>" class="search-topic-tag">#Energy</a>
+            <a href="<?php echo esc_url(home_url('/category/politics/')); ?>" class="search-topic-tag">#Politics</a>
+            <a href="<?php echo esc_url(home_url('/category/business/')); ?>" class="search-topic-tag">#Business</a>
+            <a href="<?php echo esc_url(home_url('/category/international-news/')); ?>" class="search-topic-tag">#InternationalNews</a>
+            <a href="<?php echo esc_url(home_url('/category/entertainment/')); ?>" class="search-topic-tag">#Entertainment</a>
+            <a href="<?php echo esc_url(home_url('/category/africa/')); ?>" class="search-topic-tag">#Africa</a>
+            <a href="<?php echo esc_url(home_url('/category/business/fintech/')); ?>" class="search-topic-tag">#Fintech</a>
         </div>
     </div>
 </div>
