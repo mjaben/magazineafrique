@@ -7,34 +7,36 @@
  */
 
 :root {
-  --art-bg-canvas: #262320;
-  --art-bg-sidebar: #221F1C;
-  --art-bg-card: #2F2C27;
-  --art-bg-card-hover: #36322C;
-  --art-bg-input: #221F1C;
-  --art-border: #4A433B;
-  --art-border-hover: #5E564B;
-  --art-blue: #4B8BF5;
-  --art-blue-hover: #3B7BF0;
+  --art-bg-canvas: #17181B;
+  --art-bg-sidebar: #131417;
+  --art-bg-card: #1E2025;
+  --art-bg-card-hover: #262930;
+  --art-bg-input: #121316;
+  --art-border: rgba(255, 255, 255, 0.11);
+  --art-border-hover: rgba(255, 255, 255, 0.22);
+  --art-blue: #2D81FF;
+  --art-blue-hover: #3B8CFF;
+  --art-accent-ink: #74AAFF;
   --art-purple: #9333EA;
   --art-gold: #F59E0B;
   --art-cyan: #06B6D4;
   --art-emerald: #10B981;
   --art-red: #EF4444;
-  --art-text-white: #FFFFFF;
-  --art-text-gray: #8E95A3;
-  --art-text-muted: #525866;
-  --art-text-sub: #717784;
+  --art-text-white: #F2F1EE;
+  --art-text-gray: #9AA0A6;
+  --art-text-muted: #5F6672;
+  --art-text-sub: #7A8290;
 }
 
 /* ==========================================================================
-   1. GLOBAL WP-ADMIN RESET TO ARTCRAFT CANVAS
+   1. GLOBAL WP-ADMIN RESET TO ARTCRAFT CANVAS & ARTCRAFT FONTS
    ========================================================================== */
 html, body.wp-admin {
   background-color: var(--art-bg-canvas) !important;
   color: var(--art-text-gray) !important;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #wpwrap {
@@ -46,59 +48,224 @@ html, body.wp-admin {
 }
 
 .wrap {
-  margin: 1.5rem 1.5rem 3rem !important;
+  margin: 1.5rem 1.75rem 3.5rem !important;
+  max-width: 1380px !important;
 }
 
 /* Headings in WP-Admin */
-.wrap h1, .wrap h2, .wrap h3 {
+.wrap h1, .wrap h2, .wrap h3, .wrap h4, .wrap h5 {
   color: var(--art-text-white) !important;
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-family: 'Archivo', sans-serif !important;
   font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+}
+
+.wrap h1 {
+  font-size: 1.65rem !important;
+  margin-bottom: 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+.page-title-action {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  background-color: var(--art-blue) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 5px 12px !important;
+  line-height: normal !important;
+  transition: all 0.15s ease !important;
+}
+
+.page-title-action:hover {
+  background-color: var(--art-blue-hover) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
 }
 
 /* ==========================================================================
-   2. TOP ADMIN BAR (ARTCRAFT MINIMALIST HEADER)
+   2. TOP ADMIN BAR (ARTCRAFT MINIMALIST COMMAND STRIP)
    ========================================================================== */
 #wpadminbar {
   background-color: var(--art-bg-sidebar) !important;
   border-bottom: 1px solid var(--art-border) !important;
   height: 48px !important;
+  z-index: 99990 !important;
 }
 
 #wpadminbar .quicklinks {
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+#wpadminbar .ab-top-menu {
+  display: flex !important;
+  align-items: center !important;
   height: 48px !important;
 }
 
 #wpadminbar .ab-item, #wpadminbar .ab-label {
   color: var(--art-text-gray) !important;
+  font-family: 'Archivo', sans-serif !important;
   font-size: 13px !important;
   line-height: 48px !important;
   height: 48px !important;
   transition: color 0.15s ease;
+  display: flex !important;
+  align-items: center !important;
 }
 
 #wpadminbar .ab-item:hover, #wpadminbar .ab-item:hover .ab-label {
   color: var(--art-text-white) !important;
-  background-color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
 #wpadminbar #wp-admin-bar-site-name > .ab-item {
   font-weight: 700 !important;
   color: var(--art-text-white) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.02em !important;
 }
 
+/* Admin Bar Custom Pills */
+.artcraft-bar-quick-link {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--art-text-white) !important;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--art-border);
+  padding: 4px 10px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: normal;
+  transition: all 0.15s ease;
+}
+
+.artcraft-bar-quick-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.artcraft-bar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+}
+
+.artcraft-bar-purge-pill {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #FBBF24 !important;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 4px 10px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: normal;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.artcraft-bar-purge-pill:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+/* Notification Bell Pill */
+.artcraft-bar-bell-cluster {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--art-text-white);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--art-border);
+  padding: 4px 10px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: normal;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.artcraft-bar-bell-cluster:hover,
+.artcraft-notices-bar-item:hover .artcraft-bar-bell-cluster {
+  background: rgba(116, 170, 255, 0.15);
+  border-color: rgba(116, 170, 255, 0.4);
+  color: var(--art-accent-ink);
+}
+
+.artcraft-bell-icon {
+  display: flex;
+  align-items: center;
+}
+
+.artcraft-notices-count-badge {
+  background: var(--art-bg-card);
+  border: 1px solid var(--art-border);
+  color: var(--art-text-gray);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 2px;
+  min-width: 14px;
+  text-align: center;
+}
+
+.artcraft-bar-bell-cluster.has-alerts .artcraft-notices-count-badge {
+  background: #EF4444;
+  border-color: #EF4444;
+  color: #FFFFFF;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+/* User Account in Admin Bar */
+#wpadminbar #wp-admin-bar-my-account > .ab-item {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+#wpadminbar #wp-admin-bar-my-account .avatar {
+  border-radius: 50% !important;
+  border: 1px solid var(--art-border) !important;
+  margin-right: 8px !important;
+}
+
+/* Submenu dropdowns in Admin Bar */
 #wpadminbar .menupop .ab-sub-wrapper {
   background-color: var(--art-bg-card) !important;
   border: 1px solid var(--art-border) !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
-  border-radius: 8px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7) !important;
+  border-radius: 6px !important;
   top: 48px !important;
+  padding: 6px 0 !important;
 }
 
 #wpadminbar .ab-submenu .ab-item {
   color: var(--art-text-gray) !important;
   line-height: 2 !important;
   height: auto !important;
+  font-size: 12px !important;
+  padding: 6px 16px !important;
 }
 
 #wpadminbar .ab-submenu .ab-item:hover {
@@ -106,8 +273,39 @@ html, body.wp-admin {
   background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
+/* Help & Screen Options Positioning (Fix Collision under 48px Header) */
+#screen-meta-links {
+  top: 48px !important;
+  right: 24px !important;
+  z-index: 9990 !important;
+}
+
+#screen-meta {
+  top: 48px !important;
+  background-color: var(--art-bg-card) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  color: var(--art-text-gray) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+}
+
+#screen-meta-links .screen-meta-toggle button {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-top: none !important;
+  color: var(--art-text-gray) !important;
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  font-size: 11px !important;
+  font-family: 'Geist Mono', monospace !important;
+  letter-spacing: 0.06em !important;
+}
+
+#screen-meta-links .screen-meta-toggle button:hover {
+  color: var(--art-text-white) !important;
+}
+
 /* ==========================================================================
-   3. ARTCRAFT SIDEBAR (#adminmenu)
+   3. ARTCRAFT SIDEBAR (#adminmenu) & BRAND ROW & COLLAPSE
    ========================================================================== */
 #adminmenuback, #adminmenuwrap, #adminmenu {
   background-color: var(--art-bg-sidebar) !important;
@@ -119,24 +317,106 @@ html, body.wp-admin {
   margin-left: 220px !important;
 }
 
+/* Top Sidebar Brand Header Row */
+.artcraft-sidebar-header {
+  padding: 14px 14px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--art-border);
+  margin-bottom: 8px;
+}
+
+.artcraft-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none !important;
+  outline: none;
+}
+
+.artcraft-brand-icon {
+  width: 24px;
+  height: 24px;
+  background: #0B5128;
+  color: #FAF7F2;
+  font-size: 11px;
+  font-weight: 900;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.05em;
+  flex-shrink: 0;
+}
+
+.artcraft-sidebar-brand-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--art-text-white);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.artcraft-sidebar-toggle-btn {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--art-border);
+  border-radius: 3px;
+  color: var(--art-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.artcraft-sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--art-text-white);
+}
+
+/* Menu Segmentation Group Headers */
+.artcraft-menu-group-header {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.38);
+  padding: 18px 14px 6px;
+  list-style: none;
+  pointer-events: none;
+}
+
+/* Admin Menu Items */
 #adminmenu {
-  padding-top: 12px;
+  padding-top: 4px;
 }
 
 #adminmenu li.menu-top {
   border: none !important;
   margin: 2px 8px !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
+  position: relative !important;
 }
 
 #adminmenu a.menu-top {
   color: var(--art-text-gray) !important;
+  font-family: 'Archivo', sans-serif !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  padding: 8px 12px !important;
-  border-radius: 6px !important;
+  padding: 7px 10px !important;
+  border-radius: 4px !important;
   line-height: 1.4 !important;
   transition: all 0.15s ease;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
 }
 
 #adminmenu a.menu-top:hover,
@@ -166,38 +446,387 @@ html, body.wp-admin {
   border-radius: 1px !important;
 }
 
+/* Modern Line Icons in Sidebar */
+#adminmenu .wp-menu-image {
+  float: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: inherit !important;
+  flex-shrink: 0 !important;
+}
+
+#adminmenu .wp-menu-image:before {
+  display: none !important;
+}
+
+#adminmenu .wp-menu-image svg {
+  width: 17px !important;
+  height: 17px !important;
+  stroke: currentColor !important;
+  transition: stroke 0.15s ease !important;
+}
+
+#adminmenu .wp-menu-name {
+  padding: 0 !important;
+  flex-grow: 1 !important;
+  font-size: 13px !important;
+}
+
 #adminmenu li.wp-menu-separator {
   height: 1px !important;
   background-color: var(--art-border) !important;
-  margin: 12px 12px !important;
+  margin: 10px 14px !important;
   border: none !important;
 }
 
-#adminmenu .wp-submenu {
-  background-color: var(--art-bg-card) !important;
-  border: 1px solid var(--art-border) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
-  left: 220px !important;
-  padding: 6px 0 !important;
+/* ==========================================================================
+   SUBMENU ARCHITECTURE — ZERO FLOATING OVER CONTENT
+   ========================================================================== */
+/* Hide Home & Updates submenu under Dashboard completely */
+#adminmenu #menu-dashboard .wp-submenu {
+  display: none !important;
 }
 
-#adminmenu .wp-submenu a {
+/* In normal expanded sidebar: Active submenus expand INLINE nested inside the sidebar */
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu {
+  position: static !important;
+  float: none !important;
+  display: block !important;
+  left: auto !important;
+  top: auto !important;
+  margin: 4px 6px 8px 18px !important;
+  padding: 2px 0 4px 12px !important;
+  background: transparent !important;
+  border: none !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: auto !important;
+}
+
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu .wp-submenu-head {
+  display: none !important;
+}
+
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu li,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu a,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu a {
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  color: var(--art-text-gray) !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  display: block !important;
+  transition: all 0.12s ease !important;
+  background: transparent !important;
+}
+
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu a:hover {
+  color: var(--art-text-white) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu li.current a,
+body:not(.folded) #adminmenu .wp-menu-open .wp-submenu li.current a {
+  color: var(--art-accent-ink) !important;
+  font-weight: 600 !important;
+  background: rgba(116, 170, 255, 0.08) !important;
+}
+
+/* Non-active hover submenus when expanded (show ONLY on direct hover as compact card) */
+body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open) .wp-submenu {
+  display: none !important;
+}
+
+body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu {
+  display: block !important;
+  position: absolute !important;
+  left: 218px !important;
+  top: 0 !important;
+  background: #1E2025 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75) !important;
+  padding: 6px !important;
+  min-width: 170px !important;
+  z-index: 99999 !important;
+}
+
+body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu .wp-submenu-head {
+  display: none !important;
+}
+
+body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu a {
   color: var(--art-text-gray) !important;
   font-size: 12px !important;
-  padding: 6px 16px !important;
+  padding: 6px 12px !important;
+  border-radius: 3px !important;
 }
 
-#adminmenu .wp-submenu a:hover {
-  color: var(--art-blue) !important;
-  background-color: rgba(255, 255, 255, 0.04) !important;
+body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu a:hover {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 /* ==========================================================================
-   4. ARTCRAFT DASHBOARD WORKSPACE (HOME /wp-admin/index.php)
+   FOLDED SIDEBAR STATE (body.folded)
+   ========================================================================== */
+body.folded #adminmenuback,
+body.folded #adminmenuwrap,
+body.folded #adminmenu {
+  width: 56px !important;
+}
+
+body.folded #wpcontent {
+  margin-left: 56px !important;
+}
+
+body.folded .artcraft-sidebar-header {
+  padding: 12px 10px;
+  justify-content: center;
+}
+
+body.folded .artcraft-sidebar-brand-name,
+body.folded .artcraft-menu-group-header,
+body.folded #adminmenu .wp-menu-name,
+body.folded #adminmenu .wp-menu-arrow {
+  display: none !important;
+}
+
+body.folded #adminmenu li.menu-top {
+  margin: 4px 6px !important;
+  text-align: center;
+}
+
+body.folded #adminmenu a.menu-top {
+  padding: 9px 0 !important;
+  justify-content: center !important;
+}
+
+body.folded #adminmenu .wp-menu-image {
+  margin: 0 auto !important;
+}
+
+body.folded #adminmenu li:hover .wp-submenu {
+  display: block !important;
+  position: absolute !important;
+  left: 58px !important;
+  top: 0 !important;
+  background: #1E2025 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75) !important;
+  padding: 6px !important;
+  min-width: 170px !important;
+  z-index: 99999 !important;
+}
+
+body.folded #adminmenu li:hover .wp-submenu .wp-submenu-head {
+  display: block !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  padding: 6px 12px 4px !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  margin-bottom: 4px !important;
+}
+
+body.folded #adminmenu li:hover .wp-submenu a {
+  color: var(--art-text-gray) !important;
+  font-size: 12px !important;
+  padding: 6px 12px !important;
+}
+
+body.folded #adminmenu li:hover .wp-submenu a:hover {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ==========================================================================
+   4. NOTIFICATION CENTER DRAWER (ZERO POPUPS ON CANVAS)
+   ========================================================================== */
+#wpbody-content > .notice,
+#wpbody-content > .updated,
+#wpbody-content > .error,
+#wpbody-content > .update-nag,
+.wrap > .notice,
+.wrap > .updated,
+.wrap > .error,
+.wrap > .update-nag,
+#wpbody-content > div[class*="notice"] {
+  display: none !important;
+}
+
+/* Drawer Slide-Over Container */
+.artcraft-notices-drawer {
+  position: fixed;
+  top: 0;
+  right: -440px;
+  width: 420px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #17181C;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: -16px 0 40px rgba(0, 0, 0, 0.8);
+  z-index: 100060;
+  transition: right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.artcraft-notices-drawer.open {
+  right: 0 !important;
+}
+
+.artcraft-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 100055;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.artcraft-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.artcraft-drawer-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--art-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.artcraft-drawer-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--art-accent-ink);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.artcraft-drawer-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: var(--art-text-white) !important;
+  margin: 0 !important;
+}
+
+.artcraft-drawer-close-btn {
+  background: transparent;
+  border: 1px solid var(--art-border);
+  color: var(--art-text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.artcraft-drawer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.artcraft-drawer-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.artcraft-drawer-empty-state {
+  text-align: center;
+  padding: 3.5rem 1rem;
+}
+
+.artcraft-empty-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 1rem;
+}
+
+.artcraft-empty-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--art-text-white);
+  margin-bottom: 0.35rem;
+}
+
+.artcraft-empty-sub {
+  font-size: 12px;
+  color: var(--art-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.artcraft-drawer-body .notice,
+.artcraft-drawer-body .updated,
+.artcraft-drawer-body .error {
+  display: block !important;
+  background: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-left: 3px solid var(--art-accent-ink) !important;
+  color: var(--art-text-gray) !important;
+  padding: 1rem !important;
+  border-radius: 4px !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+.artcraft-drawer-body .error {
+  border-left-color: #EF4444 !important;
+}
+
+.artcraft-drawer-body .notice p {
+  color: inherit !important;
+  font-size: inherit !important;
+  margin: 0 !important;
+}
+
+/* ==========================================================================
+   5. ARTCRAFT DASHBOARD WORKSPACE (HOME /wp-admin/index.php)
    ========================================================================== */
 #dashboard-widgets-wrap, #dashboard-widgets, .welcome-panel {
-  display: none !important; /* Hides default clutter so custom workspace takes precedence */
+  display: none !important;
 }
 
 .workspace-editorial-container {
@@ -209,7 +838,6 @@ html, body.wp-admin {
   box-sizing: border-box !important;
 }
 
-/* Top Pill / Breadcrumb (Matches ArtCraft [ HOME ] pill) */
 .workspace-top-pill-bar {
   display: flex;
   align-items: center;
@@ -224,11 +852,12 @@ html, body.wp-admin {
   background-color: var(--art-bg-card);
   border: 1px solid var(--art-border);
   color: var(--art-text-white);
+  font-family: 'Geist Mono', monospace;
   font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   padding: 5px 12px;
-  border-radius: 4px;
+  border-radius: 3px;
   text-transform: uppercase;
 }
 
@@ -239,11 +868,12 @@ html, body.wp-admin {
 }
 
 .artcraft-link-text {
-  font-size: 12px;
-  font-weight: 700;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--art-text-gray);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -255,12 +885,13 @@ html, body.wp-admin {
 .artcraft-btn-white {
   background-color: var(--art-text-white);
   color: #000000 !important;
+  font-family: 'Geist Mono', monospace;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 6px 14px;
-  border-radius: 4px;
+  border-radius: 3px;
   text-decoration: none;
   transition: opacity 0.15s ease;
 }
@@ -269,17 +900,16 @@ html, body.wp-admin {
   opacity: 0.9;
 }
 
-/* Hero Header */
 .workspace-hero-header {
   margin-bottom: 2.5rem;
 }
 
 .workspace-tag-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: #74AAFF;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--art-accent-ink);
   text-transform: uppercase;
   margin-bottom: 0.75rem;
 }
@@ -288,45 +918,39 @@ html, body.wp-admin {
   font-size: clamp(2rem, 4vw, 2.75rem) !important;
   font-weight: 700 !important;
   line-height: 1.15 !important;
-  color: #F2F1EE !important;
+  color: var(--art-text-white) !important;
   letter-spacing: -0.025em !important;
   margin: 0 0 0.5rem !important;
 }
 
 .workspace-main-title .highlight-blue {
-  color: #74AAFF;
+  color: var(--art-accent-ink);
 }
 
 .workspace-subtitle {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.65);
   margin: 0;
   line-height: 1.5;
 }
 
-/* Section Header & Line */
 .workspace-section-header-row {
   margin-top: 2.25rem;
   margin-bottom: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid var(--art-border);
   padding-top: 1.5rem;
 }
 
 .workspace-section-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   margin-bottom: 0.75rem;
 }
 
-.workspace-section-divider {
-  display: none;
-}
-
-/* 3x3 Card Grid (Exact ArtCraft Architecture) */
 .workspace-tools-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -345,10 +969,9 @@ html, body.wp-admin {
   }
 }
 
-/* Tool Card (Exact ArtCraft 1:1 Style) */
 .workspace-tool-card {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--art-bg-card);
+  border: 1px solid var(--art-border);
   border-radius: 3px;
   padding: 1.25rem;
   display: flex;
@@ -362,8 +985,8 @@ html, body.wp-admin {
 }
 
 .workspace-tool-card:hover {
-  background-color: rgba(45, 129, 255, 0.08);
-  border-color: rgba(116, 170, 255, 0.6);
+  background-color: var(--art-bg-card-hover);
+  border-color: rgba(116, 170, 255, 0.5);
   transform: translateY(-1px);
 }
 
@@ -380,11 +1003,10 @@ html, body.wp-admin {
   gap: 0.85rem;
 }
 
-/* Sharp Square Icon Badge (ArtCraft 40x40 Square) */
 .tool-icon-box {
   width: 40px;
   height: 40px;
-  border-radius: 0px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,18 +1017,19 @@ html, body.wp-admin {
   width: 28px;
   height: 28px;
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--art-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--art-text-muted);
   transition: all 0.15s ease;
 }
 
 .workspace-tool-card:hover .tool-card-arrow {
   border-color: rgba(255, 255, 255, 0.4);
   color: #FFFFFF;
+  transform: translateX(2px);
 }
 
 .tool-icon-box.bg-blue { background: rgba(59, 130, 246, 0.18); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3); }
@@ -426,46 +1049,37 @@ html, body.wp-admin {
 }
 
 .tool-name {
+  font-family: 'Archivo', sans-serif !important;
   font-size: 13px !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   color: var(--art-text-white) !important;
   letter-spacing: 0.04em !important;
   margin: 0 !important;
   text-transform: uppercase !important;
 }
 
-/* Subtle Badges (BETA / NEW) */
 .tool-tag-beta {
+  font-family: 'Geist Mono', monospace;
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   color: #F59E0B;
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.3);
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .tool-tag-new {
+  font-family: 'Geist Mono', monospace;
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   color: #C084FC;
   background: rgba(168, 85, 247, 0.15);
   border: 1px solid rgba(168, 85, 247, 0.3);
   padding: 1px 5px;
-  border-radius: 3px;
-}
-
-.tool-card-arrow {
-  color: var(--art-text-muted);
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-
-.workspace-tool-card:hover .tool-card-arrow {
-  color: var(--art-blue);
-  transform: translateX(4px);
+  border-radius: 2px;
 }
 
 .tool-desc {
@@ -476,15 +1090,14 @@ html, body.wp-admin {
 }
 
 /* ==========================================================================
-   5. ARTCRAFT DARK STYLING FOR ALL WP ADMIN SCREENS (NO HARSH WHITE TABLES)
+   6. ALL WP-ADMIN SCREENS REVAMP (TABLES, FORMS, CARDS, INPUTS)
    ========================================================================== */
-/* Tables (edit.php, edit-tags.php, users.php, plugins.php) */
 .wp-list-table,
 .widefat {
   background-color: var(--art-bg-card) !important;
   border: 1px solid var(--art-border) !important;
   box-shadow: none !important;
-  border-radius: 8px !important;
+  border-radius: 4px !important;
   overflow: hidden !important;
   color: var(--art-text-gray) !important;
 }
@@ -495,10 +1108,12 @@ html, body.wp-admin {
 .widefat tfoot th {
   background-color: var(--art-bg-sidebar) !important;
   color: var(--art-text-white) !important;
+  font-family: 'Archivo', sans-serif !important;
   font-size: 12px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
   border-bottom: 1px solid var(--art-border) !important;
-  padding: 10px 12px !important;
+  padding: 11px 12px !important;
 }
 
 .wp-list-table tbody tr {
@@ -516,6 +1131,7 @@ html, body.wp-admin {
   border-top: 1px solid var(--art-border) !important;
   padding: 12px !important;
   vertical-align: middle !important;
+  font-size: 13px !important;
 }
 
 .wp-list-table td a.row-title,
@@ -525,12 +1141,12 @@ html, body.wp-admin {
 }
 
 .wp-list-table td a.row-title:hover {
-  color: var(--art-blue) !important;
+  color: var(--art-accent-ink) !important;
 }
 
-/* Post Row Actions */
 .row-actions {
   color: var(--art-text-muted) !important;
+  font-size: 12px !important;
 }
 
 .row-actions a {
@@ -538,23 +1154,26 @@ html, body.wp-admin {
 }
 
 .row-actions a:hover {
-  color: var(--art-blue) !important;
+  color: var(--art-accent-ink) !important;
 }
 
-/* Form Inputs & Controls across All Admin Pages */
 input[type="text"],
 input[type="search"],
 input[type="email"],
+input[type="url"],
 input[type="password"],
 input[type="number"],
+input[type="tel"],
+input[type="date"],
 textarea,
 select {
   background-color: var(--art-bg-input) !important;
   border: 1px solid var(--art-border) !important;
   color: var(--art-text-white) !important;
-  border-radius: 6px !important;
-  padding: 6px 10px !important;
+  border-radius: 4px !important;
+  padding: 7px 10px !important;
   font-size: 13px !important;
+  font-family: 'Archivo', sans-serif !important;
   box-shadow: none !important;
   transition: border-color 0.15s ease;
 }
@@ -562,22 +1181,77 @@ select {
 input[type="text"]:focus,
 input[type="search"]:focus,
 input[type="email"]:focus,
+input[type="url"]:focus,
 textarea:focus,
 select:focus {
-  border-color: var(--art-blue) !important;
+  border-color: var(--art-accent-ink) !important;
   outline: none !important;
-  box-shadow: 0 0 0 1px var(--art-blue) !important;
+  box-shadow: 0 0 0 1px var(--art-accent-ink) !important;
 }
 
-/* Buttons in WP-Admin */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--art-blue) !important;
+  width: 16px !important;
+  height: 16px !important;
+  cursor: pointer !important;
+}
+
+table.form-table {
+  color: var(--art-text-gray) !important;
+}
+
+table.form-table th {
+  color: var(--art-text-white) !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 16px 12px 16px 0 !important;
+  vertical-align: top !important;
+}
+
+table.form-table td {
+  padding: 14px 0 !important;
+}
+
+table.form-table td p.description,
+table.form-table td span.description {
+  color: var(--art-text-sub) !important;
+  font-size: 12px !important;
+  margin-top: 6px !important;
+}
+
+.card,
+.site-health-card,
+.tools-php .card,
+.postbox {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  padding: 1.5rem !important;
+  color: var(--art-text-gray) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.card h2, .card h3, .card h4, .postbox h2, .postbox h3 {
+  color: var(--art-text-white) !important;
+}
+
+.postbox .postbox-header {
+  border-bottom: 1px solid var(--art-border) !important;
+  background: var(--art-bg-sidebar) !important;
+}
+
 .button, .button-secondary {
   background-color: var(--art-bg-card) !important;
   border: 1px solid var(--art-border) !important;
-  color: var(--art-text-gray) !important;
-  border-radius: 6px !important;
+  color: var(--art-text-white) !important;
+  border-radius: 4px !important;
+  font-family: 'Archivo', sans-serif !important;
   font-size: 12px !important;
   font-weight: 600 !important;
-  padding: 4px 12px !important;
+  padding: 5px 12px !important;
   box-shadow: none !important;
   transition: all 0.15s ease;
 }
@@ -585,17 +1259,19 @@ select:focus {
 .button:hover, .button-secondary:hover {
   background-color: var(--art-bg-card-hover) !important;
   border-color: var(--art-border-hover) !important;
-  color: var(--art-text-white) !important;
+  color: #FFFFFF !important;
 }
 
 .button-primary, .button.button-primary {
   background-color: var(--art-blue) !important;
   border: 1px solid var(--art-blue) !important;
   color: #FFFFFF !important;
+  font-family: 'Archivo', sans-serif !important;
   font-size: 12px !important;
-  font-weight: 700 !important;
-  border-radius: 6px !important;
-  box-shadow: 0 2px 6px rgba(75, 139, 245, 0.3) !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  padding: 5px 14px !important;
+  box-shadow: 0 2px 6px rgba(45, 129, 255, 0.3) !important;
   text-shadow: none !important;
   transition: all 0.15s ease;
 }
@@ -605,13 +1281,14 @@ select:focus {
   border-color: var(--art-blue-hover) !important;
 }
 
-/* Filter / Pagination Bar */
 .tablenav {
   color: var(--art-text-gray) !important;
 }
 
 .tablenav .displaying-num {
+  font-family: 'Geist Mono', monospace !important;
   color: var(--art-text-sub) !important;
+  font-size: 12px !important;
 }
 
 .tablenav-pages .pagination-links .button {
@@ -622,6 +1299,7 @@ select:focus {
 
 .subsubsub {
   color: var(--art-text-muted) !important;
+  font-size: 12px !important;
 }
 
 .subsubsub a {
@@ -629,40 +1307,167 @@ select:focus {
 }
 
 .subsubsub a.current {
-  color: var(--art-blue) !important;
+  color: var(--art-accent-ink) !important;
   font-weight: 700 !important;
 }
 
 .subsubsub .count {
+  font-family: 'Geist Mono', monospace;
   color: var(--art-text-muted) !important;
 }
 
-/* Category & Post edit panels (edit-tags.php) */
-#col-left, #col-right {
-  color: var(--art-text-gray);
+.plugins tr.active th, .plugins tr.active td {
+  background-color: rgba(45, 129, 255, 0.05) !important;
 }
 
-.form-wrap h2, .form-wrap h3 {
-  color: var(--art-text-white) !important;
-}
-
-.form-field p.description, .form-wrap p {
-  color: var(--art-text-sub) !important;
-}
-
-/* Postboxes (Settings, Widgets, Meta Boxes) */
-.postbox {
+.plugins tr.inactive th, .plugins tr.inactive td {
   background-color: var(--art-bg-card) !important;
-  border: 1px solid var(--art-border) !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
+}
+
+.plugin-title strong {
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+}
+
+.plugin-description {
   color: var(--art-text-gray) !important;
 }
 
-.postbox .postbox-header {
+.plugin-update-tr .plugin-update {
+  background-color: #1F1D19 !important;
+  border-top: 1px solid #78350F !important;
+  color: #FCD34D !important;
+}
+
+.attachment {
+  background-color: var(--art-bg-card) !important;
+  box-shadow: inset 0 0 0 1px var(--art-border) !important;
+  border-radius: 3px !important;
+}
+
+.media-frame, .media-modal, .media-modal-content {
+  background-color: var(--art-bg-card) !important;
+  color: var(--art-text-gray) !important;
+}
+
+.media-toolbar, .media-frame-title {
+  background-color: var(--art-bg-sidebar) !important;
+  border-color: var(--art-border) !important;
+  color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   7. GOOGLE SITE KIT DARK ARTCRAFT REVAMP (admin.php?page=googlesitekit-dashboard)
+   ========================================================================== */
+.googlesitekit-plugin {
+  background-color: var(--art-bg-canvas) !important;
+  color: var(--art-text-gray) !important;
+}
+
+.googlesitekit-header {
+  background-color: var(--art-bg-sidebar) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  border-radius: 4px !important;
+}
+
+.googlesitekit-header h1,
+.googlesitekit-header .googlesitekit-logo {
+  filter: brightness(1.2);
+}
+
+.googlesitekit-navigation {
+  background: transparent !important;
   border-bottom: 1px solid var(--art-border) !important;
 }
 
-.postbox .postbox-header h2 {
+.googlesitekit-navigation .mdc-tab,
+.googlesitekit-navigation .googlesitekit-chip,
+.googlesitekit-chip {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 3px !important;
   color: var(--art-text-white) !important;
+}
+
+.googlesitekit-navigation .mdc-tab--active,
+.googlesitekit-chip--selected {
+  background-color: rgba(45, 129, 255, 0.15) !important;
+  border-color: var(--art-blue) !important;
+  color: var(--art-accent-ink) !important;
+}
+
+/* Hide or darken Site Kit promotional banner ("Get better quality leads and enhance conversions with Ads") */
+.googlesitekit-setup-module--ads,
+.googlesitekit-ad-banner,
+.googlesitekit-widget--ad-blocking-recovery-banner,
+.googlesitekit-publisher-win--ads {
+  display: none !important;
+}
+
+/* Site Kit Widget Cards */
+.googlesitekit-widget,
+.googlesitekit-widget--card,
+.googlesitekit-km-widget,
+.googlesitekit-km-widget-tile,
+.googlesitekit-sub-dashboard__header {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  color: var(--art-text-white) !important;
+}
+
+.googlesitekit-widget h3,
+.googlesitekit-widget h4,
+.googlesitekit-widget .googlesitekit-widget__title,
+.googlesitekit-km-widget-tile__title {
+  color: var(--art-text-white) !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.googlesitekit-widget p,
+.googlesitekit-widget span,
+.googlesitekit-km-widget-tile__sub-metric {
+  color: var(--art-text-gray) !important;
+}
+
+.googlesitekit-widget .googlesitekit-widget__stat,
+.googlesitekit-km-widget-tile__metric {
+  color: #FFFFFF !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-weight: 700 !important;
+}
+
+/* Site Kit Tables */
+.googlesitekit-table,
+.googlesitekit-table__wrapper {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 4px !important;
+  color: var(--art-text-gray) !important;
+}
+
+.googlesitekit-table th {
+  background-color: var(--art-bg-sidebar) !important;
+  color: var(--art-text-white) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  font-family: 'Archivo', sans-serif !important;
+}
+
+.googlesitekit-table td {
+  border-top: 1px solid var(--art-border) !important;
+  color: var(--art-text-gray) !important;
+}
+
+.googlesitekit-table tr:hover td {
+  background-color: var(--art-bg-card-hover) !important;
+}
+
+.googlesitekit-badge {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  color: #34D399 !important;
+  font-family: 'Geist Mono', monospace !important;
+  border-radius: 3px !important;
 }

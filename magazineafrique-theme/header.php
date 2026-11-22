@@ -53,6 +53,20 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Editorial Gazette PWA Splashscreen / Preloader -->
+<div id="magafrique-splashscreen" class="magafrique-splashscreen" aria-hidden="true">
+    <div class="splash-inner">
+        <div class="splash-logo-cluster">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/icon-192.png'); ?>" alt="Magazine Afrique" width="68" height="68" class="splash-crest-img" />
+        </div>
+        <div class="splash-brand-text">MAGAZINE AFRIQUE</div>
+        <div class="splash-tagline">Pan-African Journal · Geopolitics &amp; Culture</div>
+        <div class="splash-loading-bar-wrap">
+            <div class="splash-loading-bar"></div>
+        </div>
+    </div>
+</div>
+
 <!-- Calm Broadsheet Masthead -->
 <header class="site-masthead">
     <div class="container-editorial header-inner">
@@ -153,6 +167,36 @@
         </div>
     </div>
 </header>
+
+<!-- Financial Markets & Crypto Live Ticker (Location-Aware Bourses) -->
+<div id="vintage-markets-ticker" class="vintage-markets-ticker" aria-label="Financial Markets & Crypto Live Ticker">
+    <div class="ticker-inner">
+        <div class="ticker-location-cluster" id="ticker-location-badge">
+            <span class="ticker-dot">●</span>
+            <span class="ticker-bourse-title" id="ticker-bourse-name">MARKETS</span>
+        </div>
+        <div class="ticker-viewport">
+            <div class="ticker-track" id="ticker-track">
+                <!-- Populated dynamically based on reader location + live crypto -->
+                <span class="ticker-chip"><span class="ticker-sym">BTC/USD</span> <span class="ticker-val" id="ticker-val-btc">$98,420</span> <span class="ticker-chg ticker-up" id="ticker-chg-btc">▲ +2.4%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">ETH/USD</span> <span class="ticker-val" id="ticker-val-eth">$3,380</span> <span class="ticker-chg ticker-up" id="ticker-chg-eth">▲ +1.8%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">SOL/USD</span> <span class="ticker-val" id="ticker-val-sol">$242.10</span> <span class="ticker-chg ticker-up" id="ticker-chg-sol">▲ +3.1%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">NGX ASI</span> <span class="ticker-val">104,562.05</span> <span class="ticker-chg ticker-up">▲ +0.42%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">DANGCEM</span> <span class="ticker-val">₦680.00</span> <span class="ticker-chg ticker-up">▲ +1.20%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">MTNN</span> <span class="ticker-val">₦225.50</span> <span class="ticker-chg ticker-down">▼ -0.80%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">BRENT OIL</span> <span class="ticker-val">$74.80</span> <span class="ticker-chg ticker-up">▲ +1.10%</span></span>
+                <span class="ticker-chip-sep">/</span>
+                <span class="ticker-chip"><span class="ticker-sym">GOLD</span> <span class="ticker-val">$2,710.40</span> <span class="ticker-chg ticker-up">▲ +0.65%</span></span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Desktop Calm Category Navigation Bar -->
 <nav class="desktop-editorial-nav" aria-label="Main Navigation">
@@ -259,6 +303,11 @@ if (function_exists('magazineafrique_render_ad_header')) {
                 <li>
                     <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" class="drawer-link-item" style="font-size: 0.8125rem;">
                         <span class="drawer-item-bullet">✉</span> The Africa Brief Newsletter
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="drawer-link-item btn-install-app" style="font-size: 0.8125rem; color: #0B5128; font-weight: 700;">
+                        <span class="drawer-item-bullet">📲</span> Install Gazette App (PWA)
                     </a>
                 </li>
             </ul>

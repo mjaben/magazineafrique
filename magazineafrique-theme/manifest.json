@@ -1,14 +1,15 @@
 {
-  "name": "Magazine Afrique — Pan-African Review",
+  "id": "/?source=pwa",
+  "name": "Magazine Afrique — Pan-African Journal",
   "short_name": "MagAfrique",
-  "description": "The Premier Pan-African Review: Strategic Economics, Geopolitics, Technology, and Cultural Foresight.",
+  "description": "Authoritative Pan-African journalism: geopolitics, commerce, technology, and cultural investigations.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#FAF8F5",
+  "background_color": "#0B5128",
   "theme_color": "#0B5128",
-  "categories": ["news", "magazines", "business"],
+  "categories": ["news", "magazines", "business", "politics"],
   "lang": "en",
   "dir": "ltr",
   "icons": [
@@ -23,6 +24,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Latest Dispatches",
+      "short_name": "Dispatches",
+      "description": "Read breaking African geopolitical reports",
+      "url": "/?source=pwa_shortcut",
+      "icons": [{ "src": "/wp-content/themes/magazineafrique-theme/assets/images/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Club Prestige",
+      "short_name": "Prestige",
+      "description": "Exclusive subscriber dossiers & archival editions",
+      "url": "/subscribe/?source=pwa_shortcut",
+      "icons": [{ "src": "/wp-content/themes/magazineafrique-theme/assets/images/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

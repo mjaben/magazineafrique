@@ -1,110 +1,54 @@
 /**
- * Magazine Afrique — PWA Installer, Update Toast & Cache Purge Engine
- * Compatible with Android, iOS (16.4+), and Modern Desktop Browsers
+ * Magazine Afrique — PWA Installer, Push Alerts Engine & Splashscreen
+ * - Uses exact site favicon for installation
+ * - Push Notification Alert Banner (shows again after 7 days if dismissed)
+ * - Floating Bell Button (active when unsubscribed)
+ * - Interactive PWA Install Pop-up Guide Modal (iOS Safari & Android Chrome)
+ * - High-speed Splashscreen / Preloader Dismissal
+ * - Safe Area Mobile Nav & Zero-Overflow Layout
+ *
+ * @package MagazineAfrique
  */
 
 (() => {
-  const currentVersion = (window.magazineafrique_vars && window.magazineafrique_vars.version) || '1.0.4';
-  const updateToast = document.getElementById('magafrique-update-toast');
-  const reloadBtn = document.getElementById('toast-reload-btn');
-  const dismissBtn = document.getElementById('toast-dismiss-btn');
+  'use strict';
 
-  function showUpdateToast() {
-    if (updateToast) {
-      updateToast.classList.add('visible');
-    }
+  const currentVersion = (window.magazineafrique_vars && window.magazineafrique_vars.version) || '1.2.5';
+  let deferredPrompt = null;
+
+  // =========================================================================
+  // 1. Splashscreen / Preloader Dismissal
+  // =========================================================================
+  function dismissSplashscreen() {
+    const splash = document.getElementById('magafrique-splashscreen');
+    if (!splash) return;
+
+    splash.classList.add('fade-out');
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 400);
   }
 
-  function hideUpdateToast() {
-    if (updateToast) {
-      updateToast.classList.remove('visible');
-      sessionStorage.setItem('magafrique_update_toast_dismissed', 'true');
-    }
-  }
+  // Dismiss on window load, with guaranteed 850ms fallback
+  window.addEventListener('load', dismissSplashscreen);
+  setTimeout(dismissSplashscreen, 850);
 
-  if (dismissBtn) {
-    dismissBtn.addEventListener('click', hideUpdateToast);
-  }
-
-  // 1. Purge Cache and Reload Action
-  window.magazineafriquePurgeCacheAndReload = async () => {
-    if (reloadBtn) {
-      reloadBtn.disabled = true;
-      reloadBtn.innerHTML = 'Updating...';
-    }
-
-    // A. Clear all CacheStorage in the browser
-    if ('caches' in window) {
-      try {
-        const cacheKeys = await caches.keys();
-        await Promise.all(cacheKeys.map(key => caches.delete(key)));
-        console.log('[PWA] Cleared CacheStorage:', cacheKeys);
-      } catch (err) {
-        console.warn('[PWA] Error deleting CacheStorage:', err);
-      }
-    }
-
-    // B. Tell Service Worker to purge and skipWaiting
-    if ('serviceWorker' in navigator) {
-      try {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (const reg of registrations) {
-          if (reg.waiting) {
-            reg.waiting.postMessage({ action: 'skipWaiting' });
-          }
-          if (reg.active) {
-            reg.active.postMessage({ action: 'clearCache' });
-            reg.active.postMessage({ action: 'skipWaiting' });
-          }
-          await reg.update().catch(() => {});
-        }
-      } catch (err) {
-        console.warn('[PWA] Error communicating with SW:', err);
-      }
-    }
-
-    // C. Update stored theme version
-    try {
-      localStorage.setItem('magafrique_theme_version', currentVersion);
-      sessionStorage.clear();
-    } catch (e) {}
-
-    // D. Hard reload bypassing browser HTTP cache
-    const targetUrl = new URL(window.location.href);
-    targetUrl.searchParams.set('reload_v', Date.now());
-    window.location.replace(targetUrl.toString());
-  };
-
-  if (reloadBtn) {
-    reloadBtn.addEventListener('click', window.magazineafriquePurgeCacheAndReload);
-  }
-
-  // 2. Service Worker Registration & Live Update Detection
-  let swRegistration = null;
-
+  // =========================================================================
+  // 2. Service Worker Registration & Cache Handshake
+  // =========================================================================
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Register with version query to prevent SW script itself from getting stuck in HTTP cache
       navigator.serviceWorker.register('/sw.js?v=' + encodeURIComponent(currentVersion))
         .then((reg) => {
-          swRegistration = reg;
-          console.log('[PWA] Service Worker registered with scope:', reg.scope);
-
-          // If a worker is already waiting, an update is ready!
-          if (reg.waiting) {
-            if (!sessionStorage.getItem('magafrique_update_toast_dismissed')) {
-              showUpdateToast();
-            }
+          if (reg.waiting && !sessionStorage.getItem('magafrique_update_toast_dismissed')) {
+            showUpdateToast();
           }
 
-          // Listen for new worker installing
           reg.addEventListener('updatefound', () => {
-            const installingWorker = reg.installing;
-            if (!installingWorker) return;
-
-            installingWorker.addEventListener('statechange', () => {
-              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // A new version has been downloaded and installed in the background!
+            const installing = reg.installing;
+            if (!installing) return;
+            installing.addEventListener('statechange', () => {
+              if (installing.state === 'installed' && navigator.serviceWorker.controller) {
                 if (!sessionStorage.getItem('magafrique_update_toast_dismissed')) {
                   showUpdateToast();
                 }
@@ -112,110 +56,239 @@
             });
           });
 
-          // Check for SW updates periodically & immediately
           reg.update().catch(() => {});
         })
-        .catch((err) => {
-          console.warn('[PWA] Service Worker registration failed:', err);
-        });
-
-      // Avoid infinite reload loops if controller changes
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
-        }
-      });
+        .catch(() => {});
     });
   }
 
-  // 3. Client Version Handshake (detects updates even before SW checks)
-  const storedVersion = localStorage.getItem('magafrique_theme_version');
-  if (storedVersion && storedVersion !== currentVersion) {
-    // Current server build is newer than previously loaded build
-    if (!sessionStorage.getItem('magafrique_update_toast_dismissed')) {
-      showUpdateToast();
-    }
-  } else if (!storedVersion) {
-    try {
-      localStorage.setItem('magafrique_theme_version', currentVersion);
-    } catch (e) {}
+  // Update Toast Controls
+  const updateToast = document.getElementById('magafrique-update-toast');
+  const reloadBtn = document.getElementById('toast-reload-btn');
+  const dismissToastBtn = document.getElementById('toast-dismiss-btn');
+
+  function showUpdateToast() {
+    if (updateToast) updateToast.classList.add('visible');
   }
 
-  // 4. Android / Desktop Install Prompt
-  let deferredPrompt;
-  const pwaBanner = document.getElementById('pwa-install-banner');
-  const installBtn = document.getElementById('pwa-install-btn');
-  const dismissInstallBtn = document.getElementById('pwa-dismiss-btn');
+  if (dismissToastBtn) {
+    dismissToastBtn.addEventListener('click', () => {
+      if (updateToast) updateToast.classList.remove('visible');
+      sessionStorage.setItem('magafrique_update_toast_dismissed', 'true');
+    });
+  }
 
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', async () => {
+      reloadBtn.disabled = true;
+      reloadBtn.innerHTML = 'Updating...';
+
+      if ('caches' in window) {
+        try {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        } catch (e) {}
+      }
+
+      if ('serviceWorker' in navigator) {
+        try {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const reg of regs) {
+            if (reg.waiting) reg.waiting.postMessage({ action: 'skipWaiting' });
+            if (reg.active) reg.active.postMessage({ action: 'clearCache' });
+          }
+        } catch (e) {}
+      }
+
+      const targetUrl = new URL(window.location.href);
+      targetUrl.searchParams.set('v_reload', Date.now());
+      window.location.replace(targetUrl.toString());
+    });
+  }
+
+  // =========================================================================
+  // 3. Push Notification Engine (7-Day Dismissal Rule + Floating Bell)
+  // =========================================================================
+  const pushBanner = document.getElementById('magafrique-push-banner');
+  const pushAllowBtn = document.getElementById('push-allow-btn');
+  const pushDismissBtn = document.getElementById('push-dismiss-btn');
+  const floatingBell = document.getElementById('magafrique-floating-bell');
+
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+  function initPushNotificationAlert() {
+    if (!('Notification' in window)) {
+      return; // Browser doesn't support web notifications
+    }
+
+    // If already granted, hide both banner and floating bell
+    if (Notification.permission === 'granted') {
+      if (floatingBell) floatingBell.classList.add('hidden');
+      if (pushBanner) pushBanner.classList.add('hidden');
+      return;
+    }
+
+    // If permission is not granted, display the floating bell
+    if (floatingBell) {
+      floatingBell.classList.remove('hidden');
+    }
+
+    // Check 7-day dismissal window
+    const lastDismissed = localStorage.getItem('magafrique_push_dismissed_time');
+    const now = Date.now();
+
+    if (lastDismissed && (now - parseInt(lastDismissed, 10)) < SEVEN_DAYS_MS) {
+      // Still within 7-day silent period
+      return;
+    }
+
+    // Display push alert banner after 2.5s delay
+    setTimeout(() => {
+      if (pushBanner && Notification.permission !== 'granted') {
+        pushBanner.classList.remove('hidden');
+      }
+    }, 2500);
+  }
+
+  // Handle Push Permission Request
+  async function requestPushPermission() {
+    if (!('Notification' in window)) {
+      alert('This device/browser does not support web notifications.');
+      return;
+    }
+
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        if (pushBanner) pushBanner.classList.add('hidden');
+        if (floatingBell) floatingBell.classList.add('hidden');
+        localStorage.removeItem('magafrique_push_dismissed_time');
+
+        // Optional feedback toast
+        if (typeof showToast === 'function') {
+          showToast('✓ Breaking news alerts activated!');
+        } else {
+          alert('✓ Breaking news alerts activated! You will receive dispatches on major African developments.');
+        }
+      } else {
+        if (pushBanner) pushBanner.classList.add('hidden');
+        localStorage.setItem('magafrique_push_dismissed_time', Date.now().toString());
+      }
+    } catch (e) {
+      if (pushBanner) pushBanner.classList.add('hidden');
+    }
+  }
+
+  if (pushAllowBtn) {
+    pushAllowBtn.addEventListener('click', requestPushPermission);
+  }
+
+  if (pushDismissBtn) {
+    pushDismissBtn.addEventListener('click', () => {
+      if (pushBanner) pushBanner.classList.add('hidden');
+      // Record dismissal timestamp for 7-day cooldown
+      localStorage.setItem('magafrique_push_dismissed_time', Date.now().toString());
+    });
+  }
+
+  if (floatingBell) {
+    floatingBell.addEventListener('click', () => {
+      // Clicking floating bell triggers permission request or opens banner
+      if (pushBanner && pushBanner.classList.contains('hidden')) {
+        pushBanner.classList.remove('hidden');
+      } else {
+        requestPushPermission();
+      }
+    });
+  }
+
+  // =========================================================================
+  // 4. Interactive PWA Install Pop-up Guide Modal
+  // =========================================================================
+  const installModal = document.getElementById('magafrique-pwa-install-modal');
+  const modalCloseBtn = document.getElementById('pwa-modal-close-btn');
+  const nativeInstallBtn = document.getElementById('pwa-native-install-btn');
+  const iosGuideSection = document.getElementById('pwa-guide-ios');
+  const androidGuideSection = document.getElementById('pwa-guide-android');
+
+  const isIosDevice = () => {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  };
+
+  const isStandaloneApp = () => {
+    return ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+  };
+
+  // Capture beforeinstallprompt (Android / Chrome / Edge)
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    if (!localStorage.getItem('magafrique_pwa_dismissed')) {
-      if (pwaBanner) pwaBanner.classList.remove('hidden');
+  });
+
+  // Open Install Modal Function
+  window.magazineafriqueOpenInstallGuide = () => {
+    if (!installModal) return;
+
+    if (isIosDevice()) {
+      if (iosGuideSection) iosGuideSection.classList.remove('hidden');
+      if (androidGuideSection) androidGuideSection.classList.add('hidden');
+    } else {
+      if (iosGuideSection) iosGuideSection.classList.add('hidden');
+      if (androidGuideSection) androidGuideSection.classList.remove('hidden');
+    }
+
+    installModal.classList.remove('hidden');
+  };
+
+  // Close Install Modal
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', () => {
+      if (installModal) installModal.classList.add('hidden');
+    });
+  }
+
+  if (installModal) {
+    installModal.addEventListener('click', (e) => {
+      if (e.target === installModal) {
+        installModal.classList.add('hidden');
+      }
+    });
+  }
+
+  // Native Install button inside Modal
+  if (nativeInstallBtn) {
+    nativeInstallBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if (installModal) installModal.classList.add('hidden');
+      } else {
+        alert('To install, tap the three dots (⋮) in your browser menu and select "Install app" or "Add to Home Screen".');
+      }
+    });
+  }
+
+  // Bind any button with .btn-install-app or #pwa-install-btn to open guide modal
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('.btn-install-app, #pwa-install-btn, .install-app-link');
+    if (trigger) {
+      e.preventDefault();
+      if (deferredPrompt && !isIosDevice()) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+      } else {
+        window.magazineafriqueOpenInstallGuide();
+      }
     }
   });
 
-  if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log('[PWA] User response to install prompt:', outcome);
-      deferredPrompt = null;
-      if (pwaBanner) pwaBanner.classList.add('hidden');
-    });
-  }
+  // =========================================================================
+  // DOM Ready
+  // =========================================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    initPushNotificationAlert();
+  });
 
-  if (dismissInstallBtn) {
-    dismissInstallBtn.addEventListener('click', () => {
-      if (pwaBanner) pwaBanner.classList.add('hidden');
-      localStorage.setItem('magafrique_pwa_dismissed', 'true');
-    });
-  }
-
-  // 5. iOS Add to Home Screen Detection
-  const isIos = () => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-  };
-
-  const isInStandaloneMode = () => {
-    return ('standalone' in window.navigator) && (window.navigator.standalone);
-  };
-
-  if (isIos() && !isInStandaloneMode() && !localStorage.getItem('magafrique_ios_prompt_dismissed')) {
-    const iosPrompt = document.getElementById('pwa-ios-banner');
-    if (iosPrompt) {
-      iosPrompt.classList.remove('hidden');
-      const iosClose = document.getElementById('pwa-ios-close');
-      if (iosClose) {
-        iosClose.addEventListener('click', () => {
-          iosPrompt.classList.add('hidden');
-          localStorage.setItem('magafrique_ios_prompt_dismissed', 'true');
-        });
-      }
-    }
-  }
-
-  // 6. Push Notification Opt-In Helper
-  window.magazineafriqueRequestPush = async () => {
-    if (!('Notification' in window)) {
-      alert('This browser does not support desktop notifications');
-      return;
-    }
-
-    if (Notification.permission === 'granted') {
-      alert('Push notifications are already active for Magazine Afrique!');
-      return;
-    }
-
-    if (Notification.permission !== 'denied') {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        alert('✓ Push alerts activated! You will receive breaking Pan-African stories.');
-      }
-    }
-  };
 })();

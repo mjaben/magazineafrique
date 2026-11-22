@@ -1,5 +1,11 @@
 /**
  * Magazine Afrique — Admin Workspace Client Script
+ * Complete ArtCraft UI/UX Engine:
+ * - Dynamic SVG Icon Injection (matching workspace cards)
+ * - Sidebar Top Brand & Collapse Toggle Button
+ * - Menu Segmentation Group Headers
+ * - Notification Center Slide-Over Drawer
+ * - 1-Click Cache Purge Engine
  *
  * @package MagazineAfrique
  */
@@ -7,29 +13,161 @@
 (function ($) {
   'use strict';
 
-  $(document).ready(function () {
-    // 1. Tidy third-party plugin notices into a clean collapsed notice bar
-    var $notices = $('.wrap > .notice, .wrap > div.updated, .wrap > div.error').not('.magafrique-notice');
-    if ($notices.length > 0 && $('body.index-php').length > 0) {
-      var $tray = $('<div class="magafrique-notices-tray" style="margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden;"><button type="button" class="btn-toggle-notices" style="width:100%; text-align:left; background: #181A1F; border:none; padding: 0.6rem 1rem; color: #94A3B8; font-size: 0.75rem; cursor: pointer; display:flex; justify-content:space-between;"><span>🔔 Third-party plugin notices (' + $notices.length + ')</span><span>▼</span></button><div class="notices-drawer" style="display:none; padding: 1rem; background: #131418;"></div></div>');
-      $notices.appendTo($tray.find('.notices-drawer'));
-      $('.workspace-editorial-container').before($tray);
+  // SVG Line Icons matching the ArtCraft cards
+  var ICONS = {
+    dashboard: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+    desk: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg>',
+    analytics: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+    posts: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+    media: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
+    pages: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>',
+    comments: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
+    appearance: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>',
+    plugins: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="8" height="8" rx="1"></rect><rect x="14" y="2" width="8" height="8" rx="1"></rect><rect x="2" y="14" width="8" height="8" rx="1"></rect><path d="M14 14h2a2 2 0 0 1 2 2v2"></path><path d="M20 20h-2a2 2 0 0 1-2-2v-2"></path></svg>',
+    users: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+    tools: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>',
+    settings: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+    search: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+    mail: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>'
+  };
 
-      $tray.find('.btn-toggle-notices').on('click', function () {
-        $tray.find('.notices-drawer').slideToggle(200);
+  $(document).ready(function () {
+
+    // 1. Initial Folded State Check
+    if (localStorage.getItem('magafrique_sidebar_folded') === '1') {
+      $('body').addClass('folded');
+    }
+
+    // 2. Inject Top Sidebar Brand Row & Collapse Toggle Button
+    if ($('#adminmenuwrap').length > 0 && $('.artcraft-sidebar-header').length === 0) {
+      var deskUrl = magafrique_admin_vars ? magafrique_admin_vars.home_url + 'wp-admin/admin.php?page=magazineafrique-desk' : '#';
+      var $header = $(
+        '<div class="artcraft-sidebar-header">' +
+          '<a href="' + deskUrl + '" class="artcraft-sidebar-brand" title="Magazine Afrique Console">' +
+            '<div class="artcraft-brand-icon">MA</div>' +
+            '<span class="artcraft-sidebar-brand-name">MAGAZINE AFRIQUE</span>' +
+          '</a>' +
+          '<button type="button" id="artcraft-sidebar-toggle-btn" class="artcraft-sidebar-toggle-btn" title="Toggle Sidebar (Collapse/Expand)">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>' +
+          '</button>' +
+        '</div>'
+      );
+      $('#adminmenuwrap').prepend($header);
+    }
+
+    // 3. Bind Sidebar Collapse Toggle
+    $(document).on('click', '#artcraft-sidebar-toggle-btn', function (e) {
+      e.preventDefault();
+      $('body').toggleClass('folded');
+      var isFolded = $('body').hasClass('folded');
+      localStorage.setItem('magafrique_sidebar_folded', isFolded ? '1' : '0');
+    });
+
+    // 4. Inject Modern SVG Line Icons into Sidebar (replacing Dashicons)
+    function injectModernIcons() {
+      var iconMap = {
+        '#menu-dashboard': ICONS.dashboard,
+        '#toplevel_page_magazineafrique-desk': ICONS.desk,
+        '#toplevel_page_magazineafrique-analytics': ICONS.analytics,
+        '#menu-posts': ICONS.posts,
+        '#menu-media': ICONS.media,
+        '#menu-pages': ICONS.pages,
+        '#menu-comments': ICONS.comments,
+        '#menu-appearance': ICONS.appearance,
+        '#menu-plugins': ICONS.plugins,
+        '#menu-users': ICONS.users,
+        '#menu-tools': ICONS.tools,
+        '#menu-settings': ICONS.settings,
+        '#toplevel_page_googlesitekit-dashboard': ICONS.analytics,
+        '#toplevel_page_wpseo_workouts': ICONS.search,
+        '#toplevel_page_wpseo_dashboard': ICONS.search,
+        '#toplevel_page_mailchimp-for-wp': ICONS.mail,
+        '#toplevel_page_gosmtp': ICONS.mail
+      };
+
+      $.each(iconMap, function (selector, svgHtml) {
+        var $item = $(selector);
+        if ($item.length > 0) {
+          var $imgContainer = $item.find('.wp-menu-image');
+          if ($imgContainer.length > 0 && $imgContainer.find('svg').length === 0) {
+            $imgContainer.empty().html(svgHtml);
+          }
+        }
+      });
+    }
+    injectModernIcons();
+
+    // 5. Inject Menu Segmentation Group Headers
+    function injectSegmentedHeaders() {
+      if ($('.artcraft-menu-group-header').length === 0) {
+        // Workspace group
+        if ($('#menu-dashboard').length > 0) {
+          $('<li class="artcraft-menu-group-header">WORKSPACE</li>').insertBefore('#menu-dashboard');
+        }
+        // Editorial group
+        if ($('#menu-posts').length > 0) {
+          $('<li class="artcraft-menu-group-header">EDITORIAL</li>').insertBefore('#menu-posts');
+        }
+        // Platform & Plugins group
+        if ($('#menu-appearance').length > 0) {
+          $('<li class="artcraft-menu-group-header">SYSTEM &amp; PLUGINS</li>').insertBefore('#menu-appearance');
+        }
+        // Administration group
+        if ($('#menu-users').length > 0) {
+          $('<li class="artcraft-menu-group-header">ADMINISTRATION</li>').insertBefore('#menu-users');
+        }
+        // Integrations group
+        var $firstIntegration = $('#toplevel_page_googlesitekit-dashboard, #toplevel_page_wpseo_dashboard, #toplevel_page_mailchimp-for-wp').first();
+        if ($firstIntegration.length > 0) {
+          $('<li class="artcraft-menu-group-header">INTEGRATIONS</li>').insertBefore($firstIntegration);
+        }
+      }
+    }
+    injectSegmentedHeaders();
+
+    // 6. Notification Center Management (Zero Popups on Canvas)
+    var $notices = $('#wpbody-content > .notice, #wpbody-content > .updated, #wpbody-content > .error, #wpbody-content > .update-nag, .wrap > .notice, .wrap > .updated, .wrap > .error, .wrap > .update-nag');
+    var noticeCount = $notices.length;
+
+    if (noticeCount > 0) {
+      $('#artcraft-notices-count').text(noticeCount);
+      $('.artcraft-bar-bell-cluster').addClass('has-alerts');
+      $('#artcraft-empty-notices').hide();
+
+      // Move notices into drawer
+      $notices.each(function () {
+        var $clone = $(this).clone(true);
+        $clone.css('display', 'block');
+        $('#artcraft-notices-container').append($clone);
+        $(this).remove(); // Remove from page canvas completely
       });
     }
 
-    // 2. 1-Click Cache Purge Card
-    $('#admin-purge-cache-card').on('click', function (e) {
+    // Toggle Notification Drawer
+    $(document).on('click', '#artcraft-notices-pill, .artcraft-notices-bar-item', function (e) {
       e.preventDefault();
-      var $spinner = $('#admin-cache-spinner');
-      var $status = $('#admin-cache-status-text');
+      $('#artcraft-notices-drawer').addClass('open');
+      $('#artcraft-drawer-backdrop').addClass('open');
+    });
 
-      $spinner.css('animation', 'spin 0.8s linear infinite');
-      $status.text('Purging LiteSpeed & browser cache...');
+    $(document).on('click', '#artcraft-drawer-close, #artcraft-drawer-backdrop', function (e) {
+      e.preventDefault();
+      $('#artcraft-notices-drawer').removeClass('open');
+      $('#artcraft-drawer-backdrop').removeClass('open');
+    });
 
-      // Clear caches
+    // 7. Clean Admin Header Text (Remove "Howdy, ")
+    var $accountLink = $('#wp-admin-bar-my-account > a.ab-item');
+    if ($accountLink.length > 0) {
+      var html = $accountLink.html();
+      if (html.indexOf('Howdy, ') !== -1) {
+        $accountLink.html(html.replace('Howdy, ', ''));
+      }
+    }
+
+    // 8. 1-Click Cache Purge Functionality (Both in Workspace Card & Admin Bar)
+    function executeCachePurge(callback) {
+      // Clear Cache API
       if ('caches' in window) {
         caches.keys().then(function (names) {
           names.forEach(function (name) {
@@ -38,6 +176,7 @@
         });
       }
 
+      // Unregister Service Workers
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function (registrations) {
           registrations.forEach(function (registration) {
@@ -46,16 +185,46 @@
         });
       }
 
+      // Local storage
       localStorage.removeItem('magafrique_posts_cache');
       localStorage.removeItem('magafrique_edition_data');
 
       setTimeout(function () {
+        if (callback) callback();
+      }, 700);
+    }
+
+    // Workspace card purge
+    $('#admin-purge-cache-card').on('click', function (e) {
+      e.preventDefault();
+      var $spinner = $('#admin-cache-spinner');
+      var $status = $('#admin-cache-status-text');
+
+      $spinner.css('animation', 'spin 0.8s linear infinite');
+      $status.text('Purging LiteSpeed & browser cache...');
+
+      executeCachePurge(function () {
         $spinner.css('animation', 'none');
         $status.text('✓ Cache purged! Reloading latest edition...');
         setTimeout(function () {
           window.location.reload();
-        }, 800);
-      }, 1000);
+        }, 600);
+      });
+    });
+
+    // Admin bar purge
+    $('#wp-admin-bar-artcraft-admin-bar-purge').on('click', function (e) {
+      e.preventDefault();
+      var $pill = $(this).find('.artcraft-bar-purge-pill');
+      var origText = $pill.html();
+      $pill.html('⚡ Purging...');
+
+      executeCachePurge(function () {
+        $pill.html('✓ Done!');
+        setTimeout(function () {
+          window.location.reload();
+        }, 500);
+      });
     });
 
   });

@@ -75,6 +75,7 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
                     <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>">Breaking News Alerts</a></li>
                     <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>">The Africa Brief Newsletter</a></li>
                     <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Editorial Desk</a></li>
+                    <li><a href="javascript:void(0)" class="btn-install-app" style="color: #F59E0B; font-weight: 700;">📲 Install Gazette App (PWA)</a></li>
                 </ul>
             </div>
 
