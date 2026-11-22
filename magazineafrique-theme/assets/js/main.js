@@ -1,51 +1,45 @@
 /**
- * Magazine Afrique — Main Client Script
- * Native Mobile App UI/UX & Interactions
+ * Magazine Afrique — Minimalist Editorial Scripts
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Elements
-  const mobileDrawer = document.getElementById('mobile-nav-drawer');
+  // Drawer Elements
+  const drawerOverlay = document.getElementById('mobile-nav-drawer');
   const drawerPanel = document.getElementById('mobile-nav-panel');
   const menuToggle = document.getElementById('mobile-menu-toggle');
   const closeMenu = document.getElementById('close-mobile-menu');
-  const bottomTabSections = document.getElementById('app-tab-sections');
 
+  // Search Elements
   const searchModal = document.getElementById('search-modal');
   const searchPanel = document.getElementById('search-panel');
   const searchToggle = document.getElementById('search-toggle');
   const searchClose = document.getElementById('search-close');
-  const bottomTabSearch = document.getElementById('app-tab-search');
 
-  // Helper: Open Drawer
   function openDrawer() {
-    if (mobileDrawer) {
-      mobileDrawer.classList.remove('hidden');
+    if (drawerOverlay) {
+      drawerOverlay.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
       if (searchModal) searchModal.classList.add('hidden');
     }
   }
 
-  // Helper: Close Drawer
   function closeDrawer() {
-    if (mobileDrawer) {
-      mobileDrawer.classList.add('hidden');
+    if (drawerOverlay) {
+      drawerOverlay.classList.add('hidden');
       document.body.style.overflow = '';
     }
   }
 
-  // Helper: Open Search
   function openSearch() {
     if (searchModal) {
       searchModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-      if (mobileDrawer) mobileDrawer.classList.add('hidden');
+      if (drawerOverlay) drawerOverlay.classList.add('hidden');
       const input = searchModal.querySelector('input[type="search"]');
-      if (input) setTimeout(() => input.focus(), 50);
+      if (input) setTimeout(() => input.focus(), 60);
     }
   }
 
-  // Helper: Close Search
   function closeSearch() {
     if (searchModal) {
       searchModal.classList.add('hidden');
@@ -53,40 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 1. Mobile App Drawer Triggers
+  // Drawer Listeners
   if (menuToggle) menuToggle.addEventListener('click', openDrawer);
-  if (bottomTabSections) bottomTabSections.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
-      closeDrawer();
-    } else {
-      openDrawer();
-    }
-  });
   if (closeMenu) closeMenu.addEventListener('click', closeDrawer);
-
-  // Close Drawer on Backdrop Click
-  if (mobileDrawer) {
-    mobileDrawer.addEventListener('click', (e) => {
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener('click', (e) => {
       if (drawerPanel && !drawerPanel.contains(e.target)) {
         closeDrawer();
       }
     });
   }
 
-  // 2. Search Sheet Triggers
+  // Search Listeners
   if (searchToggle) searchToggle.addEventListener('click', openSearch);
-  if (bottomTabSearch) bottomTabSearch.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (searchModal && !searchModal.classList.contains('hidden')) {
-      closeSearch();
-    } else {
-      openSearch();
-    }
-  });
   if (searchClose) searchClose.addEventListener('click', closeSearch);
-
-  // Close Search on Backdrop Click
   if (searchModal) {
     searchModal.addEventListener('click', (e) => {
       if (searchPanel && !searchPanel.contains(e.target)) {
@@ -95,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Global ESC Key Handler
+  // Global ESC Key Listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDrawer();
@@ -103,21 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 3. Language Switcher Dropdown (Desktop)
-  const langBtn = document.getElementById('lang-menu-btn');
-  const langDropdown = document.getElementById('lang-dropdown');
-  if (langBtn && langDropdown) {
-    langBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      langDropdown.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', () => {
-      langDropdown.classList.add('hidden');
-    });
-  }
-
-  // 4. Newsletter AJAX Form Handler
+  // Newsletter AJAX Form
   const newsletterForms = document.querySelectorAll('.magazine-newsletter-form');
   newsletterForms.forEach(form => {
     form.addEventListener('submit', async (e) => {
@@ -131,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = emailInput.value;
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Subscribing...';
+        submitBtn.textContent = '...';
       }
 
       try {
@@ -152,24 +112,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) {
           emailInput.value = '';
           if (feedback) {
-            feedback.textContent = '✓ Subscribed! Welcome to The Africa Brief.';
-            feedback.className = 'newsletter-feedback text-xs mt-2 text-emerald-800 font-bold';
-          }
-        } else {
-          if (feedback) {
-            feedback.textContent = data.data || 'An error occurred. Please try again.';
-            feedback.className = 'newsletter-feedback text-xs mt-2 text-red-700 font-semibold';
+            feedback.textContent = '✓ Subscribed to The Africa Brief.';
+            feedback.style.color = '#0B5128';
+            feedback.style.fontSize = '0.75rem';
+            feedback.style.marginTop = '0.5rem';
+            feedback.style.fontWeight = 'bold';
           }
         }
       } catch (err) {
         if (feedback) {
-          feedback.textContent = 'Subscription confirmed! Welcome.';
-          feedback.className = 'newsletter-feedback text-xs mt-2 text-emerald-800 font-bold';
+          feedback.textContent = 'Subscription confirmed.';
+          feedback.style.color = '#0B5128';
+          feedback.style.fontSize = '0.75rem';
+          feedback.style.marginTop = '0.5rem';
         }
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Subscribe Free';
+          submitBtn.textContent = 'Subscribe';
         }
       }
     });

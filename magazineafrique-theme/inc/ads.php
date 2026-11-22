@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Determine if ads should be displayed to the current visitor
+ * Determine if ads should be displayed
  */
 if (!function_exists('magazineafrique_should_display_ads')) {
     function magazineafrique_should_display_ads() {
@@ -18,7 +18,15 @@ if (!function_exists('magazineafrique_should_display_ads')) {
             return false;
         }
 
+        // Hide ads for paid subscribers
         if (function_exists('magazineafrique_user_has_active_subscription') && magazineafrique_user_has_active_subscription()) {
+            return false;
+        }
+
+        // Only display if client ID is configured
+        $ad_client = get_option('magazineafrique_adsense_client_id', '');
+        if (empty($ad_client) || $ad_client === 'ca-pub-XXXXXXXXXXXXXXXX') {
+            // Placeholder mode: Return false so empty grey boxes never pollute the clean editorial layout
             return false;
         }
 
@@ -27,20 +35,21 @@ if (!function_exists('magazineafrique_should_display_ads')) {
 }
 
 /**
- * Render Header Leaderboard Ad Slot
+ * Render Header Leaderboard Ad Slot (Only renders if active ads are configured)
  */
 if (!function_exists('magazineafrique_render_ad_leaderboard')) {
     function magazineafrique_render_ad_leaderboard() {
         if (!magazineafrique_should_display_ads()) {
             return;
         }
+        $client_id = get_option('magazineafrique_adsense_client_id');
         ?>
-        <div class="editorial-ad-container my-4">
-            <span class="ad-label">— Advertisement —</span>
-            <div class="ad-slot-box ad-leaderboard">
+        <div class="clean-ad-wrapper">
+            <span class="clean-ad-label">— Advertisement —</span>
+            <div class="clean-ad-slot">
                 <ins class="adsbygoogle"
                      style="display:block"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-client="<?php echo esc_attr($client_id); ?>"
                      data-ad-slot="1234567890"
                      data-ad-format="horizontal"
                      data-full-width-responsive="true"></ins>
@@ -54,20 +63,21 @@ if (!function_exists('magazineafrique_render_ad_leaderboard')) {
 }
 
 /**
- * Render Sidebar Rectangle / Half-Page Ad Slot
+ * Render Sidebar Ad Slot
  */
 if (!function_exists('magazineafrique_render_ad_sidebar')) {
     function magazineafrique_render_ad_sidebar() {
         if (!magazineafrique_should_display_ads()) {
             return;
         }
+        $client_id = get_option('magazineafrique_adsense_client_id');
         ?>
-        <div class="editorial-ad-container my-6">
-            <span class="ad-label">— Sponsored —</span>
-            <div class="ad-slot-box ad-rectangle" style="min-height: 250px;">
+        <div class="clean-ad-wrapper my-6">
+            <span class="clean-ad-label">— Sponsored —</span>
+            <div class="clean-ad-slot" style="min-height: 250px;">
                 <ins class="adsbygoogle"
                      style="display:inline-block;width:300px;height:250px"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-client="<?php echo esc_attr($client_id); ?>"
                      data-ad-slot="2345678901"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
@@ -76,54 +86,4 @@ if (!function_exists('magazineafrique_render_ad_sidebar')) {
         </div>
         <?php
     }
-}
-
-/**
- * Dynamic In-Article Ad Injection
- */
-if (!function_exists('magazineafrique_inject_in_article_ads')) {
-    function magazineafrique_inject_in_article_ads($content) {
-        if (!is_singular('post') || !in_the_loop() || !is_main_query()) {
-            return $content;
-        }
-
-        if (!magazineafrique_should_display_ads()) {
-            return $content;
-        }
-
-        $paragraphs = explode('</p>', $content);
-        if (count($paragraphs) < 4) {
-            return $content;
-        }
-
-        $ad_code = '
-        <div class="editorial-ad-container">
-            <span class="ad-label">— Advertisement —</span>
-            <div class="ad-slot-box ad-rectangle">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                     data-ad-slot="3456789012"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-        </div>';
-
-        $new_content = '';
-        foreach ($paragraphs as $index => $paragraph) {
-            if (trim($paragraph)) {
-                $new_content .= $paragraph . '</p>';
-            }
-
-            if ($index === 2) {
-                $new_content .= $ad_code;
-            }
-        }
-
-        return $new_content;
-    }
-    add_filter('the_content', 'magazineafrique_inject_in_article_ads', 10);
 }
