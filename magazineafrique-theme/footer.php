@@ -124,12 +124,12 @@
         <span class="vintage-nav-label">Prestige</span>
     </a>
 
-    <a href="<?php echo esc_url(home_url('/newsletter/')); ?>" class="vintage-nav-item <?php echo is_page('newsletter') ? 'active' : ''; ?>">
+    <a href="<?php echo esc_url(home_url('/profile/')); ?>" class="vintage-nav-item <?php echo is_page('profile') ? 'active' : ''; ?>">
         <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
         </svg>
-        <span class="vintage-nav-label">The Brief</span>
+        <span class="vintage-nav-label">Profile</span>
     </a>
 </nav>
 

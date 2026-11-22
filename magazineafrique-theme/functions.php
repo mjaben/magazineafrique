@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.1.0');
+    define('MAGAZINEAFRIQUE_VERSION', '1.1.2');
 }
 
 /**
@@ -135,7 +135,8 @@ $inc_files = array(
     __DIR__ . '/inc/paywall.php',
     __DIR__ . '/inc/ads.php',
     __DIR__ . '/inc/newsletter.php',
-    __DIR__ . '/inc/pwa.php'
+    __DIR__ . '/inc/pwa.php',
+    __DIR__ . '/inc/onboarding-profile.php'
 );
 
 foreach ($inc_files as $file) {

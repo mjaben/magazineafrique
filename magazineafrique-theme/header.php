@@ -113,6 +113,7 @@
                     echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
                 }
                 ?>
+                <li style="border-top: 1px solid #EAE3D6; padding-top: 0.5rem; margin-top: 0.5rem;"><a href="<?php echo esc_url(home_url('/profile/')); ?>">📍 Reader Profile &amp; Localized Wire</a></li>
                 <li class="drawer-prestige-link"><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">★ Club Prestige Membership</a></li>
                 <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>">The Africa Brief Newsletter</a></li>
             </ul>
