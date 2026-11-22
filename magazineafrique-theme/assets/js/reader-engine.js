@@ -77,40 +77,13 @@
   }
 
   // =========================================================================
-  // 2. Smart Bottom Nav Scroll Behavior (Zero Jitter, Smooth Slide)
+  // 2. Sticky Bottom Mobile Nav (Permanently Pinned, Never Disappears)
   // =========================================================================
-  function initSmartBottomNavScroll() {
+  function initStickyBottomNav() {
     var nav = document.getElementById('vintage-mobile-nav');
-    if (!nav) return;
-
-    var lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
-    var ticking = false;
-    var scrollThreshold = 14;
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          var currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-          var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          var diff = currentScrollY - lastScrollY;
-
-          // Always show at very top (first 80px) or near bottom
-          if (currentScrollY <= 80 || currentScrollY >= maxScroll - 40) {
-            nav.classList.remove('nav-hidden');
-          } else if (diff > scrollThreshold) {
-            // Scrolling Down: Hide nav to maximize reading room
-            nav.classList.add('nav-hidden');
-          } else if (diff < -scrollThreshold) {
-            // Scrolling Up: Reveal nav
-            nav.classList.remove('nav-hidden');
-          }
-
-          lastScrollY = Math.max(0, currentScrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
+    if (nav) {
+      nav.classList.remove('nav-hidden');
+    }
   }
 
   // =========================================================================
@@ -356,7 +329,7 @@
   // =========================================================================
   document.addEventListener('DOMContentLoaded', function () {
     syncActiveLanguagePill();
-    initSmartBottomNavScroll();
+    initStickyBottomNav();
     initThemeToggle();
     initLiveLikes();
     initLiveShares();
