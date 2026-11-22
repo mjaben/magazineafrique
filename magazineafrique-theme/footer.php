@@ -11,6 +11,13 @@
     <span class="divider-africa-icon">❖</span>
 </div>
 
+<?php
+// Bottom Ad Slot (Slot 1801863291 - Above Footer)
+if (function_exists('magazineafrique_render_ad_bottom')) {
+    magazineafrique_render_ad_bottom();
+}
+?>
+
 <footer class="site-footer">
     <div class="container-editorial">
         <div class="footer-inner-grid">

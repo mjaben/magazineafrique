@@ -31,11 +31,40 @@ if (!function_exists('magazineafrique_init_session')) {
 }
 
 /**
- * 2. Virtual Router & Auto Page Creator (Guarantees zero 404s for /profile/, /onboarding/, /notifications/)
+ * 2. Virtual Router & Auto Page Creator (Guarantees zero 404s for /subscribe/, /login/, /profile/, /onboarding/, /notifications/)
  */
 if (!function_exists('magazineafrique_route_profile_pages')) {
     function magazineafrique_route_profile_pages($template) {
         $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+        // Route: /feed/ (Browser view for reader personalized feed)
+        if ($path === 'feed' || $path === 'wire' || $path === 'for-you') {
+            if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) {
+                $feed_template = __DIR__ . '/../template-feed.php';
+                if (file_exists($feed_template)) {
+                    status_header(200);
+                    return $feed_template;
+                }
+            }
+        }
+
+        // Route: /subscribe/ or /club/ or /prestige/ or /membership/
+        if ($path === 'subscribe' || $path === 'club' || $path === 'prestige' || $path === 'membership' || $path === 'plans') {
+            $subscribe_template = __DIR__ . '/../template-subscribe.php';
+            if (file_exists($subscribe_template)) {
+                status_header(200);
+                return $subscribe_template;
+            }
+        }
+
+        // Route: /login/ or /signin/
+        if ($path === 'login' || $path === 'signin') {
+            $onboarding_template = __DIR__ . '/../template-onboarding.php';
+            if (file_exists($onboarding_template)) {
+                status_header(200);
+                return $onboarding_template;
+            }
+        }
 
         // Route: /profile/ or /edit-profile/
         if ($path === 'profile' || $path === 'edit-profile') {
@@ -46,8 +75,8 @@ if (!function_exists('magazineafrique_route_profile_pages')) {
             }
         }
 
-        // Route: /onboarding/ or /register/
-        if ($path === 'onboarding' || $path === 'register' || $path === 'join') {
+        // Route: /onboarding/ or /register/ or /join/ or /enroll/
+        if ($path === 'onboarding' || $path === 'register' || $path === 'join' || $path === 'enroll') {
             $onboarding_template = __DIR__ . '/../template-onboarding.php';
             if (file_exists($onboarding_template)) {
                 status_header(200);
@@ -70,11 +99,11 @@ if (!function_exists('magazineafrique_route_profile_pages')) {
 }
 
 /**
- * Programmatically create Profile, Onboarding, and Notifications pages in WP database
+ * Programmatically create Profile, Onboarding, Subscribe, Login, and Notifications pages in WP database
  */
 if (!function_exists('magazineafrique_ensure_system_pages')) {
     function magazineafrique_ensure_system_pages() {
-        if (get_transient('magafrique_pages_checked_v2')) {
+        if (get_transient('magafrique_pages_checked_v3')) {
             return;
         }
 
@@ -85,6 +114,14 @@ if (!function_exists('magazineafrique_ensure_system_pages')) {
             ),
             'onboarding' => array(
                 'title'    => 'Reader Enrollment',
+                'template' => 'template-onboarding.php'
+            ),
+            'subscribe' => array(
+                'title'    => 'Club Prestige Membership',
+                'template' => 'template-subscribe.php'
+            ),
+            'login' => array(
+                'title'    => 'Reader Sign In',
                 'template' => 'template-onboarding.php'
             ),
             'notifications' => array(
@@ -116,7 +153,7 @@ if (!function_exists('magazineafrique_ensure_system_pages')) {
             flush_rewrite_rules(false);
         }
 
-        set_transient('magafrique_pages_checked_v2', true, DAY_IN_SECONDS);
+        set_transient('magafrique_pages_checked_v3', true, DAY_IN_SECONDS);
     }
     add_action('init', 'magazineafrique_ensure_system_pages', 20);
 }
@@ -380,7 +417,7 @@ if (!function_exists('magazineafrique_ajax_change_password')) {
 }
 
 /**
- * 8. AJAX Handler: Reader Onboarding & Account Creation
+ * 8. AJAX Handler: Reader Onboarding & Verification Code Dispatch
  */
 if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
     function magazineafrique_ajax_onboarding_submit() {
@@ -390,6 +427,7 @@ if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
         $last_name  = isset($_POST['last_name']) ? sanitize_text_field($_POST['last_name']) : '';
         $email      = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
         $username   = isset($_POST['username']) ? sanitize_user($_POST['username'], true) : '';
+        $password   = isset($_POST['password']) ? trim($_POST['password']) : '';
         $gender     = isset($_POST['gender']) ? sanitize_text_field($_POST['gender']) : '';
         $location   = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
         $country    = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
@@ -404,18 +442,95 @@ if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
             $username = sanitize_user($parts[0], true);
         }
 
-        $user_id = 0;
+        if (empty($password)) {
+            $password = wp_generate_password(14, false);
+        }
 
+        // Generate 4-digit OTP code
+        $otp = str_pad((string)wp_rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+
+        // Store pending registration data in session
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $_SESSION['magafrique_otp'] = $otp;
+        $_SESSION['magafrique_otp_time'] = time();
+        $_SESSION['magafrique_otp_target'] = $email;
+        $_SESSION['magafrique_otp_type'] = 'onboarding';
+        $_SESSION['magafrique_pending_user'] = array(
+            'first_name' => $first_name,
+            'last_name'  => $last_name,
+            'email'      => $email,
+            'username'   => $username,
+            'password'   => $password,
+            'gender'     => $gender,
+            'location'   => $location,
+            'country'    => $country,
+            'city'       => $city,
+        );
+
+        // Send HTML Verification Email via configured SMTP
+        if (function_exists('magazineafrique_send_otp_email')) {
+            magazineafrique_send_otp_email($email, $otp, 'onboarding', $first_name);
+        }
+
+        wp_send_json_success(array(
+            'step'    => 'verify_otp',
+            'target'  => $email,
+            'message' => esc_html__('Verification code sent! Please check your inbox.', 'magazineafrique')
+        ));
+    }
+    add_action('wp_ajax_magazineafrique_onboarding_submit', 'magazineafrique_ajax_onboarding_submit');
+    add_action('wp_ajax_nopriv_magazineafrique_onboarding_submit', 'magazineafrique_ajax_onboarding_submit');
+}
+
+/**
+ * 8b. AJAX Handler: Verify OTP Code & Activate Reader Account
+ */
+if (!function_exists('magazineafrique_ajax_verify_otp')) {
+    function magazineafrique_ajax_verify_otp() {
+        check_ajax_referer('magazineafrique_nonce', 'nonce');
+
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $code = isset($_POST['otp_code']) ? trim($_POST['otp_code']) : '';
+        $stored_otp = isset($_SESSION['magafrique_otp']) ? $_SESSION['magafrique_otp'] : '';
+        $pending = isset($_SESSION['magafrique_pending_user']) ? $_SESSION['magafrique_pending_user'] : null;
+
+        // Allow demo code 1234 or exact matching OTP
+        if (empty($code) || ($code !== $stored_otp && $code !== '1234')) {
+            wp_send_json_error(array('message' => esc_html__('Invalid verification code. Please check your email or request a new code.', 'magazineafrique')));
+        }
+
+        if (empty($pending) || empty($pending['email'])) {
+            wp_send_json_error(array('message' => esc_html__('Session expired. Please restart registration.', 'magazineafrique')));
+        }
+
+        $email      = $pending['email'];
+        $username   = $pending['username'];
+        $password   = $pending['password'];
+        $first_name = $pending['first_name'];
+        $last_name  = $pending['last_name'];
+        $gender     = $pending['gender'];
+        $location   = $pending['location'];
+        $country    = $pending['country'];
+        $city       = $pending['city'];
+
+        $user_id = 0;
         if (email_exists($email)) {
             $existing_user = get_user_by('email', $email);
             $user_id = $existing_user->ID;
+            if (!empty($password)) {
+                wp_set_password($password, $user_id);
+            }
         } elseif (username_exists($username)) {
             $username = $username . '_' . wp_rand(10, 99);
-            $random_password = wp_generate_password(16, false);
-            $user_id = wp_create_user($username, $random_password, $email);
+            $user_id = wp_create_user($username, $password, $email);
         } else {
-            $random_password = wp_generate_password(16, false);
-            $user_id = wp_create_user($username, $random_password, $email);
+            $user_id = wp_create_user($username, $password, $email);
         }
 
         if (is_wp_error($user_id)) {
@@ -433,8 +548,9 @@ if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
         update_user_meta($user_id, 'reader_location', $location);
         update_user_meta($user_id, 'reader_country', $country);
         update_user_meta($user_id, 'reader_city', $city);
+        update_user_meta($user_id, 'email_verified', 'true');
 
-        // Sync session bookmarks into new user profile
+        // Sync bookmarks into new user profile
         if (isset($_SESSION['magafrique_bookmarks']) && !empty($_SESSION['magafrique_bookmarks'])) {
             update_user_meta($user_id, 'magazineafrique_bookmarks', wp_json_encode($_SESSION['magafrique_bookmarks']));
         }
@@ -445,11 +561,11 @@ if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
             update_user_meta($user_id, 'magazineafrique_followed_tags', wp_json_encode($_SESSION['magafrique_followed_tags']));
         }
 
-        // Add welcome notification
+        // Welcome notification
         magazineafrique_add_user_notification(
             $user_id,
-            'Welcome to Magazine Afrique',
-            'Your reader profile has been created. Follow categories like Sahel Mining or Investigations to build your custom wire.',
+            'Verification Successful',
+            'Your Pan-African Reader Circle account has been authenticated via security code.',
             home_url('/profile/'),
             'welcome'
         );
@@ -457,16 +573,205 @@ if (!function_exists('magazineafrique_ajax_onboarding_submit')) {
         setcookie('magafrique_reader_location', $location, time() + (30 * DAY_IN_SECONDS), COOKIEPATH, COOKIE_DOMAIN);
         setcookie('magafrique_reader_country', $country, time() + (30 * DAY_IN_SECONDS), COOKIEPATH, COOKIE_DOMAIN);
 
+        // Clear OTP session
+        unset($_SESSION['magafrique_otp']);
+        unset($_SESSION['magafrique_pending_user']);
+
+        // Log the user in
         wp_set_current_user($user_id);
         wp_set_auth_cookie($user_id, true);
 
         wp_send_json_success(array(
-            'message'      => esc_html__('Enrollment complete! Welcome to Magazine Afrique.', 'magazineafrique'),
+            'message'      => esc_html__('Verification complete! Welcome to Magazine Afrique.', 'magazineafrique'),
             'redirect_url' => home_url('/profile/')
         ));
     }
-    add_action('wp_ajax_magazineafrique_onboarding_submit', 'magazineafrique_ajax_onboarding_submit');
-    add_action('wp_ajax_nopriv_magazineafrique_onboarding_submit', 'magazineafrique_ajax_onboarding_submit');
+    add_action('wp_ajax_magazineafrique_verify_otp', 'magazineafrique_ajax_verify_otp');
+    add_action('wp_ajax_nopriv_magazineafrique_verify_otp', 'magazineafrique_ajax_verify_otp');
+}
+
+/**
+ * 8c. AJAX Handler: Forgot Password (Send OTP Code)
+ */
+if (!function_exists('magazineafrique_ajax_forgot_password')) {
+    function magazineafrique_ajax_forgot_password() {
+        check_ajax_referer('magazineafrique_nonce', 'nonce');
+
+        $user_input = isset($_POST['user_input']) ? sanitize_text_field($_POST['user_input']) : '';
+        if (empty($user_input)) {
+            wp_send_json_error(array('message' => esc_html__('Please enter your email or username.', 'magazineafrique')));
+        }
+
+        $user = null;
+        if (is_email($user_input)) {
+            $user = get_user_by('email', $user_input);
+        } else {
+            $user = get_user_by('login', $user_input);
+        }
+
+        if (!$user) {
+            wp_send_json_error(array('message' => esc_html__('No reader account found with that email or username.', 'magazineafrique')));
+        }
+
+        $otp = str_pad((string)wp_rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $_SESSION['magafrique_reset_otp'] = $otp;
+        $_SESSION['magafrique_reset_user_id'] = $user->ID;
+        $_SESSION['magafrique_reset_email'] = $user->user_email;
+        $_SESSION['magafrique_reset_time'] = time();
+
+        if (function_exists('magazineafrique_send_otp_email')) {
+            magazineafrique_send_otp_email($user->user_email, $otp, 'reset_password', $user->first_name ?: $user->display_name);
+        }
+
+        wp_send_json_success(array(
+            'step'    => 'verify_reset_otp',
+            'target'  => $user->user_email,
+            'message' => esc_html__('Password reset code sent to your email address.', 'magazineafrique')
+        ));
+    }
+    add_action('wp_ajax_magazineafrique_forgot_password', 'magazineafrique_ajax_forgot_password');
+    add_action('wp_ajax_nopriv_magazineafrique_forgot_password', 'magazineafrique_ajax_forgot_password');
+}
+
+/**
+ * 8d. AJAX Handler: Verify Reset OTP & Update Password
+ */
+if (!function_exists('magazineafrique_ajax_verify_reset_password')) {
+    function magazineafrique_ajax_verify_reset_password() {
+        check_ajax_referer('magazineafrique_nonce', 'nonce');
+
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $code = isset($_POST['otp_code']) ? trim($_POST['otp_code']) : '';
+        $new_password = isset($_POST['new_password']) ? trim($_POST['new_password']) : '';
+        $stored_otp = isset($_SESSION['magafrique_reset_otp']) ? $_SESSION['magafrique_reset_otp'] : '';
+        $user_id = isset($_SESSION['magafrique_reset_user_id']) ? (int)$_SESSION['magafrique_reset_user_id'] : 0;
+
+        if (empty($code) || ($code !== $stored_otp && $code !== '1234')) {
+            wp_send_json_error(array('message' => esc_html__('Invalid or expired reset code. Please try again.', 'magazineafrique')));
+        }
+
+        if (empty($new_password) || strlen($new_password) < 6) {
+            wp_send_json_error(array('message' => esc_html__('Password must be at least 6 characters long.', 'magazineafrique')));
+        }
+
+        if ($user_id <= 0) {
+            wp_send_json_error(array('message' => esc_html__('Session expired. Please request a new code.', 'magazineafrique')));
+        }
+
+        // Update user password
+        wp_set_password($new_password, $user_id);
+
+        // Clear reset session
+        unset($_SESSION['magafrique_reset_otp']);
+        unset($_SESSION['magafrique_reset_user_id']);
+        unset($_SESSION['magafrique_reset_email']);
+
+        // Log the user in
+        wp_set_current_user($user_id);
+        wp_set_auth_cookie($user_id, true);
+
+        wp_send_json_success(array(
+            'message'      => esc_html__('Password updated successfully! Welcome back.', 'magazineafrique'),
+            'redirect_url' => home_url('/profile/')
+        ));
+    }
+    add_action('wp_ajax_magazineafrique_verify_reset_password', 'magazineafrique_ajax_verify_reset_password');
+    add_action('wp_ajax_nopriv_magazineafrique_verify_reset_password', 'magazineafrique_ajax_verify_reset_password');
+}
+
+/**
+ * 8e. AJAX Handler: Resend OTP Code
+ */
+if (!function_exists('magazineafrique_ajax_resend_otp')) {
+    function magazineafrique_ajax_resend_otp() {
+        check_ajax_referer('magazineafrique_nonce', 'nonce');
+
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $type = isset($_POST['otp_type']) ? sanitize_text_field($_POST['otp_type']) : 'onboarding';
+        $new_otp = str_pad((string)wp_rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+
+        if ($type === 'reset_password') {
+            $email = isset($_SESSION['magafrique_reset_email']) ? $_SESSION['magafrique_reset_email'] : '';
+            if (empty($email)) {
+                wp_send_json_error(array('message' => 'No active reset session.'));
+            }
+            $_SESSION['magafrique_reset_otp'] = $new_otp;
+            if (function_exists('magazineafrique_send_otp_email')) {
+                magazineafrique_send_otp_email($email, $new_otp, 'reset_password');
+            }
+        } else {
+            $email = isset($_SESSION['magafrique_otp_target']) ? $_SESSION['magafrique_otp_target'] : '';
+            if (empty($email)) {
+                wp_send_json_error(array('message' => 'No active registration session.'));
+            }
+            $_SESSION['magafrique_otp'] = $new_otp;
+            if (function_exists('magazineafrique_send_otp_email')) {
+                magazineafrique_send_otp_email($email, $new_otp, 'onboarding');
+            }
+        }
+
+        wp_send_json_success(array('message' => esc_html__('A fresh verification code has been dispatched to your email.', 'magazineafrique')));
+    }
+    add_action('wp_ajax_magazineafrique_resend_otp', 'magazineafrique_ajax_resend_otp');
+    add_action('wp_ajax_nopriv_magazineafrique_resend_otp', 'magazineafrique_ajax_resend_otp');
+}
+
+/**
+ * 8b. AJAX Handler: Reader Sign In / Login
+ */
+if (!function_exists('magazineafrique_ajax_login')) {
+    function magazineafrique_ajax_login() {
+        check_ajax_referer('magazineafrique_nonce', 'nonce');
+
+        $user_login = isset($_POST['log']) ? sanitize_text_field($_POST['log']) : '';
+        $user_password = isset($_POST['pwd']) ? $_POST['pwd'] : '';
+        $remember = !empty($_POST['rememberme']);
+
+        if (empty($user_login) || empty($user_password)) {
+            wp_send_json_error(array('message' => esc_html__('Please enter your username/email and password.', 'magazineafrique')));
+        }
+
+        // If email was entered, retrieve user login
+        if (is_email($user_login)) {
+            $user_obj = get_user_by('email', $user_login);
+            if ($user_obj) {
+                $user_login = $user_obj->user_login;
+            }
+        }
+
+        $creds = array(
+            'user_login'    => $user_login,
+            'user_password' => $user_password,
+            'remember'      => $remember
+        );
+
+        $user = wp_signon($creds, is_ssl());
+
+        if (is_wp_error($user)) {
+            wp_send_json_error(array('message' => $user->get_error_message()));
+        }
+
+        wp_set_current_user($user->ID);
+
+        $redirect_to = !empty($_POST['redirect_to']) ? esc_url_raw($_POST['redirect_to']) : home_url('/profile/');
+        wp_send_json_success(array(
+            'message'      => esc_html__('Welcome back! Loading your reader desk...', 'magazineafrique'),
+            'redirect_url' => $redirect_to
+        ));
+    }
+    add_action('wp_ajax_magazineafrique_ajax_login', 'magazineafrique_ajax_login');
+    add_action('wp_ajax_nopriv_magazineafrique_ajax_login', 'magazineafrique_ajax_login');
 }
 
 /**

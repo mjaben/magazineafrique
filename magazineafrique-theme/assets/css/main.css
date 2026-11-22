@@ -2361,14 +2361,15 @@ body {
 .header-subscribe-pill,
 .vintage-search-submit,
 .vintage-menu-btn,
-.btn-action-pill {
-  border: 2px solid var(--vintage-box-border, #1C1917) !important;
-  box-shadow: 3px 3px 0px var(--vintage-box-shadow, #1C1917) !important;
+.btn-action-pill,
+.vintage-continue-btn {
+  border: 2.5px solid #000000 !important;
+  box-shadow: 5px 5px 0px #000000 !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-weight: 800 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
-  border-radius: 3px !important;
+  border-radius: 2px !important;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   cursor: pointer !important;
 }
@@ -2378,9 +2379,10 @@ body {
 .btn-onboarding-submit:hover,
 .header-subscribe-pill:hover,
 .vintage-search-submit:hover,
-.vintage-menu-btn:hover {
+.vintage-menu-btn:hover,
+.vintage-continue-btn:hover {
   transform: translate(-1px, -1px) !important;
-  box-shadow: 4px 4px 0px var(--vintage-box-shadow, #1C1917) !important;
+  box-shadow: 6px 6px 0px #000000 !important;
 }
 
 .vintage-box-btn:active,
@@ -2388,9 +2390,33 @@ body {
 .btn-onboarding-submit:active,
 .header-subscribe-pill:active,
 .vintage-search-submit:active,
-.vintage-menu-btn:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow: 1px 1px 0px var(--vintage-box-shadow, #1C1917) !important;
+.vintage-menu-btn:active,
+.vintage-continue-btn:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+.vintage-retro-card {
+  border: 2.5px solid #000000 !important;
+  box-shadow: 6px 6px 0px #000000 !important;
+  border-radius: 4px !important;
+}
+
+.vintage-otp-digit {
+  border: 2.5px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  border-radius: 3px !important;
+}
+
+.vintage-auth-tab {
+  background: transparent !important;
+  color: var(--text-secondary, #5C564E) !important;
+}
+
+.vintage-auth-tab.active {
+  background: var(--bg-card, #FAF6EE) !important;
+  color: var(--text-primary, #171513) !important;
+  box-shadow: inset 0 -3px 0 #8B2500 !important;
 }
 
 /* Dark Mode Variables for Vintage Box System */

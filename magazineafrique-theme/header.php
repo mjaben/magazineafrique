@@ -132,7 +132,7 @@
                     <span class="reader-pill-icon">👤</span>
                 </a>
             <?php else : ?>
-                <a href="<?php echo esc_url(home_url('/onboarding/')); ?>" class="header-auth-text-link" title="Reader Sign In / Enroll">
+                <a href="<?php echo esc_url(home_url('/login/')); ?>" class="header-auth-text-link" title="Reader Sign In / Enroll">
                     Sign In
                 </a>
             <?php endif; ?>
@@ -170,6 +170,13 @@
         </ul>
     </div>
 </nav>
+
+<?php 
+// Header Leaderboard Ad Slot (Slot 4687046934)
+if (function_exists('magazineafrique_render_ad_header')) {
+    magazineafrique_render_ad_header();
+}
+?>
 
 <!-- Minimalist Literary Menu Drawer (Vintage Broadsheet Side-Out Panel) -->
 <div id="mobile-nav-drawer" class="minimal-drawer-overlay hidden" role="dialog" aria-modal="true">
@@ -210,7 +217,7 @@
                 </div>
                 <div class="session-actions-row">
                     <a href="<?php echo esc_url(home_url('/onboarding/')); ?>" class="vintage-session-btn btn-enroll">[ ✍ Enroll Free ]</a>
-                    <a href="<?php echo esc_url(wp_login_url(home_url('/profile/'))); ?>" class="vintage-session-btn">[ ⎆ Sign In ]</a>
+                    <a href="<?php echo esc_url(home_url('/login/')); ?>" class="vintage-session-btn">[ ⎆ Sign In ]</a>
                 </div>
             </div>
         <?php endif; ?>

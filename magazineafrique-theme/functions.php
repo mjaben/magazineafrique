@@ -151,6 +151,7 @@ $inc_files = array(
     __DIR__ . '/inc/ads.php',
     __DIR__ . '/inc/newsletter.php',
     __DIR__ . '/inc/pwa.php',
+    __DIR__ . '/inc/mail-template.php',
     __DIR__ . '/inc/onboarding-profile.php',
     __DIR__ . '/inc/admin-dashboard.php'
 );

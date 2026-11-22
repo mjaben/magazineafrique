@@ -103,6 +103,17 @@ if (!function_exists('magazineafrique_custom_dashboard_setup')) {
         }
     }
     add_action('wp_dashboard_setup', 'magazineafrique_custom_dashboard_setup', 999);
+
+    /**
+     * Render Workspace directly into Dashboard page content
+     * Guarantees 100% reliable rendering above WordPress metaboxes
+     */
+    add_action('all_admin_notices', function() {
+        $screen = get_current_screen();
+        if ($screen && $screen->id === 'dashboard') {
+            magazineafrique_render_workspace_dashboard();
+        }
+    });
 }
 
 /**

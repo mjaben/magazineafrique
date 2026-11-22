@@ -7,13 +7,13 @@
  */
 
 :root {
-  --art-bg-canvas: #0C0D0E;
-  --art-bg-sidebar: #0E0F12;
-  --art-bg-card: #131417;
-  --art-bg-card-hover: #17181D;
-  --art-bg-input: #131417;
-  --art-border: #1E2024;
-  --art-border-hover: #2F333B;
+  --art-bg-canvas: #262320;
+  --art-bg-sidebar: #221F1C;
+  --art-bg-card: #2F2C27;
+  --art-bg-card-hover: #36322C;
+  --art-bg-input: #221F1C;
+  --art-border: #4A433B;
+  --art-border-hover: #5E564B;
   --art-blue: #4B8BF5;
   --art-blue-hover: #3B7BF0;
   --art-purple: #9333EA;
@@ -184,14 +184,17 @@ html, body.wp-admin {
 /* ==========================================================================
    4. ARTCRAFT DASHBOARD WORKSPACE (HOME /wp-admin/index.php)
    ========================================================================== */
-#dashboard-widgets-wrap {
-  display: none !important; /* Hides default clutter */
+#dashboard-widgets-wrap, #dashboard-widgets, .welcome-panel {
+  display: none !important; /* Hides default clutter so custom workspace takes precedence */
 }
 
 .workspace-editorial-container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 2.5rem 1rem 5rem;
+  display: block !important;
+  width: 100% !important;
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+  padding: 1.5rem 1rem 5rem !important;
+  box-sizing: border-box !important;
 }
 
 /* Top Pill / Breadcrumb (Matches ArtCraft [ HOME ] pill) */
