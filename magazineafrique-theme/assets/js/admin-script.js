@@ -38,7 +38,7 @@
       $('body').addClass('folded');
     }
 
-    // 2. Inject Top Sidebar Brand Row & Collapse Toggle Button
+    // 2. Inject Top Sidebar Brand Row (Clean ArtCraft Style without top collapse clutter)
     if ($('#adminmenuwrap').length > 0 && $('.artcraft-sidebar-header').length === 0) {
       var deskUrl = magafrique_admin_vars ? magafrique_admin_vars.home_url + 'wp-admin/admin.php?page=magazineafrique-desk' : '#';
       var $header = $(
@@ -47,20 +47,17 @@
             '<div class="artcraft-brand-icon">MA</div>' +
             '<span class="artcraft-sidebar-brand-name">MAGAZINE AFRIQUE</span>' +
           '</a>' +
-          '<button type="button" id="artcraft-sidebar-toggle-btn" class="artcraft-sidebar-toggle-btn" title="Toggle Sidebar (Collapse/Expand)">' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>' +
-          '</button>' +
         '</div>'
       );
       $('#adminmenuwrap').prepend($header);
     }
 
-    // 3. Bind Sidebar Collapse Toggle
-    $(document).on('click', '#artcraft-sidebar-toggle-btn', function (e) {
-      e.preventDefault();
-      $('body').toggleClass('folded');
-      var isFolded = $('body').hasClass('folded');
-      localStorage.setItem('magafrique_sidebar_folded', isFolded ? '1' : '0');
+    // 3. Track Bottom Collapse Button Click State
+    $(document).on('click', '#collapse-button', function () {
+      setTimeout(function () {
+        var isFolded = $('body').hasClass('folded');
+        localStorage.setItem('magafrique_sidebar_folded', isFolded ? '1' : '0');
+      }, 100);
     });
 
     // 4. Inject Modern SVG Line Icons into Sidebar (replacing Dashicons)
@@ -97,35 +94,64 @@
     }
     injectModernIcons();
 
-    // 5. Inject Menu Segmentation Group Headers
-    function injectSegmentedHeaders() {
+    // 5. Organize Sidebar Hierarchy & Inject Glowing Group Headers
+    function organizeSidebarHierarchy() {
+      // Move Gazette Desk directly under Dashboard in WORKSPACE
+      if ($('#toplevel_page_magazineafrique-desk').length > 0 && $('#menu-dashboard').length > 0) {
+        $('#toplevel_page_magazineafrique-desk').insertAfter('#menu-dashboard');
+      }
+
+      // Move Site Kit down next to Settings into INTEGRATIONS
+      if ($('#toplevel_page_googlesitekit-dashboard').length > 0 && $('#menu-settings').length > 0) {
+        $('#toplevel_page_googlesitekit-dashboard').insertAfter('#menu-settings');
+      }
+
+      // Inject Menu Segmentation Group Headers with glowing colored dots
       if ($('.artcraft-menu-group-header').length === 0) {
-        // Workspace group
+        // Workspace group (Blue dot)
         if ($('#menu-dashboard').length > 0) {
-          $('<li class="artcraft-menu-group-header">WORKSPACE</li>').insertBefore('#menu-dashboard');
+          $('<li class="artcraft-menu-group-header artcraft-group-workspace"><span class="artcraft-group-dot dot-blue"></span>WORKSPACE</li>').insertBefore('#menu-dashboard');
         }
-        // Editorial group
+        // Editorial group (Purple dot)
         if ($('#menu-posts').length > 0) {
-          $('<li class="artcraft-menu-group-header">EDITORIAL</li>').insertBefore('#menu-posts');
+          $('<li class="artcraft-menu-group-header artcraft-group-editorial"><span class="artcraft-group-dot dot-purple"></span>EDITORIAL</li>').insertBefore('#menu-posts');
         }
-        // Platform & Plugins group
+        // System & Plugins group (Teal dot)
         if ($('#menu-appearance').length > 0) {
-          $('<li class="artcraft-menu-group-header">SYSTEM &amp; PLUGINS</li>').insertBefore('#menu-appearance');
+          $('<li class="artcraft-menu-group-header artcraft-group-system"><span class="artcraft-group-dot dot-teal"></span>SYSTEM &amp; PLUGINS</li>').insertBefore('#menu-appearance');
         }
-        // Administration group
+        // Administration group (Emerald dot)
         if ($('#menu-users').length > 0) {
-          $('<li class="artcraft-menu-group-header">ADMINISTRATION</li>').insertBefore('#menu-users');
+          $('<li class="artcraft-menu-group-header artcraft-group-admin"><span class="artcraft-group-dot dot-emerald"></span>ADMINISTRATION</li>').insertBefore('#menu-users');
         }
-        // Integrations group
-        var $firstIntegration = $('#toplevel_page_googlesitekit-dashboard, #toplevel_page_wpseo_dashboard, #toplevel_page_mailchimp-for-wp').first();
+        // Integrations group (Gold dot)
+        var $firstIntegration = $('#toplevel_page_googlesitekit-dashboard, #toplevel_page_wpseo_dashboard, #toplevel_page_wpseo_workouts, #toplevel_page_mailchimp-for-wp, #toplevel_page_gosmtp').first();
         if ($firstIntegration.length > 0) {
-          $('<li class="artcraft-menu-group-header">INTEGRATIONS</li>').insertBefore($firstIntegration);
+          $('<li class="artcraft-menu-group-header artcraft-group-integrations"><span class="artcraft-group-dot dot-gold"></span>INTEGRATIONS</li>').insertBefore($firstIntegration);
         }
       }
     }
-    injectSegmentedHeaders();
+    organizeSidebarHierarchy();
 
-    // 6. Notification Center Management (Zero Popups on Canvas)
+    // 6. Wrap WordPress List Tables in ArtCraft Technical Frame with Reticle Crosshairs (+)
+    function wrapTablesWithArtCraftFrame() {
+      $('.wp-list-table').each(function () {
+        var $table = $(this);
+        if (!$table.parent().hasClass('artcraft-table-card')) {
+          $table.wrap('<div class="artcraft-table-card"></div>');
+          var $card = $table.parent();
+          $card.prepend(
+            '<span class="artcraft-reticle reticle-tl" aria-hidden="true">+</span>' +
+            '<span class="artcraft-reticle reticle-tr" aria-hidden="true">+</span>' +
+            '<span class="artcraft-reticle reticle-bl" aria-hidden="true">+</span>' +
+            '<span class="artcraft-reticle reticle-br" aria-hidden="true">+</span>'
+          );
+        }
+      });
+    }
+    wrapTablesWithArtCraftFrame();
+
+    // 7. Notification Center Management (Zero Popups on Canvas)
     var $notices = $('#wpbody-content > .notice, #wpbody-content > .updated, #wpbody-content > .error, #wpbody-content > .update-nag, .wrap > .notice, .wrap > .updated, .wrap > .error, .wrap > .update-nag');
     var noticeCount = $notices.length;
 

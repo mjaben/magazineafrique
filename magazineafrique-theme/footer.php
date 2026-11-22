@@ -157,6 +157,25 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
     </a>
 </nav>
 
+<!-- Strategic Slide-In Pill for WhatsApp Official Channel (14-day capped, 65% scroll trigger) -->
+<div id="magafrique-wa-slidein" class="magafrique-wa-slidein" style="display:none;" aria-live="polite">
+    <div class="magafrique-wa-content">
+        <span class="magafrique-wa-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+        </span>
+        <div class="magafrique-wa-text">
+            <strong>Pan-African Wire on WhatsApp</strong>
+            <span>Direct breaking intelligence briefs.</span>
+        </div>
+        <a href="https://whatsapp.com/channel/0029VbABUTT23n3fleq5C91h" target="_blank" rel="noopener" class="magafrique-wa-action-btn" id="magafrique-wa-join-btn">
+            Follow Wire ↗
+        </a>
+        <button type="button" class="magafrique-wa-close-btn" id="magafrique-wa-close-btn" aria-label="Dismiss">✕</button>
+    </div>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -501,6 +501,63 @@
   }
 
   // =========================================================================
+  // 10. Strategic WhatsApp Wire Slide-In (14-Day Cooldown, 65% Scroll Trigger)
+  // =========================================================================
+  function initStrategicWhatsAppWire() {
+    var pill = document.getElementById('magafrique-wa-slidein');
+    var closeBtn = document.getElementById('magafrique-wa-close-btn');
+    var joinBtn = document.getElementById('magafrique-wa-join-btn');
+    if (!pill) return;
+
+    var storageKey = 'magafrique_wa_dismissed';
+    var joinedKey = 'magafrique_wa_joined';
+
+    // If reader has already joined, never show again
+    if (localStorage.getItem(joinedKey) === '1') return;
+
+    // Check 14-day frequency capping if previously dismissed
+    var lastDismissed = localStorage.getItem(storageKey);
+    if (lastDismissed) {
+      var daysElapsed = (Date.now() - parseInt(lastDismissed, 10)) / (1000 * 60 * 60 * 24);
+      if (daysElapsed < 14) return;
+    }
+
+    var minReadTimeMet = false;
+    setTimeout(function () {
+      minReadTimeMet = true;
+    }, 15000); // Minimum 15 seconds reading time
+
+    var hasShown = false;
+    window.addEventListener('scroll', function () {
+      if (hasShown || !minReadTimeMet) return;
+
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (docHeight <= 0) return;
+
+      var scrollPercent = (scrollTop / docHeight) * 100;
+      if (scrollPercent >= 65) {
+        hasShown = true;
+        pill.style.display = 'block';
+      }
+    }, { passive: true });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        pill.style.display = 'none';
+        localStorage.setItem(storageKey, Date.now().toString());
+      });
+    }
+
+    if (joinBtn) {
+      joinBtn.addEventListener('click', function () {
+        pill.style.display = 'none';
+        localStorage.setItem(joinedKey, '1');
+      });
+    }
+  }
+
+  // =========================================================================
   // DOM Ready Initialization
   // =========================================================================
   document.addEventListener('DOMContentLoaded', function () {
@@ -513,6 +570,7 @@
     initLiveShares();
     initBookmarks();
     initTopicFollows();
+    initStrategicWhatsAppWire();
   });
 
 })();

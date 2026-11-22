@@ -273,19 +273,33 @@ html, body.wp-admin {
   background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Help & Screen Options Positioning (Fix Collision under 48px Header) */
-#screen-meta-links {
-  top: 48px !important;
-  right: 24px !important;
-  z-index: 9990 !important;
+/* Top Admin Bar Clean Minimalist Commands Strip */
+#wpadminbar #wp-admin-bar-wp-logo,
+#wpadminbar #wp-admin-bar-updates,
+#wpadminbar #wp-admin-bar-comments,
+#wpadminbar #wp-admin-bar-yoast-seo {
+  display: none !important;
 }
 
-#screen-meta {
-  top: 48px !important;
-  background-color: var(--art-bg-card) !important;
-  border-bottom: 1px solid var(--art-border) !important;
-  color: var(--art-text-gray) !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+/* Ensure body starts below the 48px header to prevent Screen Options cutoff */
+html.wp-toolbar,
+body.admin-bar {
+  padding-top: 48px !important;
+}
+
+/* Help & Screen Options Positioning (Directly Attached Below Admin Bar) */
+#screen-meta-links {
+  position: absolute !important;
+  top: 0 !important;
+  right: 20px !important;
+  z-index: 9980 !important;
+  margin: 0 !important;
+}
+
+#screen-meta-links .screen-meta-toggle {
+  display: inline-block !important;
+  vertical-align: top !important;
+  margin: 0 0 0 6px !important;
 }
 
 #screen-meta-links .screen-meta-toggle button {
@@ -298,10 +312,29 @@ html, body.wp-admin {
   font-size: 11px !important;
   font-family: 'Geist Mono', monospace !important;
   letter-spacing: 0.06em !important;
+  padding: 4px 12px 5px !important;
+  height: 26px !important;
+  line-height: 16px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
 }
 
-#screen-meta-links .screen-meta-toggle button:hover {
+#screen-meta-links .screen-meta-toggle button:hover,
+#screen-meta-links .screen-meta-toggle button:focus {
+  background-color: var(--art-bg-card-hover) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
   color: var(--art-text-white) !important;
+}
+
+#screen-meta {
+  background-color: var(--art-bg-card) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  color: var(--art-text-gray) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+  padding: 20px 24px !important;
+  margin: 0 !important;
+  position: relative !important;
+  z-index: 9970 !important;
 }
 
 /* ==========================================================================
@@ -317,12 +350,11 @@ html, body.wp-admin {
   margin-left: 220px !important;
 }
 
-/* Top Sidebar Brand Header Row */
+/* Top Sidebar Brand Header Row (ArtCraft Clean Style) */
 .artcraft-sidebar-header {
-  padding: 14px 14px 12px;
+  padding: 16px 16px 14px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid var(--art-border);
   margin-bottom: 8px;
 }
@@ -330,68 +362,106 @@ html, body.wp-admin {
 .artcraft-sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none !important;
   outline: none;
 }
 
 .artcraft-brand-icon {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   background: #0B5128;
   color: #FAF7F2;
   font-size: 11px;
   font-weight: 900;
-  border-radius: 3px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   letter-spacing: -0.05em;
   flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(11, 81, 40, 0.4);
 }
 
 .artcraft-sidebar-brand-name {
   font-family: 'Archivo', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--art-text-white);
   letter-spacing: 0.03em;
   white-space: nowrap;
 }
 
+/* Top collapse button is removed completely */
 .artcraft-sidebar-toggle-btn {
-  width: 28px;
-  height: 28px;
-  background: transparent;
-  border: 1px solid var(--art-border);
-  border-radius: 3px;
-  color: var(--art-text-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  padding: 0;
+  display: none !important;
 }
 
-.artcraft-sidebar-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: var(--art-text-white);
+/* Minimalist Clean Bottom Collapse Bar */
+#collapse-menu {
+  margin-top: 18px !important;
+  border-top: 1px solid var(--art-border) !important;
+  padding: 10px 12px !important;
+  list-style: none !important;
 }
 
-/* Menu Segmentation Group Headers */
+#collapse-button {
+  background: transparent !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 4px !important;
+  color: var(--art-text-muted) !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  width: 100% !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: all 0.15s ease !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#collapse-button:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: var(--art-text-white) !important;
+}
+
+/* Menu Segmentation Group Headers with Glowing Dots */
 .artcraft-menu-group-header {
   font-family: 'Geist Mono', monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.38);
-  padding: 18px 14px 6px;
+  padding: 16px 14px 6px;
   list-style: none;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
+
+.artcraft-group-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-blue { background-color: #3B82F6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.7); }
+.dot-purple { background-color: #A855F7; box-shadow: 0 0 6px rgba(168, 85, 247, 0.7); }
+.dot-teal { background-color: #14B8A6; box-shadow: 0 0 6px rgba(20, 184, 166, 0.7); }
+.dot-emerald { background-color: #10B981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.7); }
+.dot-gold { background-color: #F59E0B; box-shadow: 0 0 6px rgba(245, 158, 11, 0.7); }
 
 /* Admin Menu Items */
 #adminmenu {
@@ -400,9 +470,10 @@ html, body.wp-admin {
 
 #adminmenu li.menu-top {
   border: none !important;
-  margin: 2px 8px !important;
+  margin: 3px 8px !important;
   border-radius: 4px !important;
   position: relative !important;
+  transition: all 0.15s ease !important;
 }
 
 #adminmenu a.menu-top {
@@ -410,20 +481,22 @@ html, body.wp-admin {
   font-family: 'Archivo', sans-serif !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  padding: 7px 10px !important;
+  padding: 6px 10px !important;
   border-radius: 4px !important;
   line-height: 1.4 !important;
-  transition: all 0.15s ease;
+  transition: all 0.15s ease !important;
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
+  position: relative !important;
+  border-left: 3px solid transparent !important;
 }
 
-#adminmenu a.menu-top:hover,
-#adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: var(--art-text-white) !important;
+#adminmenu li.menu-top:hover a.menu-top,
+#adminmenu a.menu-top:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: #FFFFFF !important;
+  transform: translateX(2px) !important;
 }
 
 #adminmenu li.current > a.menu-top,
@@ -431,31 +504,22 @@ html, body.wp-admin {
   background-color: rgba(255, 255, 255, 0.08) !important;
   color: #FFFFFF !important;
   font-weight: 600 !important;
-  position: relative !important;
 }
 
-#adminmenu li.current > a.menu-top::before,
-#adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu::before {
-  content: '' !important;
-  position: absolute !important;
-  left: 0 !important;
-  top: 6px !important;
-  bottom: 6px !important;
-  width: 2px !important;
-  background-color: #FFFFFF !important;
-  border-radius: 1px !important;
-}
-
-/* Modern Line Icons in Sidebar */
+/* ==========================================================================
+   VIBRANT COLORFUL ARTCRAFT SIDEBAR ICONS (MATCHING WORKSPACE CARDS)
+   ========================================================================== */
 #adminmenu .wp-menu-image {
   float: none !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 5px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  color: inherit !important;
+  margin-right: 8px !important;
   flex-shrink: 0 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 #adminmenu .wp-menu-image:before {
@@ -463,10 +527,291 @@ html, body.wp-admin {
 }
 
 #adminmenu .wp-menu-image svg {
-  width: 17px !important;
-  height: 17px !important;
+  width: 15px !important;
+  height: 15px !important;
   stroke: currentColor !important;
+  stroke-width: 2 !important;
   transition: stroke 0.15s ease !important;
+}
+
+/* 1. Dashboard: Electric Blue */
+#adminmenu #menu-dashboard .wp-menu-image {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #60A5FA !important;
+}
+#adminmenu #menu-dashboard:hover .wp-menu-image {
+  background: rgba(59, 130, 246, 0.28) !important;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.45) !important;
+  color: #93C5FD !important;
+}
+#adminmenu #menu-dashboard:hover a.menu-top,
+#adminmenu #menu-dashboard.current a.menu-top {
+  border-left-color: #3B82F6 !important;
+}
+
+/* 2. Gazette Desk: Emerald / Mint */
+#adminmenu #toplevel_page_magazineafrique-desk .wp-menu-image {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  color: #34D399 !important;
+}
+#adminmenu #toplevel_page_magazineafrique-desk:hover .wp-menu-image {
+  background: rgba(16, 185, 129, 0.28) !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+  color: #6EE7B7 !important;
+}
+#adminmenu #toplevel_page_magazineafrique-desk:hover a.menu-top,
+#adminmenu #toplevel_page_magazineafrique-desk.current a.menu-top {
+  border-left-color: #10B981 !important;
+}
+
+/* 3. Site Kit / Editorial Analytics: Cyan */
+#adminmenu #toplevel_page_googlesitekit-dashboard .wp-menu-image,
+#adminmenu #toplevel_page_magazineafrique-analytics .wp-menu-image {
+  background: rgba(6, 182, 212, 0.15) !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  color: #22D3EE !important;
+}
+#adminmenu #toplevel_page_googlesitekit-dashboard:hover .wp-menu-image,
+#adminmenu #toplevel_page_magazineafrique-analytics:hover .wp-menu-image {
+  background: rgba(6, 182, 212, 0.28) !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.45) !important;
+  color: #67E8F9 !important;
+}
+#adminmenu #toplevel_page_googlesitekit-dashboard:hover a.menu-top,
+#adminmenu #toplevel_page_googlesitekit-dashboard.current a.menu-top,
+#adminmenu #toplevel_page_magazineafrique-analytics:hover a.menu-top,
+#adminmenu #toplevel_page_magazineafrique-analytics.current a.menu-top {
+  border-left-color: #06B6D4 !important;
+}
+
+/* 4. Posts: Royal Purple */
+#adminmenu #menu-posts .wp-menu-image {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  color: #C084FC !important;
+}
+#adminmenu #menu-posts:hover .wp-menu-image {
+  background: rgba(168, 85, 247, 0.28) !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.45) !important;
+  color: #E9D5FF !important;
+}
+#adminmenu #menu-posts:hover a.menu-top,
+#adminmenu #menu-posts.current a.menu-top,
+#adminmenu #menu-posts.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #A855F7 !important;
+}
+
+/* 5. Media: Amber / Gold */
+#adminmenu #menu-media .wp-menu-image {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  color: #FBBF24 !important;
+}
+#adminmenu #menu-media:hover .wp-menu-image {
+  background: rgba(245, 158, 11, 0.28) !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.45) !important;
+  color: #FDE68A !important;
+}
+#adminmenu #menu-media:hover a.menu-top,
+#adminmenu #menu-media.current a.menu-top,
+#adminmenu #menu-media.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #F59E0B !important;
+}
+
+/* 6. Pages: Indigo */
+#adminmenu #menu-pages .wp-menu-image {
+  background: rgba(99, 102, 241, 0.15) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  color: #818CF8 !important;
+}
+#adminmenu #menu-pages:hover .wp-menu-image {
+  background: rgba(99, 102, 241, 0.28) !important;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.45) !important;
+  color: #C7D2FE !important;
+}
+#adminmenu #menu-pages:hover a.menu-top,
+#adminmenu #menu-pages.current a.menu-top,
+#adminmenu #menu-pages.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #6366F1 !important;
+}
+
+/* 7. Comments: Sunset Orange */
+#adminmenu #menu-comments .wp-menu-image {
+  background: rgba(249, 115, 22, 0.15) !important;
+  border: 1px solid rgba(249, 115, 22, 0.3) !important;
+  color: #FB923C !important;
+}
+#adminmenu #menu-comments:hover .wp-menu-image {
+  background: rgba(249, 115, 22, 0.28) !important;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.45) !important;
+  color: #FDBA74 !important;
+}
+#adminmenu #menu-comments:hover a.menu-top,
+#adminmenu #menu-comments.current a.menu-top,
+#adminmenu #menu-comments.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #F97316 !important;
+}
+
+/* 8. Appearance: Magenta / Pink */
+#adminmenu #menu-appearance .wp-menu-image {
+  background: rgba(236, 72, 153, 0.15) !important;
+  border: 1px solid rgba(236, 72, 153, 0.3) !important;
+  color: #F472B6 !important;
+}
+#adminmenu #menu-appearance:hover .wp-menu-image {
+  background: rgba(236, 72, 153, 0.28) !important;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.45) !important;
+  color: #FBCFE8 !important;
+}
+#adminmenu #menu-appearance:hover a.menu-top,
+#adminmenu #menu-appearance.current a.menu-top,
+#adminmenu #menu-appearance.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #EC4899 !important;
+}
+
+/* 9. Plugins: Teal / Aqua */
+#adminmenu #menu-plugins .wp-menu-image {
+  background: rgba(20, 184, 166, 0.15) !important;
+  border: 1px solid rgba(20, 184, 166, 0.3) !important;
+  color: #2DD4BF !important;
+}
+#adminmenu #menu-plugins:hover .wp-menu-image {
+  background: rgba(20, 184, 166, 0.28) !important;
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.45) !important;
+  color: #99F6E4 !important;
+}
+#adminmenu #menu-plugins:hover a.menu-top,
+#adminmenu #menu-plugins.current a.menu-top,
+#adminmenu #menu-plugins.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #14B8A6 !important;
+}
+
+/* 10. Users: Emerald / Green */
+#adminmenu #menu-users .wp-menu-image {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  color: #34D399 !important;
+}
+#adminmenu #menu-users:hover .wp-menu-image {
+  background: rgba(16, 185, 129, 0.28) !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.45) !important;
+  color: #A7F3D0 !important;
+}
+#adminmenu #menu-users:hover a.menu-top,
+#adminmenu #menu-users.current a.menu-top,
+#adminmenu #menu-users.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #10B981 !important;
+}
+
+/* 11. Tools: Crimson / Coral */
+#adminmenu #menu-tools .wp-menu-image {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #F87171 !important;
+}
+#adminmenu #menu-tools:hover .wp-menu-image {
+  background: rgba(239, 68, 68, 0.28) !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.45) !important;
+  color: #FECACA !important;
+}
+#adminmenu #menu-tools:hover a.menu-top,
+#adminmenu #menu-tools.current a.menu-top,
+#adminmenu #menu-tools.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #EF4444 !important;
+}
+
+/* 12. Settings: Deep Violet */
+#adminmenu #menu-settings .wp-menu-image {
+  background: rgba(139, 92, 246, 0.15) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  color: #A78BFA !important;
+}
+#adminmenu #menu-settings:hover .wp-menu-image {
+  background: rgba(139, 92, 246, 0.28) !important;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.45) !important;
+  color: #DDD6FE !important;
+}
+#adminmenu #menu-settings:hover a.menu-top,
+#adminmenu #menu-settings.current a.menu-top,
+#adminmenu #menu-settings.wp-has-current-submenu a.wp-has-current-submenu {
+  border-left-color: #8B5CF6 !important;
+}
+
+/* 13. Yoast SEO: Warm Gold */
+#adminmenu #toplevel_page_wpseo_workouts .wp-menu-image,
+#adminmenu #toplevel_page_wpseo_dashboard .wp-menu-image {
+  background: rgba(234, 179, 8, 0.15) !important;
+  border: 1px solid rgba(234, 179, 8, 0.3) !important;
+  color: #FACC15 !important;
+}
+#adminmenu #toplevel_page_wpseo_workouts:hover .wp-menu-image,
+#adminmenu #toplevel_page_wpseo_dashboard:hover .wp-menu-image {
+  background: rgba(234, 179, 8, 0.28) !important;
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.45) !important;
+  color: #FEF08A !important;
+}
+#adminmenu #toplevel_page_wpseo_workouts:hover a.menu-top,
+#adminmenu #toplevel_page_wpseo_dashboard:hover a.menu-top {
+  border-left-color: #EAB308 !important;
+}
+
+/* 14. Mailchimp / MC4WP: Canary Yellow */
+#adminmenu #toplevel_page_mailchimp-for-wp .wp-menu-image {
+  background: rgba(250, 204, 21, 0.15) !important;
+  border: 1px solid rgba(250, 204, 21, 0.3) !important;
+  color: #FDE047 !important;
+}
+#adminmenu #toplevel_page_mailchimp-for-wp:hover .wp-menu-image {
+  background: rgba(250, 204, 21, 0.28) !important;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.45) !important;
+  color: #FEF9C3 !important;
+}
+#adminmenu #toplevel_page_mailchimp-for-wp:hover a.menu-top {
+  border-left-color: #FACC15 !important;
+}
+
+/* 15. GoSMTP: Sky Blue */
+#adminmenu #toplevel_page_gosmtp .wp-menu-image {
+  background: rgba(14, 165, 233, 0.15) !important;
+  border: 1px solid rgba(14, 165, 233, 0.3) !important;
+  color: #38BDF8 !important;
+}
+#adminmenu #toplevel_page_gosmtp:hover .wp-menu-image {
+  background: rgba(14, 165, 233, 0.28) !important;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.45) !important;
+  color: #BAE6FD !important;
+}
+#adminmenu #toplevel_page_gosmtp:hover a.menu-top {
+  border-left-color: #0EA5E9 !important;
+}
+
+/* ArtCraft Status Badges [BETA] / [NEW] in Sidebar */
+#adminmenu .update-plugins,
+#adminmenu .plugin-count,
+#adminmenu .awaiting-mod {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  padding: 1px 6px !important;
+  border-radius: 2px !important;
+  min-width: 14px !important;
+  height: 16px !important;
+  line-height: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(59, 130, 246, 0.2) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  color: #60A5FA !important;
+  vertical-align: middle !important;
+  margin-left: 6px !important;
+}
+
+#adminmenu .update-plugins.count-0 {
+  display: none !important;
 }
 
 #adminmenu .wp-menu-name {
@@ -483,14 +828,19 @@ html, body.wp-admin {
 }
 
 /* ==========================================================================
-   SUBMENU ARCHITECTURE — ZERO FLOATING OVER CONTENT
+   SUBMENU ARCHITECTURE — ZERO FLOATING POPOUTS (REMOVED GROUPED HOVER)
    ========================================================================== */
 /* Hide Home & Updates submenu under Dashboard completely */
 #adminmenu #menu-dashboard .wp-submenu {
   display: none !important;
 }
 
-/* In normal expanded sidebar: Active submenus expand INLINE nested inside the sidebar */
+/* Strictly HIDE any floating flyout submenus when expanded */
+body:not(.folded) #adminmenu li .wp-submenu {
+  display: none !important;
+}
+
+/* In normal expanded sidebar: ONLY active submenus expand INLINE nested inside the sidebar */
 body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu,
 body:not(.folded) #adminmenu .wp-menu-open .wp-submenu {
   position: static !important;
@@ -498,8 +848,8 @@ body:not(.folded) #adminmenu .wp-menu-open .wp-submenu {
   display: block !important;
   left: auto !important;
   top: auto !important;
-  margin: 4px 6px 8px 18px !important;
-  padding: 2px 0 4px 12px !important;
+  margin: 4px 6px 8px 24px !important;
+  padding: 2px 0 4px 10px !important;
   background: transparent !important;
   border: none !important;
   border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -536,48 +886,14 @@ body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
 body:not(.folded) #adminmenu .wp-menu-open .wp-submenu a:hover {
   color: var(--art-text-white) !important;
   background: rgba(255, 255, 255, 0.05) !important;
+  transform: translateX(2px) !important;
 }
 
 body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu li.current a,
 body:not(.folded) #adminmenu .wp-menu-open .wp-submenu li.current a {
   color: var(--art-accent-ink) !important;
   font-weight: 600 !important;
-  background: rgba(116, 170, 255, 0.08) !important;
-}
-
-/* Non-active hover submenus when expanded (show ONLY on direct hover as compact card) */
-body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open) .wp-submenu {
-  display: none !important;
-}
-
-body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu {
-  display: block !important;
-  position: absolute !important;
-  left: 218px !important;
-  top: 0 !important;
-  background: #1E2025 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 4px !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75) !important;
-  padding: 6px !important;
-  min-width: 170px !important;
-  z-index: 99999 !important;
-}
-
-body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu .wp-submenu-head {
-  display: none !important;
-}
-
-body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu a {
-  color: var(--art-text-gray) !important;
-  font-size: 12px !important;
-  padding: 6px 12px !important;
-  border-radius: 3px !important;
-}
-
-body:not(.folded) #adminmenu li:not(.wp-has-current-submenu):not(.wp-menu-open):hover .wp-submenu a:hover {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(116, 170, 255, 0.1) !important;
 }
 
 /* ==========================================================================
@@ -1090,73 +1406,353 @@ body.folded #adminmenu li:hover .wp-submenu a:hover {
 }
 
 /* ==========================================================================
-   6. ALL WP-ADMIN SCREENS REVAMP (TABLES, FORMS, CARDS, INPUTS)
+   6. ALL WP-ADMIN SCREENS REVAMP (TECHNICAL TABLES, FORMS, CARDS, INPUTS)
    ========================================================================== */
+
+/* Technical Table Frame Card (ArtCraft Cad-Style Corner Reticles) */
+.artcraft-table-card {
+  position: relative !important;
+  background-color: #17181C !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  margin: 1.25rem 0 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Technical Corner Reticles (+) Matching ArtCraft CAD Grid */
+.artcraft-table-card .artcraft-reticle {
+  position: absolute !important;
+  width: 14px !important;
+  height: 14px !important;
+  line-height: 12px !important;
+  text-align: center !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.artcraft-table-card .artcraft-reticle.reticle-tl { top: -7px !important; left: -7px !important; }
+.artcraft-table-card .artcraft-reticle.reticle-tr { top: -7px !important; right: -7px !important; }
+.artcraft-table-card .artcraft-reticle.reticle-bl { bottom: -7px !important; left: -7px !important; }
+.artcraft-table-card .artcraft-reticle.reticle-br { bottom: -7px !important; right: -7px !important; }
+
 .wp-list-table,
 .widefat {
-  background-color: var(--art-bg-card) !important;
-  border: 1px solid var(--art-border) !important;
+  background-color: #17181C !important;
+  border: none !important;
   box-shadow: none !important;
-  border-radius: 4px !important;
-  overflow: hidden !important;
+  border-radius: 0 !important;
   color: var(--art-text-gray) !important;
+  margin: 0 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
 }
 
 .wp-list-table thead th,
 .wp-list-table tfoot th,
 .widefat thead th,
 .widefat tfoot th {
-  background-color: var(--art-bg-sidebar) !important;
-  color: var(--art-text-white) !important;
-  font-family: 'Archivo', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
-  border-bottom: 1px solid var(--art-border) !important;
-  padding: 11px 12px !important;
+  background-color: #131417 !important;
+  color: #9AA0A6 !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top: none !important;
+  padding: 13px 14px !important;
+}
+
+.wp-list-table thead th a,
+.widefat thead th a {
+  color: #9AA0A6 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
+}
+
+.wp-list-table thead th a:hover,
+.widefat thead th a:hover {
+  color: #FFFFFF !important;
+}
+
+.wp-list-table thead th.sorted a,
+.widefat thead th.sorted a {
+  color: #74AAFF !important;
 }
 
 .wp-list-table tbody tr {
-  background-color: var(--art-bg-card) !important;
-  border-bottom: 1px solid var(--art-border) !important;
-  transition: background-color 0.12s ease;
+  background-color: #17181C !important;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.wp-list-table tbody tr:nth-child(even) {
+  background-color: #141519 !important;
 }
 
 .wp-list-table tbody tr:hover {
-  background-color: var(--art-bg-card-hover) !important;
+  background-color: #1E2026 !important;
+  box-shadow: inset 3px 0 0 #2D81FF !important;
 }
 
 .wp-list-table td {
-  color: var(--art-text-gray) !important;
-  border-top: 1px solid var(--art-border) !important;
-  padding: 12px !important;
+  color: #9AA0A6 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-bottom: none !important;
+  padding: 14px !important;
   vertical-align: middle !important;
   font-size: 13px !important;
 }
 
 .wp-list-table td a.row-title,
-.wp-list-table th a {
-  color: var(--art-text-white) !important;
+.wp-list-table td strong a {
+  color: #F2F1EE !important;
   font-weight: 600 !important;
+  font-family: 'Archivo', sans-serif !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
 }
 
-.wp-list-table td a.row-title:hover {
-  color: var(--art-accent-ink) !important;
+.wp-list-table td a.row-title:hover,
+.wp-list-table td strong a:hover {
+  color: #74AAFF !important;
 }
 
-.row-actions {
-  color: var(--art-text-muted) !important;
+/* User Table Specific: Avatars, Roles, Email */
+.wp-list-table td.column-username img.avatar,
+.wp-list-table .avatar {
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #121316 !important;
+  margin-right: 10px !important;
+  vertical-align: middle !important;
+}
+
+.wp-list-table td.column-role {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  color: #CBD5E1 !important;
+}
+
+.wp-list-table td.column-email a {
+  color: #93C5FD !important;
+  text-decoration: none !important;
+  font-family: 'Geist Mono', monospace !important;
   font-size: 12px !important;
 }
 
+.wp-list-table td.column-email a:hover {
+  color: #FFFFFF !important;
+  text-decoration: underline !important;
+}
+
+/* Row actions */
+.row-actions {
+  color: #5F6672 !important;
+  font-size: 11px !important;
+  font-family: 'Geist Mono', monospace !important;
+  margin-top: 4px !important;
+}
+
 .row-actions a {
-  color: var(--art-text-gray) !important;
+  color: #7A8290 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
 }
 
 .row-actions a:hover {
-  color: var(--art-accent-ink) !important;
+  color: #74AAFF !important;
 }
 
+/* Modern Filter Pill Bar (.subsubsub) */
+.subsubsub {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  align-items: center !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  font-size: 12px !important;
+}
+
+.subsubsub li {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.subsubsub li::after,
+.subsubsub li::before {
+  display: none !important;
+  content: "" !important;
+}
+
+.subsubsub a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 12px !important;
+  background-color: #1E2025 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  color: #9AA0A6 !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+}
+
+.subsubsub a:hover {
+  background-color: #262930 !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+}
+
+.subsubsub a.current {
+  background-color: rgba(45, 129, 255, 0.15) !important;
+  border-color: rgba(45, 129, 255, 0.45) !important;
+  color: #74AAFF !important;
+  font-weight: 600 !important;
+}
+
+.subsubsub .count {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: inherit !important;
+  padding: 1px 6px !important;
+  border-radius: 10px !important;
+}
+
+.subsubsub a.current .count {
+  background: rgba(45, 129, 255, 0.25) !important;
+  color: #FFFFFF !important;
+}
+
+/* Modern Pagination (.tablenav, .tablenav-pages) */
+.tablenav {
+  height: auto !important;
+  min-height: 40px !important;
+  padding: 8px 0 !important;
+  margin: 10px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  color: var(--art-text-gray) !important;
+}
+
+.tablenav.top {
+  margin-bottom: 12px !important;
+}
+
+.tablenav.bottom {
+  margin-top: 14px !important;
+}
+
+.tablenav .actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 0 !important;
+}
+
+.tablenav .displaying-num {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  color: #7A8290 !important;
+  text-transform: uppercase !important;
+  margin-right: 10px !important;
+}
+
+.tablenav-pages {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.tablenav-pages .pagination-links {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.tablenav-pages .pagination-links .button,
+.tablenav-pages .pagination-links a,
+.tablenav-pages .pagination-links span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 8px !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  background-color: #1E2025 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #F2F1EE !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+  line-height: normal !important;
+}
+
+.tablenav-pages .pagination-links a:hover,
+.tablenav-pages .pagination-links .button:hover {
+  background-color: #262930 !important;
+  border-color: rgba(116, 170, 255, 0.5) !important;
+  color: #74AAFF !important;
+}
+
+.tablenav-pages .pagination-links .disabled,
+.tablenav-pages .pagination-links .disabled:hover {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  background-color: #151619 !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  color: #5F6672 !important;
+}
+
+.tablenav-pages .current-page {
+  width: 36px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  text-align: center !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  background-color: #121316 !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 4px !important;
+  color: #FFFFFF !important;
+}
+
+.tablenav-pages .total-pages {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 12px !important;
+  color: #7A8290 !important;
+  margin: 0 4px !important;
+}
+
+/* Form Controls: Inputs, Selects, Checkboxes, Buttons */
 input[type="text"],
 input[type="search"],
 input[type="email"],
@@ -1165,58 +1761,246 @@ input[type="password"],
 input[type="number"],
 input[type="tel"],
 input[type="date"],
-textarea,
-select {
-  background-color: var(--art-bg-input) !important;
-  border: 1px solid var(--art-border) !important;
-  color: var(--art-text-white) !important;
+textarea {
+  background-color: #121316 !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  color: #F2F1EE !important;
   border-radius: 4px !important;
-  padding: 7px 10px !important;
+  padding: 7px 12px !important;
   font-size: 13px !important;
   font-family: 'Archivo', sans-serif !important;
-  box-shadow: none !important;
-  transition: border-color 0.15s ease;
+  height: 34px !important;
+  box-sizing: border-box !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.15s ease !important;
+}
+
+textarea {
+  height: auto !important;
+  min-height: 80px !important;
 }
 
 input[type="text"]:focus,
 input[type="search"]:focus,
 input[type="email"]:focus,
 input[type="url"]:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--art-accent-ink) !important;
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  background-color: #0E0F12 !important;
+  border-color: #2D81FF !important;
+  box-shadow: 0 0 0 2px rgba(45, 129, 255, 0.25) !important;
   outline: none !important;
-  box-shadow: 0 0 0 1px var(--art-accent-ink) !important;
+  color: #FFFFFF !important;
+}
+
+select {
+  background-color: #121316 !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  color: #F2F1EE !important;
+  border-radius: 4px !important;
+  padding: 6px 32px 6px 12px !important;
+  font-size: 13px !important;
+  font-family: 'Archivo', sans-serif !important;
+  height: 34px !important;
+  box-sizing: border-box !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239AA0A6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+select:focus {
+  border-color: #2D81FF !important;
+  box-shadow: 0 0 0 2px rgba(45, 129, 255, 0.25) !important;
+  outline: none !important;
+}
+
+select option {
+  background-color: #1A1C21 !important;
+  color: #F2F1EE !important;
+  padding: 8px 12px !important;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
-  accent-color: var(--art-blue) !important;
-  width: 16px !important;
-  height: 16px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 17px !important;
+  height: 17px !important;
+  background-color: #121316 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 3px !important;
   cursor: pointer !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  margin: 0 !important;
+  transition: all 0.15s ease !important;
 }
 
+input[type="radio"] {
+  border-radius: 50% !important;
+}
+
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+  border-color: #74AAFF !important;
+  background-color: #1A1C22 !important;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #2D81FF !important;
+  border-color: #2D81FF !important;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 5px !important;
+  top: 2px !important;
+  width: 4px !important;
+  height: 8px !important;
+  border: solid #FFFFFF !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) !important;
+}
+
+input[type="radio"]:checked {
+  background-color: #2D81FF !important;
+  border-color: #2D81FF !important;
+}
+
+input[type="radio"]:checked::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 4px !important;
+  background: #FFFFFF !important;
+  border-radius: 50% !important;
+}
+
+.button,
+.button-secondary {
+  background-color: #1E2025 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #F2F1EE !important;
+  border-radius: 4px !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  height: 34px !important;
+  padding: 0 14px !important;
+  line-height: 32px !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.button:hover,
+.button-secondary:hover {
+  background-color: #262930 !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.button-primary,
+.button.button-primary {
+  background-color: #2D81FF !important;
+  border: 1px solid #2D81FF !important;
+  color: #FFFFFF !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  height: 34px !important;
+  padding: 0 16px !important;
+  line-height: 32px !important;
+  box-shadow: 0 2px 6px rgba(45, 129, 255, 0.3) !important;
+  text-shadow: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.button-primary:hover,
+.button.button-primary:hover {
+  background-color: #3B8CFF !important;
+  border-color: #3B8CFF !important;
+  box-shadow: 0 4px 12px rgba(45, 129, 255, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Search Box in Tablenav (e.g. Search Users, Search Posts) */
+p.search-box {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  height: 34px !important;
+}
+
+p.search-box input[type="search"] {
+  height: 34px !important;
+  line-height: normal !important;
+  width: 220px !important;
+}
+
+p.search-box input[type="submit"] {
+  height: 34px !important;
+  padding: 0 14px !important;
+  line-height: 32px !important;
+}
+
+/* Setting Form Tables (options-general.php, etc.) */
 table.form-table {
-  color: var(--art-text-gray) !important;
+  background-color: #17181C !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+  padding: 1.5rem !important;
+  margin-top: 1rem !important;
+  margin-bottom: 2rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+}
+
+table.form-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+table.form-table tr:last-child {
+  border-bottom: none !important;
 }
 
 table.form-table th {
-  color: var(--art-text-white) !important;
+  color: #F2F1EE !important;
   font-family: 'Archivo', sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  padding: 16px 12px 16px 0 !important;
+  padding: 16px 16px 16px 8px !important;
   vertical-align: top !important;
+  width: 220px !important;
 }
 
 table.form-table td {
-  padding: 14px 0 !important;
+  padding: 14px 8px !important;
+  color: #9AA0A6 !important;
 }
 
 table.form-table td p.description,
 table.form-table td span.description {
-  color: var(--art-text-sub) !important;
+  color: #7A8290 !important;
   font-size: 12px !important;
   margin-top: 6px !important;
 }
@@ -1241,79 +2025,6 @@ table.form-table td span.description {
 .postbox .postbox-header {
   border-bottom: 1px solid var(--art-border) !important;
   background: var(--art-bg-sidebar) !important;
-}
-
-.button, .button-secondary {
-  background-color: var(--art-bg-card) !important;
-  border: 1px solid var(--art-border) !important;
-  color: var(--art-text-white) !important;
-  border-radius: 4px !important;
-  font-family: 'Archivo', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  padding: 5px 12px !important;
-  box-shadow: none !important;
-  transition: all 0.15s ease;
-}
-
-.button:hover, .button-secondary:hover {
-  background-color: var(--art-bg-card-hover) !important;
-  border-color: var(--art-border-hover) !important;
-  color: #FFFFFF !important;
-}
-
-.button-primary, .button.button-primary {
-  background-color: var(--art-blue) !important;
-  border: 1px solid var(--art-blue) !important;
-  color: #FFFFFF !important;
-  font-family: 'Archivo', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
-  padding: 5px 14px !important;
-  box-shadow: 0 2px 6px rgba(45, 129, 255, 0.3) !important;
-  text-shadow: none !important;
-  transition: all 0.15s ease;
-}
-
-.button-primary:hover, .button.button-primary:hover {
-  background-color: var(--art-blue-hover) !important;
-  border-color: var(--art-blue-hover) !important;
-}
-
-.tablenav {
-  color: var(--art-text-gray) !important;
-}
-
-.tablenav .displaying-num {
-  font-family: 'Geist Mono', monospace !important;
-  color: var(--art-text-sub) !important;
-  font-size: 12px !important;
-}
-
-.tablenav-pages .pagination-links .button {
-  background-color: var(--art-bg-card) !important;
-  border-color: var(--art-border) !important;
-  color: var(--art-text-white) !important;
-}
-
-.subsubsub {
-  color: var(--art-text-muted) !important;
-  font-size: 12px !important;
-}
-
-.subsubsub a {
-  color: var(--art-text-gray) !important;
-}
-
-.subsubsub a.current {
-  color: var(--art-accent-ink) !important;
-  font-weight: 700 !important;
-}
-
-.subsubsub .count {
-  font-family: 'Geist Mono', monospace;
-  color: var(--art-text-muted) !important;
 }
 
 .plugins tr.active th, .plugins tr.active td {

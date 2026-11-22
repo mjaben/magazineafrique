@@ -62,13 +62,16 @@ if (!function_exists('magazineafrique_customize_admin_bar')) {
             return;
         }
 
-        // Remove WP logo clutter
+        // Remove WP clutter and distracting badges from top bar
         $wp_admin_bar->remove_node('wp-logo');
         $wp_admin_bar->remove_node('about');
         $wp_admin_bar->remove_node('wporg');
         $wp_admin_bar->remove_node('documentation');
         $wp_admin_bar->remove_node('support-forums');
         $wp_admin_bar->remove_node('feedback');
+        $wp_admin_bar->remove_node('comments');
+        $wp_admin_bar->remove_node('updates');
+        $wp_admin_bar->remove_node('wpseo-menu');
 
         // Notification Center Bell Pill
         $wp_admin_bar->add_node(array(

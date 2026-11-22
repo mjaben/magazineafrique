@@ -164,6 +164,29 @@ get_header(); ?>
         </div>
         <?php endif; ?>
 
+        <!-- Strategic End-of-Article WhatsApp Wire Dispatch Box -->
+        <div class="vintage-whatsapp-dispatch-card">
+            <div class="wa-dispatch-top">
+                <div class="wa-badge-cluster">
+                    <span class="wa-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                    </span>
+                    <div>
+                        <span class="wa-dispatch-eyebrow">VERIFIED EDITORIAL WIRE</span>
+                        <h4 class="wa-dispatch-title">Get breaking Pan-African intelligence on WhatsApp</h4>
+                    </div>
+                </div>
+                <a href="https://whatsapp.com/channel/0029VbABUTT23n3fleq5C91h" target="_blank" rel="noopener" class="vintage-continue-btn wa-join-btn">
+                    Join Official Channel ↗
+                </a>
+            </div>
+            <p class="wa-dispatch-sub">
+                Zero spam. Daily curated executive briefings, exclusive investigative dossiers, and critical geopolitical wire updates directly to your phone.
+            </p>
+        </div>
+
         <!-- Author Bio (Vintage Literary Card) -->
         <div class="vintage-author-card">
             <div class="author-avatar-frame">
