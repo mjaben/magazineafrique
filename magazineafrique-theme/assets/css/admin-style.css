@@ -1,228 +1,315 @@
 /**
- * Magazine Afrique — Custom Dark Workspace WP-Admin Styles
- * High-End Creative SaaS UI/UX (Inspired by ArtCraft Workspace)
+ * Magazine Afrique — Full Creative SaaS Admin Workspace Theme
+ * 1:1 Implementation of the ArtCraft UI/UX Architecture
+ * Completely self-contained in the theme. Zero separate plugins.
  *
  * @package MagazineAfrique
  */
 
 :root {
-  --wp-dark-canvas: #0E0F12;
-  --wp-dark-sidebar: #131418;
-  --wp-dark-surface: #181A1F;
-  --wp-dark-card-hover: #1F2229;
-  --wp-dark-border: rgba(255, 255, 255, 0.08);
-  --wp-dark-border-hover: rgba(56, 189, 248, 0.4);
-  --wp-accent-blue: #38BDF8;
-  --wp-accent-gold: #F59E0B;
-  --wp-accent-emerald: #10B981;
-  --wp-text-white: #FFFFFF;
-  --wp-text-gray: #94A3B8;
-  --wp-text-muted: #64748B;
+  --art-bg-canvas: #0C0D0E;
+  --art-bg-sidebar: #0E0F12;
+  --art-bg-card: #131417;
+  --art-bg-card-hover: #17181D;
+  --art-bg-input: #131417;
+  --art-border: #1E2024;
+  --art-border-hover: #2F333B;
+  --art-blue: #4B8BF5;
+  --art-blue-hover: #3B7BF0;
+  --art-purple: #9333EA;
+  --art-gold: #F59E0B;
+  --art-cyan: #06B6D4;
+  --art-emerald: #10B981;
+  --art-red: #EF4444;
+  --art-text-white: #FFFFFF;
+  --art-text-gray: #8E95A3;
+  --art-text-muted: #525866;
+  --art-text-sub: #717784;
 }
 
 /* ==========================================================================
-   GLOBAL WP-ADMIN DARK THEME OVERRIDES
+   1. GLOBAL WP-ADMIN RESET TO ARTCRAFT CANVAS
    ========================================================================== */
-body.wp-admin {
-  background-color: var(--wp-dark-canvas) !important;
-  color: #E2E8F0 !important;
+html, body.wp-admin {
+  background-color: var(--art-bg-canvas) !important;
+  color: var(--art-text-gray) !important;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   -webkit-font-smoothing: antialiased;
 }
 
 #wpwrap {
-  background-color: var(--wp-dark-canvas) !important;
+  background-color: var(--art-bg-canvas) !important;
 }
 
-#wpcontent, #wpbody-content {
-  background-color: var(--wp-dark-canvas) !important;
-  padding-left: 20px;
-  padding-right: 20px;
+#wpcontent, #wpbody, #wpbody-content {
+  background-color: var(--art-bg-canvas) !important;
 }
 
-/* Top Admin Bar */
+.wrap {
+  margin: 1.5rem 1.5rem 3rem !important;
+}
+
+/* Headings in WP-Admin */
+.wrap h1, .wrap h2, .wrap h3 {
+  color: var(--art-text-white) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   2. TOP ADMIN BAR (ARTCRAFT MINIMALIST HEADER)
+   ========================================================================== */
 #wpadminbar {
-  background-color: var(--wp-dark-sidebar) !important;
-  border-bottom: 1px solid var(--wp-dark-border) !important;
+  background-color: var(--art-bg-sidebar) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  height: 48px !important;
+}
+
+#wpadminbar .quicklinks {
+  height: 48px !important;
 }
 
 #wpadminbar .ab-item, #wpadminbar .ab-label {
-  color: var(--wp-text-gray) !important;
+  color: var(--art-text-gray) !important;
+  font-size: 13px !important;
+  line-height: 48px !important;
+  height: 48px !important;
+  transition: color 0.15s ease;
+}
+
+#wpadminbar .ab-item:hover, #wpadminbar .ab-item:hover .ab-label {
+  color: var(--art-text-white) !important;
+  background-color: transparent !important;
+}
+
+#wpadminbar #wp-admin-bar-site-name > .ab-item {
+  font-weight: 700 !important;
+  color: var(--art-text-white) !important;
 }
 
 #wpadminbar .menupop .ab-sub-wrapper {
-  background-color: var(--wp-dark-surface) !important;
-  border: 1px solid var(--wp-dark-border) !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 8px !important;
+  top: 48px !important;
 }
 
 #wpadminbar .ab-submenu .ab-item {
-  color: #CBD5E1 !important;
+  color: var(--art-text-gray) !important;
+  line-height: 2 !important;
+  height: auto !important;
 }
 
-/* Admin Sidebar */
+#wpadminbar .ab-submenu .ab-item:hover {
+  color: var(--art-blue) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ==========================================================================
+   3. ARTCRAFT SIDEBAR (#adminmenu)
+   ========================================================================== */
 #adminmenuback, #adminmenuwrap, #adminmenu {
-  background-color: var(--wp-dark-sidebar) !important;
-  border-right: 1px solid var(--wp-dark-border) !important;
+  background-color: var(--art-bg-sidebar) !important;
+  border-right: 1px solid var(--art-border) !important;
+  width: 220px !important;
+}
+
+#wpcontent {
+  margin-left: 220px !important;
+}
+
+#adminmenu {
+  padding-top: 12px;
 }
 
 #adminmenu li.menu-top {
   border: none !important;
+  margin: 2px 8px !important;
+  border-radius: 6px !important;
 }
 
-#adminmenu a {
-  color: var(--wp-text-gray) !important;
+#adminmenu a.menu-top {
+  color: var(--art-text-gray) !important;
   font-size: 13px !important;
   font-weight: 500 !important;
   padding: 8px 12px !important;
+  border-radius: 6px !important;
+  line-height: 1.4 !important;
   transition: all 0.15s ease;
 }
 
-#adminmenu li.menu-top:hover,
+#adminmenu a.menu-top:hover,
 #adminmenu li.opensub > a.menu-top,
 #adminmenu li > a.menu-top:focus {
   background-color: rgba(255, 255, 255, 0.05) !important;
-  color: var(--wp-text-white) !important;
+  color: var(--art-text-white) !important;
 }
 
-#adminmenu li.current a.menu-top,
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
-  background-color: rgba(56, 189, 248, 0.12) !important;
-  color: var(--wp-accent-blue) !important;
+#adminmenu li.current > a.menu-top,
+#adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu {
+  background-color: var(--art-bg-card) !important;
+  color: var(--art-text-white) !important;
   font-weight: 700 !important;
-  border-left: 3px solid var(--wp-accent-blue) !important;
+  border-left: 3px solid var(--art-blue) !important;
+}
+
+#adminmenu li.wp-menu-separator {
+  height: 1px !important;
+  background-color: var(--art-border) !important;
+  margin: 12px 12px !important;
+  border: none !important;
 }
 
 #adminmenu .wp-submenu {
-  background-color: var(--wp-dark-surface) !important;
-  border: 1px solid var(--wp-dark-border) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
-  border-radius: 6px;
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
+  left: 220px !important;
+  padding: 6px 0 !important;
 }
 
 #adminmenu .wp-submenu a {
-  color: #CBD5E1 !important;
+  color: var(--art-text-gray) !important;
+  font-size: 12px !important;
+  padding: 6px 16px !important;
 }
 
 #adminmenu .wp-submenu a:hover {
-  color: var(--wp-accent-blue) !important;
+  color: var(--art-blue) !important;
   background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Standard WP Dashboard Widget Container Cleared */
-#dashboard-widgets-wrap {
-  margin-top: 10px;
-}
-
-#dashboard-widgets .postbox {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-#dashboard-widgets .postbox-header {
-  display: none !important;
-}
-
-#dashboard-widgets .inside {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
 /* ==========================================================================
-   WORKSPACE EDITORIAL DASHBOARD UI (MATCHING ARTCRAFT UI/UX)
+   4. ARTCRAFT DASHBOARD WORKSPACE (HOME /wp-admin/index.php)
    ========================================================================== */
+#dashboard-widgets-wrap {
+  display: none !important; /* Hides default clutter */
+}
+
 .workspace-editorial-container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 2.5rem 1rem 4rem;
+  padding: 2.5rem 1rem 5rem;
+}
+
+/* Top Pill / Breadcrumb (Matches ArtCraft [ HOME ] pill) */
+.workspace-top-pill-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--art-border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.artcraft-home-pill {
+  display: inline-block;
+  background-color: var(--art-bg-card);
+  border: 1px solid var(--art-border);
+  color: var(--art-text-white);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.artcraft-right-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.artcraft-link-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--art-text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.artcraft-link-text:hover {
+  color: var(--art-text-white);
+}
+
+.artcraft-btn-white {
+  background-color: var(--art-text-white);
+  color: #000000 !important;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.artcraft-btn-white:hover {
+  opacity: 0.9;
 }
 
 /* Hero Header */
 .workspace-hero-header {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .workspace-tag-badge {
-  display: inline-block;
-  font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--wp-accent-blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--art-blue);
   text-transform: uppercase;
   margin-bottom: 0.75rem;
 }
 
 .workspace-main-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: var(--wp-text-white);
-  letter-spacing: -0.025em;
-  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 4vw, 2.75rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  color: var(--art-text-white) !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 0 0.5rem !important;
 }
 
 .workspace-main-title .highlight-blue {
-  color: var(--wp-accent-blue);
-  background: linear-space;
+  color: var(--art-blue);
 }
 
 .workspace-subtitle {
-  font-size: 0.9375rem;
-  color: var(--wp-text-gray);
+  font-size: 14px;
+  color: var(--art-text-sub);
   margin: 0;
   line-height: 1.5;
 }
 
-/* Metrics Quick-Bar */
-.workspace-metrics-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
-  padding: 0.85rem 1.25rem;
-  background-color: var(--wp-dark-sidebar);
-  border: 1px solid var(--wp-dark-border);
-  border-radius: 10px;
-}
-
-.metric-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.75rem;
-  padding-right: 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.metric-pill:last-child {
-  border-right: none;
-}
-
-.metric-label {
-  color: var(--wp-text-muted);
-}
-
-.metric-value {
-  color: var(--wp-text-white);
-  font-weight: 700;
-}
-
-.metric-live {
-  color: #4ADE80;
-}
-
-/* Section Label */
-.workspace-section-label {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--wp-text-muted);
-  text-transform: uppercase;
+/* Section Header & Line */
+.workspace-section-header-row {
+  margin-top: 2rem;
   margin-bottom: 1.25rem;
 }
 
-/* 3x3 Tools Grid */
+.workspace-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--art-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.workspace-section-divider {
+  border: none;
+  border-bottom: 1px solid var(--art-border);
+  margin-bottom: 1.5rem;
+}
+
+/* 3x3 Card Grid (ArtCraft Architecture) */
 .workspace-tools-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -241,40 +328,46 @@ body.wp-admin {
   }
 }
 
-/* Tool Card */
+/* Tool Card (Exact ArtCraft Style) */
 .workspace-tool-card {
-  background-color: var(--wp-dark-surface);
-  border: 1px solid var(--wp-dark-border);
-  border-radius: 10px;
+  background-color: var(--art-bg-card);
+  border: 1px solid var(--art-border);
+  border-radius: 8px;
   padding: 1.25rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
+  min-height: 115px;
   text-decoration: none !important;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  overflow: hidden;
 }
 
 .workspace-tool-card:hover {
-  background-color: var(--wp-dark-card-hover);
-  border-color: var(--wp-dark-border-hover);
+  background-color: var(--art-bg-card-hover);
+  border-color: var(--art-border-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-.tool-card-left {
+.tool-card-top {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
 }
 
-/* Tool Icon Badges */
+.tool-badge-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Square Icon Badge */
 .tool-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,154 +375,260 @@ body.wp-admin {
   color: #FFFFFF;
 }
 
-.tool-icon-box.bg-blue { background: linear-gradient(135deg, #0284C7, #0369A1); }
-.tool-icon-box.bg-purple { background: linear-gradient(135deg, #9333EA, #7E22CE); }
-.tool-icon-box.bg-gold { background: linear-gradient(135deg, #D97706, #B45309); }
-.tool-icon-box.bg-cyan { background: linear-gradient(135deg, #0891B2, #0E7490); }
-.tool-icon-box.bg-emerald { background: linear-gradient(135deg, #059669, #047857); }
-.tool-icon-box.bg-amber { background: linear-gradient(135deg, #EA580C, #C2410C); }
-.tool-icon-box.bg-orange { background: linear-gradient(135deg, #F97316, #EA580C); }
-.tool-icon-box.bg-indigo { background: linear-gradient(135deg, #4F46E5, #4338CA); }
-.tool-icon-box.bg-teal { background: linear-gradient(135deg, #0D9488, #0F766E); }
+.tool-icon-box.bg-blue { background: rgba(59, 130, 246, 0.18); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3); }
+.tool-icon-box.bg-purple { background: rgba(147, 51, 234, 0.18); color: #C084FC; border: 1px solid rgba(147, 51, 234, 0.3); }
+.tool-icon-box.bg-gold { background: rgba(245, 158, 11, 0.18); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.tool-icon-box.bg-cyan { background: rgba(6, 182, 212, 0.18); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.3); }
+.tool-icon-box.bg-emerald { background: rgba(16, 185, 129, 0.18); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.tool-icon-box.bg-orange { background: rgba(249, 115, 22, 0.18); color: #FB923C; border: 1px solid rgba(249, 115, 22, 0.3); }
+.tool-icon-box.bg-indigo { background: rgba(99, 102, 241, 0.18); color: #818CF8; border: 1px solid rgba(99, 102, 241, 0.3); }
+.tool-icon-box.bg-red { background: rgba(239, 68, 68, 0.18); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.tool-icon-box.bg-amber { background: rgba(217, 119, 6, 0.18); color: #FCD34D; border: 1px solid rgba(217, 119, 6, 0.3); }
 
-.tool-content {
+.tool-name-wrap {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .tool-name {
-  font-size: 0.875rem;
-  font-weight: 800;
-  color: var(--wp-text-white);
-  letter-spacing: 0.04em;
-  margin: 0;
-  text-transform: uppercase;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: var(--art-text-white) !important;
+  letter-spacing: 0.04em !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
 }
 
-.tool-desc {
-  font-size: 0.75rem;
-  color: var(--wp-text-gray);
-  line-height: 1.4;
-  margin: 0.25rem 0 0;
+/* Subtle Badges (BETA / NEW) */
+.tool-tag-beta {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #F59E0B;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.tool-tag-new {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #C084FC;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 1px 5px;
+  border-radius: 3px;
 }
 
 .tool-card-arrow {
-  color: var(--wp-text-muted);
-  font-size: 1.15rem;
-  padding-left: 0.5rem;
+  color: var(--art-text-muted);
+  font-size: 13px;
   transition: all 0.2s ease;
 }
 
 .workspace-tool-card:hover .tool-card-arrow {
-  color: var(--wp-accent-blue);
+  color: var(--art-blue);
   transform: translateX(4px);
 }
 
-/* Footer Banner */
-.workspace-footer-banner {
-  margin-top: 2.5rem;
-  padding: 1.25rem 1.5rem;
-  background-color: var(--wp-dark-sidebar);
-  border: 1px solid var(--wp-dark-border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.tool-desc {
+  font-size: 12px;
+  color: var(--art-text-sub);
+  line-height: 1.45;
+  margin: 0;
 }
 
-.footer-banner-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+/* ==========================================================================
+   5. ARTCRAFT DARK STYLING FOR ALL WP ADMIN SCREENS (NO HARSH WHITE TABLES)
+   ========================================================================== */
+/* Tables (edit.php, edit-tags.php, users.php, plugins.php) */
+.wp-list-table,
+.widefat {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  color: var(--art-text-gray) !important;
 }
 
-.banner-badge {
-  font-size: 0.625rem;
-  font-weight: 800;
-  color: #4ADE80;
-  background: rgba(34, 197, 94, 0.15);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  letter-spacing: 0.08em;
+.wp-list-table thead th,
+.wp-list-table tfoot th,
+.widefat thead th,
+.widefat tfoot th {
+  background-color: var(--art-bg-sidebar) !important;
+  color: var(--art-text-white) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  padding: 10px 12px !important;
 }
 
-.banner-title {
-  color: var(--wp-text-white);
-  font-size: 0.875rem;
-  font-weight: 600;
+.wp-list-table tbody tr {
+  background-color: var(--art-bg-card) !important;
+  border-bottom: 1px solid var(--art-border) !important;
+  transition: background-color 0.12s ease;
 }
 
-.btn-workspace-preview {
-  display: inline-block;
-  background-color: var(--wp-dark-surface);
-  border: 1px solid var(--wp-dark-border);
-  color: var(--wp-text-white);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  text-decoration: none !important;
-  transition: all 0.18s ease;
+.wp-list-table tbody tr:hover {
+  background-color: var(--art-bg-card-hover) !important;
 }
 
-.btn-workspace-preview:hover {
-  background-color: #FFFFFF;
-  color: #000000;
+.wp-list-table td {
+  color: var(--art-text-gray) !important;
+  border-top: 1px solid var(--art-border) !important;
+  padding: 12px !important;
+  vertical-align: middle !important;
 }
 
-/* Desk Form Card (Options Page) */
-.desk-form-card {
-  background-color: var(--wp-dark-surface);
-  border: 1px solid var(--wp-dark-border);
-  border-radius: 10px;
-  padding: 1.5rem;
+.wp-list-table td a.row-title,
+.wp-list-table th a {
+  color: var(--art-text-white) !important;
+  font-weight: 600 !important;
 }
 
-.form-card-title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--wp-text-white);
-  margin: 0 0 0.5rem;
+.wp-list-table td a.row-title:hover {
+  color: var(--art-blue) !important;
 }
 
-.form-card-desc {
-  font-size: 0.8125rem;
-  color: var(--wp-text-gray);
-  line-height: 1.5;
-  margin: 0 0 1rem;
+/* Post Row Actions */
+.row-actions {
+  color: var(--art-text-muted) !important;
 }
 
-.workspace-input-text {
-  width: 100%;
-  max-width: 500px;
-  background-color: var(--wp-dark-sidebar) !important;
-  border: 1px solid var(--wp-dark-border) !important;
+.row-actions a {
+  color: var(--art-text-gray) !important;
+}
+
+.row-actions a:hover {
+  color: var(--art-blue) !important;
+}
+
+/* Form Inputs & Controls across All Admin Pages */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  background-color: var(--art-bg-input) !important;
+  border: 1px solid var(--art-border) !important;
+  color: var(--art-text-white) !important;
   border-radius: 6px !important;
-  color: #FFFFFF !important;
-  padding: 0.65rem 0.85rem !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.875rem !important;
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease;
 }
 
-.workspace-input-text:focus {
-  border-color: var(--wp-accent-blue) !important;
-  box-shadow: 0 0 0 1px var(--wp-accent-blue) !important;
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--art-blue) !important;
   outline: none !important;
+  box-shadow: 0 0 0 1px var(--art-blue) !important;
 }
 
-.btn-workspace-submit {
-  background-color: var(--wp-accent-blue) !important;
-  color: #000000 !important;
-  font-weight: 800 !important;
-  font-size: 0.8125rem !important;
-  padding: 0.65rem 1.25rem !important;
+/* Buttons in WP-Admin */
+.button, .button-secondary {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  color: var(--art-text-gray) !important;
   border-radius: 6px !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 4px 12px !important;
+  box-shadow: none !important;
+  transition: all 0.15s ease;
 }
 
-.btn-workspace-submit:hover {
-  background-color: #7DD3FC !important;
+.button:hover, .button-secondary:hover {
+  background-color: var(--art-bg-card-hover) !important;
+  border-color: var(--art-border-hover) !important;
+  color: var(--art-text-white) !important;
+}
+
+.button-primary, .button.button-primary {
+  background-color: var(--art-blue) !important;
+  border: 1px solid var(--art-blue) !important;
+  color: #FFFFFF !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(75, 139, 245, 0.3) !important;
+  text-shadow: none !important;
+  transition: all 0.15s ease;
+}
+
+.button-primary:hover, .button.button-primary:hover {
+  background-color: var(--art-blue-hover) !important;
+  border-color: var(--art-blue-hover) !important;
+}
+
+/* Filter / Pagination Bar */
+.tablenav {
+  color: var(--art-text-gray) !important;
+}
+
+.tablenav .displaying-num {
+  color: var(--art-text-sub) !important;
+}
+
+.tablenav-pages .pagination-links .button {
+  background-color: var(--art-bg-card) !important;
+  border-color: var(--art-border) !important;
+  color: var(--art-text-white) !important;
+}
+
+.subsubsub {
+  color: var(--art-text-muted) !important;
+}
+
+.subsubsub a {
+  color: var(--art-text-gray) !important;
+}
+
+.subsubsub a.current {
+  color: var(--art-blue) !important;
+  font-weight: 700 !important;
+}
+
+.subsubsub .count {
+  color: var(--art-text-muted) !important;
+}
+
+/* Category & Post edit panels (edit-tags.php) */
+#col-left, #col-right {
+  color: var(--art-text-gray);
+}
+
+.form-wrap h2, .form-wrap h3 {
+  color: var(--art-text-white) !important;
+}
+
+.form-field p.description, .form-wrap p {
+  color: var(--art-text-sub) !important;
+}
+
+/* Postboxes (Settings, Widgets, Meta Boxes) */
+.postbox {
+  background-color: var(--art-bg-card) !important;
+  border: 1px solid var(--art-border) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  color: var(--art-text-gray) !important;
+}
+
+.postbox .postbox-header {
+  border-bottom: 1px solid var(--art-border) !important;
+}
+
+.postbox .postbox-header h2 {
+  color: var(--art-text-white) !important;
 }

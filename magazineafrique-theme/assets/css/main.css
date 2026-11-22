@@ -1631,42 +1631,103 @@ body {
 }
 
 /* ==========================================================================
-   AUTHENTIC NON-BLACK DARK MODE PALETTE
-   Canvas: Deep Obsidian Kohl #161412 (Strictly NOT #000000)
+   AUTHENTIC FADED DARK MODE PALETTE (WARM CHARCOAL SLATE - NOT BLACK)
+   Canvas: Soft Faded Charcoal #262320 (Strictly NOT Pitch Black)
    ========================================================================== */
 [data-theme="dark"] {
-  --bg-canvas: #161412;
-  --bg-card: #221F1C;
-  --bg-card-subtle: #292521;
-  --border-color: #38322B;
-  --border-light: #2E2923;
-  --text-primary: #EDE7DC;
-  --text-secondary: #C4BCB0;
-  --text-muted: #8E8578;
+  --bg-canvas: #262320;
+  --bg-card: #332E2A;
+  --bg-card-subtle: #3C3732;
+  --border-color: #4E473F;
+  --border-light: #423C34;
+  --text-primary: #F7F2E8;
+  --text-secondary: #D8CEBE;
+  --text-muted: #A89D8D;
   --brand-gold: #E5A84B;
-  --brand-green: #22C55E;
-  --vintage-frame-border: #4D453E;
-  --vintage-frame-bg: #1F1C19;
+  --brand-green: #34D399;
+  --vintage-frame-border: #564E44;
+  --vintage-frame-bg: #2E2A26;
 }
 
 [data-theme="dark"] html,
 [data-theme="dark"] body {
-  background-color: #161412 !important;
-  color: #EDE7DC !important;
+  background-color: #262320 !important;
+  color: #D8CEBE !important;
 }
 
 [data-theme="dark"] .site-masthead,
 [data-theme="dark"] .desktop-editorial-nav,
 [data-theme="dark"] .masthead-dateline-strip {
-  background-color: #1A1715 !important;
-  border-color: #38322B !important;
-  color: #EDE7DC !important;
+  background-color: #2C2825 !important;
+  border-color: #4E473F !important;
+  color: #F7F2E8 !important;
 }
 
 [data-theme="dark"] .minimal-drawer-panel,
 [data-theme="dark"] .search-modal-card {
-  background-color: #1F1C19 !important;
-  border-color: #38322B !important;
+  background-color: #332E2A !important;
+  border-color: #4E473F !important;
+  color: #F7F2E8 !important;
+}
+
+[data-theme="dark"] .vintage-framed-box,
+[data-theme="dark"] .reader-profile-card,
+[data-theme="dark"] .broadsheet-lead-article,
+[data-theme="dark"] .vintage-author-card,
+[data-theme="dark"] .profile-wire-card,
+[data-theme="dark"] .onboarding-card,
+[data-theme="dark"] .card-editorial,
+[data-theme="dark"] .paywall-exclusive-card {
+  background-color: #332E2A !important;
+  border-color: #4E473F !important;
+  color: #D8CEBE !important;
+}
+
+[data-theme="dark"] .reader-location-pill {
+  background-color: #2A2622 !important;
+  border-color: #4E473F !important;
+  color: #E5A84B !important;
+}
+
+[data-theme="dark"] .profile-avatar-circle {
+  border-color: #4E473F !important;
+  background-color: #262320 !important;
+}
+
+[data-theme="dark"] .reader-tier-tag {
+  background-color: #E5A84B !important;
+  color: #171513 !important;
+}
+
+[data-theme="dark"] .profile-tab-btn {
+  background-color: #2C2825 !important;
+  border-color: #4E473F !important;
+  color: #A89D8D !important;
+}
+
+[data-theme="dark"] .profile-tab-btn.active {
+  background-color: #8B2500 !important;
+  border-color: #8B2500 !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .theme-icon-moon {
+  display: none !important;
+}
+
+[data-theme="dark"] .theme-icon-sun {
+  display: block !important;
+  stroke: #E5A84B !important;
+}
+
+.theme-icon-sun {
+  display: none;
+}
+
+.theme-icon-moon {
+  display: block;
+  stroke: var(--text-primary, #171513);
+}
   color: #EDE7DC !important;
 }
 

@@ -203,7 +203,7 @@ if (!function_exists('magazineafrique_get_avatar_url')) {
             return get_avatar_url($user_id, array('size' => 192));
         }
 
-        return get_theme_file_uri('/assets/images/logo.jpg');
+        return get_theme_file_uri('/assets/images/default-avatar.svg');
     }
 }
 
