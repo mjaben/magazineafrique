@@ -578,6 +578,3 @@ if (!function_exists('magazineafrique_render_artcraft_login_page')) {
         <?php
     }
 }
-        <?php
-    }
-}
