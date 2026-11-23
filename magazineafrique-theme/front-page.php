@@ -351,10 +351,22 @@ get_header(); ?>
                 if ($life_query->have_posts()) :
                     while ($life_query->have_posts()) : $life_query->the_post();
                         $displayed_post_ids[] = get_the_ID();
+
+                        // 1 tag if available, otherwise nothing (not hardcoded 'LIFESTYLE')
+                        $life_tags = get_the_tags();
+                        $life_tag_name = '';
+                        if (!empty($life_tags) && is_array($life_tags)) {
+                            $first_tag = reset($life_tags);
+                            if (!empty($first_tag->name)) {
+                                $life_tag_name = $first_tag->name;
+                            }
+                        }
                 ?>
                     <article class="lifestyle-postcard">
                         <div class="lifestyle-postcard-stamp-header">
-                            <span class="lifestyle-club-badge">LIFESTYLE</span>
+                            <?php if (!empty($life_tag_name)) : ?>
+                                <span class="lifestyle-club-badge"><?php echo esc_html(strtoupper($life_tag_name)); ?></span>
+                            <?php endif; ?>
                             <span class="lifestyle-postal-mark">AFRIQUE № <?php the_ID(); ?></span>
                         </div>
                         <?php if (has_post_thumbnail()) : ?>

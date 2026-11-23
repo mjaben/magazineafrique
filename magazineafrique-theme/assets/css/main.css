@@ -7929,10 +7929,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  background: #FFFFFF;
-  color: #171513;
-  border: 2.5px solid #000000;
-  box-shadow: 6px 6px 0px #000000;
+  background: #1C1917;
+  color: #FAF7F2;
+  border: 2px solid rgba(250, 247, 242, 0.3);
+  box-shadow: 6px 6px 0px #FAF7F2;
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -7941,7 +7941,7 @@ body {
 
 .lifestyle-postcard:hover {
   transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0px #000000;
+  box-shadow: 9px 9px 0px #FAF7F2;
 }
 
 /* Postcard Stamp Header */
@@ -7969,6 +7969,11 @@ body {
   border: 2px solid #000000;
   box-shadow: 3px 3px 0px #000000;
   line-height: 1.2;
+  white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 
 .lifestyle-postal-mark {
@@ -7978,6 +7983,7 @@ body {
   letter-spacing: 0.06em;
   color: #78716C;
   text-transform: uppercase;
+  margin-left: auto;
 }
 
 /* Postcard Image */
@@ -9572,9 +9578,105 @@ body {
 }
 
 /* ==========================================================================
-   11. LIFESTYLE POSTCARD INK CONTRAST (Dark in Light & Light in Dark)
+   11. LIFESTYLE SALON DUAL-THEME STYLING
+   LIGHT MODE: Dark Noir Salon (#141210), Dark Postcard Background (#1C1917),
+               with Crisp Neo-Brutalist Light Shadow (#FAF7F2).
+   DARK MODE:  Light Paper Salon (#FAF7F2), Light Postcard Background (#FFFFFF),
+               with Solid Pitch-Black Neo-Brutalist Shadow (#000000).
    ========================================================================== */
-.lifestyle-postcard,
+
+/* --- LIGHT MODE (Default / When site is not dark) --- */
+.lifestyle-postcard {
+  background: #1C1917 !important;
+  color: #FAF7F2 !important;
+  border: 2px solid rgba(250, 247, 242, 0.3) !important;
+  box-shadow: 6px 6px 0px #FAF7F2 !important;
+}
+
+.lifestyle-postcard:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 9px 9px 0px #FAF7F2 !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-stamp-header {
+  background: #25211E !important;
+  border-bottom: 2px solid rgba(250, 247, 242, 0.22) !important;
+}
+
+.lifestyle-postcard .lifestyle-postal-mark {
+  color: #A8A29E !important;
+  -webkit-text-fill-color: #A8A29E !important;
+  margin-left: auto !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-img-wrap {
+  border-bottom: 2px solid rgba(250, 247, 242, 0.22) !important;
+}
+
+.lifestyle-postcard h3,
+.lifestyle-postcard h3 a,
+.lifestyle-postcard .lifestyle-postcard-title,
+.lifestyle-postcard .lifestyle-postcard-title a {
+  color: #FAF7F2 !important;
+  -webkit-text-fill-color: #FAF7F2 !important;
+}
+
+.lifestyle-postcard h3 a:hover,
+.lifestyle-postcard .lifestyle-postcard-title a:hover {
+  color: #F59E0B !important;
+  -webkit-text-fill-color: #F59E0B !important;
+}
+
+.lifestyle-postcard p,
+.lifestyle-postcard .lifestyle-postcard-excerpt {
+  color: #D6D3D1 !important;
+  -webkit-text-fill-color: #D6D3D1 !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-footer {
+  border-top: 1px dashed rgba(250, 247, 242, 0.2) !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-meta {
+  color: #A8A29E !important;
+  -webkit-text-fill-color: #A8A29E !important;
+}
+
+.lifestyle-postcard .lifestyle-club-badge {
+  background: #B85D18 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 1.5px solid #FAF7F2 !important;
+  box-shadow: 2px 2px 0px #FAF7F2 !important;
+  white-space: nowrap !important;
+  max-width: 140px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-btn {
+  background: #B85D18 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 1.5px solid #FAF7F2 !important;
+  box-shadow: 2.5px 2.5px 0px #FAF7F2 !important;
+}
+
+.lifestyle-postcard .lifestyle-postcard-btn:hover {
+  background: #C25E00 !important;
+  box-shadow: 3.5px 3.5px 0px #FAF7F2 !important;
+}
+
+.desk-lifestyle-inverted .lifestyle-index-club-btn {
+  border: 2px solid #FAF7F2 !important;
+  box-shadow: 4px 4px 0px #FAF7F2 !important;
+}
+
+.desk-lifestyle-inverted .lifestyle-index-club-btn:hover {
+  box-shadow: 5px 5px 0px #FAF7F2 !important;
+}
+
+/* --- DARK MODE (Site is [data-theme="dark"]) --- */
 [data-theme="dark"] .lifestyle-postcard {
   background: #FFFFFF !important;
   color: #171513 !important;
@@ -9582,10 +9684,26 @@ body {
   box-shadow: 6px 6px 0px #000000 !important;
 }
 
-.lifestyle-postcard h3,
-.lifestyle-postcard h3 a,
-.lifestyle-postcard .lifestyle-postcard-title,
-.lifestyle-postcard .lifestyle-postcard-title a,
+[data-theme="dark"] .lifestyle-postcard:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 9px 9px 0px #000000 !important;
+}
+
+[data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-stamp-header {
+  background: #F4EFEA !important;
+  border-bottom: 2px solid #000000 !important;
+}
+
+[data-theme="dark"] .lifestyle-postcard .lifestyle-postal-mark {
+  color: #78716C !important;
+  -webkit-text-fill-color: #78716C !important;
+  margin-left: auto !important;
+}
+
+[data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-img-wrap {
+  border-bottom: 2px solid #000000 !important;
+}
+
 [data-theme="dark"] .lifestyle-postcard h3,
 [data-theme="dark"] .lifestyle-postcard h3 a,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-title,
@@ -9594,52 +9712,59 @@ body {
   -webkit-text-fill-color: #171513 !important;
 }
 
-.lifestyle-postcard h3 a:hover,
-.lifestyle-postcard .lifestyle-postcard-title a:hover,
 [data-theme="dark"] .lifestyle-postcard h3 a:hover,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-title a:hover {
   color: #B85D18 !important;
   -webkit-text-fill-color: #B85D18 !important;
 }
 
-.lifestyle-postcard p,
-.lifestyle-postcard .lifestyle-postcard-excerpt,
 [data-theme="dark"] .lifestyle-postcard p,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-excerpt {
   color: #332F2B !important;
   -webkit-text-fill-color: #332F2B !important;
 }
 
-.lifestyle-postcard .lifestyle-postcard-stamp-header,
-[data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-stamp-header {
-  background: #F4EFEA !important;
-  border-bottom: 2px solid #000000 !important;
+[data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-footer {
+  border-top: 1px dashed rgba(0, 0, 0, 0.25) !important;
 }
 
-.lifestyle-postcard .lifestyle-postal-mark,
-[data-theme="dark"] .lifestyle-postcard .lifestyle-postal-mark,
-.lifestyle-postcard .lifestyle-postcard-meta,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-meta {
   color: #575149 !important;
   -webkit-text-fill-color: #575149 !important;
 }
 
-.lifestyle-postcard .lifestyle-club-badge,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-club-badge {
   background: #B85D18 !important;
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
   border: 2px solid #000000 !important;
   box-shadow: 3px 3px 0px #000000 !important;
+  white-space: nowrap !important;
+  max-width: 140px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
-.lifestyle-postcard .lifestyle-postcard-btn,
 [data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-btn {
   background: #B85D18 !important;
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
   border: 2px solid #000000 !important;
   box-shadow: 3px 3px 0px #000000 !important;
+}
+
+[data-theme="dark"] .lifestyle-postcard .lifestyle-postcard-btn:hover {
+  background: #C25E00 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+[data-theme="dark"] .desk-lifestyle-inverted .lifestyle-index-club-btn {
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+[data-theme="dark"] .desk-lifestyle-inverted .lifestyle-index-club-btn:hover {
+  box-shadow: 5px 5px 0px #000000 !important;
 }
 
 /* ==========================================================================
