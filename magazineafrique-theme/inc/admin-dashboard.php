@@ -635,6 +635,71 @@ if (!function_exists('magazineafrique_render_analytics_page')) {
 
             </div>
 
+            <!-- Readership Velocity 30-Day Interactive Area Chart -->
+            <div class="workspace-tool-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid var(--art-border); padding-bottom: 0.85rem; margin-bottom: 1.25rem;">
+                    <div>
+                        <span style="font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--art-accent-ink); letter-spacing: 0.14em;">READERSHIP VELOCITY</span>
+                        <h3 style="color: #FFFFFF; font-size: 15px; font-weight: 700; margin: 3px 0 0;">30-Day Traffic Velocity &amp; Reading Sessions</h3>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                        <span style="display: flex; align-items: center; gap: 6px; color: #60A5FA;">
+                            <span style="width: 8px; height: 8px; background: #3B82F6; border-radius: 2px;"></span> Direct Sessions
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 6px; color: #34D399;">
+                            <span style="width: 8px; height: 8px; background: #10B981; border-radius: 2px;"></span> Discover &amp; Wire
+                        </span>
+                    </div>
+                </div>
+
+                <div style="width: 100%; overflow-x: auto;">
+                    <svg viewBox="0 0 900 220" style="width: 100%; min-width: 600px; height: auto; overflow: visible;">
+                        <defs>
+                            <linearGradient id="velocityBlueGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.38" />
+                                <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.0" />
+                            </linearGradient>
+                            <linearGradient id="velocityGreenGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#10B981" stop-opacity="0.25" />
+                                <stop offset="100%" stop-color="#10B981" stop-opacity="0.0" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Grid Lines -->
+                        <line x1="40" y1="30" x2="880" y2="30" stroke="rgba(255, 255, 255, 0.08)" stroke-dasharray="3,3" />
+                        <text x="10" y="34" fill="rgba(255, 255, 255, 0.4)" font-family="'Geist Mono', monospace" font-size="10">8k</text>
+                        <line x1="40" y1="80" x2="880" y2="80" stroke="rgba(255, 255, 255, 0.08)" stroke-dasharray="3,3" />
+                        <text x="10" y="84" fill="rgba(255, 255, 255, 0.4)" font-family="'Geist Mono', monospace" font-size="10">5k</text>
+                        <line x1="40" y1="130" x2="880" y2="130" stroke="rgba(255, 255, 255, 0.08)" stroke-dasharray="3,3" />
+                        <text x="10" y="134" fill="rgba(255, 255, 255, 0.4)" font-family="'Geist Mono', monospace" font-size="10">2k</text>
+                        <line x1="40" y1="180" x2="880" y2="180" stroke="rgba(255, 255, 255, 0.12)" />
+                        <text x="10" y="184" fill="rgba(255, 255, 255, 0.4)" font-family="'Geist Mono', monospace" font-size="10">0</text>
+
+                        <!-- Area 1 (Direct Sessions - Blue) -->
+                        <path d="M 40,150 Q 120,130 180,110 T 320,80 T 460,95 T 600,50 T 740,40 T 880,25 L 880,180 L 40,180 Z" fill="url(#velocityBlueGrad)" />
+                        <path d="M 40,150 Q 120,130 180,110 T 320,80 T 460,95 T 600,50 T 740,40 T 880,25" fill="none" stroke="#3B82F6" stroke-width="2.5" />
+
+                        <!-- Area 2 (Discover & Wire - Emerald) -->
+                        <path d="M 40,165 Q 120,155 180,140 T 320,120 T 460,110 T 600,85 T 740,75 T 880,55 L 880,180 L 40,180 Z" fill="url(#velocityGreenGrad)" />
+                        <path d="M 40,165 Q 120,155 180,140 T 320,120 T 460,110 T 600,85 T 740,75 T 880,55" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="4,2" />
+
+                        <!-- Interactive Nodes -->
+                        <circle cx="180" cy="110" r="4.5" fill="#3B82F6" stroke="#0E0C0B" stroke-width="2" />
+                        <circle cx="320" cy="80" r="4.5" fill="#3B82F6" stroke="#0E0C0B" stroke-width="2" />
+                        <circle cx="600" cy="50" r="4.5" fill="#3B82F6" stroke="#0E0C0B" stroke-width="2" />
+                        <circle cx="880" cy="25" r="5" fill="#60A5FA" stroke="#0E0C0B" stroke-width="2" />
+
+                        <!-- Date Axis Labels -->
+                        <text x="40" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">OCT 24</text>
+                        <text x="180" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">OCT 31</text>
+                        <text x="320" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">NOV 07</text>
+                        <text x="460" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">NOV 14</text>
+                        <text x="600" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">NOV 18</text>
+                        <text x="740" y="202" fill="rgba(255, 255, 255, 0.45)" font-family="'Geist Mono', monospace" font-size="10">NOV 21</text>
+                        <text x="850" y="202" fill="rgba(255, 255, 255, 0.75)" font-family="'Geist Mono', monospace" font-size="10" font-weight="700">TODAY</text>
+                    </svg>
+                </div>
+            </div>
+
             <!-- Two-Column Deep Analytics Breakdown -->
             <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
                 

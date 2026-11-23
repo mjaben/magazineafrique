@@ -6,9 +6,29 @@
  * @package MagazineAfrique
  */
 
-get_header(); ?>
+get_header(); 
 
-<main id="primary" class="site-main container-editorial broadsheet-main" style="max-width: 980px; margin: 0 auto; padding-top: 2rem; padding-bottom: 4rem;">
+$user_id = get_current_user_id();
+$country_code = !empty($_SERVER['HTTP_CF_IPCOUNTRY']) ? strtoupper(sanitize_text_field($_SERVER['HTTP_CF_IPCOUNTRY'])) : '';
+$reader_loc = function_exists('magazineafrique_get_reader_location') ? magazineafrique_get_reader_location() : '';
+
+// Detect Nigeria from Cloudflare IP, User Profile, or Session Location
+$is_nigeria = ($country_code === 'NG' || stripos($reader_loc, 'Lagos') !== false || stripos($reader_loc, 'Nigeria') !== false);
+
+if (is_user_logged_in()) {
+    $u_country = get_user_meta($user_id, 'reader_country', true);
+    if (strcasecmp($u_country, 'Nigeria') === 0 || strcasecmp($u_country, 'NG') === 0) {
+        $is_nigeria = true;
+    }
+}
+
+// Allow explicit toggle via URL (?currency=ngn or ?currency=usd)
+if (isset($_GET['currency'])) {
+    $is_nigeria = (strtolower($_GET['currency']) === 'ngn');
+}
+?>
+
+<main id="primary" class="site-main container-editorial broadsheet-main" style="max-width: 1040px; margin: 0 auto; padding-top: 2rem; padding-bottom: 4rem;">
 
     <!-- Masthead Intro -->
     <div style="text-align: center; border-bottom: 2px solid var(--border-color, #231F1D); padding-bottom: 1.5rem; margin-bottom: 2.5rem;">
@@ -18,9 +38,22 @@ get_header(); ?>
         <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; color: var(--text-primary, #171513); margin: 0 0 0.75rem; line-height: 1.15;">
             Join Club Magazine Afrique Prestige
         </h1>
-        <p style="font-size: 1rem; color: var(--text-secondary, #5C564E); max-width: 640px; margin: 0 auto; line-height: 1.6;">
+        <p style="font-size: 1rem; color: var(--text-secondary, #5C564E); max-width: 640px; margin: 0 auto 1.5rem; line-height: 1.6;">
             Support independent Pan-African investigative journalism and unlock classified corridors-of-power intelligence, proprietary business data, and video opinion participation.
         </p>
+
+        <!-- Dynamic Currency Selector & Location Badge -->
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-card-subtle, #EFE9DE); padding: 0.35rem 0.5rem; border: 1.5px solid var(--border-color, #231F1D); border-radius: 4px; box-shadow: 2px 2px 0px var(--border-color, #231F1D);">
+            <button type="button" id="curr-btn-ngn" onclick="switchCurrency('ngn')" class="currency-toggle-btn <?php echo $is_nigeria ? 'active' : ''; ?>" style="border: none; padding: 0.35rem 0.85rem; font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 800; border-radius: 2px; cursor: pointer; transition: all 0.15s ease;">
+                🇳🇬 Nigeria (₦ NGN)
+            </button>
+            <button type="button" id="curr-btn-usd" onclick="switchCurrency('usd')" class="currency-toggle-btn <?php echo !$is_nigeria ? 'active' : ''; ?>" style="border: none; padding: 0.35rem 0.85rem; font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 800; border-radius: 2px; cursor: pointer; transition: all 0.15s ease;">
+                🌐 International ($ USD)
+            </button>
+        </div>
+        <div id="currency-notice-text" style="font-family: 'Geist Mono', monospace; font-size: 0.6875rem; color: var(--text-muted, #78716C); margin-top: 0.5rem;">
+            <?php echo $is_nigeria ? '✓ Showing regional pricing in Nigerian Naira (₦)' : '✓ Showing international pricing in US Dollars ($)'; ?>
+        </div>
     </div>
 
     <!-- Core Subscriber Benefits Grid (The 5 Pillars) -->
@@ -96,7 +129,9 @@ get_header(); ?>
                     Digital Gazette
                 </h3>
                 <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 2.25rem; font-weight: 900; color: var(--text-primary, #171513); margin-bottom: 1rem;">
-                    $4.99 <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--text-secondary, #5C564E);">/ month</span>
+                    <span class="price-val-ngn" style="<?php echo $is_nigeria ? 'display: inline;' : 'display: none;'; ?>">₦3,500</span>
+                    <span class="price-val-usd" style="<?php echo !$is_nigeria ? 'display: inline;' : 'display: none;'; ?>">$4.99</span>
+                    <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--text-secondary, #5C564E);">/ month</span>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem; font-size: 0.8125rem; color: var(--text-secondary, #38332C); display: flex; flex-direction: column; gap: 0.5rem; font-family: 'Plus Jakarta Sans', sans-serif;">
                     <li>✓ Complete investigative news archive</li>
@@ -125,7 +160,9 @@ get_header(); ?>
                     Club Prestige All-Access
                 </h3>
                 <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; font-weight: 900; color: #F59E0B; margin-bottom: 1rem;">
-                    $12.00 <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: #D1D5DB;">/ month</span>
+                    <span class="price-val-ngn" style="<?php echo $is_nigeria ? 'display: inline;' : 'display: none;'; ?>">₦8,500</span>
+                    <span class="price-val-usd" style="<?php echo !$is_nigeria ? 'display: inline;' : 'display: none;'; ?>">$12.00</span>
+                    <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: #D1D5DB;">/ month</span>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem; font-size: 0.8125rem; color: #E5E7EB; display: flex; flex-direction: column; gap: 0.55rem; font-family: 'Plus Jakarta Sans', sans-serif;">
                     <li>✓ <strong>Everything in Digital Gazette</strong></li>
@@ -150,13 +187,15 @@ get_header(); ?>
                     Intelligence Syndicate
                 </h3>
                 <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 2.25rem; font-weight: 900; color: var(--text-primary, #171513); margin-bottom: 1rem;">
-                    $39.00 <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--text-secondary, #5C564E);">/ month</span>
+                    <span class="price-val-ngn" style="<?php echo $is_nigeria ? 'display: inline;' : 'display: none;'; ?>">₦35,000</span>
+                    <span class="price-val-usd" style="<?php echo !$is_nigeria ? 'display: inline;' : 'display: none;'; ?>">$39.00</span>
+                    <span style="font-size: 0.875rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--text-secondary, #5C564E);">/ month</span>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem; font-size: 0.8125rem; color: var(--text-secondary, #38332C); display: flex; flex-direction: column; gap: 0.5rem; font-family: 'Plus Jakarta Sans', sans-serif;">
                     <li>✓ All Club Prestige features for 5 team seats</li>
                     <li>✓ Raw CSV/JSON access to macroeconomic datasets</li>
                     <li>✓ Direct briefing channel with lead investigative reporters</li>
-                    <li>✓ Invoiced billing (USD, EUR, GBP, NGN, KES, ZAR)</li>
+                    <li>✓ Invoiced billing (NGN, USD, EUR, GBP, KES, ZAR)</li>
                 </ul>
             </div>
             <a href="mailto:membership@magazineafrique.org?subject=Institutional%20Syndicate%20Subscription" class="btn-vintage-box" style="display: block; text-align: center; text-decoration: none; padding: 0.75rem; background: var(--bg-card); color: var(--text-primary);">
@@ -168,9 +207,46 @@ get_header(); ?>
 
     <!-- Assurance / Guarantee Notice -->
     <div style="text-align: center; border-top: 1px solid var(--border-color, #DCD3C4); padding-top: 1.5rem; font-size: 0.8125rem; color: var(--text-secondary, #5C564E); font-family: 'Plus Jakarta Sans', sans-serif;">
-        🔒 Payments processed with SSL encryption. Cancel anytime in 1-click from your reader profile. Questions? Write to <a href="mailto:membership@magazineafrique.org" style="color: #8B2500; font-weight: 700; text-decoration: underline;">membership@magazineafrique.org</a>.
+        🔒 Direct bank wire and invoice support available. Automated payment gateway integration pending. Questions? Write to <a href="mailto:membership@magazineafrique.org" style="color: #8B2500; font-weight: 700; text-decoration: underline;">membership@magazineafrique.org</a>.
     </div>
 
 </main>
+
+<script>
+function switchCurrency(curr) {
+    const isNgn = (curr === 'ngn');
+    document.querySelectorAll('.price-val-ngn').forEach(el => el.style.display = isNgn ? 'inline' : 'none');
+    document.querySelectorAll('.price-val-usd').forEach(el => el.style.display = !isNgn ? 'inline' : 'none');
+
+    const btnNgn = document.getElementById('curr-btn-ngn');
+    const btnUsd = document.getElementById('curr-btn-usd');
+    const notice = document.getElementById('currency-notice-text');
+
+    if (btnNgn) btnNgn.classList.toggle('active', isNgn);
+    if (btnUsd) btnUsd.classList.toggle('active', !isNgn);
+
+    if (notice) {
+        notice.textContent = isNgn ? '✓ Showing regional pricing in Nigerian Naira (₦)' : '✓ Showing international pricing in US Dollars ($)';
+    }
+}
+</script>
+
+<style>
+.currency-toggle-btn {
+    background: transparent;
+    color: var(--text-secondary, #5C564E);
+}
+.currency-toggle-btn.active {
+    background: #0B5128 !important;
+    color: #FFFFFF !important;
+}
+[data-theme="dark"] .currency-toggle-btn {
+    color: #A89D8D;
+}
+[data-theme="dark"] .currency-toggle-btn.active {
+    background: #D97706 !important;
+    color: #171513 !important;
+}
+</style>
 
 <?php get_footer(); ?>

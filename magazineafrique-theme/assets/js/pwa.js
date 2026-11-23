@@ -62,6 +62,35 @@
     });
   }
 
+  // =========================================================================
+  // Global Cache Purge & Hard Reload Function
+  // Accessible from footer links, mobile drawer, and update toast
+  // =========================================================================
+  window.magazineafriquePurgeCacheAndReload = async function () {
+    if ('caches' in window) {
+      try {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      } catch (e) {}
+    }
+
+    if ('serviceWorker' in navigator) {
+      try {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) {
+          if (reg.waiting) reg.waiting.postMessage({ action: 'skipWaiting' });
+          if (reg.active) reg.active.postMessage({ action: 'clearCache' });
+        }
+      } catch (e) {}
+    }
+
+    sessionStorage.removeItem('magafrique_update_toast_dismissed');
+
+    const targetUrl = new URL(window.location.href);
+    targetUrl.searchParams.set('v_reload', Date.now());
+    window.location.replace(targetUrl.toString());
+  };
+
   // Update Toast Controls
   const updateToast = document.getElementById('magafrique-update-toast');
   const reloadBtn = document.getElementById('toast-reload-btn');
@@ -82,27 +111,7 @@
     reloadBtn.addEventListener('click', async () => {
       reloadBtn.disabled = true;
       reloadBtn.innerHTML = 'Updating...';
-
-      if ('caches' in window) {
-        try {
-          const keys = await caches.keys();
-          await Promise.all(keys.map(k => caches.delete(k)));
-        } catch (e) {}
-      }
-
-      if ('serviceWorker' in navigator) {
-        try {
-          const regs = await navigator.serviceWorker.getRegistrations();
-          for (const reg of regs) {
-            if (reg.waiting) reg.waiting.postMessage({ action: 'skipWaiting' });
-            if (reg.active) reg.active.postMessage({ action: 'clearCache' });
-          }
-        } catch (e) {}
-      }
-
-      const targetUrl = new URL(window.location.href);
-      targetUrl.searchParams.set('v_reload', Date.now());
-      window.location.replace(targetUrl.toString());
+      await window.magazineafriquePurgeCacheAndReload();
     });
   }
 

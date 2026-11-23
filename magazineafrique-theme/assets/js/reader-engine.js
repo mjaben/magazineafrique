@@ -445,24 +445,43 @@
   // =========================================================================
   function initTopicFollows() {
     document.addEventListener('click', function (e) {
-      var btn = e.target.closest('.btn-follow-topic');
+      var btn = e.target.closest('.btn-follow-topic, .btn-follow-cat, .btn-follow-tag, .btn-follow-desk');
       if (!btn) return;
       e.preventDefault();
 
-      var termId = btn.getAttribute('data-term-id');
+      var termId = btn.getAttribute('data-term-id') || btn.getAttribute('data-id');
       var type = btn.getAttribute('data-type') || 'category';
+      var customName = btn.getAttribute('data-name') || '';
       if (!termId) return;
 
       var isFollowing = btn.classList.contains('is-following');
       btn.classList.toggle('is-following');
 
-      if (type === 'category') {
+      // Update button text while preserving category or topic name
+      if (customName) {
+        btn.textContent = isFollowing ? '+ ' + customName : '✓ ' + customName;
+      } else if (btn.classList.contains('empty-cat-chip')) {
+        var baseTxt = btn.textContent.replace(/^[+✓]\s*/, '').trim();
+        btn.textContent = isFollowing ? '+ ' + baseTxt : '✓ ' + baseTxt;
+      } else if (type === 'category') {
         btn.textContent = isFollowing ? '+ Follow' : '✓ Following';
       } else {
         btn.textContent = isFollowing ? '+' : '✓';
       }
 
-      showToast(isFollowing ? 'Unfollowed topic' : '✓ Following! News will appear in your Following Wire');
+      var topicLabel = customName || (type === 'category' ? 'Desk' : 'Topic');
+      showToast(isFollowing ? 'Unfollowed ' + topicLabel : '✓ Following ' + topicLabel + '! Added to your personalized wire');
+
+      // Update Following Tab count dynamically if on reader profile page
+      var followingTab = document.getElementById('tab-btn-following');
+      if (followingTab) {
+        var match = followingTab.textContent.match(/\d+/);
+        if (match) {
+          var count = parseInt(match[0], 10);
+          var nextCount = isFollowing ? Math.max(0, count - 1) : count + 1;
+          followingTab.textContent = '1. Following Wire (' + nextCount + ')';
+        }
+      }
 
       var ajaxUrl = (window.magazineafrique_vars && window.magazineafrique_vars.ajax_url) || '/wp-admin/admin-ajax.php';
       var nonce = (window.magazineafrique_vars && window.magazineafrique_vars.nonce) || '';

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.3.0');
+    define('MAGAZINEAFRIQUE_VERSION', '1.4.0');
 }
 
 /**
@@ -155,6 +155,8 @@ $inc_files = array(
     __DIR__ . '/inc/paywall.php',
     __DIR__ . '/inc/ads.php',
     __DIR__ . '/inc/newsletter.php',
+    __DIR__ . '/inc/subscribers-manager.php',
+    __DIR__ . '/inc/ai-schema.php',
     __DIR__ . '/inc/pwa.php',
     __DIR__ . '/inc/mail-template.php',
     __DIR__ . '/inc/onboarding-profile.php',

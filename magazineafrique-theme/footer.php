@@ -121,6 +121,8 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
                 <span class="footer-sep">·</span>
                 <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact &amp; Bureaus</a>
                 <span class="footer-sep">·</span>
+                <a href="javascript:void(0)" class="btn-install-app footer-cache-reload-link" title="Install Magazine Afrique to your home screen or desktop">📲 Install App</a>
+                <span class="footer-sep">·</span>
                 <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload && window.magazineafriquePurgeCacheAndReload()" class="footer-cache-reload-link" title="Purge local cache and load newest edition">↻ Reload Edition</a>
             </div>
         </div>
@@ -163,13 +165,24 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
         <span class="vintage-nav-label">Prestige</span>
     </a>
 
-    <a href="<?php echo esc_url(home_url('/profile/')); ?>" class="vintage-nav-item <?php echo is_page('profile') ? 'active' : ''; ?>">
-        <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-        </svg>
-        <span class="vintage-nav-label">Profile</span>
-    </a>
+    <?php if (is_user_logged_in()) : ?>
+        <a href="<?php echo esc_url(home_url('/profile/')); ?>" class="vintage-nav-item <?php echo is_page('profile') ? 'active' : ''; ?>">
+            <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="vintage-nav-label">Profile</span>
+        </a>
+    <?php else : ?>
+        <a href="<?php echo esc_url(home_url('/login/')); ?>" class="vintage-nav-item <?php echo is_page('login') ? 'active' : ''; ?>">
+            <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <polyline points="10 17 15 12 10 7"/>
+                <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            <span class="vintage-nav-label">Sign In</span>
+        </a>
+    <?php endif; ?>
 </nav>
 
 <!-- Strategic Slide-In Pill for WhatsApp Official Channel (14-day capped, 65% scroll trigger) -->

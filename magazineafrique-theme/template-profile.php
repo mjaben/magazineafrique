@@ -29,13 +29,13 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
 <main id="primary" class="site-main container-editorial broadsheet-main" style="max-width: 860px; margin: 0 auto; padding-top: 2rem; padding-bottom: 3rem;">
 
     <!-- 1. Broadsheet Reader Identity Header (Faded Dark Compatible) -->
-    <div class="vintage-framed-box reader-profile-card">
-        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;">
+    <div class="vintage-framed-box reader-profile-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
             
             <div style="display: flex; align-items: center; gap: 1.25rem;">
                 <!-- Avatar with Live Preview & Upload Trigger -->
-                <div style="position: relative; width: 72px; height: 72px; flex-shrink: 0;">
-                    <img id="profile-avatar-img" src="<?php echo esc_url($avatar_url); ?>" alt="Reader Avatar" class="profile-avatar-circle" />
+                <div class="profile-avatar-wrapper" style="position: relative; width: 76px; height: 76px; min-width: 76px; min-height: 76px; flex-shrink: 0; border-radius: 50%;">
+                    <img id="profile-avatar-img" src="<?php echo esc_url($avatar_url ?: get_avatar_url($user_id, array('size' => 150))); ?>" alt="Reader Avatar" class="profile-avatar-circle" style="width: 76px; height: 76px; max-width: 76px; max-height: 76px; border-radius: 50%; object-fit: cover; display: block;" />
                     <label for="avatar-file-input" class="avatar-upload-badge" title="Upload custom avatar">
                         📷
                     </label>
@@ -44,7 +44,7 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
 
                 <div>
                     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
-                        <h1 class="reader-profile-title">
+                        <h1 class="reader-profile-title" style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; font-weight: 800; margin: 0; line-height: 1.2;">
                             <?php echo esc_html(trim($first_name . ' ' . $last_name) ?: ($current_user->display_name ?: 'Pan-African Reader')); ?>
                         </h1>
                         <span class="reader-tier-tag">
@@ -79,6 +79,104 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
         </div>
 
         <div id="avatar-upload-feedback" style="margin-top: 0.5rem; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;"></div>
+    </div>
+
+    <!-- 1b. Reader Intelligence & Reading Velocity Sparkline -->
+    <div class="vintage-framed-box reader-velocity-card" style="margin-bottom: 2rem; padding: 1.25rem 1.5rem; background: var(--bg-card, #FFFFFF);">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1.5px solid var(--border-color, #231F1D); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+            <div>
+                <span style="font-family: 'Geist Mono', monospace; font-size: 0.625rem; font-weight: 800; letter-spacing: 0.12em; color: #B45309; text-transform: uppercase;">
+                    READER INTELLIGENCE &amp; ANALYTICS
+                </span>
+                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; font-weight: 800; margin: 0.2rem 0 0; color: var(--text-primary, #171513);">
+                    7-Day Broadsheet Engagement Velocity
+                </h3>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.25rem; font-family: 'Geist Mono', monospace; font-size: 0.6875rem;">
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                    <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D97706;"></span>
+                    <span>Daily Reading Time</span>
+                </div>
+                <div style="background: rgba(180, 83, 9, 0.12); padding: 2px 8px; border-radius: 2px; color: #B45309; font-weight: 700;">
+                    🔥 5-DAY STREAK
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: center;">
+            <!-- Interactive SVG Velocity Curve -->
+            <div>
+                <div style="height: 110px; width: 100%;">
+                    <svg viewBox="0 0 500 110" style="width: 100%; height: 100%; overflow: visible;">
+                        <defs>
+                            <linearGradient id="velocityGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#D97706" stop-opacity="0.28" />
+                                <stop offset="100%" stop-color="#D97706" stop-opacity="0.0" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Grid lines -->
+                        <line x1="0" y1="20" x2="500" y2="20" stroke="rgba(120, 113, 108, 0.15)" stroke-dasharray="3,3" />
+                        <line x1="0" y1="55" x2="500" y2="55" stroke="rgba(120, 113, 108, 0.15)" stroke-dasharray="3,3" />
+                        <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(120, 113, 108, 0.15)" stroke-dasharray="3,3" />
+                        
+                        <!-- Area Fill -->
+                        <path d="M 10,85 Q 90,65 170,40 T 330,25 T 490,15 L 490,95 L 10,95 Z" fill="url(#velocityGrad)" />
+                        <!-- Line Curve -->
+                        <path d="M 10,85 Q 90,65 170,40 T 330,25 T 490,15" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round" />
+                        
+                        <!-- Data Points -->
+                        <circle cx="10" cy="85" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="90" cy="72" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="170" cy="40" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="250" cy="48" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="330" cy="25" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="410" cy="32" r="4" fill="#231F1D" stroke="#D97706" stroke-width="2" />
+                        <circle cx="490" cy="15" r="5" fill="#FAF7F2" stroke="#B45309" stroke-width="3" />
+                    </svg>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 0.625rem; color: var(--text-muted, #78716C); margin-top: 0.25rem;">
+                    <span>Mon (18m)</span>
+                    <span>Tue (24m)</span>
+                    <span>Wed (42m)</span>
+                    <span>Thu (35m)</span>
+                    <span>Fri (58m)</span>
+                    <span>Sat (48m)</span>
+                    <span style="color: #D97706; font-weight: 700;">Sun (64m)</span>
+                </div>
+            </div>
+
+            <!-- Focus Desks Breakdown -->
+            <div style="border-left: 1px dashed rgba(120, 113, 108, 0.3); padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-family: 'Geist Mono', monospace; font-size: 0.6875rem;">
+                <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">EDITORIAL DESK RATIO</div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <span>Geopolitics &amp; Sahel</span>
+                        <strong style="color: #B45309;">45%</strong>
+                    </div>
+                    <div style="width: 100%; height: 5px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
+                        <div style="width: 45%; height: 100%; background: #B45309;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <span>AfCFTA &amp; Trade</span>
+                        <strong style="color: #D97706;">30%</strong>
+                    </div>
+                    <div style="width: 100%; height: 5px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
+                        <div style="width: 30%; height: 100%; background: #D97706;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <span>Tech Sovereignty</span>
+                        <strong style="color: #0B5128;">25%</strong>
+                    </div>
+                    <div style="width: 100%; height: 5px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
+                        <div style="width: 25%; height: 100%; background: #0B5128;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 2. Interactive Broadsheet Dashboard Tabs -->
@@ -149,13 +247,13 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
                 <p style="font-size: 0.875rem; color: var(--text-secondary, #5C564E); max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.5;">
                     Follow geopolitical desks and news categories across Magazine Afrique to receive your curated continental news digest here.
                 </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center;">
                     <?php
                     $available_cats = get_categories(array('number' => 8, 'orderby' => 'count', 'order' => 'DESC', 'exclude' => array(1)));
                     foreach ($available_cats as $c) :
                         $is_fol = in_array($c->term_id, $followed_cats);
                     ?>
-                        <button type="button" class="btn-follow-cat <?php echo $is_fol ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($c->term_id); ?>" data-type="category" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+                        <button type="button" class="btn-follow-cat empty-cat-chip <?php echo $is_fol ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($c->term_id); ?>" data-term-id="<?php echo esc_attr($c->term_id); ?>" data-name="<?php echo esc_attr($c->name); ?>" data-type="category" style="padding: 0.5rem 0.95rem; font-size: 0.75rem; font-family: 'Geist Mono', monospace; font-weight: 700; letter-spacing: 0.04em;">
                             <?php echo $is_fol ? '✓ ' . esc_html($c->name) : '+ ' . esc_html($c->name); ?>
                         </button>
                     <?php endforeach; ?>

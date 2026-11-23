@@ -182,7 +182,93 @@
       $('#artcraft-drawer-backdrop').removeClass('open');
     });
 
-    // 7. Clean Admin Header Text (Remove "Howdy, ")
+    // 8. Users Page: List vs Grid Cards View Switcher
+    if ($('body').hasClass('users-php')) {
+      var savedUsersView = localStorage.getItem('magafrique_users_view') || 'grid';
+      if (savedUsersView === 'grid') {
+        $('body').addClass('magafrique-users-grid-mode');
+      }
+
+      var $usersHeader = $('.wrap h1');
+      if ($usersHeader.length > 0 && $('.magafrique-view-switcher').length === 0) {
+        var $switcher = $(
+          '<div class="magafrique-view-switcher" style="display: inline-flex; align-items: center; gap: 4px; margin-left: 1rem; background: rgba(255, 255, 255, 0.06); padding: 3px; border-radius: 4px; border: 1px solid var(--art-border); vertical-align: middle;">' +
+            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'grid' ? 'active' : '') + '" data-view="grid" title="Display Users as Cards" style="background: ' + (savedUsersView === 'grid' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">▦ Cards</button>' +
+            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'list' ? 'active' : '') + '" data-view="list" title="Display Users as Table" style="background: ' + (savedUsersView === 'list' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">☵ Table</button>' +
+          '</div>'
+        );
+        $usersHeader.append($switcher);
+      }
+
+      $(document).on('click', '.artcraft-view-toggle-btn', function (e) {
+        e.preventDefault();
+        var view = $(this).data('view');
+        $('.artcraft-view-toggle-btn').css('background', 'transparent').removeClass('active');
+        $(this).css('background', 'rgba(255, 255, 255, 0.15)').addClass('active');
+
+        if (view === 'grid') {
+          $('body').addClass('magafrique-users-grid-mode');
+          localStorage.setItem('magafrique_users_view', 'grid');
+        } else {
+          $('body').removeClass('magafrique-users-grid-mode');
+          localStorage.setItem('magafrique_users_view', 'list');
+        }
+      });
+    }
+
+    // 9. Comments Page: Editorial Analytics Header
+    if ($('body').hasClass('edit-comments-php')) {
+      var allCount = $('.subsubsub .all .count').text().replace(/[()]/g, '') || '0';
+      var modCount = $('.subsubsub .moderated .count').text().replace(/[()]/g, '') || '0';
+      var appCount = $('.subsubsub .approved .count').text().replace(/[()]/g, '') || '0';
+      var spamCount = $('.subsubsub .spam .count').text().replace(/[()]/g, '') || '0';
+
+      if ($('.magafrique-comments-analytics-bar').length === 0) {
+        var $analyticsBar = $(
+          '<div class="magafrique-comments-analytics-bar artcraft-table-card" style="margin: 1.25rem 0 1.5rem; padding: 1.25rem 1.5rem;">' +
+            '<span class="artcraft-reticle reticle-tl">+</span>' +
+            '<span class="artcraft-reticle reticle-tr">+</span>' +
+            '<span class="artcraft-reticle reticle-bl">+</span>' +
+            '<span class="artcraft-reticle reticle-br">+</span>' +
+            '<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--art-border); padding-bottom: 0.85rem; margin-bottom: 1rem;">' +
+              '<div>' +
+                '<span style="font-family: \'Geist Mono\', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--art-text-muted); text-transform: uppercase;">READER DISCOURSE INTELLIGENCE</span>' +
+                '<h3 style="margin: 0.2rem 0 0; color: #FFFFFF; font-size: 1.15rem; font-family: \'Archivo\', sans-serif; font-weight: 700;">Comments &amp; Engagement Analytics</h3>' +
+              '</div>' +
+              '<div style="display: flex; align-items: center; gap: 6px;">' +
+                '<span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block;"></span>' +
+                '<span style="font-family: \'Geist Mono\', monospace; font-size: 11px; color: #10B981; font-weight: 600;">ACTIVE MODERATION DISPATCH</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="artcraft-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 0;">' +
+              '<div class="artcraft-kpi-card" style="padding: 0.85rem 1rem;">' +
+                '<span class="kpi-label">TOTAL DISPATCHES</span>' +
+                '<span class="kpi-val" style="font-size: 1.6rem;">' + allCount + '</span>' +
+                '<span class="kpi-meta">All Recorded Commentary</span>' +
+              '</div>' +
+              '<div class="artcraft-kpi-card" style="padding: 0.85rem 1rem;">' +
+                '<span class="kpi-label">APPROVED READERS</span>' +
+                '<span class="kpi-val" style="font-size: 1.6rem; color: #34D399;">' + appCount + '</span>' +
+                '<span class="kpi-meta">Live on Public Gazette</span>' +
+              '</div>' +
+              '<div class="artcraft-kpi-card" style="padding: 0.85rem 1rem;">' +
+                '<span class="kpi-label">PENDING REVIEW</span>' +
+                '<span class="kpi-val" style="font-size: 1.6rem; color: #FBBF24;">' + modCount + '</span>' +
+                '<span class="kpi-meta">Awaiting Editorial Stamp</span>' +
+              '</div>' +
+              '<div class="artcraft-kpi-card" style="padding: 0.85rem 1rem;">' +
+                '<span class="kpi-label">SPAM QUARANTINE</span>' +
+                '<span class="kpi-val" style="font-size: 1.6rem; color: #F87171;">' + spamCount + '</span>' +
+                '<span class="kpi-meta">Neutralized Intrusions</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        );
+        $('.wrap .subsubsub').first().after($analyticsBar);
+      }
+    }
+
+    // 10. Clean Admin Header Text (Remove "Howdy, ")
     var $accountLink = $('#wp-admin-bar-my-account > a.ab-item');
     if ($accountLink.length > 0) {
       var html = $accountLink.html();

@@ -4,7 +4,7 @@ Theme URI: https://magazineafrique.org
 Author: Magazine Afrique Team
 Author URI: https://magazineafrique.org
 Description: A modern, ultra-fast, African-rooted editorial theme for Magazine Afrique. Features warm alabaster light mode, server-side paywall engine, Google-compliant NewsArticle SEO schema, zero-CLS Google Ads containers, and newsletter integration.
-Version: 1.3.0
+Version: 1.4.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -74,26 +74,31 @@ Text Domain: magazineafrique
   gap: 6px;
   padding: 0 14px;
   height: 100%;
-  background: #0B5128;
-  color: #FAF7F2;
+  background: #231F1D !important;
+  color: #FAF7F2 !important;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   flex-shrink: 0;
   z-index: 5;
-  border-right: 1.5px solid #000000;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.16) !important;
 }
 
 [data-theme="dark"] .ticker-location-cluster {
-  background: #0B5128;
-  border-right-color: rgba(255, 255, 255, 0.16);
+  background: #171513 !important;
+  color: #FBBF24 !important;
+  border-right-color: rgba(255, 255, 255, 0.16) !important;
 }
 
 .ticker-dot {
-  color: #34D399;
+  color: #D4AF37 !important;
   font-size: 8px;
   animation: pulse-dot 1.5s infinite;
+}
+
+[data-theme="dark"] .ticker-dot {
+  color: #FBBF24 !important;
 }
 
 @keyframes pulse-dot {
