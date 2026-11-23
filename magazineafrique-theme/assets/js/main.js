@@ -76,17 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Desktop Nav Sub-menu Click & Hover Persistence (Guaranteed Zero Early Disappearance)
   const navMenuItemsWithChildren = document.querySelectorAll('.editorial-nav-list li.menu-item-has-children');
   navMenuItemsWithChildren.forEach(item => {
-    const link = item.querySelector('> a');
+    const link = item.querySelector(':scope > a') || item.firstElementChild;
     let closeTimer = null;
 
     if (link) {
       link.addEventListener('click', (e) => {
-        // On click, toggle open state so reader can interact comfortably
-        const wasActive = item.classList.contains('is-active');
-        navMenuItemsWithChildren.forEach(other => other.classList.remove('is-active'));
-        if (!wasActive) {
-          e.preventDefault();
-          item.classList.add('is-active');
+        // If on a touch device or first click, toggle open state so reader can interact comfortably
+        if (window.innerWidth <= 1024 || !item.classList.contains('is-active')) {
+          const wasActive = item.classList.contains('is-active');
+          navMenuItemsWithChildren.forEach(other => other.classList.remove('is-active'));
+          if (!wasActive) {
+            e.preventDefault();
+            item.classList.add('is-active');
+          }
         }
       });
     }
@@ -109,6 +111,23 @@ document.addEventListener('DOMContentLoaded', () => {
       navMenuItemsWithChildren.forEach(item => item.classList.remove('is-active'));
     }
   });
+
+  // YouTube Playlist Switcher for Gazette Broadcasts
+  const playlistTabs = document.querySelectorAll('.yt-playlist-tab-btn');
+  const ytPlayer = document.getElementById('gazette-youtube-player');
+  if (playlistTabs.length && ytPlayer) {
+    playlistTabs.forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        const playlistId = this.getAttribute('data-playlist');
+        if (playlistId) {
+          ytPlayer.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(playlistId);
+          playlistTabs.forEach(t => t.classList.remove('is-active'));
+          this.classList.add('is-active');
+        }
+      });
+    });
+  }
 
   // Global ESC Key Listener
   document.addEventListener('keydown', (e) => {

@@ -283,134 +283,54 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         3. LIFESTYLE & LIVING (UI: Essence Opulent Magazine Spread)
-         Pure African Luxury, Haute Couture, Design & Travel - NOT News, NOT Health, NOT How-To's
+         3. LIFESTYLE & LIVING SALON (Full-Width Inverted Contrast Desk)
+         Pure African Luxury, Haute Couture, Design & Private Escapes
+         Inverted Theme: Dark in Light Mode (#141210) | Light in Dark Mode (#FAF7F2)
+         Tactile Postcard Design with Offset Hard Drop Shadow (6px 6px 0px #000)
+         Full-Width Viewport Spread (Not Boxed)
          ========================================================================== -->
-    <section class="desk-section desk-lifestyle-essence" aria-label="Lifestyle &amp; Living">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Lifestyle &amp; Living</h2>
-                <span class="desk-section-tag">AFRICAN LUXURY · HAUTE COUTURE · ESCAPES &amp; DESIGN</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>" class="desk-view-index-btn">
-                Lifestyle Salon →
-            </a>
-        </div>
-
-        <div class="lifestyle-essence-grid">
-            <?php
-            $life_query = magazineafrique_query_category_posts(array('lifestyle'), 3, $displayed_post_ids);
-            $l_idx = 0;
-            if ($life_query->have_posts()) :
-                while ($life_query->have_posts()) : $life_query->the_post();
-                    $l_idx++;
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <?php if ($l_idx === 1) : ?>
-                    <!-- Left: Large Lifestyle Cover Feature (Magazine Style) -->
-                    <article class="lifestyle-cover-card">
-                        <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>" class="lifestyle-cover-img-wrap">
-                                <?php the_post_thumbnail('magazine-hero', array('class' => 'lifestyle-cover-img')); ?>
-                            </a>
-                        <?php endif; ?>
-                        <div class="lifestyle-cover-body">
-                            <span class="lifestyle-couture-badge">LIVING &amp; STYLE COVER</span>
-                            <h3 class="lifestyle-cover-title vintage-newspaper-headline">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                            </h3>
-                            <p class="lifestyle-cover-deck">
-                                <?php echo wp_trim_words(get_the_excerpt(), 22); ?>
-                            </p>
-                            <div class="lifestyle-cover-footer">
-                                <span>From Our Correspondent in Lagos &amp; Dakar · <?php echo esc_html(get_the_date('M j')); ?></span>
-                                <a href="<?php the_permalink(); ?>" class="card-read-more-link">Explore Living →</a>
-                            </div>
-                        </div>
-                    </article>
-                    <div class="lifestyle-companion-stack">
-                <?php else : ?>
-                    <!-- Right: Stacked Visual Lifestyle Vignettes -->
-                    <article class="lifestyle-vignette-card">
-                        <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>" class="lifestyle-vignette-thumb-wrap">
-                                <?php the_post_thumbnail('magazine-card', array('class' => 'lifestyle-vignette-img')); ?>
-                            </a>
-                        <?php endif; ?>
-                        <div class="lifestyle-vignette-body">
-                            <span class="card-kicker-badge">HAUTE COUTURE &amp; DESIGN</span>
-                            <h4 class="lifestyle-vignette-title vintage-newspaper-headline">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                            </h4>
-                            <p class="card-excerpt-clamped">
-                                <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                            </p>
-                            <div class="card-footer-meta">
-                                <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-                                <a href="<?php the_permalink(); ?>" class="card-read-more-link">Discover →</a>
-                            </div>
-                        </div>
-                    </article>
-                <?php endif; ?>
-            <?php
-                endwhile;
-                if ($l_idx > 1) {
-                    echo '</div>'; // close lifestyle-companion-stack
-                }
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         4. INVERTED THEME CONTRAST SECTION: PAN-AFRICAN ARCHIVE VAULT
-         Light Mode = Deep Obsidian Dark (#141210) | Dark Mode = Warm Cream Parchment (#FAF7F2)
-         ========================================================================== -->
-    <section class="theme-inverted-section" aria-label="Pan-African Culture &amp; History Archive">
-        <div class="inverted-section-inner">
-            <div class="desk-section-header inverted-desk-header">
+    <section class="desk-section desk-lifestyle-fullwidth desk-lifestyle-inverted" aria-label="Lifestyle &amp; Living">
+        <div class="lifestyle-fullwidth-inner">
+            <div class="desk-section-header lifestyle-inverted-header">
                 <div class="desk-heading-left">
                     <span class="desk-bullet">❖</span>
-                    <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Pan-African Archive Vault</h2>
-                    <span class="desk-section-tag">CLASSIFIED HISTORICAL DOSSIERS · LIBERATION PAPERS</span>
+                    <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Lifestyle &amp; Living</h2>
+                    <span class="desk-section-tag">AFRICAN LUXURY · HAUTE COUTURE · ESCAPES &amp; DESIGN</span>
                 </div>
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>" class="desk-view-index-btn">
-                    Archive Registry →
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>" class="lifestyle-index-club-btn">
+                    Lifestyle Salon ↗
                 </a>
             </div>
 
-            <div class="inverted-archive-grid">
+            <div class="lifestyle-postcards-grid">
                 <?php
-                $hist_query = magazineafrique_query_category_posts(array('culture-history'), 3, $displayed_post_ids);
-                if ($hist_query->have_posts()) :
-                    while ($hist_query->have_posts()) : $hist_query->the_post();
+                $life_query = magazineafrique_query_category_posts(array('lifestyle'), 4, $displayed_post_ids);
+                if ($life_query->have_posts()) :
+                    while ($life_query->have_posts()) : $life_query->the_post();
                         $displayed_post_ids[] = get_the_ID();
                 ?>
-                    <article class="archive-vault-card">
-                        <div class="vault-card-stamp-row">
-                            <span class="vault-stamp-tag">HISTORICAL RECORD</span>
-                            <span class="vault-serial-num">#DOSSIER-<?php the_ID(); ?></span>
+                    <article class="lifestyle-postcard">
+                        <div class="lifestyle-postcard-stamp-header">
+                            <span class="lifestyle-club-badge">LIFESTYLE</span>
+                            <span class="lifestyle-postal-mark">AFRIQUE № <?php the_ID(); ?></span>
                         </div>
                         <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>" class="vault-thumb-wrap">
-                                <?php the_post_thumbnail('magazine-card', array('class' => 'vault-thumb-img')); ?>
+                            <a href="<?php the_permalink(); ?>" class="lifestyle-postcard-img-wrap">
+                                <?php the_post_thumbnail('magazine-card', array('class' => 'lifestyle-postcard-img')); ?>
                             </a>
                         <?php endif; ?>
-                        <div class="vault-card-body">
-                            <h3 class="vault-card-title vintage-newspaper-headline">
+                        <div class="lifestyle-postcard-body">
+                            <h3 class="lifestyle-postcard-title vintage-newspaper-headline">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h3>
-                            <p class="vault-card-excerpt">
-                                <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                            <p class="lifestyle-postcard-excerpt">
+                                <?php echo wp_trim_words(get_the_excerpt(), 16); ?>
                             </p>
-                            <div class="vault-card-footer">
-                                <span>ARCHIVE CORRESPONDENCE · <?php echo esc_html(get_the_date('Y')); ?></span>
-                                <a href="<?php the_permalink(); ?>" class="vault-read-cta">Unseal File →</a>
+                            <div class="lifestyle-postcard-footer">
+                                <span class="lifestyle-postcard-meta"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                                <a href="<?php the_permalink(); ?>" class="lifestyle-postcard-btn">
+                                    READ ↗
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -427,74 +347,140 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
+         4. PAN-AFRICAN ARCHIVE VAULT (Culture, History & Liberation Papers)
+         UI: Historic Classified Dossiers & Archival Records
+         ========================================================================== -->
+    <section class="desk-section desk-archive-vault" aria-label="Pan-African Culture &amp; History Archive">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet">❖</span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Pan-African Archive Vault</h2>
+                <span class="desk-section-tag">CLASSIFIED HISTORICAL DOSSIERS · LIBERATION PAPERS</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>" class="desk-view-index-btn">
+                Archive Registry →
+            </a>
+        </div>
+
+        <div class="archive-vault-grid">
+            <?php
+            $hist_query = magazineafrique_query_category_posts(array('culture-history'), 3, $displayed_post_ids);
+            if ($hist_query->have_posts()) :
+                while ($hist_query->have_posts()) : $hist_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <article class="archive-vault-card">
+                    <div class="vault-card-stamp-row">
+                        <span class="vault-stamp-tag">HISTORICAL RECORD</span>
+                        <span class="vault-serial-num">#DOSSIER-<?php the_ID(); ?></span>
+                    </div>
+                    <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="vault-thumb-wrap">
+                            <?php the_post_thumbnail('magazine-card', array('class' => 'vault-thumb-img')); ?>
+                        </a>
+                    <?php endif; ?>
+                    <div class="vault-card-body">
+                        <h3 class="vault-card-title vintage-newspaper-headline">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+                        <p class="vault-card-excerpt">
+                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                        </p>
+                        <div class="vault-card-footer">
+                            <span>ARCHIVE RECORD · <?php echo esc_html(get_the_date('M Y')); ?></span>
+                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Unseal File →</a>
+                        </div>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
          5. YOUTUBE MULTIMEDIA BROADCASTS NETWORK (Long-Form & Shorts)
-         Dedicated Video Desk with 16:9 Long-Form Showcase & 9:16 Shorts Reels
+         Official Channel: @magazineafrique
+         Featuring Playlists: Investigations, Business, Culture, Leaders & Docuseries
          ========================================================================== -->
     <section class="desk-section desk-youtube-broadcasts" aria-label="YouTube Video Network">
-        <div class="desk-section-header">
+        <div class="desk-section-header yt-network-header">
             <div class="desk-heading-left">
                 <span class="youtube-live-dot">●</span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Gazette Video Broadcasts</h2>
-                <span class="desk-section-tag">YOUTUBE MULTIMEDIA · INVESTIGATIONS &amp; SHORTS</span>
+                <span class="desk-section-tag">YOUTUBE MULTIMEDIA · INVESTIGATIONS, BRIEFINGS &amp; SHORTS</span>
             </div>
-            <a href="https://www.youtube.com/@MagazineAfrique" target="_blank" rel="noopener" class="youtube-channel-subscribe-btn">
-                <svg width="18" height="14" viewBox="0 0 24 18" fill="currentColor" style="color: #FF0000; vertical-align: middle; margin-right: 4px;">
-                    <path d="M23.498 2.628a3.008 3.008 0 0 0-2.119-2.128C19.505 0 12 0 12 0S4.495 0 2.621.5C1.684.75 1.002 1.488.752 2.628 0 4.512 0 8.5 0 8.5s0 3.988.752 5.872c.25.99.932 1.728 1.869 1.978C4.495 17 12 17 12 17s7.505 0 9.379-.5a3.008 3.008 0 0 0 2.119-2.128C24 12.488 24 8.5 24 8.5s0-3.988-.502-5.872zM9.545 12.115V4.885L15.818 8.5l-6.273 3.615z"/>
-                </svg>
-                Subscribe on YouTube ↗
-            </a>
+            <div class="yt-header-actions">
+                <a href="https://www.youtube.com/@magazineafrique/playlists" target="_blank" rel="noopener" class="youtube-all-playlists-btn">
+                    All Playlists ↗
+                </a>
+                <a href="https://www.youtube.com/@magazineafrique?sub_confirmation=1" target="_blank" rel="noopener" class="youtube-channel-subscribe-btn">
+                    <svg width="18" height="14" viewBox="0 0 24 18" fill="currentColor" style="color: #FF0000; vertical-align: middle; margin-right: 4px;">
+                        <path d="M23.498 2.628a3.008 3.008 0 0 0-2.119-2.128C19.505 0 12 0 12 0S4.495 0 2.621.5C1.684.75 1.002 1.488.752 2.628 0 4.512 0 8.5 0 8.5s0 3.988.752 5.872c.25.99.932 1.728 1.869 1.978C4.495 17 12 17 12 17s7.505 0 9.379-.5a3.008 3.008 0 0 0 2.119-2.128C24 12.488 24 8.5 24 8.5s0-3.988-.502-5.872zM9.545 12.115V4.885L15.818 8.5l-6.273 3.615z"/>
+                    </svg>
+                    Subscribe ↗
+                </a>
+            </div>
+        </div>
+
+        <!-- Playlist Selector Tabs -->
+        <div class="yt-playlist-nav-bar" role="tablist" aria-label="Gazette Video Playlists">
+            <button class="yt-playlist-tab-btn is-active" data-playlist="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf">
+                ★ Investigations
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV">
+                Business &amp; Finance
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLDNmDjH5G7Uc">
+                Culture &amp; Heritage
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLXG609iDRBIk">
+                Leaders &amp; Biographies
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLLAt7u0bxSBg">
+                Continental Docuseries
+            </button>
         </div>
 
         <div class="youtube-studio-grid">
             
-            <!-- Left: Featured Long-Form Widescreen Video Showcase -->
+            <!-- Left: Embedded Interactive Widescreen Player -->
             <div class="youtube-longform-column">
-                <div class="yt-feature-player-card">
-                    <div class="yt-video-screen-wrap">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Gazette Broadcast" class="yt-video-thumb-img" />
-                        <a href="https://www.youtube.com/@MagazineAfrique" target="_blank" rel="noopener" class="yt-play-button-overlay" aria-label="Play Gazette Broadcast">
-                            <span class="yt-play-triangle">▶</span>
-                        </a>
-                        <span class="yt-duration-pill">24:18 · FULL BROADCAST</span>
+                <div class="yt-player-container-card">
+                    <div class="yt-video-responsive-frame">
+                        <iframe id="gazette-youtube-player" 
+                                src="https://www.youtube-nocookie.com/embed/videoseries?list=PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" 
+                                title="Magazine Afrique YouTube Player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                                allowfullscreen>
+                        </iframe>
                     </div>
                     <div class="yt-feature-meta-block">
-                        <span class="yt-broadcast-kicker">★ SPECIAL INVESTIGATION · VIDEO DOSSIER</span>
+                        <div class="yt-meta-badge-row">
+                            <span class="yt-broadcast-kicker">★ CONTINENTAL BROADCAST DESK</span>
+                            <span class="yt-meta-live-badge">FULL ARCHIVE</span>
+                        </div>
                         <h3 class="yt-feature-title vintage-newspaper-headline">
-                            <a href="https://www.youtube.com/@MagazineAfrique" target="_blank" rel="noopener">
-                                The Corridor of Power: Unraveling the AfCFTA Sovereign Trade Matrix
+                            <a href="https://www.youtube.com/@magazineafrique" target="_blank" rel="noopener">
+                                Magazine Afrique Video Despatches &amp; Investigative Series
                             </a>
                         </h3>
                         <p class="yt-feature-desc">
-                            Watch our senior geopolitical correspondents break down satellite imagery, mining concessions, and cross-border currency settlement agreements across 54 nations.
+                            Direct from our correspondents across Dakar, Lagos, Nairobi, Johannesburg and London. Select any playlist tab above to stream curated investigations, geopolitical deep-dives, economic masterclasses, and cultural portraits.
                         </p>
-                    </div>
-                </div>
-
-                <!-- 2 Secondary Long-Form Broadcast Rows -->
-                <div class="yt-secondary-longform-row">
-                    <div class="yt-secondary-item">
-                        <div class="yt-sec-thumb-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Gazette Video" class="yt-sec-thumb" />
-                            <span class="yt-sec-duration">14:02</span>
-                        </div>
-                        <div class="yt-sec-details">
-                            <span class="yt-sec-tag">MACRO INTERVIEW</span>
-                            <h4 class="yt-sec-title vintage-newspaper-headline">
-                                <a href="https://www.youtube.com/@MagazineAfrique" target="_blank" rel="noopener">Central Bank Governors on De-Dollarization &amp; PAPSS</a>
-                            </h4>
-                        </div>
-                    </div>
-
-                    <div class="yt-secondary-item">
-                        <div class="yt-sec-thumb-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Gazette Video" class="yt-sec-thumb" />
-                            <span class="yt-sec-duration">19:45</span>
-                        </div>
-                        <div class="yt-sec-details">
-                            <span class="yt-sec-tag">FIELD DESPATCH</span>
-                            <h4 class="yt-sec-title vintage-newspaper-headline">
-                                <a href="https://www.youtube.com/@MagazineAfrique" target="_blank" rel="noopener">The Lithium Corridor: Inside Zimbabwe &amp; DRC Mines</a>
-                            </h4>
+                        <div class="yt-quick-playlist-links">
+                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" target="_blank" rel="noopener" class="yt-pill-link">Investigations ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV" target="_blank" rel="noopener" class="yt-pill-link">Business Desk ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLDNmDjH5G7Uc" target="_blank" rel="noopener" class="yt-pill-link">Arts &amp; Heritage ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLXG609iDRBIk" target="_blank" rel="noopener" class="yt-pill-link">Biographies ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLLAt7u0bxSBg" target="_blank" rel="noopener" class="yt-pill-link">Docuseries ↗</a>
                         </div>
                     </div>
                 </div>
@@ -507,41 +493,60 @@ get_header(); ?>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 3px; vertical-align: middle;">
                             <path d="M10 15l5.19-3L10 9v6m11.5-6.6a2.6 2.6 0 00-1.8-1.8C18 6.1 12 6.1 12 6.1s-6 0-7.7.5a2.6 2.6 0 00-1.8 1.8A27.2 27.2 0 002 12a27.2 27.2 0 00.5 5.6 2.6 2.6 0 001.8 1.8c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.6 2.6 0 001.8-1.8A27.2 27.2 0 0022 12a27.2 27.2 0 00-.5-6.6z"/>
                         </svg>
-                        SHORTS REELS
+                        SHORTS
                     </span>
-                    <span class="yt-shorts-subtag">QUICK INTELLIGENCE</span>
+                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-shorts-subtag">
+                        @magazineafrique/shorts ↗
+                    </a>
                 </div>
 
                 <div class="yt-shorts-rack">
                     <!-- Reel 1 -->
-                    <a href="https://www.youtube.com/@MagazineAfrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
+                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
                         <div class="yt-short-aspect-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts" class="yt-short-img" />
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
                             <div class="yt-short-scrim"></div>
                             <span class="yt-short-play-badge">▶</span>
                             <div class="yt-short-caption-wrap">
                                 <span class="yt-short-cat">#FINTECH</span>
                                 <p class="yt-short-title">How Lagos became Africa's trillion-dollar tech capital</p>
-                                <span class="yt-short-views">42K views</span>
+                                <span class="yt-short-views">Watch on Shorts ↗</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Reel 2 -->
-                    <a href="https://www.youtube.com/@MagazineAfrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
+                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
                         <div class="yt-short-aspect-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts" class="yt-short-img" />
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
                             <div class="yt-short-scrim"></div>
                             <span class="yt-short-play-badge">▶</span>
                             <div class="yt-short-caption-wrap">
-                                <span class="yt-short-cat">#MINERALS</span>
-                                <p class="yt-short-title">The rare earth deposits funding Africa's next boom</p>
-                                <span class="yt-short-views">88K views</span>
+                                <span class="yt-short-cat">#RESOURCES</span>
+                                <p class="yt-short-title">The rare earth deposits driving Africa's next economic surge</p>
+                                <span class="yt-short-views">Watch on Shorts ↗</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Reel 3 -->
+                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
+                        <div class="yt-short-aspect-wrap">
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
+                            <div class="yt-short-scrim"></div>
+                            <span class="yt-short-play-badge">▶</span>
+                            <div class="yt-short-caption-wrap">
+                                <span class="yt-short-cat">#LEADERSHIP</span>
+                                <p class="yt-short-title">Pan-African founders reshaping global finance &amp; logistics</p>
+                                <span class="yt-short-views">Watch on Shorts ↗</span>
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
+
+        </div>
+    </section>
 
         </div>
     </section>
