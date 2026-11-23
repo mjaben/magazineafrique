@@ -521,22 +521,37 @@ if (!function_exists('magazineafrique_render_admin_desk_page')) {
             </form>
 
             <!-- Direct Brand Reach & Buy Ad Space Management Desk Card -->
-            <div class="workspace-tool-card" style="padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(217, 119, 6, 0.4); background: #171513;">
+            <?php
+            global $wpdb;
+            $ad_tbl = $wpdb->prefix . 'magazineafrique_ad_campaigns';
+            $pending_ad_count = 0;
+            if ($wpdb->get_var("SHOW TABLES LIKE '$ad_tbl'") == $ad_tbl) {
+                $pending_ad_count = (int) $wpdb->get_var("SELECT COUNT(*) FROM $ad_tbl WHERE status = 'pending_review' OR payment_status = 'unpaid'");
+            }
+            ?>
+            <div class="workspace-tool-card" style="padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid <?php echo $pending_ad_count > 0 ? 'rgba(245, 158, 11, 0.6)' : 'rgba(217, 119, 6, 0.4)'; ?>; background: #171513; <?php echo $pending_ad_count > 0 ? 'box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);' : ''; ?>">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
                     <div>
-                        <span style="background: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 0.35rem;">
-                            COMMERCIAL ADVERTISING INVENTORY
-                        </span>
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 0.35rem;">
+                            <span style="background: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 3px; display: inline-block;">
+                                COMMERCIAL ADVERTISING INVENTORY
+                            </span>
+                            <?php if ($pending_ad_count > 0) : ?>
+                                <span style="background: #F59E0B; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 9999px;">
+                                    ⚠ <?php echo $pending_ad_count; ?> Awaiting Payment Approval
+                                </span>
+                            <?php endif; ?>
+                        </div>
                         <h3 style="color: #FFFFFF; font-size: 1.15rem; font-weight: 700; margin: 0 0 0.5rem;">
                             Direct Brand Reach &amp; Buy Ad Space Management Desk
                         </h3>
                         <p style="color: var(--art-text-sub); font-size: 13px; margin: 0 0 1rem; max-width: 650px; line-height: 1.5;">
-                            Manage direct advertiser bookings, verify Eco Bank wire payments, chat with advertisers on WhatsApp, configure sovereign CPM pricing rates, and monitor the 5-hour space rotation shift.
+                            Review incoming advertiser creative banners, approve Eco Bank wire payments to launch ads live, chat directly with advertisers on WhatsApp, and configure sovereign CPM pricing rates.
                         </p>
                     </div>
                     <div>
-                        <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads')); ?>" class="button button-primary" style="background: #D97706; border-color: #D97706; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace; padding: 6px 16px; font-size: 11px;">
-                            Open Buy Ad Space Desk →
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads' . ($pending_ad_count > 0 ? '&status_filter=pending_review' : ''))); ?>" class="button button-primary" style="background: <?php echo $pending_ad_count > 0 ? '#10B981; border-color: #10B981; color: #000000;' : '#D97706; border-color: #D97706; color: #171513;'; ?> font-weight: 800; font-family: 'Geist Mono', monospace; padding: 6px 16px; font-size: 11px;">
+                            <?php echo $pending_ad_count > 0 ? '✓ Review & Approve Ads (' . $pending_ad_count . ') →' : 'Open Buy Ad Space Desk →'; ?>
                         </a>
                     </div>
                 </div>

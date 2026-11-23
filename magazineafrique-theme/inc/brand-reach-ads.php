@@ -470,15 +470,61 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
         }
 
         // ---------------------------------------------------------------------
-        // Action: Campaign Status Toggles (Activate, Pause, Complete, Delete, Paid, Unpaid)
+        // Action: Campaign Status Toggles & Payment Approval
         // ---------------------------------------------------------------------
         if (isset($_GET['action'], $_GET['campaign_id']) && check_admin_referer('magafrique_ad_action')) {
             $campaign_id = intval($_GET['campaign_id']);
             $action = sanitize_text_field($_GET['action']);
 
-            if ($action === 'activate') {
-                $wpdb->update($table_name, array('status' => 'active', 'payment_status' => 'paid'), array('id' => $campaign_id));
-                echo '<div class="notice notice-success is-dismissible"><p>✓ Campaign #' . $campaign_id . ' activated and set live on site (marked paid).</p></div>';
+            if ($action === 'approve_and_live' || $action === 'activate') {
+                $current_user = wp_get_current_user();
+                $approver_name = $current_user && !empty($current_user->display_name) ? $current_user->display_name : 'Commercial Admin';
+                
+                $wpdb->update($table_name, array(
+                    'status'         => 'active',
+                    'payment_status' => 'paid',
+                    'admin_notes'    => 'Payment approved and launched live on ' . current_time('mysql') . ' by ' . $approver_name
+                ), array('id' => $campaign_id));
+
+                $camp = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $campaign_id));
+                if ($camp && !empty($camp->contact_email)) {
+                    $formatted_total = ($camp->currency === 'USD' ? '$' : '₦') . number_format($camp->total_amount);
+                    $live_subject = "[Campaign Live] Payment Approved & Verified — Ad Space #{$camp->booking_code} is Now Live on Magazine Afrique";
+                    $live_message = "Dear {$camp->contact_name},\n\n" .
+                        "We are pleased to inform you that your Eco Bank payment has been formally verified and approved by the Magazine Afrique Commercial Directorate.\n\n" .
+                        "YOUR AD SPACE IS NOW ACTIVELY SERVING LIVE READERS:\n" .
+                        "====================================================\n" .
+                        "Booking Reference      : #{$camp->booking_code}\n" .
+                        "Brand / Enterprise     : {$camp->brand_name}\n" .
+                        "Target Ad Space        : {$camp->spot_title}\n" .
+                        "Contracted Impressions : " . number_format($camp->impressions_booked) . " verified reader impressions\n" .
+                        "Settled Investment     : $formatted_total (PAID & VERIFIED)\n" .
+                        "Destination URL        : {$camp->destination_url}\n" .
+                        "Live Publication Wire  : " . home_url('/') . "\n" .
+                        "====================================================\n\n" .
+                        "Your creative asset is now actively rotating in prime broadsheet position across our pan-African edition and global diaspora readership.\n\n" .
+                        "You can verify your live banner directly on the publication wire at: " . home_url('/') . "\n\n" .
+                        "For any campaign adjustments, CTR reports, or additional impression reservations, contact our syndicate desk directly via WhatsApp at " . $bank_details['whatsapp_number'] . ".\n\n" .
+                        "Respectfully,\n" .
+                        "Commercial & Brand Reach Syndicate\n" .
+                        "Magazine Afrique — Sovereign Pan-African Journalism\n" .
+                        "commercial@magazineafrique.org";
+
+                    $headers = array('Content-Type: text/plain; charset=UTF-8', 'From: Magazine Afrique Commercial <commercial@magazineafrique.org>');
+                    wp_mail($camp->contact_email, $live_subject, $live_message, $headers);
+                }
+
+                $clean_phone = preg_replace('/[^0-9]/', '', $camp->contact_phone ?? '');
+                if (!empty($clean_phone) && substr($clean_phone, 0, 1) === '0') {
+                    $clean_phone = '234' . substr($clean_phone, 1);
+                }
+                $wa_live_btn = '';
+                if (!empty($clean_phone)) {
+                    $wa_msg = urlencode("Hello {$camp->brand_name} ({$camp->contact_name}), Magazine Afrique Commercial Desk here. Your Eco Bank payment for Ad Space Booking #{$camp->booking_code} has been approved and your banner is now LIVE across the broadsheet! View it here: " . home_url('/'));
+                    $wa_live_btn = ' <a href="https://wa.me/' . esc_attr($clean_phone) . '?text=' . $wa_msg . '" target="_blank" class="button button-small" style="background:#25D366;color:#171513;font-weight:800;margin-left:8px;font-family:\'Geist Mono\',monospace;">Notify Client on WhatsApp ↗</a>';
+                }
+
+                echo '<div class="notice notice-success is-dismissible" style="border-left-color: #10B981; background: #13110F; color: #FAF7F2; padding: 10px 14px;"><p>✓ <strong>PAYMENT APPROVED &amp; CAMPAIGN LIVE:</strong> Campaign #' . $campaign_id . ' (<strong>' . esc_html($camp->brand_name) . '</strong>) has been approved and set live on the site. Official activation confirmation email dispatched to <strong>' . esc_html($camp->contact_email) . '</strong>.' . $wa_live_btn . '</p></div>';
             } elseif ($action === 'pause') {
                 $wpdb->update($table_name, array('status' => 'paused'), array('id' => $campaign_id));
                 echo '<div class="notice notice-warning is-dismissible"><p>● Campaign #' . $campaign_id . ' paused.</p></div>';
@@ -487,7 +533,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 echo '<div class="notice notice-info is-dismissible"><p>✓ Campaign #' . $campaign_id . ' marked as completed.</p></div>';
             } elseif ($action === 'mark_paid') {
                 $wpdb->update($table_name, array('payment_status' => 'paid'), array('id' => $campaign_id));
-                echo '<div class="notice notice-success is-dismissible"><p>✓ Campaign #' . $campaign_id . ' marked as PAID &amp; VERIFIED.</p></div>';
+                echo '<div class="notice notice-success is-dismissible"><p>✓ Campaign #' . $campaign_id . ' marked as PAID &amp; VERIFIED in Eco Bank.</p></div>';
             } elseif ($action === 'mark_unpaid') {
                 $wpdb->update($table_name, array('payment_status' => 'unpaid'), array('id' => $campaign_id));
                 echo '<div class="notice notice-warning is-dismissible"><p>● Campaign #' . $campaign_id . ' marked as UNPAID.</p></div>';
@@ -758,8 +804,8 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                         <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=active')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'active' ? 'background: #D97706; color: #171513; font-weight: 800;' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'; ?>">
                             Active Live (<?php echo esc_html($active_campaigns); ?>)
                         </a>
-                        <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=pending_review')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'pending_review' ? 'background: #D97706; color: #171513; font-weight: 800;' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'; ?>">
-                            Pending Review (<?php echo esc_html($pending_campaigns); ?>)
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=pending_review')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'pending_review' ? 'background: #D97706; color: #171513; font-weight: 800;' : ($pending_campaigns > 0 ? 'background: rgba(245,158,11,0.2); color: #FBBF24; border: 1px solid rgba(245,158,11,0.4);' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'); ?>">
+                            ⚠ Needs Approval (<?php echo esc_html($pending_campaigns); ?>)
                         </a>
                         <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=unpaid')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'unpaid' ? 'background: #D97706; color: #171513; font-weight: 800;' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'; ?>">
                             Awaiting Wire (<?php echo esc_html($unpaid_campaigns); ?>)
@@ -893,15 +939,40 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                             Link: <a href="<?php echo esc_url($camp->destination_url); ?>" target="_blank" style="color: #D6CEC3;"><?php echo esc_html($camp->destination_url); ?> ↗</a>
                                         </div>
                                     <?php endif; ?>
+
+                                    <!-- Review & Payment Approval Alert for Unapproved / Unpaid Campaigns -->
+                                    <?php if ($camp->status !== 'active' || !$is_paid) : ?>
+                                        <div style="background: rgba(217, 119, 6, 0.1); border: 1px solid rgba(217, 119, 6, 0.35); border-radius: 3px; padding: 0.65rem 0.75rem; margin-bottom: 0.85rem;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                                                <span style="font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 800; color: #FBBF24; text-transform: uppercase;">
+                                                    ⚠ Review &amp; Payment Approval
+                                                </span>
+                                                <span style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #FAF7F2;">
+                                                    Due: <strong style="color: #34D399;"><?php echo $camp->currency === 'USD' ? '$' : '₦'; ?><?php echo number_format($camp->total_amount); ?></strong>
+                                                </span>
+                                            </div>
+                                            <div style="font-size: 11px; color: #D6CEC3; margin-bottom: 0.6rem; line-height: 1.4;">
+                                                Review the banner asset and verify receipt of funds in Eco Bank to approve and set this ad live.
+                                            </div>
+                                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                                <button type="button" onclick="window.openReviewModal(<?php echo htmlspecialchars(json_encode($camp), ENT_QUOTES, 'UTF-8'); ?>);" class="button button-small" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 10.5px; font-weight: 700;">
+                                                    🔍 Review Creative &amp; Wire
+                                                </button>
+                                                <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=approve_and_live&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #10B981; border-color: #10B981; color: #000000; font-weight: 900; font-family: 'Geist Mono', monospace; font-size: 10.5px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);">
+                                                    ✓ Approve Payment &amp; Go Live
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
 
                                 <!-- Action Buttons Cluster -->
                                 <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
                                     
-                                    <!-- 1. Live Status Toggle -->
+                                    <!-- 1. Live Status & Approval Toggle -->
                                     <?php if ($camp->status !== 'active') : ?>
-                                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=activate&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #10B981; border-color: #10B981; color: #000000; font-weight: 800; font-family: 'Geist Mono', monospace; font-size: 10px;">
-                                            ✓ Set Live
+                                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=approve_and_live&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #10B981; border-color: #10B981; color: #000000; font-weight: 900; font-family: 'Geist Mono', monospace; font-size: 10px;" title="Approve Eco Bank payment, mark paid, and immediately launch banner live">
+                                            ✓ Approve &amp; Set Live
                                         </a>
                                     <?php else : ?>
                                         <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=pause&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 10px;">
@@ -909,9 +980,14 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                         </a>
                                     <?php endif; ?>
 
-                                    <!-- 2. Payment Status Toggle -->
+                                    <!-- 2. Review Modal Trigger -->
+                                    <button type="button" onclick="window.openReviewModal(<?php echo htmlspecialchars(json_encode($camp), ENT_QUOTES, 'UTF-8'); ?>);" class="button button-small" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 10px;">
+                                        🔍 Review
+                                    </button>
+
+                                    <!-- 3. Payment Status Toggle -->
                                     <?php if (!$is_paid) : ?>
-                                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=mark_paid&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #3B82F6; border-color: #3B82F6; color: #FFFFFF; font-weight: 700; font-family: 'Geist Mono', monospace; font-size: 10px;">
+                                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=mark_paid&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #3B82F6; border-color: #3B82F6; color: #FFFFFF; font-weight: 700; font-family: 'Geist Mono', monospace; font-size: 10px;" title="Mark paid in Eco Bank without setting live">
                                             💵 Mark Paid
                                         </a>
                                     <?php else : ?>
@@ -1446,8 +1522,168 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             </div>
         </div>
 
+        <!-- ============================================================= -->
+        <!-- MODAL: REVIEW & APPROVE CAMPAIGN                              -->
+        <!-- ============================================================= -->
+        <div id="magafrique-review-campaign-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(8px);" onclick="if(event.target === this) this.style.display='none';">
+            <div style="background: #171513; border: 1px solid #D97706; border-radius: 4px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 1.75rem; box-shadow: 0 16px 48px rgba(0,0,0,0.8); position: relative;" onclick="event.stopPropagation();">
+                
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.85rem;">
+                    <div>
+                        <span style="font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 800; background: #D97706; color: #171513; padding: 2px 7px; border-radius: 2px; text-transform: uppercase;">
+                            COMMERCIAL AD REVIEW &amp; APPROVAL DESK
+                        </span>
+                        <h3 id="review_modal_title" style="color: #FAF7F2; font-family: 'Newsreader', Georgia, serif; font-size: 1.45rem; margin: 0.35rem 0 0;">
+                            Review Campaign
+                        </h3>
+                    </div>
+                    <button type="button" onclick="document.getElementById('magafrique-review-campaign-modal').style.display='none'" style="background: none; border: none; color: #FFFFFF; font-size: 1.5rem; cursor: pointer; line-height: 1;">✕</button>
+                </div>
+
+                <!-- Review Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Left: Creative Banner & Placement -->
+                    <div>
+                        <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 10.5px; color: #A39A8E; text-transform: uppercase; margin-bottom: 5px;">
+                            Creative Banner Asset Preview:
+                        </label>
+                        <div style="background: #000; border: 1px solid rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; margin-bottom: 0.5rem; text-align: center; cursor: pointer;" onclick="window.openImageLightbox(document.getElementById('review_creative_img').src, document.getElementById('review_modal_title').textContent);">
+                            <img id="review_creative_img" src="#" alt="Creative Preview" style="width: 100%; height: auto; max-height: 170px; object-fit: contain; display: block;" />
+                        </div>
+                        <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 9.5px; color: #78716C; margin-bottom: 0.85rem;">
+                            Click banner above to preview in full-resolution lightbox.
+                        </span>
+
+                        <div style="background: #13110F; border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 3px;">
+                            <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; margin-bottom: 2px;">TARGET BROADSHEET SPOT</div>
+                            <strong id="review_spot_title" style="color: #FBBF24; font-size: 12.5px; display: block; margin-bottom: 8px;">-</strong>
+                            
+                            <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; margin-bottom: 4px;">DESTINATION LANDING LINK</div>
+                            <div style="display: flex; gap: 6px; align-items: center;">
+                                <input type="text" id="review_dest_url_input" readonly style="background: #171513; border: 1px solid rgba(255,255,255,0.15); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; padding: 4px 6px; border-radius: 2px; flex: 1;" />
+                                <a id="review_dest_url_link" href="#" target="_blank" class="button button-small" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 10px; white-space: nowrap;">
+                                    Test Link ↗
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Advertiser Dossier & Eco Bank Remittance Settlement -->
+                    <div>
+                        <!-- Client Contact Box -->
+                        <div style="background: #13110F; border: 1px solid rgba(255,255,255,0.08); padding: 0.85rem; border-radius: 3px; margin-bottom: 0.85rem;">
+                            <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; margin-bottom: 6px; text-transform: uppercase;">ADVERTISER DOSSIER</div>
+                            <div style="margin-bottom: 4px;">
+                                <span style="font-size: 11px; color: #78716C;">Brand / Organization:</span>
+                                <strong id="review_brand_name" style="color: #FFFFFF; font-size: 12.5px; display: block;">-</strong>
+                            </div>
+                            <div style="margin-bottom: 4px;">
+                                <span style="font-size: 11px; color: #78716C;">Officer:</span>
+                                <span id="review_contact_name" style="color: #FAF7F2; font-size: 11.5px;">-</span>
+                            </div>
+                            <div style="margin-bottom: 4px;">
+                                <span style="font-size: 11px; color: #78716C;">Corporate Email:</span>
+                                <a id="review_contact_email_link" href="#" style="color: #D97706; font-size: 11.5px; text-decoration: none;">-</a>
+                            </div>
+                            <div>
+                                <span style="font-size: 11px; color: #78716C;">Phone / WhatsApp:</span>
+                                <span id="review_contact_phone" style="color: #FAF7F2; font-size: 11.5px;">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Eco Bank Remittance Verification Box -->
+                        <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35); padding: 0.85rem; border-radius: 3px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 800; color: #34D399; text-transform: uppercase;">
+                                    ECO BANK WIRE VERIFICATION
+                                </span>
+                                <span id="review_payment_badge" style="font-family: 'Geist Mono', monospace; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 2px;">-</span>
+                            </div>
+                            
+                            <div style="font-size: 11.5px; color: #FAF7F2; line-height: 1.5; margin-bottom: 8px;">
+                                <div>Bank: <strong>Eco Bank</strong></div>
+                                <div>Beneficiary: <strong>Magazine Afrique Limited</strong></div>
+                                <div>Account Number: <strong style="color: #FBBF24; font-family: 'Geist Mono', monospace;">0089765434</strong></div>
+                                <div>Contracted Impressions: <strong id="review_impressions_val">-</strong> readers</div>
+                                <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: baseline;">
+                                    <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E;">Total Wire Sum:</span>
+                                    <strong id="review_total_amount_val" style="color: #34D399; font-size: 1.35rem; font-family: 'Geist Mono', monospace;">-</strong>
+                                </div>
+                            </div>
+                            <p style="font-size: 10.5px; color: #A39A8E; margin: 0; line-height: 1.4;">
+                                ⓘ Confirm receipt in Eco Bank. When you click Approve below, your confirmation email is automatically dispatched and the ad goes LIVE across all positions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons Footer -->
+                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; justify-content: flex-end;">
+                    <button type="button" onclick="document.getElementById('magafrique-review-campaign-modal').style.display='none'" class="button" style="background: transparent; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                        Close
+                    </button>
+                    <a id="review_wa_link" href="#" target="_blank" class="button" style="background: #25D366; border-color: #25D366; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                        💬 WhatsApp Client
+                    </a>
+                    <a id="review_resend_invoice_link" href="#" class="button" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                        ✉ Resend Invoice
+                    </a>
+                    <a id="review_approve_live_btn" href="#" class="button button-primary" style="background: #10B981; border-color: #10B981; color: #000000; font-weight: 900; font-family: 'Geist Mono', monospace; font-size: 11.5px; padding: 6px 18px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
+                        ✓ Approve Payment &amp; Launch Live Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- Inline JavaScript for Modals & Lightbox -->
         <script>
+        window.openReviewModal = function(camp) {
+            document.getElementById('review_modal_title').textContent = (camp.brand_name || 'Campaign') + ' (#' + (camp.booking_code || '') + ')';
+            document.getElementById('review_creative_img').src = camp.creative_url || '';
+            document.getElementById('review_spot_title').textContent = camp.spot_title || camp.spot || 'Ad Spot';
+            document.getElementById('review_dest_url_input').value = camp.destination_url || '';
+            document.getElementById('review_dest_url_link').href = camp.destination_url || '#';
+            document.getElementById('review_brand_name').textContent = camp.brand_name || '';
+            document.getElementById('review_contact_name').textContent = camp.contact_name || '';
+            
+            var emailLink = document.getElementById('review_contact_email_link');
+            emailLink.textContent = camp.contact_email || '';
+            emailLink.href = 'mailto:' + (camp.contact_email || '');
+            
+            document.getElementById('review_contact_phone').textContent = (camp.contact_phone || '') + (camp.country ? ' (' + camp.country + ')' : '');
+            
+            var isPaid = (camp.payment_status === 'paid');
+            var badge = document.getElementById('review_payment_badge');
+            badge.textContent = isPaid ? '✓ PAID & VERIFIED' : '⚠ UNPAID / PENDING WIRE';
+            badge.style.background = isPaid ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.2)';
+            badge.style.color = isPaid ? '#34D399' : '#FBBF24';
+            
+            var sym = (camp.currency === 'USD') ? '$' : '₦';
+            document.getElementById('review_impressions_val').textContent = Number(camp.impressions_booked || 0).toLocaleString();
+            document.getElementById('review_total_amount_val').textContent = sym + Number(camp.total_amount || 0).toLocaleString();
+            
+            // WhatsApp routing link
+            var phone = String(camp.contact_phone || '').replace(/[^0-9]/g, '');
+            if (phone.startsWith('0')) phone = '234' + phone.substring(1);
+            var waLink = document.getElementById('review_wa_link');
+            if (phone) {
+                var waMsg = encodeURIComponent("Hello " + camp.brand_name + " (" + camp.contact_name + "), Magazine Afrique Commercial Desk here regarding your ad space booking #" + camp.booking_code + ". We have reviewed your creative asset and Eco Bank payment receipt so we can launch your banner live.");
+                waLink.href = 'https://wa.me/' + phone + '?text=' + waMsg;
+                waLink.style.display = 'inline-flex';
+            } else {
+                waLink.style.display = 'none';
+            }
+            
+            // Construct action URLs with nonce
+            var baseAdmin = '<?php echo esc_js(admin_url('admin.php?page=magazineafrique-brand-ads')); ?>';
+            var nonceParam = '&_wpnonce=<?php echo esc_js(wp_create_nonce('magafrique_ad_action')); ?>';
+            
+            document.getElementById('review_resend_invoice_link').href = baseAdmin + '&action=resend_invoice&campaign_id=' + camp.id + nonceParam;
+            document.getElementById('review_approve_live_btn').href = baseAdmin + '&action=approve_and_live&campaign_id=' + camp.id + nonceParam;
+            
+            document.getElementById('magafrique-review-campaign-modal').style.display = 'flex';
+        };
         window.openEditModal = function(camp) {
             document.getElementById('edit_modal_title').textContent = 'Edit: ' + camp.brand_name + ' (#' + camp.booking_code + ')';
             document.getElementById('edit_campaign_id').value = camp.id;

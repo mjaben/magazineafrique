@@ -299,7 +299,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             <span class="form-kicker">RESERVATION DISPATCH</span>
             <h2 class="form-title">Reserve Brand Reach Inventory</h2>
             <p class="form-subtitle">
-              Submit your creative asset and campaign parameters. Our commercial team reviews brand suitability within 2 business hours and activates your campaign upon wire confirmation.
+              Submit your creative asset and flight parameters. Our commercial team reviews your banner creative and approves your payment upon Eco Bank wire remittance to launch your ad live across the broadsheet.
             </p>
           </div>
 
@@ -565,8 +565,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
         </div>
 
         <div class="modal-next-steps">
-          <strong>Next Action:</strong>
-          <span>A copy of this invoice has been sent to your email. You can transmit payment proof directly via WhatsApp below for instantaneous ad slot activation.</span>
+          <strong>Next Action &amp; Live Approval:</strong>
+          <span>A copy of this invoice has been sent to your email. You can transmit your Eco Bank payment receipt directly via WhatsApp below. Once our commercial desk reviews your creative and approves payment, your ad goes live immediately!</span>
         </div>
       </div>
 
