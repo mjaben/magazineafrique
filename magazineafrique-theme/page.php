@@ -83,7 +83,7 @@ get_header(); ?>
                         <div style="font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--text-muted, #78716C); text-transform: uppercase; margin-top: 0.25rem;">Sovereign Jurisdictions</div>
                     </div>
                     <div class="vintage-framed-box" style="padding: 1.25rem; text-align: center; background: var(--bg-card, #FFFFFF);">
-                        <div style="font-family: 'Geist Mono', monospace; font-size: 1.75rem; font-weight: 800; color: #0B5128;">82%</div>
+                        <div style="font-family: 'Geist Mono', monospace; font-size: 1.75rem; font-weight: 800; color: #B45309;">82%</div>
                         <div style="font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--text-muted, #78716C); text-transform: uppercase; margin-top: 0.25rem;">C-Suite &amp; Diplomats</div>
                     </div>
                     <div class="vintage-framed-box" style="padding: 1.25rem; text-align: center; background: var(--bg-card, #FFFFFF);">
@@ -131,7 +131,7 @@ get_header(); ?>
                 </div>
 
                 <!-- Advertising Inquiries Callout -->
-                <div class="vintage-framed-box" style="padding: 1.5rem; background: #072213; color: #FAF7F2; border: 2px solid #D97706; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+                <div class="vintage-framed-box" style="padding: 1.5rem; background: #171513; color: #FAF7F2; border: 2px solid #D97706; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
                     <div>
                         <h4 class="font-serif" style="font-size: 1.2rem; font-weight: 800; margin: 0 0 0.25rem; color: #FAF7F2;">
                             Request the 2026 Continental Media Kit
@@ -158,7 +158,7 @@ get_header(); ?>
             <!-- Broadsheet Document Seal & Verification Footer -->
             <div style="border-top: 1.5px solid var(--border-color, #231F1D); padding-top: 1.25rem; margin-top: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; color: var(--text-muted, #78716C);">
                 <div style="display: flex; align-items: center; gap: 0.4rem;">
-                    <span style="color: #0B5128; font-weight: 800;">✓</span>
+                    <span style="color: #B45309; font-weight: 800;">✓</span>
                     <span>OFFICIALLY CERTIFIED BY THE EDITORIAL BOARD</span>
                 </div>
                 <div>

@@ -107,7 +107,7 @@ if (!function_exists('magazineafrique_render_paywall_card')) {
         ?>
         <div class="paywall-wrapper">
             <div class="paywall-fade"></div>
-            <div class="paywall-card" style="background-color: #072213; border: 2px solid #D97706; border-radius: 4px; padding: 2rem 1.5rem; color: #FAF7F2; box-shadow: 0 12px 32px rgba(0,0,0,0.4);">
+            <div class="paywall-card" style="background-color: #171513; border: 2px solid #D97706; border-radius: 4px; padding: 2rem 1.5rem; color: #FAF7F2; box-shadow: 0 12px 32px rgba(0,0,0,0.4);">
                 <div class="paywall-gold-bar" style="height: 3px; background: linear-gradient(90deg, #D97706, #F59E0B, #B45309); margin-bottom: 1.25rem;"></div>
                 
                 <div style="display: flex; flex-direction: column; gap: 1rem;">

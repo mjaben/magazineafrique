@@ -169,10 +169,10 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
                 <div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                         <span>Tech Sovereignty</span>
-                        <strong style="color: #0B5128;">25%</strong>
+                        <strong style="color: #B45309;">25%</strong>
                     </div>
                     <div style="width: 100%; height: 5px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
-                        <div style="width: 25%; height: 100%; background: #0B5128;"></div>
+                        <div style="width: 25%; height: 100%; background: #B45309;"></div>
                     </div>
                 </div>
             </div>
@@ -342,7 +342,7 @@ $followed_tags  = function_exists('magazineafrique_get_user_items') ? magazineaf
             <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 900; color: var(--text-primary, #171513); margin: 0;">
                 Priority Dispatches: <?php echo esc_html($location); ?>
             </h2>
-            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; color: #0B5128; font-weight: 700;">
+            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; color: #B45309; font-weight: 700;">
                 GEO-TARGETED WIRE
             </span>
         </div>
@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.success) {
                     if (feedback) {
                         feedback.textContent = '✓ Avatar updated successfully.';
-                        feedback.style.color = '#0B5128';
+                        feedback.style.color = '#B45309';
                     }
                 } else {
                     if (feedback) {
@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.success) {
                     if (fStatus) {
                         fStatus.textContent = '✓ Profile preferences saved.';
-                        fStatus.style.color = '#0B5128';
+                        fStatus.style.color = '#B45309';
                     }
                 }
             } catch(e) {

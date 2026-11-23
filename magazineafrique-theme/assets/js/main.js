@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
           emailInput.value = '';
           if (feedback) {
             feedback.textContent = '✓ Subscribed to The Africa Brief.';
-            feedback.style.color = '#0B5128';
+            feedback.style.color = '#B45309';
             feedback.style.fontSize = '0.75rem';
             feedback.style.marginTop = '0.5rem';
             feedback.style.fontWeight = 'bold';
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         if (feedback) {
           feedback.textContent = 'Subscription confirmed.';
-          feedback.style.color = '#0B5128';
+          feedback.style.color = '#B45309';
           feedback.style.fontSize = '0.75rem';
           feedback.style.marginTop = '0.5rem';
         }

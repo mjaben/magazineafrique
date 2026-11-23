@@ -20,7 +20,7 @@ if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'login' || t
     <div class="vintage-retro-card" style="background-color: var(--bg-card, #FAF6EE); border: 2.5px solid #000000; border-radius: 4px; box-shadow: 6px 6px 0px #000000; overflow: hidden;">
         
         <!-- Retro Chevron Geometric Top Bar (Archival African Poster Motif) -->
-        <div class="vintage-chevron-header" style="height: 36px; background: repeating-linear-gradient(-45deg, #8B2500, #8B2500 12px, #D97706 12px, #D97706 24px, #F59E0B 24px, #F59E0B 36px, #0B5128 36px, #0B5128 48px); border-bottom: 2.5px solid #000000;"></div>
+        <div class="vintage-chevron-header" style="height: 36px; background: repeating-linear-gradient(-45deg, #8B2500, #8B2500 12px, #D97706 12px, #D97706 24px, #F59E0B 24px, #F59E0B 36px, #171513 36px, #171513 48px); border-bottom: 2.5px solid #000000;"></div>
 
         <!-- Mode Toggle Tabs (Sign In vs Join Circle) -->
         <div id="auth-mode-tab-bar" style="display: flex; border-bottom: 2.5px solid #000000; background: var(--bg-card-subtle, #EFE9DE);">
@@ -184,7 +184,7 @@ if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'login' || t
                             <div style="display: flex; align-items: center; gap: 0.35rem; font-weight: 800; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary, #171513);">
                                 <span>📍</span> Reader Location (Auto-Detect)
                             </div>
-                            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #0B5128; background: #D1E7DD; padding: 0.15rem 0.4rem; border: 1px solid #0B5128; border-radius: 2px;">
+                            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #B45309; background: rgba(180, 83, 9, 0.12); padding: 0.15rem 0.4rem; border: 1px solid #B45309; border-radius: 2px;">
                                 Wire Personalization
                             </span>
                         </div>
@@ -198,14 +198,14 @@ if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'login' || t
                             </button>
                         </div>
 
-                        <div id="location-detect-status" style="font-size: 0.6875rem; font-family: 'JetBrains Mono', monospace; color: #0B5128;">
+                        <div id="location-detect-status" style="font-size: 0.6875rem; font-family: 'JetBrains Mono', monospace; color: #B45309;">
                             ● Querying location via GPS or network IP...
                         </div>
                     </div>
 
                     <!-- Continue Button (Hard Shadow UI Button with Brand Color) -->
                     <div style="margin-top: 0.75rem;">
-                        <button type="submit" class="vintage-continue-btn" style="width: 100%; padding: 0.95rem; font-size: 0.9375rem; background-color: #0B5128; color: #FFFFFF; font-weight: 800; letter-spacing: 0.06em; border: 2.5px solid #000000; box-shadow: 5px 5px 0px #000000; border-radius: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <button type="submit" class="vintage-continue-btn" style="width: 100%; padding: 0.95rem; font-size: 0.9375rem; background-color: #B45309; color: #FFFFFF; font-weight: 800; letter-spacing: 0.06em; border: 2.5px solid #000000; box-shadow: 5px 5px 0px #000000; border-radius: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                             <span>Continue</span> <span>»</span>
                         </button>
                     </div>
@@ -260,7 +260,7 @@ if (trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'login' || t
 
                     <!-- Continue Button -->
                     <div>
-                        <button type="submit" class="vintage-continue-btn" style="width: 100%; padding: 0.95rem; font-size: 0.9375rem; background-color: #0B5128; color: #FFFFFF; font-weight: 800; letter-spacing: 0.06em; border: 2.5px solid #000000; box-shadow: 5px 5px 0px #000000; border-radius: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <button type="submit" class="vintage-continue-btn" style="width: 100%; padding: 0.95rem; font-size: 0.9375rem; background-color: #B45309; color: #FFFFFF; font-weight: 800; letter-spacing: 0.06em; border: 2.5px solid #000000; box-shadow: 5px 5px 0px #000000; border-radius: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                             <span>Continue</span> <span>»</span>
                         </button>
                     </div>

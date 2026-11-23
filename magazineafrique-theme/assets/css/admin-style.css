@@ -370,7 +370,7 @@ body.admin-bar {
 .artcraft-brand-icon {
   width: 26px;
   height: 26px;
-  background: #0B5128;
+  background: #B45309;
   color: #FAF7F2;
   font-size: 11px;
   font-weight: 900;
@@ -380,7 +380,7 @@ body.admin-bar {
   justify-content: center;
   letter-spacing: -0.05em;
   flex-shrink: 0;
-  box-shadow: 0 0 10px rgba(11, 81, 40, 0.4);
+  box-shadow: 0 0 10px rgba(180, 83, 9, 0.4);
 }
 
 .artcraft-sidebar-brand-name {
@@ -2308,12 +2308,48 @@ table.form-table td span.description {
    MODERN CARD GRID ARCHITECTURE FOR WP-ADMIN (PLUGINS, USERS, MEDIA)
    ========================================================================== */
 
+/* Remove artificial table card box around plugins & users in card mode so cards breathe full width */
+.plugins-php .artcraft-table-card,
+body.magafrique-users-grid-mode .artcraft-table-card,
+.users-php.magafrique-users-grid-mode .artcraft-table-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.plugins-php .artcraft-table-card .artcraft-reticle,
+body.magafrique-users-grid-mode .artcraft-table-card .artcraft-reticle,
+.users-php.magafrique-users-grid-mode .artcraft-table-card .artcraft-reticle {
+  display: none !important;
+}
+
+.plugins-php form,
+body.magafrique-users-grid-mode form {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 /* 1. PLUGINS PAGE: APPS STORE CARD GRID (Zero Legacy Wide Tables) */
-.plugins-php .wp-list-table.plugins,
+.plugins-php .wp-list-table.plugins {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
 .plugins-php .wp-list-table.plugins tbody {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
   gap: 1.25rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -2337,10 +2373,11 @@ table.form-table td span.description {
   transition: transform 0.15s ease, border-color 0.15s ease !important;
   position: relative !important;
   box-sizing: border-box !important;
+  height: 100% !important;
 }
 
 .plugins-php .wp-list-table.plugins tr.active {
-  border-left: 3px solid #10B981 !important;
+  border-left: 3px solid #D97706 !important;
 }
 
 .plugins-php .wp-list-table.plugins tr.inactive {
@@ -2385,7 +2422,7 @@ table.form-table td span.description {
   align-items: center !important;
   gap: 0.5rem !important;
   flex-wrap: wrap !important;
-  margin-top: 0.75rem !important;
+  margin-top: auto !important;
   padding-top: 0.75rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
@@ -2426,11 +2463,22 @@ table.form-table td span.description {
 }
 
 /* 2. USERS PAGE: GRID CARDS VIEW MODE */
-body.magafrique-users-grid-mode .wp-list-table.users,
+body.magafrique-users-grid-mode .wp-list-table.users {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
 body.magafrique-users-grid-mode .wp-list-table.users tbody {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)) !important;
   gap: 1.25rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -2450,9 +2498,10 @@ body.magafrique-users-grid-mode .wp-list-table.users tr {
   border-radius: 6px !important;
   padding: 1.25rem !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
-  transition: transform 0.15s ease !important;
+  transition: transform 0.15s ease, border-color 0.15s ease !important;
   position: relative !important;
   box-sizing: border-box !important;
+  height: 100% !important;
 }
 
 body.magafrique-users-grid-mode .wp-list-table.users tr:hover {
@@ -2460,7 +2509,8 @@ body.magafrique-users-grid-mode .wp-list-table.users tr:hover {
   border-color: rgba(255, 255, 255, 0.28) !important;
 }
 
-body.magafrique-users-grid-mode .wp-list-table.users td {
+body.magafrique-users-grid-mode .wp-list-table.users td,
+body.magafrique-users-grid-mode .wp-list-table.users th {
   border: none !important;
   padding: 0.25rem 0 !important;
   background: transparent !important;
@@ -2516,7 +2566,7 @@ body.magafrique-users-grid-mode .wp-list-table.users .column-email a {
 body.magafrique-users-grid-mode .wp-list-table.users .row-actions {
   display: flex !important;
   gap: 0.4rem !important;
-  margin-top: 0.75rem !important;
+  margin-top: auto !important;
   padding-top: 0.75rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }

@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cityInput) cityInput.value = city;
 
             if (statusEl) {
-              statusEl.innerHTML = `<span style="color: #0B5128;">✓ Location acquired via GPS: <strong>${formatted}</strong></span>`;
+              statusEl.innerHTML = `<span style="color: #B45309;">✓ Location acquired via GPS: <strong>${formatted}</strong></span>`;
             }
           } catch (e) {
             fallbackIpDetection(silent);
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (detectBtn) detectBtn.disabled = false;
     try {
       if (!silent && statusEl) {
-        statusEl.innerHTML = '<span style="color: #0B5128;">● Detecting regional hub via network IP...</span>';
+        statusEl.innerHTML = '<span style="color: #B45309;">● Detecting regional hub via network IP...</span>';
       }
       const res = await fetch('https://ipapi.co/json/');
       const data = await res.json();
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (cityInput) cityInput.value = city;
 
       if (statusEl) {
-        statusEl.innerHTML = `<span style="color: #0B5128;">✓ Location detected: <strong>${formatted}</strong></span>`;
+        statusEl.innerHTML = `<span style="color: #B45309;">✓ Location detected: <strong>${formatted}</strong></span>`;
       }
     } catch (e) {
       if (locInput && !locInput.value) {
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
 
         if (result.success) {
-          if (feedback) feedback.innerHTML = `<div style="color: #0B5128; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
+          if (feedback) feedback.innerHTML = `<div style="color: #B45309; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
           setTimeout(() => {
             window.location.href = result.data.redirect_url || '/profile/';
           }, 600);
@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
 
         if (result.success) {
-          if (feedback) feedback.innerHTML = `<div style="color: #0B5128; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
+          if (feedback) feedback.innerHTML = `<div style="color: #B45309; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
           setTimeout(() => {
             window.location.href = result.data.redirect_url || '/profile/';
           }, 600);
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
 
         if (result.success) {
-          if (feedback) feedback.innerHTML = `<div style="color: #0B5128; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
+          if (feedback) feedback.innerHTML = `<div style="color: #B45309; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
           setTimeout(() => {
             window.location.href = result.data.redirect_url || '/profile/';
           }, 600);
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await response.json();
 
         if (result.success) {
-          if (feedback) feedback.innerHTML = `<div style="color: #0B5128; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
+          if (feedback) feedback.innerHTML = `<div style="color: #B45309; font-weight: bold; padding: 0.5rem 0;">${result.data.message}</div>`;
           setTimeout(() => {
             window.location.reload();
           }, 800);

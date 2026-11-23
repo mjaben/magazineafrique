@@ -133,7 +133,7 @@ if (!function_exists('magazineafrique_render_ad_header')) {
         }
         ?>
         <div class="vintage-ad-container header-ad-zone container-editorial">
-            <div class="vintage-ad-label">— SPONSORED DISPATCH —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 90px; max-width: 970px;">
                 <ins class="adsbygoogle"
                      style="display:block"
@@ -161,7 +161,7 @@ if (!function_exists('magazineafrique_render_article_ad_1')) {
         ob_start();
         ?>
         <div class="vintage-ad-container in-article-ad-1 my-6">
-            <div class="vintage-ad-label">— EDITORIAL SPONSORED BRIEF —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 100px;">
                 <ins class="adsbygoogle magafrique-article-ad-slot-1"
                      data-ad-client="ca-pub-7175564788277515"
@@ -187,7 +187,7 @@ if (!function_exists('magazineafrique_render_article_ad_2')) {
         ob_start();
         ?>
         <div class="vintage-ad-container in-article-ad-2 my-6">
-            <div class="vintage-ad-label">— CONTINENTAL INTELLIGENCE PARTNER —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 120px; width: 100%; max-width: 728px;">
                 <ins class="adsbygoogle"
                      style="display:block; text-align:center;"
@@ -215,7 +215,7 @@ if (!function_exists('magazineafrique_render_ad_sidebar')) {
         }
         ?>
         <div class="vintage-ad-container sidebar-ad-zone">
-            <div class="vintage-ad-label">— COMMERCIAL DISPATCH —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 250px; width: 300px; margin: 0 auto;">
                 <ins class="adsbygoogle"
                      style="display:inline-block;width:300px;height:250px"
@@ -240,7 +240,7 @@ if (!function_exists('magazineafrique_render_ad_bottom')) {
         }
         ?>
         <div class="vintage-ad-container bottom-ad-zone container-editorial" style="margin-top: 2rem; margin-bottom: 2rem;">
-            <div class="vintage-ad-label">— SPONSORED DOSSIER &amp; ALLIANCE —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 90px; max-width: 970px;">
                 <ins class="adsbygoogle"
                      style="display:block"
@@ -267,7 +267,7 @@ if (!function_exists('magazineafrique_render_ad_mid_home')) {
         }
         ?>
         <div class="vintage-ad-container mid-home-ad-zone container-editorial" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
-            <div class="vintage-ad-label">— STRATEGIC SPONSORED DISPATCH —</div>
+            <div class="vintage-ad-label">— ADVERTISEMENT —</div>
             <div class="vintage-ad-box" style="min-height: 90px; max-width: 970px;">
                 <ins class="adsbygoogle"
                      style="display:block"
@@ -286,9 +286,12 @@ if (!function_exists('magazineafrique_render_ad_mid_home')) {
 
 /**
  * Auto-inject and Mix In-Article Ads into single post content
- * Logic:
- * - In long articles (> 5 paragraphs): Injects Ad 1 after paragraph 2, and Ad 2 after paragraph 5.
- * - In shorter articles (2-4 paragraphs): Injects Ad 1 after paragraph 1 or 2.
+ * Dynamic Multi-Ad Logic for All Lengths:
+ * - Short articles (2-3 paragraphs): Injects 1 ad after paragraph 1 or 2.
+ * - Medium articles (4-7 paragraphs): Injects 2 ads (after paragraph 2 and paragraph 5).
+ * - Long articles (8-12 paragraphs): Injects 3 ads (after paragraph 2, paragraph 5, and paragraph 8).
+ * - Very long investigations (> 12 paragraphs): Injects periodically every 3-4 paragraphs (paras 2, 6, 10, 14...).
+ * - Alternates dynamically between Slot 9866978622 (Responsive Ad 1) and Slot 3777306824 (Fluid In-Article Ad 2).
  */
 if (!function_exists('magazineafrique_inject_in_article_ads')) {
     function magazineafrique_inject_in_article_ads($content) {
@@ -310,24 +313,39 @@ if (!function_exists('magazineafrique_inject_in_article_ads')) {
         }
 
         $post_id = get_the_ID();
-        // If post ID is even, start with Ad 1; if odd, start with Ad 2 for dynamic alternation
-        $ad_slot_first = ($post_id % 2 === 0) ? magazineafrique_render_article_ad_1() : magazineafrique_render_article_ad_2();
-        $ad_slot_second = ($post_id % 2 === 0) ? magazineafrique_render_article_ad_2() : magazineafrique_render_article_ad_1();
+
+        // Calculate target insertion paragraphs based on article length
+        $target_indices = array();
+        if ($total_paras <= 3) {
+            $target_indices[] = 1; // After para 2 (0-indexed: 1)
+        } elseif ($total_paras <= 7) {
+            $target_indices[] = 1; // After para 2
+            $target_indices[] = 4; // After para 5
+        } elseif ($total_paras <= 12) {
+            $target_indices[] = 1; // After para 2
+            $target_indices[] = 4; // After para 5
+            $target_indices[] = 7; // After para 8
+        } else {
+            // For long investigative reports (>12 paragraphs), inject every 4 paragraphs up to paragraph count - 2
+            for ($p = 1; $p < ($total_paras - 2); $p += 4) {
+                $target_indices[] = $p;
+            }
+        }
 
         $injected = '';
+        $ad_counter = ($post_id % 2 === 0) ? 0 : 1;
+
         foreach ($paragraphs as $index => $para) {
             if (trim($para) === '') continue;
             $injected .= $para . '</p>';
 
-            // First insertion: after paragraph 1 if article is short (<=3 paras), or paragraph 2 if longer
-            $first_target = ($total_paras <= 3) ? 0 : 1;
-            if ($index === $first_target) {
-                $injected .= $ad_slot_first;
-            }
-
-            // Second insertion after paragraph 5 if article has 6 or more paragraphs
-            if ($index === 4 && $total_paras >= 6) {
-                $injected .= $ad_slot_second;
+            if (in_array($index, $target_indices, true)) {
+                // Alternate between Ad Slot 1 (Responsive Leaderboard/Box) and Ad Slot 2 (Fluid Native In-Article)
+                $current_ad = ($ad_counter % 2 === 0) 
+                    ? magazineafrique_render_article_ad_1() 
+                    : magazineafrique_render_article_ad_2();
+                $injected .= $current_ad;
+                $ad_counter++;
             }
         }
 

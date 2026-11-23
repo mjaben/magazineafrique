@@ -219,7 +219,7 @@ if (!function_exists('magazineafrique_render_artcraft_login_page')) {
         .brand-badge-icon {
             width: 28px;
             height: 28px;
-            background: #0B5128;
+            background: #B45309;
             color: #FAF7F2;
             font-size: 12px;
             font-weight: 900;

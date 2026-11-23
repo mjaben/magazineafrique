@@ -120,7 +120,7 @@ get_header(); ?>
             </div>
 
             <!-- Whistleblower Protection Banner -->
-            <div class="vintage-framed-box" style="padding: 1.5rem; background: #0D2818; color: #FAF7F2; border: 2px solid #0B5128; box-shadow: 4px 4px 0px #1C1917;">
+            <div class="vintage-framed-box" style="padding: 1.5rem; background: #171513; color: #FAF7F2; border: 2px solid #D97706; box-shadow: 4px 4px 0px #1C1917;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                     <span style="color: #FBBF24; font-size: 1.25rem;">🛡️</span>
                     <h3 style="font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #FBBF24; margin: 0; text-transform: uppercase;">
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             if (feedback) {
                 feedback.style.display = 'block';
-                feedback.style.background = '#0B5128';
+                feedback.style.background = '#B45309';
                 feedback.style.color = '#FFFFFF';
                 feedback.textContent = '✓ Dispatch transmitted securely to Magazine Afrique editorial board. We will review your correspondence within 12 hours.';
             }

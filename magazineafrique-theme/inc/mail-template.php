@@ -60,7 +60,7 @@ if (!function_exists('magazineafrique_send_otp_email')) {
           <td style="height: 12px; background: #8B2500; font-size: 0; line-height: 0;">
             <div style="height: 4px; background: #D97706;"></div>
             <div style="height: 4px; background: #F59E0B;"></div>
-            <div style="height: 4px; background: #0B5128;"></div>
+            <div style="height: 4px; background: #171513;"></div>
           </td>
         </tr>
 

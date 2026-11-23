@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'sahel-emerald': '#0B5128',
+        'sahel-emerald': '#B45309',
         'sahel-dark': '#072714',
         'savannah-gold': '#D97706',
         'savannah-light': '#F59E0B',

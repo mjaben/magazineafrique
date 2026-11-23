@@ -135,8 +135,16 @@
 
     // 6. Wrap WordPress List Tables in ArtCraft Technical Frame with Reticle Crosshairs (+)
     function wrapTablesWithArtCraftFrame() {
+      // Plugins page is always a responsive modern app-store grid; do not wrap in table frame
+      if ($('body').hasClass('plugins-php')) {
+        return;
+      }
       $('.wp-list-table').each(function () {
         var $table = $(this);
+        // Skip user table if currently viewed in modern card grid mode
+        if ($('body').hasClass('magafrique-users-grid-mode') && $table.hasClass('users')) {
+          return;
+        }
         if (!$table.parent().hasClass('artcraft-table-card')) {
           $table.wrap('<div class="artcraft-table-card"></div>');
           var $card = $table.parent();

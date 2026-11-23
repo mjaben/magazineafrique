@@ -146,7 +146,7 @@ if (isset($_GET['currency'])) {
         </div>
 
         <!-- Tier 2: Club Prestige (Recommended / Featured) -->
-        <div class="vintage-framed-box" style="background-color: #072213; color: #FAF7F2; border: 3px solid #D97706; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transform: scale(1.02); box-shadow: 4px 4px 0px var(--vintage-box-shadow, #1C1917);">
+        <div class="vintage-framed-box" style="background-color: #171513; color: #FAF7F2; border: 3px solid #D97706; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transform: scale(1.02); box-shadow: 4px 4px 0px var(--vintage-box-shadow, #1C1917);">
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                     <span style="font-size: 0.6875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #F59E0B; font-family: 'JetBrains Mono', monospace;">
@@ -237,7 +237,7 @@ function switchCurrency(curr) {
     color: var(--text-secondary, #5C564E);
 }
 .currency-toggle-btn.active {
-    background: #0B5128 !important;
+    background: #B45309 !important;
     color: #FFFFFF !important;
 }
 [data-theme="dark"] .currency-toggle-btn {

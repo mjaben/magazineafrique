@@ -25,7 +25,7 @@ if (!function_exists('magazineafrique_render_newsletter_card')) {
         ?>
         <div class="newsletter-card">
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <div style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 700; color: #0B5128; text-transform: uppercase; letter-spacing: 0.05em;">
+                <div style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 700; color: #B45309; text-transform: uppercase; letter-spacing: 0.05em;">
                     <span>✉</span> Weekly Newsletter
                 </div>
 

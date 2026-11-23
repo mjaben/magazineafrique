@@ -269,7 +269,7 @@ get_header(); ?>
     </section>
 
     <!-- 6. Club Prestige CTA -->
-    <section class="vintage-framed-box" style="background: #072213; color: #FAF7F2; border: 3px solid #D97706; padding: 2.5rem; text-align: center; box-shadow: 6px 6px 0px #1C1917;">
+    <section class="vintage-framed-box" style="background: #171513; color: #FAF7F2; border: 3px solid #D97706; padding: 2.5rem; text-align: center; box-shadow: 6px 6px 0px #1C1917;">
         <span style="font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.14em; color: #FBBF24; text-transform: uppercase;">
             ★ SOVEREIGN INTELLIGENCE MEMBERSHIP
         </span>

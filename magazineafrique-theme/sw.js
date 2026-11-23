@@ -129,9 +129,9 @@ self.addEventListener('fetch', (event) => {
               <title>Offline — Magazine Afrique</title>
               <style>
                 body { font-family: system-ui, sans-serif; background: #FAF8F5; color: #1C1917; text-align: center; padding: 3rem 1.5rem; }
-                h1 { color: #0B5128; font-size: 1.75rem; margin-bottom: 0.75rem; }
+                h1 { color: #171513; font-size: 1.75rem; margin-bottom: 0.75rem; }
                 p { color: #66615B; font-size: 0.95rem; max-width: 450px; margin: 0 auto 1.5rem; }
-                .btn { background: #0B5128; color: white; padding: 0.65rem 1.25rem; border-radius: 0.375rem; text-decoration: none; font-weight: 700; display: inline-block; }
+                .btn { background: #B45309; color: white; padding: 0.65rem 1.25rem; border-radius: 0.375rem; text-decoration: none; font-weight: 700; display: inline-block; }
               </style>
             </head>
             <body>

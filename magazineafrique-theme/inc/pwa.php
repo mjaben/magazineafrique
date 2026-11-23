@@ -25,8 +25,8 @@ if (!function_exists('magazineafrique_pwa_head_tags')) {
         <link rel="manifest" href="<?php echo esc_url($theme_uri . '/manifest.json'); ?>">
 
         <!-- Theme Colors for Android, iOS & Desktop -->
-        <meta name="theme-color" content="#0B5128">
-        <meta name="msapplication-navbutton-color" content="#0B5128">
+        <meta name="theme-color" content="#171513">
+        <meta name="msapplication-navbutton-color" content="#171513">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <!-- iOS Web App Metadata -->
@@ -39,7 +39,7 @@ if (!function_exists('magazineafrique_pwa_head_tags')) {
 
         <!-- Windows Tile Metadata -->
         <meta name="msapplication-TileImage" content="<?php echo esc_url($theme_uri . '/assets/images/icon-512.png'); ?>">
-        <meta name="msapplication-TileColor" content="#0B5128">
+        <meta name="msapplication-TileColor" content="#171513">
         <?php
     }
     add_action('wp_head', 'magazineafrique_pwa_head_tags', 2);

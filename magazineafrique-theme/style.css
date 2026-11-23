@@ -18,8 +18,8 @@ Text Domain: magazineafrique
  * Brand: Heritage Horizon (Sahel Forest & Savannah Gold)
  */
 :root {
-  --color-sahel-emerald: #0B5128;
-  --color-sahel-dark: #072714;
+  --color-sahel-emerald: #B45309;
+  --color-sahel-dark: #171513;
   --color-savannah-gold: #D97706;
   --color-savannah-light: #F59E0B;
   --color-terracotta: #C2410C;
@@ -187,7 +187,7 @@ Text Domain: magazineafrique
 .magafrique-splashscreen {
   position: fixed;
   inset: 0;
-  background-color: #0B5128;
+  background-color: #171513;
   color: #FAF7F2;
   z-index: 100000;
   display: flex;
@@ -281,7 +281,7 @@ Text Domain: magazineafrique
   background: #17181B;
   color: #FAF7F2;
   border: 1.5px solid #000000;
-  border-left: 4px solid #0B5128;
+  border-left: 4px solid #D97706;
   box-shadow: 6px 6px 0px #000000;
   border-radius: 2px;
   z-index: 9988;
@@ -293,7 +293,7 @@ Text Domain: magazineafrique
 [data-theme="dark"] .magafrique-push-banner {
   background: #1C1E23;
   border-color: rgba(255, 255, 255, 0.16);
-  border-left-color: #10B981;
+  border-left-color: #D97706;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
 }
 
@@ -312,7 +312,7 @@ Text Domain: magazineafrique
 .push-banner-icon-box {
   width: 38px;
   height: 38px;
-  background: #0B5128;
+  background: #B45309;
   border-radius: 2px;
   display: flex;
   align-items: center;
@@ -350,7 +350,7 @@ Text Domain: magazineafrique
 }
 
 .push-btn-allow {
-  background: #0B5128;
+  background: #B45309;
   color: #FAF7F2;
   border: 1.5px solid #000000;
   box-shadow: 2px 2px 0px #000000;
@@ -383,7 +383,7 @@ Text Domain: magazineafrique
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #0B5128;
+  background: #B45309;
   color: #FAF7F2;
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px #000000;
@@ -464,7 +464,7 @@ Text Domain: magazineafrique
 .modal-card-header {
   padding: 1rem 1.25rem;
   border-bottom: 1.5px solid #000000;
-  background: #0B5128;
+  background: #171513;
   color: #FAF7F2;
   display: flex;
   align-items: center;
@@ -547,7 +547,7 @@ Text Domain: magazineafrique
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #0B5128;
+  background: #B45309;
   color: #FFFFFF;
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
@@ -566,22 +566,22 @@ Text Domain: magazineafrique
   padding: 2px 6px;
   background: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
-  color: #0B5128;
+  color: #B45309;
   vertical-align: middle;
 }
 
 [data-theme="dark"] .ios-share-badge {
   background: rgba(255, 255, 255, 0.1);
-  color: #34D399;
+  color: #FBBF24;
 }
 
 .ios-plus-badge {
   font-weight: 900;
-  color: #0B5128;
+  color: #B45309;
 }
 
 [data-theme="dark"] .ios-plus-badge {
-  color: #34D399;
+  color: #FBBF24;
 }
 
 .pwa-benefits-list {
@@ -601,7 +601,7 @@ Text Domain: magazineafrique
 
 .btn-pwa-install-action {
   width: 100%;
-  background: #0B5128;
+  background: #B45309;
   color: #FAF7F2;
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px #000000;

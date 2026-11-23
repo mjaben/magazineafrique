@@ -52,7 +52,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
 
         <!-- Feed Mode Tabs: For You vs Following -->
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <a href="?tab=for-you" class="btn-vintage-box <?php echo $active_tab === 'for-you' ? 'active-tab' : ''; ?>" style="padding: 0.65rem 1.25rem; font-size: 0.8125rem; text-decoration: none; <?php echo $active_tab === 'for-you' ? 'background: #0B5128; color: #FFFFFF; font-weight: 800;' : 'background: var(--bg-card, #FAF6EE); color: var(--text-primary, #171513);'; ?>">
+            <a href="?tab=for-you" class="btn-vintage-box <?php echo $active_tab === 'for-you' ? 'active-tab' : ''; ?>" style="padding: 0.65rem 1.25rem; font-size: 0.8125rem; text-decoration: none; <?php echo $active_tab === 'for-you' ? 'background: #B45309; color: #FFFFFF; font-weight: 800;' : 'background: var(--bg-card, #FAF6EE); color: var(--text-primary, #171513);'; ?>">
                 ❖ For You (Categories &amp; Regional Hubs)
             </a>
             <a href="?tab=following" class="btn-vintage-box <?php echo $active_tab === 'following' ? 'active-tab' : ''; ?>" style="padding: 0.65rem 1.25rem; font-size: 0.8125rem; text-decoration: none; <?php echo $active_tab === 'following' ? 'background: #8B2500; color: #FFFFFF; font-weight: 800;' : 'background: var(--bg-card, #FAF6EE); color: var(--text-primary, #171513);'; ?>">
@@ -76,7 +76,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                     <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" style="font-weight: 700; color: var(--text-primary, #171513); text-decoration: none;">
                         <?php echo esc_html($cat->name); ?>
                     </a>
-                    <button type="button" class="btn-follow-cat <?php echo $is_cat_followed ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($cat->term_id); ?>" data-type="category" style="background: none; border: none; font-size: 0.6875rem; cursor: pointer; color: <?php echo $is_cat_followed ? '#0B5128' : '#8B2500'; ?>; font-weight: 800; padding: 0 0.15rem;">
+                    <button type="button" class="btn-follow-cat <?php echo $is_cat_followed ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($cat->term_id); ?>" data-type="category" style="background: none; border: none; font-size: 0.6875rem; cursor: pointer; color: <?php echo $is_cat_followed ? '#B45309' : '#8B2500'; ?>; font-weight: 800; padding: 0 0.15rem;">
                         <?php echo $is_cat_followed ? '✓' : '+'; ?>
                     </button>
                 </span>
@@ -100,7 +100,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                 <p style="font-size: 0.875rem; color: var(--text-secondary, #5C564E); max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.5;">
                     Follow editorial desks or investigative tags using the <strong>+</strong> buttons above or across articles to populate your customized newsroom feed.
                 </p>
-                <a href="?tab=for-you" class="btn-vintage-box" style="padding: 0.75rem 1.5rem; font-size: 0.8125rem; background: #0B5128; color: #FFFFFF; font-weight: 800; text-decoration: none;">
+                <a href="?tab=for-you" class="btn-vintage-box" style="padding: 0.75rem 1.5rem; font-size: 0.8125rem; background: #B45309; color: #FFFFFF; font-weight: 800; text-decoration: none;">
                     Explore "For You" Feed »
                 </a>
             </div>
@@ -153,7 +153,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                                 <span style="color: var(--text-muted);">·</span>
                                 <span style="color: var(--text-muted);"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
                             </div>
-                            <span style="color: #0B5128; font-weight: 700;">★ MATCHES YOUR WIRE</span>
+                            <span style="color: #B45309; font-weight: 700;">★ MATCHES YOUR WIRE</span>
                         </div>
 
                         <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; font-weight: 800; margin: 0; line-height: 1.3;">
@@ -221,7 +221,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                                 $c = $post_cats[0];
                                 $is_c_followed = in_array((int)$c->term_id, array_map('intval', $followed_cats), true);
                                 echo '<a href="' . esc_url(get_category_link($c->term_id)) . '" style="color: #8B2500; font-weight: 800; text-transform: uppercase; text-decoration: none;">' . esc_html($c->name) . '</a>';
-                                echo '<button type="button" class="btn-follow-cat ' . ($is_c_followed ? 'is-following' : '') . '" data-id="' . esc_attr($c->term_id); ?>" data-type="category" style="background: none; border: none; font-size: 0.6875rem; cursor: pointer; color: ' . ($is_c_followed ? '#0B5128' : '#8B2500') . '; font-weight: 800;">' . ($is_c_followed ? '✓' : '+ Follow') . '</button>';
+                                echo '<button type="button" class="btn-follow-cat ' . ($is_c_followed ? 'is-following' : '') . '" data-id="' . esc_attr($c->term_id); ?>" data-type="category" style="background: none; border: none; font-size: 0.6875rem; cursor: pointer; color: ' . ($is_c_followed ? '#B45309' : '#8B2500') . '; font-weight: 800;">' . ($is_c_followed ? '✓' : '+ Follow') . '</button>';
                             }
                             ?>
                             <span style="color: var(--text-muted);">·</span>
@@ -244,7 +244,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                         </div>
 
                         <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>" class="vintage-double-frame" style="display: block; width: 140px; height: 95px; overflow: hidden; border-radius: 2px;">
+                            <a href="<?php the_permalink(); ?>" style="display: block; width: 140px; height: 95px; overflow: hidden; border-radius: 2px; border: 1px solid rgba(0,0,0,0.12);">
                                 <?php the_post_thumbnail('medium', array('style' => 'width: 100%; height: 100%; object-fit: cover;')); ?>
                             </a>
                         <?php endif; ?>
@@ -263,7 +263,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
                             ?>
                             <span class="tag-follow-pill" style="font-size: 0.6875rem; padding: 0.15rem 0.4rem; background: var(--bg-card-subtle, #EFE9DE); border: 1px solid var(--border-color, #231F1D); border-radius: 2px;">
                                 <a href="<?php echo esc_url(get_tag_link($tg->term_id)); ?>" style="color: var(--text-primary); text-decoration: none;">#<?php echo esc_html($tg->name); ?></a>
-                                <button type="button" class="btn-follow-tag <?php echo $is_t_followed ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($tg->term_id); ?>" data-type="tag" style="background: none; border: none; font-size: 0.625rem; cursor: pointer; color: <?php echo $is_t_followed ? '#0B5128' : '#8B2500'; ?>; font-weight: 800;">
+                                <button type="button" class="btn-follow-tag <?php echo $is_t_followed ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($tg->term_id); ?>" data-type="tag" style="background: none; border: none; font-size: 0.625rem; cursor: pointer; color: <?php echo $is_t_followed ? '#B45309' : '#8B2500'; ?>; font-weight: 800;">
                                     <?php echo $is_t_followed ? '✓' : '+'; ?>
                                 </button>
                             </span>

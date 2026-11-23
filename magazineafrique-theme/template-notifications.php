@@ -49,7 +49,7 @@ foreach ($notifications as $n) {
                 <?php foreach ($notifications as $notif) : ?>
                     <div class="vintage-grid-card" style="background-color: <?php echo empty($notif['read']) ? '#EFE9DE' : '#FAF6F0'; ?>; border: 1px solid #DCD3C4; padding: 1rem; border-radius: 3px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase; color: <?php echo $notif['type'] === 'editorial' ? '#0B5128' : '#8B2500'; ?>;">
+                            <span style="font-size: 0.625rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; text-transform: uppercase; color: <?php echo $notif['type'] === 'editorial' ? '#B45309' : '#8B2500'; ?>;">
                                 <?php echo esc_html(strtoupper($notif['type'])); ?> ALERT
                             </span>
                             <span style="font-size: 0.6875rem; color: #8C847A; font-family: 'JetBrains Mono', monospace;">

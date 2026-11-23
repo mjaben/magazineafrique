@@ -67,7 +67,7 @@ if (!function_exists('magazineafrique_posted_by')) {
         $author_url = get_author_posts_url($author_id);
         ?>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <div style="width: 28px; height: 28px; border-radius: 9999px; overflow: hidden; background: #0B5128; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 0.75rem; font-weight: 700;">
+            <div style="width: 28px; height: 28px; border-radius: 9999px; overflow: hidden; background: #171513; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 0.75rem; font-weight: 700;">
                 <?php echo get_avatar($author_id, 28, '', '', array('class' => 'rounded-full')); ?>
             </div>
             <span style="font-size: 0.8125rem; color: #78716C;">By</span>
