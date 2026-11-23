@@ -2121,27 +2121,49 @@ body {
 .btn-live-like {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(220, 38, 38, 0.06);
-  border: 1px solid rgba(220, 38, 38, 0.2);
-  color: #DC2626;
-  padding: 0.35rem 0.75rem;
-  border-radius: 9999px;
+  gap: 0.35rem;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: var(--text-secondary, #6E675F);
+  padding: 0.25rem 0.4rem;
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: transform 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-live-like:hover,
+.btn-live-like:focus,
+.btn-live-like:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #E11D48 !important;
+  transform: scale(1.08);
+}
+
 .btn-live-like.has-liked {
-  background: #DC2626;
-  color: #FFFFFF;
-  border-color: #DC2626;
-  transform: scale(1.04);
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #E11D48 !important;
+  transform: none;
 }
 
 /* Ensure Feed Social Cards never display a solid red pill or background */
+.feed-social-grid .social-card .btn-live-like,
+.feed-social-grid .social-card .social-like-btn,
+.social-card .social-action-bar .btn-live-like,
+.social-card .social-action-bar .social-like-btn,
 .social-card .btn-live-like,
 .social-card .social-like-btn,
 .social-like-btn {
@@ -2153,8 +2175,17 @@ body {
   border-radius: 0 !important;
   padding: 0.2rem 0.3rem !important;
   color: var(--text-secondary, #6E675F) !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
+.feed-social-grid .social-card .btn-live-like:hover,
+.feed-social-grid .social-card .btn-live-like:focus,
+.feed-social-grid .social-card .btn-live-like:active,
+.feed-social-grid .social-card .btn-live-like.has-liked,
+.social-card .social-action-bar .btn-live-like:hover,
+.social-card .social-action-bar .btn-live-like:focus,
+.social-card .social-action-bar .btn-live-like:active,
+.social-card .social-action-bar .btn-live-like.has-liked,
 .social-card .btn-live-like:hover,
 .social-card .social-like-btn:hover,
 .social-like-btn:hover,

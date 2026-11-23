@@ -43,7 +43,7 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
 /* 1. STICKY TOP TAB BAR */
 .feed-sticky-header {
     position: sticky;
-    top: 52px;
+    top: 88px;
     z-index: 35;
     background-color: var(--bg-canvas, #FAF7F2);
     border-bottom: 2px solid var(--border-color, #171513);
@@ -55,7 +55,7 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
 }
 @media (min-width: 768px) {
     .feed-sticky-header {
-        top: 66px;
+        top: 104px;
         margin: 0 0 1.5rem;
         padding: 0;
         border-radius: 0;
@@ -786,9 +786,9 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
 
                                 <footer class="social-action-bar">
                                     <div class="social-action-btn-group">
-                                        <button type="button" class="btn-live-like social-like-btn <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" title="Like" aria-label="Like story">
-                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                                            <span class="live-like-counter"><?php echo esc_html($likes > 0 ? $likes : ''); ?></span>
+                                        <button type="button" class="btn-live-like social-like-btn <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" title="Like" aria-label="Like story" style="background: transparent !important; background-color: transparent !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; outline: none !important; padding: 0.2rem 0.3rem !important; display: inline-flex !important; align-items: center !important; gap: 0.25rem !important; cursor: pointer !important; -webkit-tap-highlight-color: transparent !important;">
+                                            <svg class="like-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="<?php echo $is_liked ? '#E11D48' : 'none'; ?>" stroke="<?php echo $is_liked ? '#E11D48' : 'currentColor'; ?>" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px !important; height: 16px !important; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.2s ease, stroke 0.2s ease !important; <?php echo $is_liked ? 'fill: #E11D48 !important; stroke: #E11D48 !important;' : 'fill: none !important; stroke: currentColor !important;'; ?>"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                            <span class="live-like-counter" style="font-family: 'JetBrains Mono', monospace !important; font-size: 0.6875rem !important; font-weight: 700 !important; color: inherit !important;"><?php echo esc_html($likes > 0 ? $likes : ''); ?></span>
                                         </button>
 
                                         <button type="button" class="btn-bookmark social-bookmark-btn <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" title="Save Dossier" aria-label="Save Dossier">
@@ -865,9 +865,9 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
                         <footer class="social-action-bar">
                             <div class="social-action-btn-group">
                                 <!-- Modern Like Button -->
-                                <button type="button" class="btn-live-like social-like-btn <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" title="Like" aria-label="Like story">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                                    <span class="live-like-counter"><?php echo esc_html($likes > 0 ? $likes : ''); ?></span>
+                                <button type="button" class="btn-live-like social-like-btn <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($p_id); ?>" title="Like" aria-label="Like story" style="background: transparent !important; background-color: transparent !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; outline: none !important; padding: 0.2rem 0.3rem !important; display: inline-flex !important; align-items: center !important; gap: 0.25rem !important; cursor: pointer !important; -webkit-tap-highlight-color: transparent !important;">
+                                    <svg class="like-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="<?php echo $is_liked ? '#E11D48' : 'none'; ?>" stroke="<?php echo $is_liked ? '#E11D48' : 'currentColor'; ?>" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px !important; height: 16px !important; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.2s ease, stroke 0.2s ease !important; <?php echo $is_liked ? 'fill: #E11D48 !important; stroke: #E11D48 !important;' : 'fill: none !important; stroke: currentColor !important;'; ?>"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    <span class="live-like-counter" style="font-family: 'JetBrains Mono', monospace !important; font-size: 0.6875rem !important; font-weight: 700 !important; color: inherit !important;"><?php echo esc_html($likes > 0 ? $likes : ''); ?></span>
                                 </button>
 
                                 <!-- Modern Minimalist Bookmark Button -->
@@ -894,6 +894,22 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
 </main>
 
 <script>
+(function() {
+    function adjustStickyFeedHeader() {
+        var masthead = document.querySelector('.site-masthead');
+        var stickyHeader = document.querySelector('.feed-sticky-header');
+        if (masthead && stickyHeader) {
+            var h = masthead.getBoundingClientRect().height || masthead.offsetHeight;
+            if (h > 0) {
+                stickyHeader.style.top = h + 'px';
+            }
+        }
+    }
+    window.addEventListener('DOMContentLoaded', adjustStickyFeedHeader);
+    window.addEventListener('resize', adjustStickyFeedHeader);
+    window.addEventListener('load', adjustStickyFeedHeader);
+})();
+
 function magafriqueSocialShare(title, url) {
     if (navigator.share) {
         navigator.share({

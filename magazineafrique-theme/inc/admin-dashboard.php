@@ -519,6 +519,28 @@ if (!function_exists('magazineafrique_render_admin_desk_page')) {
                     </div>
                 </div>
             </form>
+
+            <!-- Direct Brand Reach & Buy Ad Space Management Desk Card -->
+            <div class="workspace-tool-card" style="padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(217, 119, 6, 0.4); background: #171513;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <span style="background: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 0.35rem;">
+                            COMMERCIAL ADVERTISING INVENTORY
+                        </span>
+                        <h3 style="color: #FFFFFF; font-size: 1.15rem; font-weight: 700; margin: 0 0 0.5rem;">
+                            Direct Brand Reach &amp; Buy Ad Space Management Desk
+                        </h3>
+                        <p style="color: var(--art-text-sub); font-size: 13px; margin: 0 0 1rem; max-width: 650px; line-height: 1.5;">
+                            Manage direct advertiser bookings, verify Eco Bank wire payments, chat with advertisers on WhatsApp, configure sovereign CPM pricing rates, and monitor the 5-hour space rotation shift.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads')); ?>" class="button button-primary" style="background: #D97706; border-color: #D97706; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace; padding: 6px 16px; font-size: 11px;">
+                            Open Buy Ad Space Desk →
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         <?php
     }

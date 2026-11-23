@@ -347,19 +347,30 @@
       var postId = btn.getAttribute('data-post-id');
       if (!postId) return;
 
-      var likeCountSpans = document.querySelectorAll('#like-count-' + postId + ', .like-count-sub');
+      var likeCountSpans = document.querySelectorAll('#like-count-' + postId + ', .like-count-sub, .btn-live-like[data-post-id="' + postId + '"] .live-like-counter');
       var isLiked = btn.classList.contains('has-liked');
 
       likeCountSpans.forEach(function (span) {
         var count = parseInt(span.textContent.trim(), 10) || 0;
-        span.textContent = isLiked ? Math.max(0, count - 1) : count + 1;
+        var nextCount = isLiked ? Math.max(0, count - 1) : count + 1;
+        span.textContent = nextCount > 0 ? nextCount : '';
       });
 
       document.querySelectorAll('.btn-live-like[data-post-id="' + postId + '"]').forEach(function (b) {
         b.classList.toggle('has-liked');
-        var heart = b.querySelector('.like-heart-icon');
+        var heart = b.querySelector('.like-heart-icon') || b.querySelector('svg');
         if (heart) {
-          heart.setAttribute('fill', isLiked ? 'none' : 'currentColor');
+          if (isLiked) {
+            heart.setAttribute('fill', 'none');
+            heart.setAttribute('stroke', 'currentColor');
+            heart.style.fill = 'none';
+            heart.style.stroke = 'currentColor';
+          } else {
+            heart.setAttribute('fill', '#E11D48');
+            heart.setAttribute('stroke', '#E11D48');
+            heart.style.fill = '#E11D48';
+            heart.style.stroke = '#E11D48';
+          }
         }
       });
 
