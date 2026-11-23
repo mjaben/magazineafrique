@@ -397,11 +397,6 @@ if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
                         <span class="drawer-item-bullet">✉</span> The Africa Brief Newsletter
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:void(0)" class="drawer-link-item btn-install-app" style="font-size: 0.8125rem; color: #B45309; font-weight: 700;">
-                        <span class="drawer-item-bullet">📲</span> Install Gazette App (PWA)
-                    </a>
-                </li>
             </ul>
         </nav>
 

@@ -79,7 +79,7 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
                     <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>"><span class="footer-bullet">🔔</span> Breaking Intelligence Alerts</a></li>
                     <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>"><span class="footer-bullet">✉</span> The Africa Brief Dispatch</a></li>
                     <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><span class="footer-bullet">✉</span> Contact Editorial Desk</a></li>
-                    <li><a href="javascript:void(0)" class="btn-install-app footer-pwa-link"><span class="footer-bullet">📲</span> Install Gazette App (PWA)</a></li>
+                    <li><a href="javascript:void(0)" class="open-cookie-settings"><span class="footer-bullet">🍪</span> Cookie Choices</a></li>
                 </ul>
             </div>
 
@@ -115,7 +115,7 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
                 <span class="footer-sep">·</span>
                 <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact &amp; Bureaus</a>
                 <span class="footer-sep">·</span>
-                <a href="javascript:void(0)" class="btn-install-app footer-cache-reload-link" title="Install Magazine Afrique to your home screen or desktop">📲 Install App</a>
+                <a href="javascript:void(0)" class="open-cookie-settings">Cookie Choices</a>
                 <span class="footer-sep">·</span>
                 <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload && window.magazineafriquePurgeCacheAndReload()" class="footer-cache-reload-link" title="Purge local cache and load newest edition">↻ Reload Edition</a>
             </div>

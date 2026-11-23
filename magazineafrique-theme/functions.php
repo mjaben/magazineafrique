@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.7.9');
+    define('MAGAZINEAFRIQUE_VERSION', '1.8.1');
 }
 
 /**
@@ -162,7 +162,8 @@ $inc_files = array(
     __DIR__ . '/inc/onboarding-profile.php',
     __DIR__ . '/inc/admin-dashboard.php',
     __DIR__ . '/inc/admin-security-login.php',
-    __DIR__ . '/inc/brand-reach-ads.php'
+    __DIR__ . '/inc/brand-reach-ads.php',
+    __DIR__ . '/inc/cookie-consent.php'
 );
 
 foreach ($inc_files as $file) {
