@@ -1480,10 +1480,10 @@ a:hover {
   }
 
   .vintage-nav-label {
-    font-size: 9px !important;
+    font-size: 8.5px !important;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em !important;
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     line-height: 1 !important;
     margin-top: 2px !important;

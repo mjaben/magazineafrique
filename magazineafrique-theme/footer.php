@@ -135,13 +135,13 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
         <span class="vintage-nav-label">Gazette</span>
     </a>
 
-    <button type="button" id="bottom-menu-toggle" class="vintage-nav-item" aria-label="Open Sections Menu">
+    <button type="button" id="bottom-menu-toggle" class="vintage-nav-item" aria-label="Open Categories Menu">
         <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
             <line x1="3" y1="12" x2="21" y2="12"/>
             <line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
-        <span class="vintage-nav-label">Sections</span>
+        <span class="vintage-nav-label">Categories</span>
     </button>
 
     <button type="button" id="bottom-search-toggle" class="vintage-nav-item" aria-label="Open Search">
