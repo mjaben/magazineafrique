@@ -7347,7 +7347,15 @@ body {
   margin-bottom: 1.5rem;
   gap: 1rem;
   overflow-x: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.biz-markets-ribbon::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 [data-theme="dark"] .biz-markets-ribbon {
@@ -8347,11 +8355,11 @@ body {
   align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
-  padding: 0.5rem 0 1rem;
+  padding: 0.5rem 0 0.85rem;
   border-bottom: 2px solid #000000;
   margin-bottom: 1.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: #B85D18 transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -8360,12 +8368,9 @@ body {
 }
 
 .yt-playlist-nav-bar::-webkit-scrollbar {
-  height: 4px;
-}
-
-.yt-playlist-nav-bar::-webkit-scrollbar-thumb {
-  background-color: #B85D18;
-  border-radius: 2px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .yt-playlist-tab-btn {
