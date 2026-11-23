@@ -233,8 +233,11 @@ if (function_exists('magazineafrique_render_ad_header')) {
                 <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="Magazine Afrique" class="drawer-logo-img logo-dark" height="34" />
                 <span class="drawer-edition-tag">PAN-AFRICAN GAZETTE · INDEX</span>
             </div>
-            <button id="close-mobile-menu" type="button" aria-label="Close menu" class="drawer-close-btn vintage-close-btn">
-                <span class="close-bracket">[</span> ✕ <span class="close-bracket">]</span>
+            <button id="close-mobile-menu" type="button" aria-label="Close menu" class="drawer-close-btn vintage-close-btn" title="Close Index">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
             </button>
         </div>
 

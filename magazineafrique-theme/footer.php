@@ -7,10 +7,6 @@
  */
 ?>
 
-<div class="divider-africa container-editorial">
-    <span class="divider-africa-icon">❖</span>
-</div>
-
 <?php
 // Bottom Ad Slot (Slot 1801863291 - Above Footer)
 if (function_exists('magazineafrique_render_ad_bottom')) {
@@ -18,101 +14,116 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
 }
 ?>
 
-<footer class="site-footer">
+<!-- Centered Pan-African Editorial Rule Divider -->
+<div class="footer-editorial-rule container-editorial" aria-hidden="true">
+    <span class="rule-line"></span>
+    <span class="rule-glyph">❖</span>
+    <span class="rule-line"></span>
+</div>
+
+<footer class="site-footer" id="colophon">
     <div class="container-editorial">
+        <!-- Top Editorial Masthead Banner -->
+        <div class="footer-top-masthead">
+            <div class="footer-brand-lockup">
+                <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="Magazine Afrique" class="footer-logo-img" height="42" />
+                <span class="footer-masthead-motto">PAN-AFRICAN GAZETTE OF RECORD · EST. 2024</span>
+            </div>
+            <div class="footer-edition-pills">
+                <span class="footer-edition-label">Editions:</span>
+                <button type="button" class="lang-chip-footer active" onclick="window.magazineafriqueSwitchLanguage('en')">EN</button>
+                <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('fr')">FR</button>
+                <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('ar')">AR</button>
+                <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('pt')">PT</button>
+                <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('sw')">SW</button>
+            </div>
+        </div>
+
+        <!-- 4-Column Architectural Grid -->
         <div class="footer-inner-grid">
             
-            <!-- Column 1: Brand Info -->
-            <div class="footer-col" style="max-width: 340px;">
-                <div class="footer-brand-wrap" style="margin-bottom: 0.75rem;">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="Magazine Afrique" class="footer-logo-img" height="40" style="object-fit: contain;" />
-                </div>
-                <p style="font-size: 0.8125rem; color: #C7BFB3; line-height: 1.6; margin-bottom: 1rem;">
-                    Independent pan-African journal of strategic analysis, economics, politics, diplomacy, and culture.
+            <!-- Column 1: Journal Mission & Pan-African Bureaus -->
+            <div class="footer-col footer-col-mission">
+                <h4 class="footer-col-title">The Journal</h4>
+                <p class="footer-mission-text">
+                    Independent pan-African journal of strategic analysis, macroeconomic intelligence, geopolitics, trade, and culture.
                 </p>
-                
-                <!-- Footer Multi-Lingual Switcher -->
-                <div class="footer-lang-selector" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #9E968B;">
-                    <span>Edition:</span>
-                    <button type="button" class="lang-chip-footer active" onclick="window.magazineafriqueSwitchLanguage('en')">EN</button>
-                    <span>·</span>
-                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('fr')">FR</button>
-                    <span>·</span>
-                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('ar')">AR</button>
-                    <span>·</span>
-                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('pt')">PT</button>
-                    <span>·</span>
-                    <button type="button" class="lang-chip-footer" onclick="window.magazineafriqueSwitchLanguage('sw')">SW</button>
+                <div class="footer-bureaus-tag">
+                    <span>Bureaus:</span> Dakar · Lagos · Nairobi · Johannesburg · London
                 </div>
-
-                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #D1C9BE;">
-                    <a href="https://twitter.com" target="_blank" rel="noopener">𝕏</a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
-                    <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+                <div class="footer-social-row">
+                    <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="X (Twitter)">𝕏</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="https://whatsapp.com/channel/0029VbABUTT23n3fleq5C91h" target="_blank" rel="noopener" class="footer-social-btn footer-wa-btn" aria-label="WhatsApp Channel">Wire ↗</a>
                 </div>
             </div>
 
-            <!-- Column 2: Key Sections -->
+            <!-- Column 2: Editorial Desks -->
             <div class="footer-col">
-                <h4>Sections</h4>
-                <ul>
+                <h4 class="footer-col-title">Editorial Desks</h4>
+                <ul class="footer-link-list">
                     <?php
                     $categories = get_categories(array('number' => 6, 'hide_empty' => false, 'exclude' => array(1)));
                     foreach ($categories as $cat) {
                         if (strtolower($cat->slug) === 'uncategorized') continue;
-                        echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
+                        echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '"><span class="footer-bullet">·</span> ' . esc_html($cat->name) . '</a></li>';
                     }
                     ?>
                 </ul>
             </div>
 
-            <!-- Column 3: Membership & Reader Portal -->
+            <!-- Column 3: Club & Reader Portal -->
             <div class="footer-col">
-                <h4>Club &amp; Readers</h4>
-                <ul>
-                    <li><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige Membership</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/profile/')); ?>">Reader Profile &amp; Following Wire</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>">Breaking News Alerts</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>">The Africa Brief Newsletter</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Editorial Desk</a></li>
-                    <li><a href="javascript:void(0)" class="btn-install-app" style="color: #F59E0B; font-weight: 700;">📲 Install Gazette App (PWA)</a></li>
+                <h4 class="footer-col-title">Reader Services</h4>
+                <ul class="footer-link-list">
+                    <li><a href="<?php echo esc_url(home_url('/subscribe/')); ?>"><span class="footer-bullet">★</span> Club Prestige Membership</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/profile/')); ?>"><span class="footer-bullet">👤</span> Reader Profile &amp; Wire</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>"><span class="footer-bullet">🔔</span> Breaking Intelligence Alerts</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/newsletter/')); ?>"><span class="footer-bullet">✉</span> The Africa Brief Dispatch</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><span class="footer-bullet">✉</span> Contact Editorial Desk</a></li>
+                    <li><a href="javascript:void(0)" class="btn-install-app footer-pwa-link"><span class="footer-bullet">📲</span> Install Gazette App (PWA)</a></li>
                 </ul>
             </div>
 
-            <!-- Column 4: Newsletter -->
-            <div class="footer-col" style="max-width: 300px;">
-                <h4>The Africa Brief</h4>
-                <p style="font-size: 0.75rem; color: #C7BFB3; margin-bottom: 0.75rem; line-height: 1.5;">
-                    Essential continental intelligence, delivered every Thursday morning.
+            <!-- Column 4: Newsletter Wire Box -->
+            <div class="footer-col footer-col-newsletter">
+                <h4 class="footer-col-title">The Africa Brief</h4>
+                <p class="footer-newsletter-desc">
+                    Essential continental intelligence, macroeconomic trends, and diplomatic briefings delivered every Thursday.
                 </p>
-                <form class="magazine-newsletter-form" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <input type="email" name="email" placeholder="Your work email" required style="padding: 0.6rem 0.75rem; border-radius: 0.25rem; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); font-size: 0.75rem; color: #FAF7F2; outline: none;" />
-                    <button type="submit" style="background-color: #0B5128; color: #FAF7F2; font-weight: 700; border: 1px solid #0E6834; padding: 0.55rem; border-radius: 0.25rem; font-size: 0.75rem; cursor: pointer;">
-                        Subscribe
-                    </button>
+                <form class="magazine-newsletter-form footer-newsletter-form">
+                    <div class="footer-input-group">
+                        <input type="email" name="email" placeholder="Your work email address" required class="footer-email-input" />
+                        <button type="submit" class="footer-submit-btn">Subscribe Gratis</button>
+                    </div>
                     <div class="newsletter-feedback"></div>
+                    <span class="footer-privacy-note">Zero spam. Encrypted dispatch. Unsubscribe at will.</span>
                 </form>
             </div>
 
         </div>
 
-        <!-- Bottom Copyright & Legal -->
+        <!-- Bottom Copyright & Legal Line -->
         <div class="footer-bottom-row">
-            <div>
-                &copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique. All rights reserved.
+            <div class="footer-copyright-note">
+                &copy; <?php echo esc_html(date('Y')); ?> Magazine Afrique. All rights reserved. Registered Pan-African Press Syndicate.
             </div>
-            <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
+            <div class="footer-legal-links">
                 <a href="<?php echo esc_url(home_url('/legal-notice/')); ?>">Legal Notice</a>
-                <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy</a>
-                <a href="<?php echo esc_url(home_url('/terms/')); ?>">Terms</a>
-                <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a>
-                <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload &amp;&amp; window.magazineafriquePurgeCacheAndReload()" class="footer-cache-reload-link" title="Purge local cache and load newest edition">↻ Reload Edition</a>
+                <span class="footer-sep">·</span>
+                <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a>
+                <span class="footer-sep">·</span>
+                <a href="<?php echo esc_url(home_url('/terms/')); ?>">Terms of Service</a>
+                <span class="footer-sep">·</span>
+                <a href="<?php echo esc_url(home_url('/contact/')); ?>">Contact &amp; Bureaus</a>
+                <span class="footer-sep">·</span>
+                <a href="javascript:void(0)" onclick="window.magazineafriquePurgeCacheAndReload && window.magazineafriquePurgeCacheAndReload()" class="footer-cache-reload-link" title="Purge local cache and load newest edition">↻ Reload Edition</a>
             </div>
         </div>
     </div>
 </footer>
 
-<!-- Vintage Broadsheet Bottom Mobile Navigation (With Smart Scroll Behavior) -->
+<!-- Vintage Broadsheet Bottom Mobile Navigation (Docked, Safe, Non-overflowing) -->
 <nav class="vintage-bottom-nav" id="vintage-mobile-nav" aria-label="Mobile Navigation">
     <a href="<?php echo esc_url(home_url('/')); ?>" class="vintage-nav-item <?php echo is_front_page() ? 'active' : ''; ?>">
         <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

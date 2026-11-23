@@ -291,6 +291,11 @@ a:hover {
   border-bottom-color: #0B5128;
 }
 
+[data-theme="dark"] .editorial-nav-list li a:hover {
+  color: #FBBF24 !important;
+  border-bottom-color: #FBBF24 !important;
+}
+
 .editorial-nav-list li.nav-item-prestige a {
   color: #B45309;
   font-weight: 700;
@@ -421,6 +426,12 @@ a:hover {
 .drawer-lang-row .lang-link.active,
 .drawer-lang-row .lang-link:hover {
   color: #0B5128;
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .drawer-lang-row .lang-link.active,
+[data-theme="dark"] .drawer-lang-row .lang-link:hover {
+  color: #FBBF24 !important;
   text-decoration: underline;
 }
 
@@ -629,8 +640,13 @@ a:hover {
   padding-top: 4px;
   padding-right: 10px;
   padding-bottom: 2px;
-  color: #0B5128;
+  color: #8B2500;
   font-weight: 700;
+}
+
+[data-theme="dark"] .article-reading-body > p:first-of-type::first-letter,
+[data-theme="dark"] .has-drop-cap:not(:focus)::first-letter {
+  color: #FBBF24 !important;
 }
 
 .article-reading-body h2 {
@@ -739,9 +755,14 @@ a:hover {
 
 /* Clean Editorial Footer */
 .site-footer {
-  background-color: #072213; /* Deep Sahel Green */
-  color: #E2DBD0;
-  border-top: 1px solid #B45309;
+  background-color: #0C0B0A;
+  color: #C7BFB3;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+
+[data-theme="dark"] .site-footer {
+  background-color: #080706 !important;
+  border-top-color: rgba(245, 158, 11, 0.35) !important;
+}
   margin-top: 4rem;
   padding: 3rem 0 2rem;
   font-size: 0.8125rem;
@@ -1293,6 +1314,41 @@ a:hover {
   border-radius: 2px;
 }
 
+[data-theme="dark"] .vintage-circular-notice {
+  border-color: rgba(229, 168, 75, 0.4) !important;
+  background-color: #171513 !important;
+  color: #E2DACD !important;
+}
+
+[data-theme="dark"] .circular-notice-badge {
+  color: #FBBF24 !important;
+}
+
+[data-theme="dark"] .circular-notice-title {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .circular-notice-desc {
+  color: #C7BFB3 !important;
+}
+
+[data-theme="dark"] .circular-notice-input {
+  background: #0E0D0C !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #FAF7F2 !important;
+}
+
+[data-theme="dark"] .circular-notice-btn {
+  background-color: #D4AF37 !important;
+  color: #000000 !important;
+  border: none !important;
+}
+
+[data-theme="dark"] .circular-notice-btn:hover {
+  background-color: #FBBF24 !important;
+  color: #000000 !important;
+}
+
 .circular-notice-badge {
   font-size: 0.625rem;
   font-weight: 800;
@@ -1378,12 +1434,15 @@ a:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 9990;
-    height: 56px;
+    z-index: 9995;
+    height: auto !important;
+    min-height: 52px !important;
     background-color: #F6F1E8;
     border-top: 3px double #231F1D;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-top: 4px !important;
+    padding-bottom: max(6px, env(safe-area-inset-bottom, 8px)) !important;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden !important;
   }
 
   .vintage-nav-item {
@@ -1391,13 +1450,16 @@ a:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     color: #5C564E;
     text-decoration: none;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 1px 2px;
+    height: 42px;
+    max-height: 42px;
+    box-sizing: border-box;
     flex: 1;
     transition: color 0.15s ease;
   }
@@ -1411,12 +1473,23 @@ a:hover {
     stroke: #8B2500;
   }
 
+  .vintage-nav-icon {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0 !important;
+  }
+
   .vintage-nav-label {
-    font-size: 0.5625rem;
+    font-size: 9px !important;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    line-height: 1 !important;
+    margin-top: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .magafrique-update-toast {
@@ -2003,7 +2076,7 @@ body {
 }
 
 [data-theme="dark"] .session-badge {
-  color: #4ADE80;
+  color: #FBBF24;
 }
 
 .session-name {
@@ -2030,7 +2103,12 @@ body {
 }
 
 .vintage-session-btn:hover {
-  color: #0B5128;
+  color: #8B2500;
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .vintage-session-btn:hover {
+  color: #FBBF24 !important;
   text-decoration: underline;
 }
 
@@ -2039,7 +2117,7 @@ body {
 }
 
 .vintage-session-btn.btn-enroll {
-  color: #0B5128;
+  color: #8B2500;
   font-weight: 700;
 }
 
@@ -2048,7 +2126,7 @@ body {
 }
 
 [data-theme="dark"] .vintage-session-btn.btn-enroll {
-  color: #4ADE80;
+  color: #FBBF24;
 }
 
 .drawer-section-heading {
@@ -2459,15 +2537,18 @@ body {
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    z-index: 9990 !important;
+    z-index: 9995 !important;
     height: auto !important;
-    min-height: 56px !important;
+    min-height: 52px !important;
     background-color: var(--bg-canvas, #F6F1E8) !important;
     border-top: 2px solid var(--border-color, #231F1D) !important;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08) !important;
-    padding-bottom: max(6px, env(safe-area-inset-bottom, 0px)) !important;
+    padding-top: 4px !important;
+    padding-bottom: max(6px, env(safe-area-inset-bottom, 8px)) !important;
     transform: translateZ(0) !important;
     visibility: visible !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .vintage-bottom-nav.nav-hidden {
@@ -2479,13 +2560,16 @@ body {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 2px !important;
+    gap: 1px !important;
     color: var(--text-muted, #5C564E) !important;
     text-decoration: none !important;
     background: none !important;
     border: none !important;
     cursor: pointer !important;
-    padding: 6px 8px !important;
+    padding: 1px 2px !important;
+    height: 42px !important;
+    max-height: 42px !important;
+    box-sizing: border-box !important;
     flex: 1 !important;
     transition: color 0.15s ease, transform 0.1s ease !important;
   }
