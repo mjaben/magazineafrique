@@ -189,6 +189,11 @@ if (!function_exists('magazineafrique_render_paywall_card')) {
  */
 if (!function_exists('magazineafrique_output_paywall_schema')) {
     function magazineafrique_output_paywall_schema() {
+        // Defer to comprehensive SEO engine if active
+        if (function_exists('magazineafrique_seo_json_ld_schemas')) {
+            return;
+        }
+
         if (!is_singular('post')) {
             return;
         }
