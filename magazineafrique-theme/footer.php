@@ -80,6 +80,7 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
             <div class="footer-col">
                 <h4 class="footer-col-title">Reader Services</h4>
                 <ul class="footer-link-list">
+                    <li><a href="<?php echo esc_url(home_url('/advertise/')); ?>"><span class="footer-bullet" style="color: #D97706;">📢</span> Buy Ad Space (Brand Reach)</a></li>
                     <li><a href="<?php echo esc_url(home_url('/subscribe/')); ?>"><span class="footer-bullet">★</span> Club Prestige Membership</a></li>
                     <li><a href="<?php echo esc_url(home_url('/profile/')); ?>"><span class="footer-bullet">👤</span> Reader Profile &amp; Wire</a></li>
                     <li><a href="<?php echo esc_url(home_url('/notifications/')); ?>"><span class="footer-bullet">🔔</span> Breaking Intelligence Alerts</a></li>

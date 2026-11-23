@@ -120,9 +120,9 @@
         if ($('#menu-appearance').length > 0) {
           $('<li class="artcraft-menu-group-header artcraft-group-system"><span class="artcraft-group-dot dot-teal"></span>SYSTEM &amp; PLUGINS</li>').insertBefore('#menu-appearance');
         }
-        // Administration group (Emerald dot)
+        // Administration group (Savannah Gold dot)
         if ($('#menu-users').length > 0) {
-          $('<li class="artcraft-menu-group-header artcraft-group-admin"><span class="artcraft-group-dot dot-emerald"></span>ADMINISTRATION</li>').insertBefore('#menu-users');
+          $('<li class="artcraft-menu-group-header artcraft-group-admin"><span class="artcraft-group-dot dot-gold"></span>ADMINISTRATION</li>').insertBefore('#menu-users');
         }
         // Integrations group (Gold dot)
         var $firstIntegration = $('#toplevel_page_googlesitekit-dashboard, #toplevel_page_wpseo_dashboard, #toplevel_page_wpseo_workouts, #toplevel_page_mailchimp-for-wp, #toplevel_page_gosmtp').first();
@@ -133,16 +133,77 @@
     }
     organizeSidebarHierarchy();
 
-    // 6. Wrap WordPress List Tables in ArtCraft Technical Frame with Reticle Crosshairs (+)
+    // 6. Modern Card Grid & Table Frame Manager
+    // Initialize users grid mode preference before any table wrapping
+    if ($('body').hasClass('users-php')) {
+      var savedUsersView = localStorage.getItem('magafrique_users_view') || 'grid';
+      if (savedUsersView === 'grid') {
+        $('body').addClass('magafrique-users-grid-mode');
+      }
+
+      var $usersHeader = $('.wrap h1');
+      if ($usersHeader.length > 0 && $('.magafrique-view-switcher').length === 0) {
+        var $switcher = $(
+          '<div class="magafrique-view-switcher" style="display: inline-flex; align-items: center; gap: 4px; margin-left: 1rem; background: rgba(255, 255, 255, 0.06); padding: 3px; border-radius: 4px; border: 1px solid var(--art-border); vertical-align: middle;">' +
+            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'grid' ? 'active' : '') + '" data-view="grid" title="Display Users as Cards" style="background: ' + (savedUsersView === 'grid' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">▦ Cards</button>' +
+            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'list' ? 'active' : '') + '" data-view="list" title="Display Users as Table" style="background: ' + (savedUsersView === 'list' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">☵ Table</button>' +
+          '</div>'
+        );
+        $usersHeader.append($switcher);
+      }
+
+      $(document).on('click', '.artcraft-view-toggle-btn', function (e) {
+        e.preventDefault();
+        var view = $(this).data('view');
+        $('.artcraft-view-toggle-btn').css('background', 'transparent').removeClass('active');
+        $(this).css('background', 'rgba(255, 255, 255, 0.15)').addClass('active');
+
+        var $userTable = $('.wp-list-table.users');
+        if (view === 'grid') {
+          $('body').addClass('magafrique-users-grid-mode');
+          localStorage.setItem('magafrique_users_view', 'grid');
+          if ($userTable.parent().hasClass('artcraft-table-card')) {
+            $userTable.parent().find('> .artcraft-reticle').remove();
+            $userTable.unwrap();
+          }
+        } else {
+          $('body').removeClass('magafrique-users-grid-mode');
+          localStorage.setItem('magafrique_users_view', 'list');
+          if (!$userTable.parent().hasClass('artcraft-table-card')) {
+            $userTable.wrap('<div class="artcraft-table-card"></div>');
+            var $card = $userTable.parent();
+            $card.prepend(
+              '<span class="artcraft-reticle reticle-tl" aria-hidden="true">+</span>' +
+              '<span class="artcraft-reticle reticle-tr" aria-hidden="true">+</span>' +
+              '<span class="artcraft-reticle reticle-bl" aria-hidden="true">+</span>' +
+              '<span class="artcraft-reticle reticle-br" aria-hidden="true">+</span>'
+            );
+          }
+        }
+      });
+    }
+
+    // Wrap WordPress List Tables in ArtCraft Technical Frame (Excluding Plugins & Grid Mode Users)
     function wrapTablesWithArtCraftFrame() {
-      // Plugins page is always a responsive modern app-store grid; do not wrap in table frame
+      // Plugins page is always a responsive modern app-store grid; strip any table frame
       if ($('body').hasClass('plugins-php')) {
+        $('.wp-list-table.plugins').each(function () {
+          var $tbl = $(this);
+          if ($tbl.parent().hasClass('artcraft-table-card')) {
+            $tbl.parent().find('> .artcraft-reticle').remove();
+            $tbl.unwrap();
+          }
+        });
         return;
       }
       $('.wp-list-table').each(function () {
         var $table = $(this);
         // Skip user table if currently viewed in modern card grid mode
-        if ($('body').hasClass('magafrique-users-grid-mode') && $table.hasClass('users')) {
+        if ($('body').hasClass('users-php') && $('body').hasClass('magafrique-users-grid-mode') && $table.hasClass('users')) {
+          if ($table.parent().hasClass('artcraft-table-card')) {
+            $table.parent().find('> .artcraft-reticle').remove();
+            $table.unwrap();
+          }
           return;
         }
         if (!$table.parent().hasClass('artcraft-table-card')) {
@@ -158,6 +219,26 @@
       });
     }
     wrapTablesWithArtCraftFrame();
+
+    // Attach plugin update notices directly inside parent plugin card in grid view
+    if ($('body').hasClass('plugins-php')) {
+      $('tr.plugin-update-tr').each(function () {
+        var $updateRow = $(this);
+        var $prevPlugin = $updateRow.prev('tr');
+        if ($prevPlugin.length) {
+          var updateHtml = $updateRow.find('.update-message').html();
+          if (updateHtml && $prevPlugin.find('.magafrique-plugin-update-notice').length === 0) {
+            $prevPlugin.append(
+              '<div class="magafrique-plugin-update-notice" style="margin-top: 0.85rem; padding: 0.65rem 0.85rem; background: rgba(217, 119, 6, 0.12); border: 1px solid rgba(217, 119, 6, 0.35); border-radius: 4px; font-size: 11.5px; color: #FBBF24; line-height: 1.4;">' +
+                '<strong style="color: #FDE68A; display: inline-block; margin-right: 4px;">Update Available:</strong> ' +
+                updateHtml +
+              '</div>'
+            );
+          }
+        }
+        $updateRow.hide();
+      });
+    }
 
     // 7. Notification Center Management (Zero Popups on Canvas)
     var $notices = $('#wpbody-content > .notice, #wpbody-content > .updated, #wpbody-content > .error, #wpbody-content > .update-nag, .wrap > .notice, .wrap > .updated, .wrap > .error, .wrap > .update-nag');
@@ -190,41 +271,7 @@
       $('#artcraft-drawer-backdrop').removeClass('open');
     });
 
-    // 8. Users Page: List vs Grid Cards View Switcher
-    if ($('body').hasClass('users-php')) {
-      var savedUsersView = localStorage.getItem('magafrique_users_view') || 'grid';
-      if (savedUsersView === 'grid') {
-        $('body').addClass('magafrique-users-grid-mode');
-      }
-
-      var $usersHeader = $('.wrap h1');
-      if ($usersHeader.length > 0 && $('.magafrique-view-switcher').length === 0) {
-        var $switcher = $(
-          '<div class="magafrique-view-switcher" style="display: inline-flex; align-items: center; gap: 4px; margin-left: 1rem; background: rgba(255, 255, 255, 0.06); padding: 3px; border-radius: 4px; border: 1px solid var(--art-border); vertical-align: middle;">' +
-            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'grid' ? 'active' : '') + '" data-view="grid" title="Display Users as Cards" style="background: ' + (savedUsersView === 'grid' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">▦ Cards</button>' +
-            '<button type="button" class="artcraft-view-toggle-btn ' + (savedUsersView === 'list' ? 'active' : '') + '" data-view="list" title="Display Users as Table" style="background: ' + (savedUsersView === 'list' ? 'rgba(255, 255, 255, 0.15)' : 'transparent') + '; border: none; color: #FAF7F2; font-family: monospace; font-size: 11px; padding: 3px 8px; border-radius: 3px; cursor: pointer;">☵ Table</button>' +
-          '</div>'
-        );
-        $usersHeader.append($switcher);
-      }
-
-      $(document).on('click', '.artcraft-view-toggle-btn', function (e) {
-        e.preventDefault();
-        var view = $(this).data('view');
-        $('.artcraft-view-toggle-btn').css('background', 'transparent').removeClass('active');
-        $(this).css('background', 'rgba(255, 255, 255, 0.15)').addClass('active');
-
-        if (view === 'grid') {
-          $('body').addClass('magafrique-users-grid-mode');
-          localStorage.setItem('magafrique_users_view', 'grid');
-        } else {
-          $('body').removeClass('magafrique-users-grid-mode');
-          localStorage.setItem('magafrique_users_view', 'list');
-        }
-      });
-    }
-
-    // 9. Comments Page: Editorial Analytics Header
+    // 8. Comments Page: Editorial Analytics Header
     if ($('body').hasClass('edit-comments-php')) {
       var allCount = $('.subsubsub .all .count').text().replace(/[()]/g, '') || '0';
       var modCount = $('.subsubsub .moderated .count').text().replace(/[()]/g, '') || '0';

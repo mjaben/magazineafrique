@@ -295,6 +295,15 @@ if (function_exists('magazineafrique_render_ad_header')) {
                     </a>
                 </li>
                 <li style="margin-top: 0.75rem;">
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="drawer-prestige-card-btn" style="border-color: #D97706; background: rgba(217, 119, 6, 0.12);">
+                        <span class="prestige-star" style="color: #FBBF24;">📢</span>
+                        <div>
+                            <strong style="display:block; font-size: 0.8125rem; color: #FAF7F2;">Buy Ad Space (Brand Reach)</strong>
+                            <span style="font-size: 0.6875rem; color: #FBBF24;">Guaranteed 1,000s Impressions · 54 Countries</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
                     <a href="<?php echo esc_url(home_url('/subscribe/')); ?>" class="drawer-prestige-card-btn">
                         <span class="prestige-star">★</span>
                         <div>

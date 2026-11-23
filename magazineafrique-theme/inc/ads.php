@@ -124,11 +124,27 @@ if (!function_exists('magazineafrique_enqueue_adsense_script')) {
 }
 
 /**
- * 1. Render Header Ad Slot (Slot: 4687046934)
+ * 1. Render Header Ad Slot (Slot: 4687046934 / Direct Brand Reach)
  */
 if (!function_exists('magazineafrique_render_ad_header')) {
     function magazineafrique_render_ad_header() {
         if (!magazineafrique_should_display_ads()) {
+            return;
+        }
+
+        // Check for active direct Brand Reach campaign
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('header_masthead') : false;
+        if ($direct_ad) {
+            ?>
+            <div class="vintage-ad-container header-ad-zone container-editorial">
+                <div class="vintage-ad-label">— CONTINENTAL BRAND REACH PARTNER —</div>
+                <div class="vintage-ad-box direct-brand-reach-box" style="max-width: 970px; padding: 0; background: transparent; border: 1px solid rgba(0,0,0,0.15);">
+                    <a href="<?php echo esc_url($direct_ad->destination_url); ?>" target="_blank" rel="sponsored noopener" class="direct-brand-ad-link" data-campaign-id="<?php echo esc_attr($direct_ad->id); ?>" style="display: block; width: 100%;">
+                        <img src="<?php echo esc_url($direct_ad->creative_url); ?>" alt="<?php echo esc_attr($direct_ad->brand_name); ?>" class="direct-brand-ad-img" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                    </a>
+                </div>
+            </div>
+            <?php
             return;
         }
         ?>
@@ -151,13 +167,31 @@ if (!function_exists('magazineafrique_render_ad_header')) {
 }
 
 /**
- * 2. Render In-Article Ad Slot 1 (Slot: 9866978622 - Different sizes per screen)
+ * 2. Render In-Article Ad Slot 1 (Slot: 9866978622 / Direct Brand Reach)
  */
 if (!function_exists('magazineafrique_render_article_ad_1')) {
     function magazineafrique_render_article_ad_1() {
         if (!magazineafrique_should_display_ads()) {
             return '';
         }
+
+        // Check for active direct Brand Reach campaign
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article') : false;
+        if ($direct_ad) {
+            ob_start();
+            ?>
+            <div class="vintage-ad-container in-article-ad-1 my-6">
+                <div class="vintage-ad-label">— CONTINENTAL BRAND REACH PARTNER —</div>
+                <div class="vintage-ad-box direct-brand-reach-box" style="padding: 0; background: transparent; border: 1px solid rgba(0,0,0,0.15);">
+                    <a href="<?php echo esc_url($direct_ad->destination_url); ?>" target="_blank" rel="sponsored noopener" class="direct-brand-ad-link" data-campaign-id="<?php echo esc_attr($direct_ad->id); ?>" style="display: block; width: 100%;">
+                        <img src="<?php echo esc_url($direct_ad->creative_url); ?>" alt="<?php echo esc_attr($direct_ad->brand_name); ?>" class="direct-brand-ad-img" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                    </a>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+
         ob_start();
         ?>
         <div class="vintage-ad-container in-article-ad-1 my-6">
@@ -177,13 +211,31 @@ if (!function_exists('magazineafrique_render_article_ad_1')) {
 }
 
 /**
- * 3. Render In-Article Ad Slot 2 (Slot: 3777306824 - Fluid Native In-Article)
+ * 3. Render In-Article Ad Slot 2 (Slot: 3777306824 / Direct Brand Reach)
  */
 if (!function_exists('magazineafrique_render_article_ad_2')) {
     function magazineafrique_render_article_ad_2() {
         if (!magazineafrique_should_display_ads()) {
             return '';
         }
+
+        // Check for active direct Brand Reach campaign
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article') : false;
+        if ($direct_ad) {
+            ob_start();
+            ?>
+            <div class="vintage-ad-container in-article-ad-2 my-6">
+                <div class="vintage-ad-label">— CONTINENTAL BRAND REACH PARTNER —</div>
+                <div class="vintage-ad-box direct-brand-reach-box" style="padding: 0; background: transparent; border: 1px solid rgba(0,0,0,0.15);">
+                    <a href="<?php echo esc_url($direct_ad->destination_url); ?>" target="_blank" rel="sponsored noopener" class="direct-brand-ad-link" data-campaign-id="<?php echo esc_attr($direct_ad->id); ?>" style="display: block; width: 100%;">
+                        <img src="<?php echo esc_url($direct_ad->creative_url); ?>" alt="<?php echo esc_attr($direct_ad->brand_name); ?>" class="direct-brand-ad-img" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                    </a>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+
         ob_start();
         ?>
         <div class="vintage-ad-container in-article-ad-2 my-6">
@@ -206,11 +258,27 @@ if (!function_exists('magazineafrique_render_article_ad_2')) {
 }
 
 /**
- * 4. Render Sidebar Ad Slot (Slot: 1854558906)
+ * 4. Render Sidebar Ad Slot (Slot: 1854558906 / Direct Brand Reach)
  */
 if (!function_exists('magazineafrique_render_ad_sidebar')) {
     function magazineafrique_render_ad_sidebar() {
         if (!magazineafrique_should_display_ads()) {
+            return;
+        }
+
+        // Check for active direct Brand Reach campaign
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('sidebar') : false;
+        if ($direct_ad) {
+            ?>
+            <div class="vintage-ad-container sidebar-ad-zone">
+                <div class="vintage-ad-label">— BRAND REACH PARTNER —</div>
+                <div class="vintage-ad-box direct-brand-reach-box" style="width: 300px; margin: 0 auto; padding: 0; background: transparent; border: 1px solid rgba(0,0,0,0.15);">
+                    <a href="<?php echo esc_url($direct_ad->destination_url); ?>" target="_blank" rel="sponsored noopener" class="direct-brand-ad-link" data-campaign-id="<?php echo esc_attr($direct_ad->id); ?>" style="display: block; width: 100%;">
+                        <img src="<?php echo esc_url($direct_ad->creative_url); ?>" alt="<?php echo esc_attr($direct_ad->brand_name); ?>" class="direct-brand-ad-img" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                    </a>
+                </div>
+            </div>
+            <?php
             return;
         }
         ?>
@@ -231,11 +299,27 @@ if (!function_exists('magazineafrique_render_ad_sidebar')) {
 }
 
 /**
- * 5. Render Bottom Ad Slot (Slot: 1801863291 - Above Footer / Bottom of Page)
+ * 5. Render Bottom Ad Slot (Slot: 1801863291 / Direct Brand Reach)
  */
 if (!function_exists('magazineafrique_render_ad_bottom')) {
     function magazineafrique_render_ad_bottom() {
         if (!magazineafrique_should_display_ads()) {
+            return;
+        }
+
+        // Check for active direct Brand Reach campaign
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('bottom') : false;
+        if ($direct_ad) {
+            ?>
+            <div class="vintage-ad-container bottom-ad-zone container-editorial" style="margin-top: 2rem; margin-bottom: 2rem;">
+                <div class="vintage-ad-label">— CONTINENTAL BRAND REACH PARTNER —</div>
+                <div class="vintage-ad-box direct-brand-reach-box" style="max-width: 970px; padding: 0; background: transparent; border: 1px solid rgba(0,0,0,0.15);">
+                    <a href="<?php echo esc_url($direct_ad->destination_url); ?>" target="_blank" rel="sponsored noopener" class="direct-brand-ad-link" data-campaign-id="<?php echo esc_attr($direct_ad->id); ?>" style="display: block; width: 100%;">
+                        <img src="<?php echo esc_url($direct_ad->creative_url); ?>" alt="<?php echo esc_attr($direct_ad->brand_name); ?>" class="direct-brand-ad-img" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+                    </a>
+                </div>
+            </div>
+            <?php
             return;
         }
         ?>

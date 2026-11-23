@@ -127,6 +127,10 @@ if (!function_exists('magazineafrique_ensure_system_pages')) {
             'notifications' => array(
                 'title'    => 'Reader Notifications',
                 'template' => 'template-notifications.php'
+            ),
+            'advertise' => array(
+                'title'    => 'Buy Ad Space — Brand Reach Inventory',
+                'template' => 'template-buy-ad-space.php'
             )
         );
 
