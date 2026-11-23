@@ -41,15 +41,18 @@ if (!function_exists('magazineafrique_handle_virtual_routes')) {
         // Route: /feed/ (Browser view for reader personalized feed)
         if ($path === 'feed' || $path === 'wire' || $path === 'for-you') {
             $accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
-            // If explicit RSS reader client, let WP handle RSS XML
-            if (strpos($accept, 'application/rss+xml') !== false || strpos($accept, 'application/xml') !== false) {
+            // Only defer to WordPress XML RSS if the client explicitly requested RSS without wanting HTML
+            $wants_rss = (isset($_GET['feed']) && $_GET['feed'] !== '') || isset($_GET['rss']) || (strpos($accept, 'application/rss+xml') !== false && strpos($accept, 'text/html') === false);
+            if ($wants_rss) {
                 return;
             }
             $feed_template = get_template_directory() . '/template-feed.php';
             if (file_exists($feed_template)) {
                 status_header(200);
+                global $wp_query;
                 if (isset($wp_query)) {
-                    $wp_query->is_404 = false;
+                    $wp_query->is_404  = false;
+                    $wp_query->is_feed = false;
                 }
                 include $feed_template;
                 exit;
@@ -132,10 +135,16 @@ if (!function_exists('magazineafrique_route_profile_pages')) {
 
         // Route: /feed/ (Browser view for reader personalized feed)
         if ($path === 'feed' || $path === 'wire' || $path === 'for-you') {
-            if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) {
+            $wants_rss = (isset($_GET['feed']) && $_GET['feed'] !== '') || isset($_GET['rss']);
+            if (!$wants_rss) {
                 $feed_template = __DIR__ . '/../template-feed.php';
                 if (file_exists($feed_template)) {
                     status_header(200);
+                    global $wp_query;
+                    if (isset($wp_query)) {
+                        $wp_query->is_404  = false;
+                        $wp_query->is_feed = false;
+                    }
                     return $feed_template;
                 }
             }

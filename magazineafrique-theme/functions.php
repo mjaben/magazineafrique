@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MAGAZINEAFRIQUE_VERSION')) {
-    define('MAGAZINEAFRIQUE_VERSION', '1.8.2');
+    define('MAGAZINEAFRIQUE_VERSION', '1.8.3');
 }
 
 /**
