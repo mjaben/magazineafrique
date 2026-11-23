@@ -9,6 +9,7 @@
 get_header();
 
 $spots_matrix = function_exists('magazineafrique_get_ad_spots_matrix') ? magazineafrique_get_ad_spots_matrix() : array();
+$rot_state = function_exists('magazineafrique_get_ad_rotation_state') ? magazineafrique_get_ad_rotation_state() : false;
 $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 ?>
 
@@ -23,8 +24,11 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           COMMERCIAL DESK · CONTINENTAL BRAND REACH PLATFORM · ALL 54 JURISDICTIONS
         </span>
         <div class="ad-masthead-rates-ticker">
-          <span class="ticker-label">BASE BROADSHEET RATE:</span>
-          <span class="ticker-val">₦5,000 / $5.00 CPM (PER 1,000 GUARANTEED IMPRESSIONS)</span>
+          <span class="ticker-label">5-HR ROTATION SHIFT:</span>
+          <span class="ticker-val" style="color: #FBBF24;"><?php echo esc_html($rot_state ? $rot_state['shift_name'] : 'Shift Alpha'); ?> (RESET IN <?php echo esc_html($rot_state ? $rot_state['formatted_remaining'] : '05h 00m'); ?>)</span>
+          <span style="color: #78716C; margin: 0 6px;">·</span>
+          <span class="ticker-label">BASE RATE:</span>
+          <span class="ticker-val">₦5,000 / $5.00 CPM</span>
         </div>
       </div>
     </div>
@@ -103,9 +107,27 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
         </p>
       </div>
 
+      <!-- 5-Hour Space Rotation Protocol Explainer Card -->
+      <div class="ad-rotation-policy-card">
+        <div class="policy-card-icon">↻</div>
+        <div class="policy-card-body">
+          <div class="policy-card-tag">CONTINENTAL INVENTORY STANDARD</div>
+          <h3 class="policy-card-title">5-Hour Balanced Space Rotation Protocol</h3>
+          <p class="policy-card-text">
+            To prevent ad clutter and maintain a fair balance with programmatic Google Ads across our 54 jurisdictions, brand reach ad spaces rotate in dedicated <strong>5-hour high-attention shifts</strong>. Direct brand ads and Google Ads are strictly exclusive and never collide in the same spot. <strong>Your contracted CPM impressions only decrement when your banner is actively delivered</strong> during live rotation windows.
+          </p>
+        </div>
+        <div class="policy-card-status">
+          <span class="policy-status-kicker">CURRENT 5-HOUR SHIFT:</span>
+          <span class="policy-shift-badge"><?php echo esc_html($rot_state ? $rot_state['shift_name'] : 'Shift Alpha'); ?></span>
+          <span class="policy-timer-label">Next Rotation Reset:</span>
+          <span class="policy-timer-val mono" id="front_rot_timer"><?php echo esc_html($rot_state ? $rot_state['formatted_remaining'] : '05h 00m'); ?></span>
+        </div>
+      </div>
+
       <div class="ad-inventory-grid">
         <?php foreach ($spots_matrix as $spot_key => $spot): ?>
-          <div class="ad-spot-card <?php echo $spot_key === 'spot_masthead' ? 'is-prime' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
+          <div class="ad-spot-card <?php echo $spot_key === 'header_masthead' ? 'is-prime' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
             <div class="spot-card-badge-row">
               <span class="spot-tag"><?php echo esc_html($spot['badge']); ?></span>
               <span class="spot-tier-chip">TIER <?php echo substr($spot_key, -1); ?></span>
@@ -171,8 +193,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
               <label class="control-label">1. Choose Broadsheet Placement</label>
               <div class="spot-selector-radios">
                 <?php foreach ($spots_matrix as $spot_key => $spot): ?>
-                  <label class="spot-radio-label <?php echo $spot_key === 'spot_masthead' ? 'is-selected' : ''; ?>" id="radio-label-<?php echo esc_attr($spot_key); ?>">
-                    <input type="radio" name="calc_spot" value="<?php echo esc_attr($spot_key); ?>" <?php checked($spot_key, 'spot_masthead'); ?> onchange="onSpotChanged(this.value)">
+                  <label class="spot-radio-label <?php echo $spot_key === 'header_masthead' ? 'is-selected' : ''; ?>" id="radio-label-<?php echo esc_attr($spot_key); ?>">
+                    <input type="radio" name="calc_spot" value="<?php echo esc_attr($spot_key); ?>" <?php checked($spot_key, 'header_masthead'); ?> onchange="onSpotChanged(this.value)">
                     <div class="radio-content">
                       <div class="radio-title-row">
                         <span class="radio-title"><?php echo esc_html($spot['title']); ?></span>
@@ -276,7 +298,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           <form id="magazineafrique-ad-form" enctype="multipart/form-data">
             <input type="hidden" name="action" value="magazineafrique_submit_ad_booking">
             <input type="hidden" name="nonce" value="<?php echo esc_attr($nonce); ?>">
-            <input type="hidden" id="form_spot_key" name="spot_key" value="spot_masthead">
+            <input type="hidden" id="form_spot_key" name="spot_key" value="header_masthead">
             <input type="hidden" id="form_currency" name="currency" value="NGN">
             <input type="hidden" id="form_impressions" name="impressions" value="25000">
 
@@ -494,8 +516,27 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
   // Dynamic pricing matrix
   var spotsMatrix = <?php echo json_encode($spots_matrix); ?>;
   var currentCurrency = 'NGN';
-  var currentSpot = 'spot_masthead';
+  var currentSpot = 'header_masthead';
   var currentImpressions = 25000;
+
+  // Live 5-Hour Rotation Countdown Timer on Buy Ad Space Page
+  var rotSeconds = <?php echo (int) ($rot_state ? $rot_state['seconds_remaining'] : 18000); ?>;
+  var frontTimerEl = document.getElementById('front_rot_timer');
+  if (frontTimerEl) {
+    setInterval(function() {
+      rotSeconds--;
+      if (rotSeconds <= 0) {
+        frontTimerEl.textContent = 'Rotating Space...';
+        setTimeout(function() { location.reload(); }, 2000);
+        return;
+      }
+      var h = Math.floor(rotSeconds / 3600);
+      var m = Math.floor((rotSeconds % 3600) / 60);
+      var s = rotSeconds % 60;
+      var pad = function(n) { return (n < 10 ? '0' : '') + n; };
+      frontTimerEl.textContent = pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+    }, 1000);
+  }
 
   // Window exposure for inline onclick handlers
   window.switchCurrency = function(curr) {

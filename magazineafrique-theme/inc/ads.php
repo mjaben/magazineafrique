@@ -132,8 +132,8 @@ if (!function_exists('magazineafrique_render_ad_header')) {
             return;
         }
 
-        // Check for active direct Brand Reach campaign
-        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('header_masthead') : false;
+        // Check for active direct Brand Reach campaign in this 5-hour rotation shift
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('header_masthead', 'header') : false;
         if ($direct_ad) {
             ?>
             <div class="vintage-ad-container header-ad-zone container-editorial">
@@ -175,8 +175,8 @@ if (!function_exists('magazineafrique_render_article_ad_1')) {
             return '';
         }
 
-        // Check for active direct Brand Reach campaign
-        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article') : false;
+        // Check for active direct Brand Reach campaign in this 5-hour rotation shift (Zone: article_1)
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article', 'article_1') : false;
         if ($direct_ad) {
             ob_start();
             ?>
@@ -219,8 +219,8 @@ if (!function_exists('magazineafrique_render_article_ad_2')) {
             return '';
         }
 
-        // Check for active direct Brand Reach campaign
-        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article') : false;
+        // Check for active direct Brand Reach campaign in this 5-hour rotation shift (Zone: article_2)
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('in_article', 'article_2') : false;
         if ($direct_ad) {
             ob_start();
             ?>
@@ -266,8 +266,8 @@ if (!function_exists('magazineafrique_render_ad_sidebar')) {
             return;
         }
 
-        // Check for active direct Brand Reach campaign
-        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('sidebar') : false;
+        // Check for active direct Brand Reach campaign in this 5-hour rotation shift (Zone: sidebar)
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('sidebar', 'sidebar') : false;
         if ($direct_ad) {
             ?>
             <div class="vintage-ad-container sidebar-ad-zone">
@@ -307,8 +307,8 @@ if (!function_exists('magazineafrique_render_ad_bottom')) {
             return;
         }
 
-        // Check for active direct Brand Reach campaign
-        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('bottom') : false;
+        // Check for active direct Brand Reach campaign in this 5-hour rotation shift (Zone: bottom)
+        $direct_ad = function_exists('magazineafrique_get_active_brand_ad') ? magazineafrique_get_active_brand_ad('bottom', 'bottom') : false;
         if ($direct_ad) {
             ?>
             <div class="vintage-ad-container bottom-ad-zone container-editorial" style="margin-top: 2rem; margin-bottom: 2rem;">

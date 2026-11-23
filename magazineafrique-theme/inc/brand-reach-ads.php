@@ -126,6 +126,131 @@ if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
 }
 
 /**
+ * 2b. 5-Hour Space Rotation Balancer (Google Ads vs Sponsored Ads)
+ * 
+ * Rules:
+ * - We cannot show Google Ads and Sponsored Ads in the same spot simultaneously.
+ * - Advertisers are buying space normally occupied by Google Ads.
+ * - Sponsored Ads CANNOT occupy all ad spaces across the site at once — Google Ads must still run to maintain revenue.
+ * - Space is rotated in balanced 5-hour shifts:
+ *   Shift Alpha (even 5-hr blocks): Header, Article 2, and Bottom = Direct Sponsored; Article 1 and Sidebar = Google Ads.
+ *   Shift Beta (odd 5-hr blocks): Article 1 and Sidebar = Direct Sponsored; Header, Article 2, and Bottom = Google Ads.
+ * - Automatically resets/cycles every 5 hours!
+ * - Any direct spot with no active campaign seamlessly falls back to Google Ads.
+ */
+if (!function_exists('magazineafrique_get_ad_rotation_state')) {
+    function magazineafrique_get_ad_rotation_state() {
+        $period_hours = (int) get_option('magafrique_ad_rotation_period', 5);
+        if ($period_hours < 1) {
+            $period_hours = 5;
+        }
+        $window_seconds = $period_hours * HOUR_IN_SECONDS;
+        $offset = (int) get_option('magafrique_ad_rotation_offset', 0);
+        $mode = get_option('magafrique_ad_rotation_mode', 'balanced'); // 'balanced', 'force_direct', 'google_only'
+
+        $now = time() + $offset;
+        $cycle_number = (int) floor($now / $window_seconds);
+        $elapsed_in_cycle = $now % $window_seconds;
+        $seconds_remaining = $window_seconds - $elapsed_in_cycle;
+
+        $hours_remaining = (int) floor($seconds_remaining / HOUR_IN_SECONDS);
+        $minutes_remaining = (int) floor(($seconds_remaining % HOUR_IN_SECONDS) / MINUTE_IN_SECONDS);
+        $secs_remaining = $seconds_remaining % MINUTE_IN_SECONDS;
+
+        // Shift calculation: Even cycle = Shift Alpha, Odd cycle = Shift Beta
+        $shift = ($cycle_number % 2 === 0) ? 'alpha' : 'beta';
+
+        $zones = array(
+            'header' => array(
+                'title'       => 'Master Masthead Leaderboard',
+                'spot_key'    => 'header_masthead',
+                'shift_group' => 'alpha',
+                'active_mode' => ($shift === 'alpha') ? 'direct' : 'google',
+            ),
+            'article_1' => array(
+                'title'       => 'Mid-Dossier Paragraph 3',
+                'spot_key'    => 'in_article',
+                'shift_group' => 'beta',
+                'active_mode' => ($shift === 'beta') ? 'direct' : 'google',
+            ),
+            'article_2' => array(
+                'title'       => 'Mid-Dossier Paragraph 7+',
+                'spot_key'    => 'in_article',
+                'shift_group' => 'alpha',
+                'active_mode' => ($shift === 'alpha') ? 'direct' : 'google',
+            ),
+            'sidebar' => array(
+                'title'       => 'Continental Telegraph Sidebar',
+                'spot_key'    => 'sidebar',
+                'shift_group' => 'beta',
+                'active_mode' => ($shift === 'beta') ? 'direct' : 'google',
+            ),
+            'bottom' => array(
+                'title'       => 'Broadsheet Bottom Leaderboard',
+                'spot_key'    => 'bottom',
+                'shift_group' => 'alpha',
+                'active_mode' => ($shift === 'alpha') ? 'direct' : 'google',
+            ),
+        );
+
+        if ($mode === 'force_direct') {
+            foreach ($zones as $k => $z) {
+                $zones[$k]['active_mode'] = 'direct';
+            }
+        } elseif ($mode === 'google_only') {
+            foreach ($zones as $k => $z) {
+                $zones[$k]['active_mode'] = 'google';
+            }
+        }
+
+        return array(
+            'period_hours'        => $period_hours,
+            'window_seconds'      => $window_seconds,
+            'cycle_number'        => $cycle_number,
+            'shift'               => $shift,
+            'shift_name'          => ($shift === 'alpha') ? 'Shift Alpha' : 'Shift Beta',
+            'seconds_remaining'   => $seconds_remaining,
+            'hours_remaining'     => $hours_remaining,
+            'minutes_remaining'   => $minutes_remaining,
+            'secs_remaining'      => $secs_remaining,
+            'formatted_remaining' => sprintf('%02dh %02dm %02ds', $hours_remaining, $minutes_remaining, $secs_remaining),
+            'mode'                => $mode,
+            'zones'               => $zones,
+        );
+    }
+}
+
+/**
+ * 2c. Check if a specific spot and zone is currently in its Direct Sponsored window
+ */
+if (!function_exists('magazineafrique_is_spot_in_direct_shift')) {
+    function magazineafrique_is_spot_in_direct_shift($spot_key, $zone = '') {
+        $state = magazineafrique_get_ad_rotation_state();
+        if ($state['mode'] === 'google_only') {
+            return false;
+        }
+        if ($state['mode'] === 'force_direct') {
+            return true;
+        }
+
+        // Match by zone identifier if passed
+        if (!empty($zone) && isset($state['zones'][$zone])) {
+            return $state['zones'][$zone]['active_mode'] === 'direct';
+        }
+
+        // Match by spot key fallback
+        if ($spot_key === 'header_masthead' || $spot_key === 'bottom') {
+            return $state['shift'] === 'alpha';
+        }
+        if ($spot_key === 'sidebar') {
+            return $state['shift'] === 'beta';
+        }
+
+        return true;
+    }
+}
+
+/**
  * 3. Register ArtCraft Dark Admin Management Screen under Gazette Desk
  */
 if (!function_exists('magazineafrique_register_brand_ads_admin_menu')) {
@@ -169,6 +294,31 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 echo '<div class="notice notice-error is-dismissible"><p>✕ Campaign #' . $campaign_id . ' deleted.</p></div>';
             }
         }
+
+        // Process 5-Hour Space Rotation Actions
+        if (isset($_GET['rotation_action']) && check_admin_referer('magafrique_rotation_action')) {
+            $r_action = sanitize_text_field($_GET['rotation_action']);
+            if ($r_action === 'shift') {
+                $period = (int) get_option('magafrique_ad_rotation_period', 5);
+                $curr_offset = (int) get_option('magafrique_ad_rotation_offset', 0);
+                update_option('magafrique_ad_rotation_offset', $curr_offset + ($period * HOUR_IN_SECONDS));
+                echo '<div class="notice notice-success is-dismissible"><p>✓ 5-Hour Ad Space Rotation successfully shifted to the next cycle.</p></div>';
+            } elseif ($r_action === 'reset_offset') {
+                update_option('magafrique_ad_rotation_offset', 0);
+                echo '<div class="notice notice-info is-dismissible"><p>✓ 5-Hour Ad Space Rotation synchronized to standard clock epoch.</p></div>';
+            }
+        }
+
+        // Process Rotation Settings Form
+        if (isset($_POST['magafrique_save_rotation']) && check_admin_referer('magafrique_save_rotation_nonce')) {
+            $period = max(1, min(24, intval($_POST['rotation_period'] ?? 5)));
+            $mode = sanitize_text_field($_POST['rotation_mode'] ?? 'balanced');
+            update_option('magafrique_ad_rotation_period', $period);
+            update_option('magafrique_ad_rotation_mode', $mode);
+            echo '<div class="notice notice-success is-dismissible"><p>✓ Rotation settings saved: ' . $period . '-hour interval with ' . esc_html($mode) . ' mode.</p></div>';
+        }
+
+        $rot_state = magazineafrique_get_ad_rotation_state();
 
         // Query Campaign Totals & Metrics
         $total_campaigns = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
@@ -272,7 +422,123 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 </div>
             </div>
 
-            <!-- Campaign Filter Tabs -->
+            <!-- 5-Hour Space Rotation Balancer Panel (Google Ads vs Sponsored Ads) -->
+            <div style="background: #171513; border: 2px solid #D97706; border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 6px 20px rgba(0,0,0,0.45); position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.85rem; margin-bottom: 1rem;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D97706; box-shadow: 0 0 8px #D97706;"></span>
+                            <span style="font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 800; color: #FBBF24; text-transform: uppercase; letter-spacing: 0.08em;">
+                                5-Hour Space Rotation Balancer · Current Shift: <?php echo esc_html($rot_state['shift_name']); ?> (Cycle #<?php echo esc_html($rot_state['cycle_number']); ?>)
+                            </span>
+                        </div>
+                        <p style="font-size: 12px; color: #A39A8E; margin: 4px 0 0; line-height: 1.4;">
+                            Rotates available space across the site every <?php echo esc_html($rot_state['period_hours']); ?> hours so Direct Brand Reach ads and Google Ads balance perfectly without crowding out programmatic revenue.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); padding: 5px 12px; border-radius: 3px; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                            <span style="color: #A39A8E;">NEXT RESET IN:</span> 
+                            <strong id="rot-timer-display" style="color: #FBBF24; font-size: 12px;"><?php echo esc_html($rot_state['formatted_remaining']); ?></strong>
+                        </div>
+                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&rotation_action=shift'), 'magafrique_rotation_action')); ?>" class="button" style="background: #D97706; border-color: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 800;" onclick="return confirm('Immediately shift the site ad space rotation to the next cycle?');">
+                            ↻ Shift Cycle Now
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5 Zones Allocation Matrix -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
+                    <?php foreach ($rot_state['zones'] as $zone_key => $zone) : 
+                        $is_direct = ($zone['active_mode'] === 'direct');
+                        $active_ad_in_zone = magazineafrique_get_active_brand_ad($zone['spot_key'], $zone_key);
+                    ?>
+                        <div style="background: #12100E; border: 1px solid <?php echo $is_direct ? 'rgba(217, 119, 6, 0.45)' : 'rgba(59, 130, 246, 0.35)'; ?>; border-radius: 4px; padding: 0.85rem; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <span style="font-family: 'Geist Mono', monospace; font-size: 9.5px; color: #A39A8E; text-transform: uppercase;">
+                                    ZONE: <?php echo strtoupper($zone_key); ?>
+                                </span>
+                                <span style="font-family: 'Geist Mono', monospace; font-size: 9.5px; font-weight: 800; padding: 2px 6px; border-radius: 2px; <?php echo $is_direct ? 'background: rgba(217, 119, 6, 0.2); color: #FBBF24; border: 1px solid rgba(217, 119, 6, 0.4);' : 'background: rgba(59, 130, 246, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3);'; ?>">
+                                    <?php echo $is_direct ? '★ DIRECT REACH' : '● GOOGLE ADS'; ?>
+                                </span>
+                            </div>
+                            <strong style="display: block; color: #FFFFFF; font-size: 12px; margin-bottom: 0.25rem;">
+                                <?php echo esc_html($zone['title']); ?>
+                            </strong>
+                            <div style="font-size: 11px; color: <?php echo $is_direct ? ($active_ad_in_zone ? '#34D399' : '#FBBF24') : '#93C5FD'; ?>; font-family: 'Geist Mono', monospace;">
+                                <?php if ($is_direct) : ?>
+                                    <?php if ($active_ad_in_zone) : ?>
+                                        ✓ Serving: <?php echo esc_html($active_ad_in_zone->brand_name); ?>
+                                    <?php else : ?>
+                                        ○ Ready (Google Ads Fallback)
+                                    <?php endif; ?>
+                                <?php else : ?>
+                                    ✓ Active Programmatic Slot
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Settings Bar Form -->
+                <form method="post" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: #13110F; border: 1px solid rgba(255,255,255,0.08); padding: 0.75rem 1rem; border-radius: 3px;">
+                    <?php wp_nonce_field('magafrique_save_rotation_nonce'); ?>
+                    <input type="hidden" name="magafrique_save_rotation" value="1">
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <label style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2;">
+                            Rotation Interval:
+                            <select name="rotation_period" style="background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; margin-left: 6px; padding: 2px 6px;">
+                                <?php foreach (array(1, 2, 3, 4, 5, 6, 8, 12, 24) as $hrs) : ?>
+                                    <option value="<?php echo $hrs; ?>" <?php selected($rot_state['period_hours'], $hrs); ?>><?php echo $hrs; ?> Hours <?php echo $hrs === 5 ? '(Default)' : ''; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
+
+                        <label style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2;">
+                            Balance Mode:
+                            <select name="rotation_mode" style="background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; margin-left: 6px; padding: 2px 6px;">
+                                <option value="balanced" <?php selected($rot_state['mode'], 'balanced'); ?>>Balanced 5-Hour Shift (Default)</option>
+                                <option value="force_direct" <?php selected($rot_state['mode'], 'force_direct'); ?>>Direct Priority (All Active Direct)</option>
+                                <option value="google_only" <?php selected($rot_state['mode'], 'google_only'); ?>>Google Ads Only (Emergency Reset)</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button type="submit" class="button" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                            Save Rotation Settings
+                        </button>
+                        <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&rotation_action=reset_offset'), 'magafrique_rotation_action')); ?>" class="button" style="background: transparent; border-color: rgba(255,255,255,0.1); color: #78716C; font-family: 'Geist Mono', monospace; font-size: 10px;" title="Reset custom shift offset to 0">
+                            Reset Offset
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Client-side Live 1-Second Countdown Timer Script -->
+            <script>
+            (function() {
+                var secondsLeft = <?php echo (int) $rot_state['seconds_remaining']; ?>;
+                var display = document.getElementById('rot-timer-display');
+                if (display) {
+                    var timer = setInterval(function() {
+                        secondsLeft--;
+                        if (secondsLeft <= 0) {
+                            clearInterval(timer);
+                            display.textContent = '00h 00m 00s (Cycling...)';
+                            setTimeout(function() { location.reload(); }, 2000);
+                            return;
+                        }
+                        var h = Math.floor(secondsLeft / 3600);
+                        var m = Math.floor((secondsLeft % 3600) / 60);
+                        var s = secondsLeft % 60;
+                        var pad = function(n) { return (n < 10 ? '0' : '') + n; };
+                        display.textContent = pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+                    }, 1000);
+                }
+            })();
+            </script>
             <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; font-family: 'Geist Mono', monospace; font-size: 11px;">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=all')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'all' ? 'background: #D97706; color: #171513; font-weight: 800;' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'; ?>">
                     All (<?php echo esc_html($total_campaigns); ?>)
@@ -653,11 +919,20 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
  * 7. Active Brand Reach Ad Retrival & Serving
  * Queries database for active direct brand campaigns.
  * If one is active and has remaining impressions, serves it and increments impressions.
- * If none active or impressions exhausted, returns false (falls back to Google AdSense).
+ * If none active, impressions exhausted, or current 5-hour shift is reserved for Google Ads,
+ * returns false (falls back to Google AdSense).
  */
 if (!function_exists('magazineafrique_get_active_brand_ad')) {
-    function magazineafrique_get_active_brand_ad($spot_key) {
+    function magazineafrique_get_active_brand_ad($spot_key, $zone = '') {
         if (!function_exists('magazineafrique_should_display_ads') || !magazineafrique_should_display_ads()) {
+            return false;
+        }
+
+        // 1. 5-Hour Space Rotation Check:
+        // Direct Sponsored Ads and Google Ads cannot show in the same spot simultaneously.
+        // Direct ads cannot take over all spaces — Google Ads must still run to maintain balance.
+        // If this spot is currently rotated to Google Ads for this 5-hour shift, return false!
+        if (!magazineafrique_is_spot_in_direct_shift($spot_key, $zone)) {
             return false;
         }
 
@@ -669,12 +944,14 @@ if (!function_exists('magazineafrique_get_active_brand_ad')) {
             return false;
         }
 
+        // Query active campaign with remaining impressions
+        // If multiple active campaigns exist, serve round-robin by lowest impressions_served
         $campaign = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $table_name 
              WHERE status = 'active' 
              AND spot = %s 
              AND impressions_served < impressions_booked 
-             ORDER BY id ASC LIMIT 1",
+             ORDER BY impressions_served ASC, id ASC LIMIT 1",
             $spot_key
         ));
 
