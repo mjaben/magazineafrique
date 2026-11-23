@@ -29,9 +29,21 @@ if (!function_exists('magazineafrique_should_display_ads')) {
             return false;
         }
 
-        // 100% Ad-Free reading experience for Club Prestige subscribers
-        if (function_exists('magazineafrique_user_has_active_subscription') && magazineafrique_user_has_active_subscription()) {
-            return false;
+        // Administrators and Editors MUST always see live ads to monitor and test ad inventory
+        if (current_user_can('edit_posts')) {
+            return true;
+        }
+
+        // 100% Ad-Free reading experience for paying Club Prestige subscribers (non-staff)
+        $user_id = get_current_user_id();
+        if ($user_id) {
+            $sub_status = get_user_meta($user_id, 'magazineafrique_sub_status', true);
+            if ($sub_status === 'active') {
+                return false;
+            }
+            if (function_exists('wc_memberships_is_user_active_member') && wc_memberships_is_user_active_member($user_id, 'premium')) {
+                return false;
+            }
         }
 
         return true;
@@ -246,11 +258,37 @@ if (!function_exists('magazineafrique_render_ad_bottom')) {
 }
 
 /**
+ * 6. Render Mid-Home Ad Slot (Responsive Leaderboard between Front Page Sections)
+ */
+if (!function_exists('magazineafrique_render_ad_mid_home')) {
+    function magazineafrique_render_ad_mid_home() {
+        if (!magazineafrique_should_display_ads()) {
+            return;
+        }
+        ?>
+        <div class="vintage-ad-container mid-home-ad-zone container-editorial" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+            <div class="vintage-ad-label">— STRATEGIC SPONSORED DISPATCH —</div>
+            <div class="vintage-ad-box" style="min-height: 90px; max-width: 970px;">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7175564788277515"
+                     data-ad-slot="4687046934"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        <?php
+    }
+}
+
+/**
  * Auto-inject and Mix In-Article Ads into single post content
  * Logic:
- * - In long articles (> 6 paragraphs): Injects Ad 1 (responsive 9866978622) after paragraph 3,
- *   and Ad 2 (fluid 3777306824) after paragraph 6.
- * - In shorter articles (4-6 paragraphs): Switches/alternates between Ad 1 and Ad 2 based on post ID!
+ * - In long articles (> 5 paragraphs): Injects Ad 1 after paragraph 2, and Ad 2 after paragraph 5.
+ * - In shorter articles (2-4 paragraphs): Injects Ad 1 after paragraph 1 or 2.
  */
 if (!function_exists('magazineafrique_inject_in_article_ads')) {
     function magazineafrique_inject_in_article_ads($content) {
@@ -258,7 +296,7 @@ if (!function_exists('magazineafrique_inject_in_article_ads')) {
             return $content;
         }
 
-        // If post has paywall excerpt only, don't inject inside preview
+        // If post has paywall excerpt only and user is not paid/admin, don't inject inside preview
         if (function_exists('magazineafrique_is_premium_post') && magazineafrique_is_premium_post() &&
             (!function_exists('magazineafrique_user_has_active_subscription') || !magazineafrique_user_has_active_subscription())) {
             return $content;
@@ -267,7 +305,7 @@ if (!function_exists('magazineafrique_inject_in_article_ads')) {
         $paragraphs = explode('</p>', $content);
         $total_paras = count($paragraphs);
 
-        if ($total_paras < 4) {
+        if ($total_paras < 2) {
             return $content;
         }
 
@@ -278,15 +316,17 @@ if (!function_exists('magazineafrique_inject_in_article_ads')) {
 
         $injected = '';
         foreach ($paragraphs as $index => $para) {
+            if (trim($para) === '') continue;
             $injected .= $para . '</p>';
 
-            // First insertion after paragraph 3
-            if ($index === 2) {
+            // First insertion: after paragraph 1 if article is short (<=3 paras), or paragraph 2 if longer
+            $first_target = ($total_paras <= 3) ? 0 : 1;
+            if ($index === $first_target) {
                 $injected .= $ad_slot_first;
             }
 
-            // Second insertion after paragraph 6 if article is long enough
-            if ($index === 5 && $total_paras >= 7) {
+            // Second insertion after paragraph 5 if article has 6 or more paragraphs
+            if ($index === 4 && $total_paras >= 6) {
                 $injected .= $ad_slot_second;
             }
         }

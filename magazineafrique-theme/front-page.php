@@ -1,7 +1,7 @@
 <?php
 /**
  * Magazine Afrique — Front Page Template
- * Vintage Broadsheet Newspaper Style
+ * Vintage Broadsheet Newspaper Style with Editorial Desks & Strategic Monetization
  *
  * @package MagazineAfrique
  */
@@ -37,13 +37,19 @@ get_header(); ?>
                     <span class="kicker-meta">RECORD #<?php the_ID(); ?> · <?php echo esc_html(magazineafrique_reading_time()); ?></span>
                 </div>
 
-                <h1 class="broadsheet-lead-title">
+                <h1 class="broadsheet-lead-title vintage-newspaper-headline">
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                 </h1>
 
-                <?php if (has_excerpt()) : ?>
+                <?php
+                $lead_deck = get_the_excerpt();
+                if (empty($lead_deck) || trim($lead_deck) === '') {
+                    $lead_deck = wp_trim_words(strip_shortcodes(get_the_content()), 24, '...');
+                }
+                if (!empty($lead_deck)) :
+                ?>
                     <div class="broadsheet-deck-subhead">
-                        <?php echo esc_html(get_the_excerpt()); ?>
+                        <?php echo esc_html($lead_deck); ?>
                     </div>
                 <?php endif; ?>
 
@@ -90,13 +96,13 @@ get_header(); ?>
                         $sec_count++;
                 ?>
                     <?php if ($sec_count === 1) : ?>
-                        <!-- Framed Newspaper Box ("Story in a Frame") -->
+                        <!-- Framed Newspaper Box ("Story in a Frame" with Tactile Box UI) -->
                         <div class="vintage-framed-box">
                             <div class="framed-box-header">
                                 <span class="framed-box-badge">FRONTIER WIRE</span>
                                 <span class="framed-box-date"><?php echo esc_html(get_the_date('j M')); ?></span>
                             </div>
-                            <h4 class="framed-box-title">
+                            <h4 class="framed-box-title vintage-newspaper-headline">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h4>
                             <p class="framed-box-excerpt">
@@ -117,7 +123,7 @@ get_header(); ?>
                                 }
                                 ?>
                             </div>
-                            <h4 class="ledger-item-title">
+                            <h4 class="ledger-item-title vintage-newspaper-headline">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h4>
                             <p class="ledger-item-excerpt">
@@ -147,7 +153,107 @@ get_header(); ?>
     <!-- Broadsheet Double Rule Divider -->
     <div class="broadsheet-double-rule"></div>
 
-    <!-- 2. The Continental Dispatches Ledger (6-Card Grid) -->
+    <!-- 2. Strategic Mid-Home Commercial Leaderboard -->
+    <?php
+    if (function_exists('magazineafrique_render_ad_mid_home')) {
+        magazineafrique_render_ad_mid_home();
+    }
+    ?>
+
+    <!-- 3. Pan-African Editorial Category Desks ("DISPATCHES BY DESK") -->
+    <section class="broadsheet-desks-section">
+        <div class="broadsheet-section-header">
+            <h3 class="broadsheet-section-title">PAN-AFRICAN EDITORIAL DESKS</h3>
+            <span class="broadsheet-edition-stamp">INTELLIGENCE BY SECTOR</span>
+        </div>
+
+        <div class="broadsheet-desks-grid">
+            <?php
+            // Query top 3 non-empty categories
+            $editorial_desks = get_categories(array(
+                'orderby'    => 'count',
+                'order'      => 'DESC',
+                'number'     => 3,
+                'exclude'    => array(1),
+                'hide_empty' => true
+            ));
+
+            if (!empty($editorial_desks)) :
+                foreach ($editorial_desks as $desk_cat) :
+                    $desk_posts = new WP_Query(array(
+                        'cat'            => $desk_cat->term_id,
+                        'posts_per_page' => 3,
+                    ));
+                    if ($desk_posts->have_posts()) :
+            ?>
+                <div class="broadsheet-desk-column">
+                    <!-- Desk Header -->
+                    <div class="desk-masthead-bar">
+                        <div class="desk-badge-wrap">
+                            <span class="desk-bullet">❖</span>
+                            <h4 class="desk-title"><?php echo esc_html($desk_cat->name); ?></h4>
+                        </div>
+                        <a href="<?php echo esc_url(get_category_link($desk_cat->term_id)); ?>" class="desk-view-all-link">Desk Index →</a>
+                    </div>
+
+                    <?php
+                    $p_index = 0;
+                    while ($desk_posts->have_posts()) : $desk_posts->the_post();
+                        $p_index++;
+                        if ($p_index === 1) :
+                    ?>
+                        <!-- Desk Featured Lead Postcard (Tactile 5px Offset Drop Shadow) -->
+                        <article class="vintage-desk-lead-card">
+                            <?php if (has_post_thumbnail()) : ?>
+                                <a href="<?php the_permalink(); ?>" class="desk-card-thumb-link">
+                                    <?php the_post_thumbnail('medium_large', array('class' => 'desk-card-img')); ?>
+                                </a>
+                            <?php endif; ?>
+                            <div class="desk-card-body">
+                                <div class="desk-card-meta">
+                                    <span class="desk-card-date"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                                    <span class="desk-meta-dot">·</span>
+                                    <span class="desk-card-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                                </div>
+                                <h5 class="desk-card-title vintage-newspaper-headline">
+                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                </h5>
+                                <p class="desk-card-excerpt">
+                                    <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                                </p>
+                            </div>
+                        </article>
+                    <?php else : ?>
+                        <!-- Desk Secondary Wire Bullet -->
+                        <div class="desk-wire-bullet-item">
+                            <h6 class="desk-wire-bullet-title vintage-newspaper-headline">
+                                <a href="<?php the_permalink(); ?>">
+                                    <span class="wire-arrow">›</span> <?php the_title(); ?>
+                                </a>
+                            </h6>
+                            <div class="desk-wire-bullet-meta">
+                                <span><?php echo esc_html(get_the_date('j M')); ?></span> · 
+                                <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                            </div>
+                        </div>
+                    <?php
+                        endif;
+                    endwhile;
+                    wp_reset_postdata();
+                    ?>
+                </div>
+            <?php
+                    endif;
+                endforeach;
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Broadsheet Double Rule Divider -->
+    <div class="broadsheet-double-rule"></div>
+
+    <!-- 4. The Continental Dispatches Ledger (6-Card Postcard Grid with Tactile Box UI) -->
     <section class="broadsheet-ledger-section">
         <div class="broadsheet-section-header">
             <h3 class="broadsheet-section-title">THE GAZETTE CHRONICLE</h3>
@@ -172,11 +278,13 @@ get_header(); ?>
                     $cats = get_the_category();
                     if (!empty($cats) && strtolower($cats[0]->slug) !== 'uncategorized') {
                         echo esc_html($cats[0]->name);
+                    } else {
+                        echo 'DISPATCH';
                     }
                     ?>
                 </div>
 
-                <h4 class="vintage-card-title">
+                <h4 class="vintage-card-title vintage-newspaper-headline">
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                 </h4>
 
@@ -196,7 +304,25 @@ get_header(); ?>
         </div>
     </section>
 
-    <!-- 3. Vintage Circular Notice (The Africa Brief) -->
+    <!-- 5. Broadsheet Dispatch Compass (Category & Topic Explorer Strip) -->
+    <section class="vintage-dispatch-compass-strip">
+        <div class="compass-label-wrap">
+            <span class="compass-glyph">❖</span>
+            <span class="compass-title">PAN-AFRICAN COMPASS:</span>
+        </div>
+        <div class="compass-tags-row">
+            <?php
+            $all_topics = get_categories(array('number' => 8, 'orderby' => 'count', 'order' => 'DESC', 'exclude' => array(1)));
+            foreach ($all_topics as $topic) :
+            ?>
+                <a href="<?php echo esc_url(get_category_link($topic->term_id)); ?>" class="compass-topic-chip">
+                    #<?php echo esc_html($topic->name); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- 6. Vintage Circular Notice (The Africa Brief) -->
     <section class="vintage-circular-notice">
         <div class="circular-notice-badge">CIRCULAR NOTICE TO READERS</div>
         <h3 class="circular-notice-title">THE AFRICA BRIEF — DELIVERED BY WIRE</h3>

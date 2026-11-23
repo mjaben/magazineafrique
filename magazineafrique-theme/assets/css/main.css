@@ -1026,11 +1026,18 @@ a:hover {
 }
 
 .broadsheet-framed-photo {
-  border: 1px solid #231F1D;
+  border: 2px solid #231F1D;
   background-color: #FFFFFF;
-  padding: 4px;
+  padding: 6px;
   margin-bottom: 1.25rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 6px 6px 0px #231F1D;
+  border-radius: 3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.broadsheet-framed-photo:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 8px 8px 0px #231F1D;
 }
 
 .broadsheet-img-cut {
@@ -1140,12 +1147,19 @@ a:hover {
   font-weight: 700;
 }
 
-/* Framed Newspaper Box */
+/* Framed Newspaper Box (Tactile Offset Shadow) */
 .vintage-framed-box {
   border: 2px solid #231F1D;
   background-color: #EFE9DE;
-  padding: 1rem;
-  border-radius: 2px;
+  padding: 1.25rem;
+  border-radius: 3px;
+  box-shadow: 6px 6px 0px #231F1D;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vintage-framed-box:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 8px 8px 0px #231F1D;
 }
 
 .framed-box-header {
@@ -1253,16 +1267,27 @@ a:hover {
 .vintage-grid-card {
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid #DCD3C4;
+  padding: 1.15rem;
+  background-color: var(--bg-card, #FAF6EE);
+  border: 2px solid var(--border-color, #231F1D);
+  box-shadow: 5px 5px 0px var(--shadow-color, #231F1D);
+  border-radius: 3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vintage-grid-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px var(--shadow-color, #231F1D);
 }
 
 .vintage-card-thumb-link {
   display: block;
   margin-bottom: 0.75rem;
-  border: 1px solid #231F1D;
+  border: 1.5px solid #231F1D;
   padding: 3px;
   background-color: #FFFFFF;
+  box-shadow: 3px 3px 0px #231F1D;
+  border-radius: 2px;
 }
 
 .vintage-card-img {
@@ -1508,18 +1533,20 @@ a:hover {
 .vintage-card-img,
 .article-reading-body figure,
 .article-reading-body > img {
-  border: 3px double var(--vintage-frame-border, #2B2623);
-  padding: 4px;
-  background-color: var(--vintage-frame-bg, #FAF6EE);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  border: 2px solid var(--vintage-frame-border, #231F1D);
+  padding: 5px;
+  background-color: var(--vintage-frame-bg, #FFFFFF);
+  box-shadow: 6px 6px 0px var(--vintage-frame-shadow, #231F1D);
   position: relative;
   box-sizing: border-box;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .vintage-double-frame:hover,
 .broadsheet-framed-photo:hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translate(-1px, -1px);
+  box-shadow: 8px 8px 0px var(--vintage-frame-shadow, #231F1D);
 }
 
 .vintage-photo-caption {
@@ -2756,4 +2783,891 @@ body {
   background-color: #2F2C27;
   border-color: #000000;
   box-shadow: 4px 4px 0px #000000;
+}
+
+
+/* ==========================================================================
+   VINTAGE BROADSHEET NEWSPAPER TYPOGRAPHY & HEADLINE ARCHITECTURE
+   ========================================================================== */
+.vintage-newspaper-headline {
+  font-family: 'Newsreader', 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  line-height: 1.14 !important;
+  letter-spacing: -0.022em !important;
+  color: #171513;
+}
+
+[data-theme="dark"] .vintage-newspaper-headline,
+[data-theme="dark"] .vintage-newspaper-headline a,
+[data-theme="dark"] .article-title-main {
+  color: #FAF7F2 !important;
+}
+
+/* Kicker Strip above single article headline */
+.vintage-headline-kicker-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: #78716C;
+}
+
+.kicker-left-cluster,
+.kicker-right-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.kicker-desk-tag,
+.kicker-desk-link {
+  color: #B45309;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+}
+
+[data-theme="dark"] .kicker-desk-tag,
+[data-theme="dark"] .kicker-desk-link {
+  color: #FBBF24 !important;
+}
+
+.kicker-sep {
+  color: rgba(120, 113, 108, 0.4);
+}
+
+.kicker-dispatch-meta,
+.kicker-reading-time {
+  color: #78716C;
+}
+
+[data-theme="dark"] .kicker-dispatch-meta,
+[data-theme="dark"] .kicker-reading-time {
+  color: #A39A8E !important;
+}
+
+.kicker-prestige-badge {
+  color: #D4AF37;
+  font-weight: 700;
+}
+
+.kicker-action-link {
+  background: transparent;
+  border: 1px solid rgba(120, 113, 108, 0.3);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.kicker-action-link:hover,
+.kicker-action-link.is-following,
+.kicker-action-link.is-bookmarked {
+  border-color: #B45309;
+  color: #B45309;
+}
+
+[data-theme="dark"] .kicker-action-link {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FAF7F2;
+}
+
+[data-theme="dark"] .kicker-action-link:hover,
+[data-theme="dark"] .kicker-action-link.is-following,
+[data-theme="dark"] .kicker-action-link.is-bookmarked {
+  border-color: #FBBF24 !important;
+  color: #FBBF24 !important;
+}
+
+.vintage-kicker-hairline {
+  width: 100%;
+  height: 1px;
+  background: #231F1D;
+  margin: 0.5rem 0 1.25rem;
+}
+
+[data-theme="dark"] .vintage-kicker-hairline {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+/* Second Title / Deck (Sub-Headline) */
+.vintage-newspaper-deck,
+.broadsheet-deck-subhead,
+.article-dek-lead {
+  font-family: 'Newsreader', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: clamp(1.15rem, 2.3vw, 1.35rem) !important;
+  line-height: 1.48 !important;
+  color: #575149 !important;
+  margin: 0.5rem 0 1.25rem !important;
+}
+
+[data-theme="dark"] .vintage-newspaper-deck,
+[data-theme="dark"] .broadsheet-deck-subhead,
+[data-theme="dark"] .article-dek-lead {
+  color: #D6CEC3 !important;
+}
+
+/* Vintage Byline Strip */
+.vintage-newspaper-byline {
+  border-top: 2px solid #231F1D;
+  border-bottom: 1px solid #231F1D;
+  padding: 0.85rem 0;
+  margin: 1.25rem 0 2rem;
+}
+
+[data-theme="dark"] .vintage-newspaper-byline {
+  border-top-color: rgba(255, 255, 255, 0.25) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.byline-top-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.byline-meta-cluster {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: #736B63;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+[data-theme="dark"] .byline-meta-cluster {
+  color: #A39A8E !important;
+}
+
+.byline-author-name {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  color: #171513;
+}
+
+[data-theme="dark"] .byline-author-name {
+  color: #FAF7F2 !important;
+}
+
+.byline-correspondent-tag {
+  color: #8B2500;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+[data-theme="dark"] .byline-correspondent-tag {
+  color: #FBBF24 !important;
+}
+
+.byline-tools-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.byline-tool-btn {
+  background: transparent;
+  border: 1px solid #231F1D;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  cursor: pointer;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .byline-tool-btn {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FAF7F2;
+}
+
+.byline-share-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+}
+
+.byline-share-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.byline-share-link:hover {
+  color: #FBBF24 !important;
+}
+
+/* ==========================================================================
+   TACTILE BOX UI — POSTCARDS & IMAGE FRAMES (5PX OFFSET SOLID BLACK SHADOW)
+   ========================================================================== */
+.broadsheet-framed-photo,
+.vintage-featured-image-box,
+.vintage-double-frame {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  margin: 1.5rem 0 2rem !important;
+  border: 2px solid #231F1D !important;
+  box-shadow: 5px 5px 0px #231F1D !important;
+  background: #FFFFFF !important;
+  padding: 6px !important;
+  border-radius: 2px !important;
+}
+
+[data-theme="dark"] .broadsheet-framed-photo,
+[data-theme="dark"] .vintage-featured-image-box,
+[data-theme="dark"] .vintage-double-frame {
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
+  background: #171513 !important;
+}
+
+.vintage-frame-inner {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.vintage-framed-img,
+.broadsheet-img-cut {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 520px !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Postcard Cards: The Gazette Chronicle & Category Desks */
+.vintage-grid-card,
+.vintage-desk-lead-card,
+.vintage-framed-box {
+  background-color: #FFFFFF !important;
+  border: 2px solid #231F1D !important;
+  box-shadow: 5px 5px 0px #231F1D !important;
+  border-radius: 2px !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.vintage-grid-card:hover,
+.vintage-desk-lead-card:hover,
+.vintage-framed-box:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 7px 7px 0px #231F1D !important;
+}
+
+[data-theme="dark"] .vintage-grid-card,
+[data-theme="dark"] .vintage-desk-lead-card,
+[data-theme="dark"] .vintage-framed-box {
+  background-color: #1A1715 !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
+}
+
+[data-theme="dark"] .vintage-grid-card:hover,
+[data-theme="dark"] .vintage-desk-lead-card:hover,
+[data-theme="dark"] .vintage-framed-box:hover {
+  box-shadow: 7px 7px 0px #000000 !important;
+}
+
+.vintage-card-thumb-link,
+.desk-card-thumb-link {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  margin-bottom: 0.85rem;
+  border-radius: 2px;
+}
+
+[data-theme="dark"] .vintage-card-thumb-link,
+[data-theme="dark"] .desk-card-thumb-link {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.vintage-card-img,
+.desk-card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.vintage-grid-card:hover .vintage-card-img,
+.vintage-desk-lead-card:hover .desk-card-img {
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   PAN-AFRICAN EDITORIAL CATEGORY DESKS SECTION
+   ========================================================================== */
+.broadsheet-desks-section {
+  margin: 2.5rem 0 3rem;
+}
+
+.broadsheet-desks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .broadsheet-desks-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.broadsheet-desk-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.desk-masthead-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #231F1D;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme="dark"] .desk-masthead-bar {
+  border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+.desk-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.desk-bullet {
+  color: #B45309;
+  font-size: 0.875rem;
+}
+
+[data-theme="dark"] .desk-bullet {
+  color: #FBBF24;
+}
+
+.desk-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+  color: #171513;
+}
+
+[data-theme="dark"] .desk-title {
+  color: #FAF7F2;
+}
+
+.desk-view-all-link {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #78716C;
+  text-decoration: none;
+}
+
+.desk-view-all-link:hover {
+  color: #B45309;
+}
+
+[data-theme="dark"] .desk-view-all-link:hover {
+  color: #FBBF24;
+}
+
+.desk-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.desk-card-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: #78716C;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+[data-theme="dark"] .desk-card-meta {
+  color: #A39A8E;
+}
+
+.desk-card-title {
+  font-size: 1.15rem;
+  margin: 0.25rem 0;
+  line-height: 1.25;
+}
+
+.desk-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.desk-card-title a:hover {
+  color: #B45309;
+}
+
+[data-theme="dark"] .desk-card-title a:hover {
+  color: #FBBF24;
+}
+
+.desk-card-excerpt {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #575149;
+  margin: 0;
+}
+
+[data-theme="dark"] .desk-card-excerpt {
+  color: #D6CEC3 !important;
+}
+
+.desk-wire-bullet-item {
+  border-top: 1px dashed rgba(120, 113, 108, 0.3);
+  padding-top: 0.65rem;
+  margin-top: 0.25rem;
+}
+
+.desk-wire-bullet-title {
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  margin: 0 0 0.25rem;
+}
+
+.desk-wire-bullet-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.desk-wire-bullet-title a:hover {
+  color: #B45309;
+}
+
+[data-theme="dark"] .desk-wire-bullet-title a:hover {
+  color: #FBBF24;
+}
+
+.wire-arrow {
+  color: #B45309;
+  font-weight: 700;
+}
+
+.desk-wire-bullet-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: #78716C;
+}
+
+[data-theme="dark"] .desk-wire-bullet-meta {
+  color: #A39A8E;
+}
+
+/* ==========================================================================
+   DISPATCH COMPASS (TOPIC EXPLORER STRIP)
+   ========================================================================== */
+.vintage-dispatch-compass-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  margin: 2rem 0;
+  border: 1px solid #231F1D;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 2px;
+}
+
+[data-theme="dark"] .vintage-dispatch-compass-strip {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.compass-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #B45309;
+}
+
+[data-theme="dark"] .compass-label-wrap {
+  color: #FBBF24;
+}
+
+.compass-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.compass-topic-chip {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid rgba(120, 113, 108, 0.25);
+  border-radius: 2px;
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.compass-topic-chip:hover {
+  background: #231F1D;
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .compass-topic-chip:hover {
+  background: #FAF7F2;
+  color: #171513;
+}
+
+/* ==========================================================================
+   CIRCULAR NOTICE BUTTON & FORM
+   ========================================================================== */
+.circular-notice-btn {
+  background: #231F1D !important;
+  color: #FFFFFF !important;
+  border: 2px solid #231F1D !important;
+  box-shadow: 4px 4px 0px #231F1D !important;
+  border-radius: 2px !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 0.65rem 1.25rem !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.circular-notice-btn:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px #231F1D !important;
+}
+
+[data-theme="dark"] .circular-notice-btn {
+  background: #FAF7F2 !important;
+  color: #171513 !important;
+  border-color: #FAF7F2 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+[data-theme="dark"] .circular-notice-btn:hover {
+  box-shadow: 6px 6px 0px #000000 !important;
+}
+
+/* ==========================================================================
+   HIGH-SPECIFICITY DARK MODE TEXT CONTRAST OVERRIDES
+   ========================================================================== */
+[data-theme="dark"] .broadsheet-lead-excerpt,
+[data-theme="dark"] .drop-cap-classic,
+[data-theme="dark"] .broadsheet-deck-subhead,
+[data-theme="dark"] .broadsheet-byline-text,
+[data-theme="dark"] .framed-box-excerpt,
+[data-theme="dark"] .ledger-item-excerpt,
+[data-theme="dark"] .vintage-card-excerpt,
+[data-theme="dark"] .desk-card-excerpt,
+[data-theme="dark"] .article-reading-body p,
+[data-theme="dark"] .article-dek-lead,
+[data-theme="dark"] .vintage-newspaper-deck {
+  color: #E2DACD !important;
+}
+
+[data-theme="dark"] .drop-cap-classic:first-letter {
+  color: #FAF7F2 !important;
+}
+
+[data-theme="dark"] .broadsheet-lead-title a,
+[data-theme="dark"] .framed-box-title a,
+[data-theme="dark"] .ledger-item-title a,
+[data-theme="dark"] .vintage-card-title a,
+[data-theme="dark"] .vintage-newspaper-headline,
+[data-theme="dark"] .article-title-main {
+  color: #FAF7F2 !important;
+}
+
+/* ==========================================================================
+   SHADCN-INSPIRED EDITORIAL COMMENTARY FORM (COMMENTS.PHP)
+   ========================================================================== */
+.comments-area-editorial {
+  margin: 3.5rem 0 2rem;
+  border-top: 2px solid #231F1D;
+  padding-top: 2rem;
+}
+
+[data-theme="dark"] .comments-area-editorial {
+  border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.comments-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.comments-title {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.comments-count-badge {
+  background: #231F1D;
+  color: #FFFFFF;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+[data-theme="dark"] .comments-count-badge {
+  background: #FAF7F2;
+  color: #171513;
+}
+
+.comments-edition-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: #78716C;
+  letter-spacing: 0.08em;
+}
+
+[data-theme="dark"] .comments-edition-tag {
+  color: #A39A8E;
+}
+
+#respond {
+  background: #FAF7F2;
+  border: 2px solid #231F1D;
+  box-shadow: 5px 5px 0px #231F1D;
+  border-radius: 3px;
+  padding: 1.75rem;
+  margin: 2rem 0;
+}
+
+[data-theme="dark"] #respond {
+  background: #191614 !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 5px 5px 0px #000000 !important;
+}
+
+#reply-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  color: #171513;
+}
+
+[data-theme="dark"] #reply-title {
+  color: #FAF7F2;
+}
+
+.comment-notes-info {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.875rem;
+  color: #78716C;
+  margin: 0 0 1.25rem;
+}
+
+[data-theme="dark"] .comment-notes-info {
+  color: #A39A8E;
+}
+
+.comment-field-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.editorial-comment-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #575149;
+}
+
+[data-theme="dark"] .editorial-comment-label {
+  color: #A39A8E;
+}
+
+.editorial-comment-textarea,
+.editorial-comment-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  border: 1px solid #231F1D !important;
+  border-radius: 3px !important;
+  padding: 0.75rem 1rem !important;
+  font-family: 'Newsreader', Georgia, serif !important;
+  font-size: 1rem !important;
+  color: #171513 !important;
+  transition: all 0.15s ease !important;
+}
+
+[data-theme="dark"] .editorial-comment-textarea,
+[data-theme="dark"] .editorial-comment-input {
+  background: #141210 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #FAF7F2 !important;
+}
+
+.editorial-comment-textarea:focus,
+.editorial-comment-input:focus {
+  outline: none !important;
+  border-color: #B45309 !important;
+  box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.2) !important;
+}
+
+[data-theme="dark"] .editorial-comment-textarea:focus,
+[data-theme="dark"] .editorial-comment-input:focus {
+  border-color: #FBBF24 !important;
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2) !important;
+}
+
+.editorial-comment-submit {
+  background: #231F1D !important;
+  color: #FFFFFF !important;
+  border: 2px solid #231F1D !important;
+  box-shadow: 4px 4px 0px #231F1D !important;
+  border-radius: 2px !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 0.65rem 1.35rem !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.editorial-comment-submit:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px #231F1D !important;
+}
+
+[data-theme="dark"] .editorial-comment-submit {
+  background: #FAF7F2 !important;
+  color: #171513 !important;
+  border-color: #FAF7F2 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+[data-theme="dark"] .editorial-comment-submit:hover {
+  box-shadow: 6px 6px 0px #000000 !important;
+}
+
+/* Comments List */
+.editorial-comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.editorial-comment-list .comment {
+  border-bottom: 1px solid rgba(120, 113, 108, 0.25);
+  padding: 1.25rem 0;
+}
+
+[data-theme="dark"] .editorial-comment-list .comment {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.comment-author .fn {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.comment-metadata a {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6875rem;
+  color: #78716C;
+  text-decoration: none;
+}
+
+.comment-content p {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  margin: 0.5rem 0;
+}
+
+/* Footer Masthead Description */
+.footer-masthead-desc {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: #C7BFB3;
+  margin: 0.35rem 0 0;
+  max-width: 480px;
+}
+
+.footer-bureaus-detail {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 0.8125rem;
+  color: #A39A8E;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
 }

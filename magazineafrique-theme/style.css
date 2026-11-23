@@ -4,7 +4,7 @@ Theme URI: https://magazineafrique.org
 Author: Magazine Afrique Team
 Author URI: https://magazineafrique.org
 Description: A modern, ultra-fast, African-rooted editorial theme for Magazine Afrique. Features warm alabaster light mode, server-side paywall engine, Google-compliant NewsArticle SEO schema, zero-CLS Google Ads containers, and newsletter integration.
-Version: 1.2.0
+Version: 1.3.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -754,27 +754,28 @@ Text Domain: magazineafrique
 }
 
 .wa-join-btn {
-  background: #25D366 !important;
+  background: #FAF7F2 !important;
   color: #000000 !important;
   font-family: 'Geist Mono', monospace !important;
   font-size: 11px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
   padding: 8px 16px !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
   text-decoration: none !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
   transition: all 0.15s ease !important;
-  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 .wa-join-btn:hover {
-  background: #1EBE5D !important;
+  background: #E5A84B !important;
+  color: #000000 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45) !important;
+  border-color: #E5A84B !important;
 }
 
 .wa-dispatch-sub {
@@ -784,20 +785,21 @@ Text Domain: magazineafrique
   margin: 0;
 }
 
-/* 2. Floating Strategic WhatsApp Slide-In Pill (14-Day Frequency Capped) */
+/* 2. Floating Minimalist Glassmorphic WhatsApp Pill (No Green Everywhere) */
 .magafrique-wa-slidein {
   position: fixed;
   bottom: 84px;
   right: 24px;
   z-index: 99980;
-  background: #17181C;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-left: 3px solid #25D366;
-  border-radius: 6px;
-  padding: 12px 14px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
-  max-width: 360px;
-  animation: slideUpWa 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: rgba(18, 17, 16, 0.82) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  max-width: 340px !important;
+  animation: slideUpWa 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes slideUpWa {
@@ -812,12 +814,12 @@ Text Domain: magazineafrique
 }
 
 .magafrique-wa-icon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: rgba(37, 211, 102, 0.15);
-  border: 1px solid rgba(37, 211, 102, 0.3);
-  color: #25D366;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #FAF7F2 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -830,32 +832,37 @@ Text Domain: magazineafrique
 
 .magafrique-wa-text strong {
   display: block;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #FAF7F2;
+  letter-spacing: -0.01em;
 }
 
 .magafrique-wa-text span {
   display: block;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .magafrique-wa-action-btn {
-  background: #25D366;
-  color: #000000;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #FAF7F2 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   font-family: 'Geist Mono', monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
+  letter-spacing: 0.04em;
   padding: 5px 10px;
-  border-radius: 3px;
+  border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.15s ease;
 }
 
 .magafrique-wa-action-btn:hover {
-  background: #1EBE5D;
+  background: #FAF7F2 !important;
+  color: #000000 !important;
+  border-color: #FAF7F2 !important;
 }
 
 .magafrique-wa-close-btn {

@@ -26,8 +26,12 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
         <!-- Top Editorial Masthead Banner -->
         <div class="footer-top-masthead">
             <div class="footer-brand-lockup">
-                <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="Magazine Afrique" class="footer-logo-img" height="42" />
-                <span class="footer-masthead-motto">PAN-AFRICAN GAZETTE OF RECORD · EST. 2024</span>
+                <a href="<?php echo esc_url(home_url('/')); ?>" rel="home" class="footer-logo-link" title="<?php bloginfo('name'); ?>">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-dark.png'); ?>" alt="<?php bloginfo('name'); ?>" class="footer-logo-img" width="220" height="60" />
+                </a>
+                <p class="footer-masthead-desc">
+                    Independent pan-African journal of strategic analysis, macroeconomic intelligence, geopolitics, trade, and culture.
+                </p>
             </div>
             <div class="footer-edition-pills">
                 <span class="footer-edition-label">Editions:</span>
@@ -42,14 +46,14 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
         <!-- 4-Column Architectural Grid -->
         <div class="footer-inner-grid">
             
-            <!-- Column 1: Journal Mission & Pan-African Bureaus -->
+            <!-- Column 1: Continental Bureaus & Dispatch Wire -->
             <div class="footer-col footer-col-mission">
-                <h4 class="footer-col-title">The Journal</h4>
-                <p class="footer-mission-text">
-                    Independent pan-African journal of strategic analysis, macroeconomic intelligence, geopolitics, trade, and culture.
+                <h4 class="footer-col-title">Continental Bureaus</h4>
+                <p class="footer-bureaus-detail">
+                    Continuous intelligence despatches from accredited correspondents across Africa's five regional economic communities.
                 </p>
                 <div class="footer-bureaus-tag">
-                    <span>Bureaus:</span> Dakar · Lagos · Nairobi · Johannesburg · London
+                    <span>Active Bureaus:</span> Dakar · Lagos · Nairobi · Johannesburg · Cairo · London
                 </div>
                 <div class="footer-social-row">
                     <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="X (Twitter)">𝕏</a>

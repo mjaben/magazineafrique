@@ -22,99 +22,111 @@ get_header(); ?>
 
     <article class="article-reading-container">
         
-        <!-- Breadcrumbs, Category & Bookmark Button -->
-        <div class="article-meta-top">
-            <div class="meta-left-tags">
-                <?php
-                $cats = get_the_category();
-                $primary_cat = null;
-                if (!empty($cats)) {
-                    $primary_cat = $cats[0];
-                    if (strtolower($primary_cat->slug) !== 'uncategorized') {
-                        $is_cat_followed = function_exists('magazineafrique_is_followed') ? magazineafrique_is_followed($primary_cat->term_id, 'category') : false;
-                        echo '<div class="cat-follow-badge-wrap">';
-                        echo '<a href="' . esc_url(get_category_link($primary_cat->term_id)) . '" class="article-category-tag">' . esc_html($primary_cat->name) . '</a>';
-                        echo '<button type="button" class="btn-follow-cat ' . ($is_cat_followed ? 'is-following' : '') . '" data-id="' . esc_attr($primary_cat->term_id) . '" data-type="category" title="Follow this topic">' . ($is_cat_followed ? '✓ Following' : '+ Follow') . '</button>';
-                        echo '</div>';
-                        echo '<span class="meta-dot">·</span>';
+        <!-- 1. The Vintage Broadsheet Kicker Bar -->
+        <div class="vintage-headline-kicker-strip">
+            <div class="kicker-left-cluster">
+                <span class="kicker-desk-tag">
+                    <?php
+                    $cats = get_the_category();
+                    $primary_cat = (!empty($cats) && strtolower($cats[0]->slug) !== 'uncategorized') ? $cats[0] : null;
+                    if ($primary_cat) {
+                        echo '<a href="' . esc_url(get_category_link($primary_cat->term_id)) . '" class="kicker-desk-link">' . esc_html(strtoupper($primary_cat->name)) . '</a>';
+                    } else {
+                        echo 'SPECIAL INVESTIGATION';
                     }
-                }
-                ?>
-                <span class="meta-read-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                    ?>
+                </span>
+                <span class="kicker-sep">|</span>
+                <span class="kicker-dispatch-meta">DESPATCH #<?php the_ID(); ?> · <?php echo esc_html(get_the_date('j F Y')); ?></span>
+                <span class="kicker-sep">·</span>
+                <span class="kicker-reading-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
                 <?php if ($is_premium) : ?>
-                    <span class="meta-dot">·</span>
-                    <span class="subscriber-exclusive-tag">★ Club Prestige Dossier</span>
+                    <span class="kicker-sep">·</span>
+                    <span class="kicker-prestige-badge">★ CLUB PRESTIGE</span>
                 <?php endif; ?>
             </div>
 
-            <!-- Top Bookmark Dispatch -->
-            <button type="button" class="btn-bookmark-action <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-id="<?php echo esc_attr($post_id); ?>" data-type="post" title="Save to reading list">
-                <span class="bookmark-icon">🔖</span>
-                <span class="bookmark-label"><?php echo $is_bookmarked ? 'Saved' : 'Save'; ?></span>
-            </button>
+            <div class="kicker-right-cluster">
+                <?php if ($primary_cat) : 
+                    $is_cat_fol = function_exists('magazineafrique_is_followed') ? magazineafrique_is_followed($primary_cat->term_id, 'category') : false;
+                ?>
+                    <button type="button" class="btn-follow-cat kicker-action-link <?php echo $is_cat_fol ? 'is-following' : ''; ?>" data-id="<?php echo esc_attr($primary_cat->term_id); ?>" data-type="category" title="Follow this topic">
+                        <?php echo $is_cat_fol ? '✓ Following Topic' : '+ Follow Topic'; ?>
+                    </button>
+                    <span class="kicker-sep">·</span>
+                <?php endif; ?>
+                <button type="button" class="btn-bookmark-action kicker-action-link <?php echo $is_bookmarked ? 'is-bookmarked' : ''; ?>" data-id="<?php echo esc_attr($post_id); ?>" data-type="post" title="Save to reading list">
+                    🔖 <?php echo $is_bookmarked ? 'Saved' : 'Save'; ?>
+                </button>
+            </div>
         </div>
 
-        <!-- Article Headline -->
-        <h1 class="article-title-main">
+        <!-- Broadsheet Hairline Divider -->
+        <div class="vintage-kicker-hairline"></div>
+
+        <!-- 2. The Main Headline (Vintage Broadsheet Newspaper Font) -->
+        <h1 class="article-title-main vintage-newspaper-headline">
             <?php the_title(); ?>
         </h1>
 
-        <!-- Dek / Subtitle -->
-        <?php if (has_excerpt()) : ?>
-            <p class="article-dek-lead">
-                <?php echo esc_html(get_the_excerpt()); ?>
-            </p>
+        <!-- 3. The Second Title / Broadsheet Subhead (Deck) -->
+        <?php
+        $deck = get_the_excerpt();
+        if (empty($deck) || trim($deck) === '') {
+            $deck = wp_trim_words(strip_shortcodes(get_the_content()), 26, '...');
+        }
+        if (!empty($deck)) :
+        ?>
+            <div class="vintage-newspaper-deck">
+                <?php echo esc_html($deck); ?>
+            </div>
         <?php endif; ?>
 
-        <!-- Author, Dateline, Live Likes & Shares Byline Bar -->
-        <div class="article-byline-bar">
-            <div class="byline-author-group">
-                <span class="byline-by">By</span>
-                <span class="byline-author-text"><?php the_author(); ?></span>
-                <span class="byline-divider">—</span>
-                <span class="byline-date"><?php echo esc_html(get_the_date('F j, Y')); ?></span>
-            </div>
-
-            <!-- Live Interactions (Likes & Shares) -->
-            <div class="article-interactive-actions">
-                
-                <!-- Live Like Button -->
-                <button type="button" class="btn-live-like <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($post_id); ?>" title="Applaud this reporting">
-                    <svg class="like-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="<?php echo $is_liked ? 'currentColor' : 'none'; ?>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
-                    <span class="like-count" id="like-count-<?php echo esc_attr($post_id); ?>"><?php echo esc_html($likes_count); ?></span>
-                </button>
-
-                <!-- Live Share Cluster -->
-                <div class="share-live-cluster">
-                    <span class="share-counter-tag"><span id="share-count-<?php echo esc_attr($post_id); ?>"><?php echo esc_html($shares_count); ?></span> shares</span>
-                    <?php
-                    $share_url = urlencode(get_permalink());
-                    $share_title = urlencode(get_the_title());
-                    ?>
-                    <a href="https://api.whatsapp.com/send?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="share-pill-btn share-whatsapp" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on WhatsApp">
-                        WhatsApp
-                    </a>
-                    <a href="https://twitter.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>" target="_blank" rel="noopener" class="share-pill-btn share-x" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on 𝕏">
-                        𝕏
-                    </a>
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" rel="noopener" class="share-pill-btn share-linkedin" data-post-id="<?php echo esc_attr($post_id); ?>" title="Share on LinkedIn">
-                        LinkedIn
-                    </a>
-                    <button type="button" class="share-pill-btn share-copy-link" data-post-id="<?php echo esc_attr($post_id); ?>" data-url="<?php echo esc_url(get_permalink()); ?>" title="Copy Article Link">
-                        Link
-                    </button>
+        <!-- 4. Vintage Broadsheet Newspaper Byline Strip -->
+        <?php
+        $share_url = urlencode(get_permalink());
+        $share_title = urlencode(get_the_title());
+        ?>
+        <div class="vintage-newspaper-byline">
+            <div class="byline-top-strip">
+                <div class="byline-meta-cluster">
+                    <span class="byline-correspondent-tag">SPECIAL DESPATCH</span>
+                    <span class="byline-sep">·</span>
+                    <span class="byline-author-label">BY</span>
+                    <span class="byline-author-name"><?php the_author(); ?></span>
+                    <span class="byline-sep">·</span>
+                    <span class="byline-dateline"><?php echo esc_html(get_the_date('j F Y')); ?></span>
+                    <span class="byline-sep">·</span>
+                    <span class="byline-reading-est"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
                 </div>
+                
+                <div class="byline-tools-cluster">
+                    <!-- Applaud / Like Button -->
+                    <button type="button" class="byline-tool-btn btn-live-like <?php echo $is_liked ? 'has-liked' : ''; ?>" data-post-id="<?php echo esc_attr($post_id); ?>" title="Applaud this reporting">
+                        <span class="byline-tool-icon">♥</span>
+                        <span class="like-count" id="like-count-<?php echo esc_attr($post_id); ?>"><?php echo esc_html($likes_count); ?></span>
+                    </button>
 
+                    <!-- Minimalist Broadsheet Share Row -->
+                    <div class="byline-share-group">
+                        <span class="byline-share-label">SHARE:</span>
+                        <a href="https://api.whatsapp.com/send?text=<?php echo $share_title . '%20' . $share_url; ?>" target="_blank" rel="noopener" class="byline-share-link" title="Share via WhatsApp">WA</a>
+                        <span class="byline-sep">/</span>
+                        <a href="https://twitter.com/intent/tweet?url=<?php echo $share_url; ?>&text=<?php echo $share_title; ?>" target="_blank" rel="noopener" class="byline-share-link" title="Share via 𝕏">𝕏</a>
+                        <span class="byline-sep">/</span>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $share_url; ?>" target="_blank" rel="noopener" class="byline-share-link" title="Share via LinkedIn">IN</a>
+                        <span class="byline-sep">/</span>
+                        <button type="button" class="byline-share-link share-copy-link" data-post-id="<?php echo esc_attr($post_id); ?>" data-url="<?php echo esc_url(get_permalink()); ?>" title="Copy Article Link">LINK</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Featured Media (Vintage Double-Border Framing) -->
+        <!-- Featured Media (Non-Overflowing Vintage Offset Box Frame) -->
         <?php if (has_post_thumbnail()) : ?>
-            <figure class="vintage-double-frame" style="margin-bottom: 2rem;">
+            <figure class="vintage-double-frame vintage-featured-image-box">
                 <div class="vintage-frame-inner">
-                    <?php the_post_thumbnail('full', array('class' => 'vintage-framed-img')); ?>
+                    <?php the_post_thumbnail('large', array('class' => 'vintage-framed-img')); ?>
                 </div>
                 <?php if (get_the_post_thumbnail_caption()) : ?>
                     <figcaption class="vintage-photo-caption">
@@ -206,6 +218,13 @@ get_header(); ?>
         <?php
         if ($is_premium && function_exists('magazineafrique_render_paywall_card')) {
             magazineafrique_render_paywall_card();
+        }
+        ?>
+
+        <!-- Strategic In-Article Conclusion Ad Slot (Slot 1801863291 - Before Reader Dispatches) -->
+        <?php
+        if (function_exists('magazineafrique_render_ad_bottom')) {
+            magazineafrique_render_ad_bottom();
         }
         ?>
 

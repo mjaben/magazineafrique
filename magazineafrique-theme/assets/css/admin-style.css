@@ -435,26 +435,28 @@ body.admin-bar {
 
 /* Menu Segmentation Group Headers with Glowing Dots */
 .artcraft-menu-group-header {
-  font-family: 'Geist Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.38);
-  padding: 16px 14px 6px;
-  list-style: none;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  padding: 18px 0 6px 20px !important; /* Generous breathing room from the left screen edge */
+  margin: 0 !important;
+  list-style: none !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-sizing: border-box !important;
 }
 
 .artcraft-group-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
 }
 
 .dot-blue { background-color: #3B82F6; box-shadow: 0 0 6px rgba(59, 130, 246, 0.7); }
@@ -828,19 +830,47 @@ body.admin-bar {
 }
 
 /* ==========================================================================
-   SUBMENU ARCHITECTURE — ZERO FLOATING POPOUTS (REMOVED GROUPED HOVER)
+   SUBMENU ARCHITECTURE — ZERO GAP, SMOOTH HOVER FLYOUT & INLINE NESTING
    ========================================================================== */
 /* Hide Home & Updates submenu under Dashboard completely */
 #adminmenu #menu-dashboard .wp-submenu {
   display: none !important;
 }
 
-/* Strictly HIDE any floating flyout submenus when expanded */
-body:not(.folded) #adminmenu li .wp-submenu {
-  display: none !important;
+/* Neutralize WordPress core bright blue on hovered or opensub items */
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li.menu-top:hover > a.menu-top,
+#adminmenu a.menu-top:hover,
+#adminmenu a.menu-top:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
 }
 
-/* In normal expanded sidebar: ONLY active submenus expand INLINE nested inside the sidebar */
+#adminmenu li.current > a.menu-top,
+#adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* Eliminate dead-air gap: ensure menu-top item is full width with hover bridge */
+#adminmenu li.menu-top {
+  position: relative !important;
+}
+
+#adminmenu li.menu-top:hover::after,
+#adminmenu li.opensub::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: -10px !important;
+  width: 18px !important;
+  height: 100% !important;
+  z-index: 99998 !important;
+  background: transparent !important;
+}
+
+/* In normal expanded sidebar: active submenu expands cleanly nested inside */
 body:not(.folded) #adminmenu .wp-has-current-submenu .wp-submenu,
 body:not(.folded) #adminmenu .wp-menu-open .wp-submenu {
   position: static !important;
@@ -894,6 +924,96 @@ body:not(.folded) #adminmenu .wp-menu-open .wp-submenu li.current a {
   color: var(--art-accent-ink) !important;
   font-weight: 600 !important;
   background: rgba(116, 170, 255, 0.1) !important;
+}
+
+/* Floating Hover Flyout Submenus (When hovering inactive items, or folded sidebar) */
+#adminmenu li.opensub > .wp-submenu,
+#adminmenu li:hover > .wp-submenu,
+body.folded #adminmenu li:hover .wp-submenu {
+  display: block !important;
+  position: absolute !important;
+  left: 216px !important; /* 4px overlap with sidebar to completely eliminate gap */
+  top: -4px !important;
+  min-width: 210px !important;
+  max-width: 260px !important;
+  background: #171513 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  padding: 8px 6px !important;
+  z-index: 99999 !important;
+}
+
+body.folded #adminmenu li:hover .wp-submenu {
+  left: 54px !important;
+}
+
+#adminmenu li.opensub > .wp-submenu li,
+#adminmenu li:hover > .wp-submenu li,
+body.folded #adminmenu li:hover .wp-submenu li {
+  margin: 2px 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+#adminmenu li.opensub > .wp-submenu a,
+#adminmenu li:hover > .wp-submenu a,
+body.folded #adminmenu li:hover .wp-submenu a {
+  color: #D6CEC3 !important;
+  font-family: 'Archivo', sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  padding: 6px 12px !important;
+  border-radius: 4px !important;
+  display: block !important;
+  background: transparent !important;
+  transition: all 0.12s ease !important;
+  text-decoration: none !important;
+}
+
+#adminmenu li.opensub > .wp-submenu a:hover,
+#adminmenu li:hover > .wp-submenu a:hover,
+#adminmenu li.opensub > .wp-submenu li.current a,
+#adminmenu li:hover > .wp-submenu li.current a,
+body.folded #adminmenu li:hover .wp-submenu a:hover {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+#adminmenu li.opensub > .wp-submenu .wp-submenu-head,
+#adminmenu li:hover > .wp-submenu .wp-submenu-head,
+body.folded #adminmenu li:hover .wp-submenu .wp-submenu-head {
+  display: block !important;
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: #A39A8E !important;
+  padding: 6px 12px 6px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin-bottom: 4px !important;
+}
+
+/* Neutralize Yoast and plugin bright royal blue backgrounds */
+#adminmenu #toplevel_page_wpseo_dashboard,
+#adminmenu #toplevel_page_wpseo_workouts,
+#adminmenu #toplevel_page_wpseo_dashboard.opensub > a,
+#adminmenu #toplevel_page_wpseo_workouts.opensub > a,
+#adminmenu #toplevel_page_wpseo_dashboard .wp-submenu,
+#adminmenu #toplevel_page_wpseo_workouts .wp-submenu,
+#adminmenu #menu-tools.opensub > a,
+#adminmenu #menu-tools .wp-submenu,
+#adminmenu #menu-settings.opensub > a,
+#adminmenu #menu-settings .wp-submenu,
+#adminmenu #menu-plugins.opensub > a,
+#adminmenu #menu-plugins .wp-submenu {
+  background-color: #171513 !important;
+}
+
+#adminmenu #toplevel_page_wpseo_dashboard > a,
+#adminmenu #toplevel_page_wpseo_workouts > a {
+  background-color: transparent !important;
 }
 
 /* ==========================================================================
