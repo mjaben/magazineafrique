@@ -53,7 +53,7 @@ $active_tab = isset($_GET['tab']) && $_GET['tab'] === 'following' ? 'following' 
         <!-- Feed Mode Tabs: For You vs Following -->
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <a href="?tab=for-you" class="btn-vintage-box <?php echo $active_tab === 'for-you' ? 'active-tab' : ''; ?>" style="padding: 0.65rem 1.25rem; font-size: 0.8125rem; text-decoration: none; <?php echo $active_tab === 'for-you' ? 'background: #B45309; color: #FFFFFF; font-weight: 800;' : 'background: var(--bg-card, #FAF6EE); color: var(--text-primary, #171513);'; ?>">
-                ❖ For You (Categories &amp; Regional Hubs)
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> For You (Categories &amp; Regional Hubs)
             </a>
             <a href="?tab=following" class="btn-vintage-box <?php echo $active_tab === 'following' ? 'active-tab' : ''; ?>" style="padding: 0.65rem 1.25rem; font-size: 0.8125rem; text-decoration: none; <?php echo $active_tab === 'following' ? 'background: #8B2500; color: #FFFFFF; font-weight: 800;' : 'background: var(--bg-card, #FAF6EE); color: var(--text-primary, #171513);'; ?>">
                 ✦ Following Wire (<?php echo count($followed_cats) + count($followed_tags); ?> Topics)

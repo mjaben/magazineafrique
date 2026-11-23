@@ -12,9 +12,9 @@ get_header(); ?>
 
     <header class="archive-header" style="border-bottom: 3px double var(--border-color, #231F1D); padding-bottom: 1.5rem; margin-bottom: 2.5rem;">
         <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.12em; color: #B45309; text-transform: uppercase; margin-bottom: 0.5rem;">
-            <span>❖</span>
+            <span aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
             <span>EDITORIAL DESK &amp; ARCHIVE DOSSIER</span>
-            <span>❖</span>
+            <span aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
         </div>
         <h1 class="font-serif vintage-newspaper-headline" style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; color: var(--text-primary, #171513); margin: 0 0 0.5rem;">
             <?php the_archive_title(); ?>

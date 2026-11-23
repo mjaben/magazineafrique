@@ -128,7 +128,7 @@ if (!function_exists('magazineafrique_send_otp_email')) {
         <tr>
           <td style="padding: 24px 32px; background-color: #231F1D; color: #D8CEBE; text-align: center; border-top: 2px solid #1C1917;">
             <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #F59E0B; margin-bottom: 6px;">
-              ❖ THE INTELLECTUAL GAZETTE SYNDICATE
+              ★ THE INTELLECTUAL GAZETTE SYNDICATE
             </div>
             <div style="font-size: 11px; color: #A89F91; line-height: 1.5; margin-bottom: 12px;">
               Independent pan-African journalism covering governance, finance, mining, technology, and culture across all 54 nations.

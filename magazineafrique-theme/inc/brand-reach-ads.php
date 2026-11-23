@@ -399,7 +399,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             <div style="background: #1A1816; border: 1px solid rgba(217, 119, 6, 0.3); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <span style="font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 800; color: #FBBF24; text-transform: uppercase;">
-                        ❖ Active Spot CPM Rate Matrix (Brand Reach Model)
+                        ● Active Spot CPM Rate Matrix (Brand Reach Model)
                     </span>
                     <span style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E;">
                         Direct Brand Ad Takes Priority Over Google AdSense When Active

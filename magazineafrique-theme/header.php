@@ -75,7 +75,7 @@
         <div class="header-left-cluster">
             <button id="mobile-menu-toggle" type="button" aria-label="Open Gazette Index" class="vintage-menu-btn" title="Open Broadsheet Index">
                 <span class="vintage-btn-bracket">[</span>
-                <span class="vintage-menu-ornament">❖</span>
+                <span class="vintage-menu-ornament" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 2px;"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
                 <span class="vintage-btn-text">INDEX</span>
                 <span class="vintage-btn-bracket">]</span>
             </button>
@@ -276,7 +276,7 @@ if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
         <nav class="drawer-nav-content">
             <div class="drawer-section-heading">— EDITORIAL DESKS &amp; WIRE —</div>
             <ul class="drawer-menu-links">
-                <li><a href="<?php echo esc_url(home_url('/')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">❖</span> Gazette Front Page</a></li>
+                <li><a href="<?php echo esc_url(home_url('/')); ?>" class="drawer-link-item"><span class="drawer-item-bullet" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Gazette Front Page</a></li>
                 
                 <!-- News Desk -->
                 <li class="drawer-has-submenu">

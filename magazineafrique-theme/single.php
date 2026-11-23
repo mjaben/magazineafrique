@@ -305,7 +305,7 @@ get_header(); ?>
                 <!-- 2. The Continental Telegraph / Trending Dossiers -->
                 <div class="vintage-sidebar-widget">
                     <div class="sidebar-widget-header">
-                        <span class="sidebar-widget-glyph">❖</span>
+                        <span class="sidebar-widget-glyph" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 4px;"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg></span>
                         <h4 class="sidebar-widget-title">CONTINENTAL TELEGRAPH</h4>
                     </div>
                     <div class="sidebar-telegraph-list">
@@ -345,7 +345,7 @@ get_header(); ?>
                 <!-- 3. Bureaus Dispatch Compass -->
                 <div class="vintage-sidebar-widget">
                     <div class="sidebar-widget-header">
-                        <span class="sidebar-widget-glyph">❖</span>
+                        <span class="sidebar-widget-glyph" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 4px;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
                         <h4 class="sidebar-widget-title">DISPATCH TOPICS</h4>
                     </div>
                     <div class="sidebar-compass-chips">

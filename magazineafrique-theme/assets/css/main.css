@@ -3451,8 +3451,25 @@ body {
 }
 
 .desk-bullet {
-  color: #B45309;
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #B85D18;
+  vertical-align: middle;
+  line-height: 1;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
+
+.desk-bullet svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
 }
 
 [data-theme="dark"] .desk-bullet {

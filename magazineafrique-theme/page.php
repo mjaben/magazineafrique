@@ -32,9 +32,9 @@ get_header(); ?>
         <header class="page-broadsheet-hero" style="text-align: center; border-bottom: 3px double var(--border-color, #231F1D); padding-bottom: 1.75rem; margin-bottom: 2.5rem;">
             
             <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.14em; color: #B45309; text-transform: uppercase; margin-bottom: 0.75rem;">
-                <span>❖</span>
+                <span aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                 <span>MAGAZINE AFRIQUE · OFFICIAL RECORD</span>
-                <span>❖</span>
+                <span aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
             </div>
 
             <h1 class="font-serif vintage-newspaper-headline" style="font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 900; line-height: 1.15; color: var(--text-primary, #171513); margin: 0 auto 1rem; max-width: 820px;">

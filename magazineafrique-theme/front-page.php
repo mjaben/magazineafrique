@@ -155,7 +155,7 @@ get_header(); ?>
                 <div class="telegraph-macro-radar">
                     <div class="radar-label-row">
                         <span class="radar-title">CONTINENTAL MACRO RADAR</span>
-                        <span class="radar-glyph">❖</span>
+                        <span class="radar-glyph" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49"/></svg></span>
                     </div>
                     <div class="radar-pills-row">
                         <div class="radar-pill">
@@ -201,7 +201,7 @@ get_header(); ?>
     <section class="desk-section desk-business-split" aria-label="Business &amp; Economy">
         <div class="desk-section-header biz-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Business &amp; Enterprise</h2>
                 <span class="desk-section-tag">AfCFTA · MACRO MARKETS · BANKING &amp; ENERGY</span>
             </div>
@@ -336,7 +336,7 @@ get_header(); ?>
         <div class="lifestyle-fullwidth-inner">
             <div class="desk-section-header lifestyle-inverted-header">
                 <div class="desk-heading-left">
-                    <span class="desk-bullet">❖</span>
+                    <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg></span>
                     <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Lifestyle &amp; Living</h2>
                     <span class="desk-section-tag">AFRICAN LUXURY · HAUTE COUTURE · ESCAPES &amp; DESIGN</span>
                 </div>
@@ -408,7 +408,7 @@ get_header(); ?>
     <section class="desk-section desk-archive-vault" aria-label="Pan-African Culture &amp; History Archive">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><circle cx="12" cy="13" r="2"/><path d="M12 15v2"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Pan-African Archive Vault</h2>
                 <span class="desk-section-tag">CLASSIFIED HISTORICAL DOSSIERS · LIBERATION PAPERS</span>
             </div>
@@ -735,7 +735,7 @@ get_header(); ?>
     <section class="desk-section desk-health-wellness" aria-label="Health &amp; Longevity">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Health &amp; Longevity</h2>
                 <span class="desk-section-tag">PUBLIC HEALTH · RESEARCH · AFRICAN BOTANICALS</span>
             </div>
@@ -793,7 +793,7 @@ get_header(); ?>
     <section class="desk-section desk-howtos-guides" aria-label="How-To's &amp; Guides">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h6"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">How-To's &amp; Practical Manuals</h2>
                 <span class="desk-section-tag">STEP-BY-STEP GUIDES · BUSINESS PLAYBOOKS &amp; SKILLS</span>
             </div>
@@ -855,7 +855,7 @@ get_header(); ?>
     <section class="desk-section desk-biography-profiles" aria-label="Biography &amp; Changemakers">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Biography &amp; Changemakers</h2>
                 <span class="desk-section-tag">STATESMEN · FOUNDERS · CONTINENTAL VOICES</span>
             </div>
@@ -913,7 +913,7 @@ get_header(); ?>
     <section class="desk-section desk-technology-modern" aria-label="Technology &amp; Innovation">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Technology &amp; Innovation</h2>
                 <span class="desk-section-tag">LEAPFROGGING · AI · STARTUPS · CLEAN TECH</span>
             </div>
@@ -967,7 +967,7 @@ get_header(); ?>
     <section class="desk-section desk-entertainment-sports" aria-label="Entertainment &amp; Sports">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Entertainment &amp; Sports</h2>
                 <span class="desk-section-tag">AFROBEATS · CINEMA · CELEBRITIES · ATHLETICS</span>
             </div>
@@ -1057,7 +1057,7 @@ get_header(); ?>
     <section class="desk-section desk-education-split" aria-label="Education &amp; Society">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Education &amp; Society</h2>
                 <span class="desk-section-tag">DEMOGRAPHIC DIVIDEND · UNIVERSITIES · RESEARCH</span>
             </div>
@@ -1114,7 +1114,7 @@ get_header(); ?>
     <section class="desk-section desk-chronicle-opinion" aria-label="The Gazette Chronicle &amp; Opinion">
         <div class="desk-section-header">
             <div class="desk-heading-left">
-                <span class="desk-bullet">❖</span>
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg></span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Gazette Chronicle &amp; Opinion</h2>
                 <span class="desk-section-tag">SOVEREIGN ESSAYS · INTELLECTUAL COMMENTARY</span>
             </div>
@@ -1172,7 +1172,7 @@ get_header(); ?>
          ========================================================================== -->
     <section class="vintage-dispatch-compass-strip">
         <div class="compass-label-wrap">
-            <span class="compass-glyph">❖</span>
+            <span class="compass-glyph" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 5px;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
             <span class="compass-title">PAN-AFRICAN TOPIC RADAR:</span>
         </div>
         <div class="compass-tags-row">
