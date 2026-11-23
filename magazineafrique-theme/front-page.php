@@ -193,21 +193,44 @@ get_header(); ?>
          2. BUSINESS & ENTERPRISE DESK (UI: Financial Ledger Split - Reuters Inspired)
          Asymmetrical 55/45: 1 Large Feature + 3 Horizontal Wire Rows
          ========================================================================== -->
+    <!-- ==========================================================================
+         2. BUSINESS, ENTERPRISE & AfCFTA INTELLIGENCE DESK
+         UI: Asymmetric Financial Dossier & Continental Market Wire Ledger
+         Featuring Pan-African Bourse Ribbon, Dominant Lead & Live Dispatch Stack
+         ========================================================================== -->
     <section class="desk-section desk-business-split" aria-label="Business &amp; Economy">
-        <div class="desk-section-header">
+        <div class="desk-section-header biz-section-header">
             <div class="desk-heading-left">
                 <span class="desk-bullet">❖</span>
                 <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Business &amp; Enterprise</h2>
-                <span class="desk-section-tag">AfCFTA · MACRO MARKETS · BANKING</span>
+                <span class="desk-section-tag">AfCFTA · MACRO MARKETS · BANKING &amp; ENERGY</span>
             </div>
             <a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>" class="desk-view-index-btn">
                 Business Index →
             </a>
         </div>
 
+        <!-- Pan-African Financial Indicators & Bourse Ribbon -->
+        <div class="biz-markets-ribbon" aria-label="Key African Market Indices">
+            <div class="biz-ribbon-tag">
+                <span class="biz-ribbon-pulse">●</span> AfCFTA BOURSE WIRE
+            </div>
+            <div class="biz-ribbon-items">
+                <span class="biz-ticker-chip"><span class="ticker-sym">NGX 30</span> <span class="ticker-up">▲ 104,285 (+1.1%)</span></span>
+                <span class="biz-ticker-sep">/</span>
+                <span class="biz-ticker-chip"><span class="ticker-sym">JSE ALL SHARE</span> <span class="ticker-down">▼ 78,920 (-0.3%)</span></span>
+                <span class="biz-ticker-sep">/</span>
+                <span class="biz-ticker-chip"><span class="ticker-sym">EGX 30</span> <span class="ticker-up">▲ 31,450 (+0.8%)</span></span>
+                <span class="biz-ticker-sep">/</span>
+                <span class="biz-ticker-chip"><span class="ticker-sym">BRENT CRUDE</span> <span class="ticker-up">▲ $82.40/bbl</span></span>
+                <span class="biz-ticker-sep">/</span>
+                <span class="biz-ticker-chip"><span class="ticker-sym">COCOA FUTURES</span> <span class="ticker-up">▲ $7,650/t</span></span>
+            </div>
+        </div>
+
         <div class="biz-ledger-grid">
             <?php
-            $biz_query = magazineafrique_query_category_posts(array('business', 'economy', 'fintech', 'cryptocurrency'), 4, $displayed_post_ids);
+            $biz_query = magazineafrique_query_category_posts(array('business', 'economy', 'fintech', 'cryptocurrency'), 5, $displayed_post_ids);
             $b_idx = 0;
             if ($biz_query->have_posts()) :
                 while ($biz_query->have_posts()) : $biz_query->the_post();
@@ -219,34 +242,50 @@ get_header(); ?>
                 <?php if ($b_idx === 1) : ?>
                     <!-- Left: Dominant Enterprise Feature -->
                     <article class="biz-lead-card">
+                        <div class="biz-lead-top-strip">
+                            <span class="biz-lead-dossier-pill">★ AfCFTA INTELLIGENCE DOSSIER</span>
+                            <span class="biz-lead-date"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                        </div>
                         <?php if (has_post_thumbnail()) : ?>
                             <a href="<?php the_permalink(); ?>" class="biz-lead-thumb-wrap">
                                 <?php the_post_thumbnail('magazine-hero', array('class' => 'biz-lead-thumb-img')); ?>
+                                <span class="biz-lead-cat-tag"><?php echo esc_html(strtoupper($b_name)); ?></span>
                             </a>
                         <?php endif; ?>
                         <div class="biz-lead-body">
                             <div class="card-kicker-row">
                                 <span class="card-kicker-badge"><?php echo esc_html(strtoupper($b_name)); ?></span>
                                 <span class="card-meta-dot">·</span>
-                                <span class="card-date-stamp"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                                <span class="card-date-stamp"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
                             </div>
-                            <h3 class="biz-lead-title vintage-newspaper-headline">
+                            <h3 class="biz-lead-title">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h3>
                             <p class="biz-lead-excerpt">
                                 <?php echo wp_trim_words(get_the_excerpt(), 24); ?>
                             </p>
                             <div class="biz-lead-footer">
-                                <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-                                <a href="<?php the_permalink(); ?>" class="card-read-more-link">Analyze Flow →</a>
+                                <span class="biz-lead-byline">Correspondent Desk · Financial Despatch</span>
+                                <a href="<?php the_permalink(); ?>" class="biz-lead-btn">Analyze Flow →</a>
                             </div>
                         </div>
                     </article>
-                    <!-- Start Right Stacked Ledger Column -->
-                    <div class="biz-wire-stack">
+
+                    <!-- Start Right: Continental Market Wire Ledger Container -->
+                    <div class="biz-wire-ledger-box">
+                        <div class="biz-wire-ledger-header">
+                            <span class="biz-ledger-pill">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px; vertical-align: middle;">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                CORPORATE WIRE
+                            </span>
+                            <span class="biz-ledger-live">● LIVE DESK</span>
+                        </div>
+                        <div class="biz-wire-items-stack">
                 <?php else : ?>
-                    <!-- Right: Stacked Horizontal Wire Rows -->
-                    <article class="biz-wire-row">
+                    <!-- Right: Structured Dispatch Row with Thumbnail and Meta -->
+                    <article class="biz-wire-card">
                         <?php if (has_post_thumbnail()) : ?>
                             <a href="<?php the_permalink(); ?>" class="biz-wire-thumb-link">
                                 <?php the_post_thumbnail('magazine-thumb', array('class' => 'biz-wire-thumb-img')); ?>
@@ -258,7 +297,7 @@ get_header(); ?>
                                 <span class="card-meta-dot">·</span>
                                 <span class="card-date-stamp"><?php echo esc_html(get_the_date('j M')); ?></span>
                             </div>
-                            <h4 class="biz-wire-title vintage-newspaper-headline">
+                            <h4 class="biz-wire-title">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h4>
                             <div class="biz-wire-meta">
@@ -271,7 +310,11 @@ get_header(); ?>
             <?php
                 endwhile;
                 if ($b_idx > 1) {
-                    echo '</div>'; // close biz-wire-stack
+                    echo '</div>'; // close biz-wire-items-stack
+                    echo '<div class="biz-wire-ledger-footer">';
+                    echo '<a href="' . esc_url(magazineafrique_get_cat_url('business')) . '" class="biz-ledger-more-link">View Full Corporate Index &amp; Earnings Archive →</a>';
+                    echo '</div>';
+                    echo '</div>'; // close biz-wire-ledger-box
                 }
                 wp_reset_postdata();
             endif;
@@ -428,22 +471,43 @@ get_header(); ?>
             </div>
         </div>
 
-        <!-- Playlist Selector Tabs -->
+        <!-- Playlist Selector Tabs: All 12 Official Playlists from @magazineafrique -->
         <div class="yt-playlist-nav-bar" role="tablist" aria-label="Gazette Video Playlists">
-            <button class="yt-playlist-tab-btn is-active" data-playlist="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf">
-                ★ Investigations
+            <button class="yt-playlist-tab-btn is-active" data-playlist="PLnGpogtv2UARznTBTJ_TknKHKhWVk4qtv">
+                ★ Politics
             </button>
-            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV">
-                Business &amp; Finance
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UATSqmBn9XqTU4IMn6l0TAik">
+                Business &amp; Economy
             </button>
-            <button class="yt-playlist-tab-btn" data-playlist="PLDNmDjH5G7Uc">
-                Culture &amp; Heritage
-            </button>
-            <button class="yt-playlist-tab-btn" data-playlist="PLXG609iDRBIk">
-                Leaders &amp; Biographies
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UATD_q30h64Xr5YsBQADyOrI">
+                Weekly Recap
             </button>
             <button class="yt-playlist-tab-btn" data-playlist="PLLAt7u0bxSBg">
-                Continental Docuseries
+                News
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UATQd69yfPpidtZRPBpb00DK">
+                Health
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV">
+                Lifestyle
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UAQ4NEsMmTVDH5GlBNQv5Jwh">
+                Trend
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLXG609iDRBIk">
+                History
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLD7ZNgg8ggj8">
+                Sports
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLDNmDjH5G7Uc">
+                Technology
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf">
+                Entertainment &amp; Celebrities
+            </button>
+            <button class="yt-playlist-tab-btn" data-playlist="PLnGpogtv2UAT7lLVZ-JOAvFt6Ell87pm7">
+                Education
             </button>
         </div>
 
@@ -454,7 +518,7 @@ get_header(); ?>
                 <div class="yt-player-container-card">
                     <div class="yt-video-responsive-frame">
                         <iframe id="gazette-youtube-player" 
-                                src="https://www.youtube-nocookie.com/embed/videoseries?list=PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" 
+                                src="https://www.youtube-nocookie.com/embed/videoseries?list=PLnGpogtv2UARznTBTJ_TknKHKhWVk4qtv" 
                                 title="Magazine Afrique YouTube Player" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -476,11 +540,11 @@ get_header(); ?>
                             Direct from our correspondents across Dakar, Lagos, Nairobi, Johannesburg and London. Select any playlist tab above or video from the broadcast wire on the right to stream curated investigations, geopolitical deep-dives, economic masterclasses, and cultural portraits.
                         </p>
                         <div class="yt-quick-playlist-links">
-                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" target="_blank" rel="noopener" class="yt-pill-link">Investigations ↗</a>
-                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV" target="_blank" rel="noopener" class="yt-pill-link">Business Desk ↗</a>
-                            <a href="https://youtube.com/playlist?list=PLDNmDjH5G7Uc" target="_blank" rel="noopener" class="yt-pill-link">Arts &amp; Heritage ↗</a>
-                            <a href="https://youtube.com/playlist?list=PLXG609iDRBIk" target="_blank" rel="noopener" class="yt-pill-link">Biographies ↗</a>
-                            <a href="https://youtube.com/playlist?list=PLLAt7u0bxSBg" target="_blank" rel="noopener" class="yt-pill-link">Docuseries ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UARznTBTJ_TknKHKhWVk4qtv" target="_blank" rel="noopener" class="yt-pill-link">Politics ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UATSqmBn9XqTU4IMn6l0TAik" target="_blank" rel="noopener" class="yt-pill-link">Business Desk ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLnGpogtv2UATD_q30h64Xr5YsBQADyOrI" target="_blank" rel="noopener" class="yt-pill-link">Weekly Recap ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLLAt7u0bxSBg" target="_blank" rel="noopener" class="yt-pill-link">News Wire ↗</a>
+                            <a href="https://youtube.com/playlist?list=PLDNmDjH5G7Uc" target="_blank" rel="noopener" class="yt-pill-link">Tech &amp; Innovation ↗</a>
                         </div>
                     </div>
                 </div>
@@ -500,54 +564,62 @@ get_header(); ?>
 
                 <div class="yt-queue-list">
                     <!-- Queue Item 1 -->
-                    <div class="yt-queue-item is-playing" data-video-id="n9XpwKKzokA" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ INVESTIGATIVE SERIES" data-title="The Dark Side of Nollywood No One Is Talking About" data-desc="An in-depth Gazette investigation uncovering power dynamics, production contracts, and the untold challenges inside Africa's largest film industry.">
-                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #241D17 0%, #171513 100%);">
+                    <div class="yt-queue-item is-playing" data-video-id="AvJa2PomdbE" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ GEOPOLITICS &amp; SAHEL" data-title="Sovereignty, Suspicion, and the Sahel: The Shifting Balance of Power" data-desc="Analyzing political transitions, sovereign security alliances, and strategic diplomatic realignments across the Sahel region.">
+                        <div class="yt-queue-thumb-wrap">
+                            <img src="https://i.ytimg.com/vi/AvJa2PomdbE/hqdefault.jpg" alt="Sovereignty, Suspicion, and the Sahel" class="yt-queue-thumb-img" loading="lazy" />
+                            <div class="yt-queue-thumb-scrim"></div>
                             <span class="yt-queue-play-btn">▶</span>
-                            <span class="yt-queue-duration">14:20</span>
+                            <span class="yt-queue-duration">12:45</span>
                         </div>
                         <div class="yt-queue-info">
-                            <span class="yt-queue-cat">#INVESTIGATIONS</span>
-                            <h4 class="yt-queue-item-title">The Dark Side of Nollywood No One Is Talking About</h4>
+                            <span class="yt-queue-cat">#GEOPOLITICS</span>
+                            <h4 class="yt-queue-item-title">Sovereignty, Suspicion, and the Sahel: Balance of Power</h4>
                             <span class="yt-queue-meta">Magazine Afrique · Now Playing</span>
                         </div>
                     </div>
 
                     <!-- Queue Item 2 -->
-                    <div class="yt-queue-item" data-video-id="qtLWdnA6YGI" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ GEOPOLITICS &amp; GOVERNANCE" data-title="Celebrity Influence in Nigerian Politics : City Boys, Tinubu &amp; The Power of Fame" data-desc="Analyzing the convergence of pop culture endorsements, youth voting blocs, and grassroots political machinery in contemporary Nigeria.">
-                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #35261A 100%);">
+                    <div class="yt-queue-item" data-video-id="0Mao6iEAUL4" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ HISTORICAL RETROSPECTIVE" data-title="NIGERIA AT 64 : What Has Changed &amp; The Governance Roadmap" data-desc="A critical editorial documentary evaluating macroeconomic policies, fiscal federalism, and the governance roadmap for Africa's largest democracy.">
+                        <div class="yt-queue-thumb-wrap">
+                            <img src="https://i.ytimg.com/vi/0Mao6iEAUL4/hqdefault.jpg" alt="NIGERIA AT 64" class="yt-queue-thumb-img" loading="lazy" />
+                            <div class="yt-queue-thumb-scrim"></div>
                             <span class="yt-queue-play-btn">▶</span>
-                            <span class="yt-queue-duration">11:45</span>
+                            <span class="yt-queue-duration">18:10</span>
                         </div>
                         <div class="yt-queue-info">
-                            <span class="yt-queue-cat">#POLITICS</span>
-                            <h4 class="yt-queue-item-title">Celebrity Influence in Nigerian Politics : City Boys &amp; Tinubu</h4>
-                            <span class="yt-queue-meta">Correspondent Wire · Stream</span>
+                            <span class="yt-queue-cat">#GOVERNANCE</span>
+                            <h4 class="yt-queue-item-title">NIGERIA AT 64 : What Has Changed &amp; The Road Ahead</h4>
+                            <span class="yt-queue-meta">Special Documentary · Stream</span>
                         </div>
                     </div>
 
                     <!-- Queue Item 3 -->
-                    <div class="yt-queue-item" data-playlist-id="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV" data-kicker="★ BUSINESS &amp; MACRO MARKETS" data-title="How Lagos Became Africa's Trillion-Dollar Tech Capital" data-desc="From Yaba's early incubators to global unicorn rounds: how Nigerian founders built a cross-border payments infrastructure that conquered the continent.">
-                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #1A251D 0%, #171513 100%);">
+                    <div class="yt-queue-item" data-video-id="blvP6oNSW1U" data-playlist-id="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV" data-kicker="★ BUSINESS &amp; STRATEGIC RESOURCES" data-title="America Wants Congo Minerals: Where Are The Real Continental Investments?" data-desc="From Katanga's cobalt belt to global supply chains: examining how African nations are demanding domestic beneficiation.">
+                        <div class="yt-queue-thumb-wrap">
+                            <img src="https://i.ytimg.com/vi/blvP6oNSW1U/hqdefault.jpg" alt="America Wants Congo Minerals" class="yt-queue-thumb-img" loading="lazy" />
+                            <div class="yt-queue-thumb-scrim"></div>
                             <span class="yt-queue-play-btn">▶</span>
-                            <span class="yt-queue-duration">09:30</span>
+                            <span class="yt-queue-duration">01:00</span>
                         </div>
                         <div class="yt-queue-info">
-                            <span class="yt-queue-cat">#FINTECH</span>
-                            <h4 class="yt-queue-item-title">How Lagos Became Africa's Trillion-Dollar Tech Capital</h4>
+                            <span class="yt-queue-cat">#MINERALS</span>
+                            <h4 class="yt-queue-item-title">America Wants Congo Minerals: Investment vs Scramble</h4>
                             <span class="yt-queue-meta">Business Desk · Stream</span>
                         </div>
                     </div>
 
                     <!-- Queue Item 4 -->
-                    <div class="yt-queue-item" data-playlist-id="PLLAt7u0bxSBg" data-kicker="★ CONTINENTAL DOCUSERIES" data-title="The Rare Earth Minerals Driving Africa's Next Economic Surge" data-desc="Examining lithium deposits in Zimbabwe, cobalt in DRC, and renewable infrastructure driving continental beneficiation.">
-                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #2D2319 0%, #171513 100%);">
+                    <div class="yt-queue-item" data-video-id="AaKx7GOLQ0c" data-playlist-id="PLLAt7u0bxSBg" data-kicker="★ MACRO-ECONOMY &amp; FINANCE" data-title="The Gambia to Receive $28 Million from IMF: Fiscal Realities Explained" data-desc="Analyzing debt sustainability, structural fiscal reforms, and foreign currency liquidity in West Africa.">
+                        <div class="yt-queue-thumb-wrap">
+                            <img src="https://i.ytimg.com/vi/AaKx7GOLQ0c/hqdefault.jpg" alt="Gambia IMF Funding" class="yt-queue-thumb-img" loading="lazy" />
+                            <div class="yt-queue-thumb-scrim"></div>
                             <span class="yt-queue-play-btn">▶</span>
-                            <span class="yt-queue-duration">16:50</span>
+                            <span class="yt-queue-duration">01:00</span>
                         </div>
                         <div class="yt-queue-info">
-                            <span class="yt-queue-cat">#DOCUSERIES</span>
-                            <h4 class="yt-queue-item-title">The Rare Earth Minerals Driving Africa's Next Surge</h4>
-                            <span class="yt-queue-meta">Docuseries Desk · Stream</span>
+                            <span class="yt-queue-cat">#MACRO</span>
+                            <h4 class="yt-queue-item-title">The Gambia to Receive $28M from IMF: What It Means</h4>
+                            <span class="yt-queue-meta">Finance Wire · Stream</span>
                         </div>
                     </div>
                 </div>
@@ -555,7 +627,7 @@ get_header(); ?>
 
         </div>
 
-        <!-- Dedicated Lower Shelf: Field Shorts & Vertical Reels (100% Poster Body, Zero Blank Beige Legs!) -->
+        <!-- Dedicated Lower Shelf: Field Shorts & Vertical Reels with High-Res Channel Thumbnails -->
         <div class="yt-shorts-shelf">
             <div class="yt-shorts-shelf-header">
                 <div class="yt-shorts-shelf-title">
@@ -573,57 +645,65 @@ get_header(); ?>
             </div>
 
             <div class="yt-shorts-shelf-grid">
-                <!-- Reel 1 -->
-                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
-                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(23, 21, 19, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #1C1917;">
-                        <span class="yt-short-shelf-play">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                        </span>
-                        <div class="yt-short-shelf-caption">
-                            <span class="yt-short-shelf-cat">#FINTECH</span>
-                            <h4 class="yt-short-shelf-title">How Lagos became Africa's trillion-dollar tech capital</h4>
-                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Reel 2 -->
-                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
-                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(35, 26, 17, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #241D17;">
+                <!-- Reel 1: Congo Minerals -->
+                <a href="https://www.youtube.com/shorts/blvP6oNSW1U" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap">
+                        <img src="https://i.ytimg.com/vi/blvP6oNSW1U/hqdefault.jpg" alt="America Wants Congo Minerals" class="yt-short-shelf-bg-img" loading="lazy" />
+                        <div class="yt-short-shelf-scrim"></div>
                         <span class="yt-short-shelf-play">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
                         </span>
                         <div class="yt-short-shelf-caption">
                             <span class="yt-short-shelf-cat">#RESOURCES</span>
-                            <h4 class="yt-short-shelf-title">The rare earth deposits driving Africa's next economic surge</h4>
+                            <h4 class="yt-short-shelf-title">America Wants Congo Minerals: Where Are The Real Investments?</h4>
                             <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- Reel 3 -->
-                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
-                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(26, 37, 29, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #1B211C;">
+                <!-- Reel 2: Gambia IMF -->
+                <a href="https://www.youtube.com/shorts/AaKx7GOLQ0c" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap">
+                        <img src="https://i.ytimg.com/vi/AaKx7GOLQ0c/hqdefault.jpg" alt="Gambia IMF Funding" class="yt-short-shelf-bg-img" loading="lazy" />
+                        <div class="yt-short-shelf-scrim"></div>
                         <span class="yt-short-shelf-play">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
                         </span>
                         <div class="yt-short-shelf-caption">
-                            <span class="yt-short-shelf-cat">#LEADERSHIP</span>
-                            <h4 class="yt-short-shelf-title">Pan-African founders reshaping global finance &amp; logistics</h4>
+                            <span class="yt-short-shelf-cat">#MACRO</span>
+                            <h4 class="yt-short-shelf-title">The Gambia Set to Receive $28M from IMF: What It Means</h4>
                             <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- Reel 4 -->
-                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
-                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(45, 30, 20, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #261B14;">
+                <!-- Reel 3: Lagos Calabar Highway -->
+                <a href="https://www.youtube.com/shorts/mWK05rniLe8" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap">
+                        <img src="https://i.ytimg.com/vi/mWK05rniLe8/hqdefault.jpg" alt="Lagos-Calabar Coastal Highway" class="yt-short-shelf-bg-img" loading="lazy" />
+                        <div class="yt-short-shelf-scrim"></div>
                         <span class="yt-short-shelf-play">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
                         </span>
                         <div class="yt-short-shelf-caption">
-                            <span class="yt-short-shelf-cat">#CULTURE</span>
-                            <h4 class="yt-short-shelf-title">Nollywood's global cinematic renaissance &amp; streaming surge</h4>
+                            <span class="yt-short-shelf-cat">#INFRASTRUCTURE</span>
+                            <h4 class="yt-short-shelf-title">Lagos–Calabar Coastal Highway: Is the Route Changing?</h4>
+                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Reel 4: Health Alert -->
+                <a href="https://www.youtube.com/shorts/icgp_N16u58" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap">
+                        <img src="https://i.ytimg.com/vi/icgp_N16u58/hqdefault.jpg" alt="WHO Health Alert" class="yt-short-shelf-bg-img" loading="lazy" />
+                        <div class="yt-short-shelf-scrim"></div>
+                        <span class="yt-short-shelf-play">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </span>
+                        <div class="yt-short-shelf-caption">
+                            <span class="yt-short-shelf-cat">#HEALTH</span>
+                            <h4 class="yt-short-shelf-title">Ebola &amp; Mpox Warning: Regional Health Surveillance Update</h4>
                             <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
                         </div>
                     </div>
