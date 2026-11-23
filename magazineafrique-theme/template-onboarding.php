@@ -6,6 +6,11 @@
  * @package MagazineAfrique
  */
 
+if (is_user_logged_in() && !isset($_GET['action'])) {
+    wp_safe_redirect(home_url('/profile/'));
+    exit;
+}
+
 get_header(); 
 
 $is_login_mode = isset($_GET['mode']) && $_GET['mode'] === 'login';

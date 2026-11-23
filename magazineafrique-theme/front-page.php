@@ -449,7 +449,7 @@ get_header(); ?>
 
         <div class="youtube-studio-grid">
             
-            <!-- Left: Embedded Interactive Widescreen Player -->
+            <!-- Left (62%): Embedded Interactive Widescreen Player -->
             <div class="youtube-longform-column">
                 <div class="yt-player-container-card">
                     <div class="yt-video-responsive-frame">
@@ -464,16 +464,16 @@ get_header(); ?>
                     </div>
                     <div class="yt-feature-meta-block">
                         <div class="yt-meta-badge-row">
-                            <span class="yt-broadcast-kicker">★ CONTINENTAL BROADCAST DESK</span>
+                            <span class="yt-broadcast-kicker" id="yt-active-kicker">★ CONTINENTAL BROADCAST DESK</span>
                             <span class="yt-meta-live-badge">FULL ARCHIVE</span>
                         </div>
-                        <h3 class="yt-feature-title vintage-newspaper-headline">
+                        <h3 class="yt-feature-title" id="yt-active-title">
                             <a href="https://www.youtube.com/@magazineafrique" target="_blank" rel="noopener">
                                 Magazine Afrique Video Despatches &amp; Investigative Series
                             </a>
                         </h3>
-                        <p class="yt-feature-desc">
-                            Direct from our correspondents across Dakar, Lagos, Nairobi, Johannesburg and London. Select any playlist tab above to stream curated investigations, geopolitical deep-dives, economic masterclasses, and cultural portraits.
+                        <p class="yt-feature-desc" id="yt-active-desc">
+                            Direct from our correspondents across Dakar, Lagos, Nairobi, Johannesburg and London. Select any playlist tab above or video from the broadcast wire on the right to stream curated investigations, geopolitical deep-dives, economic masterclasses, and cultural portraits.
                         </p>
                         <div class="yt-quick-playlist-links">
                             <a href="https://youtube.com/playlist?list=PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" target="_blank" rel="noopener" class="yt-pill-link">Investigations ↗</a>
@@ -486,72 +486,151 @@ get_header(); ?>
                 </div>
             </div>
 
-            <!-- Right: YouTube Shorts Vertical Reels (9:16 Portrait Cards) -->
-            <div class="youtube-shorts-column">
-                <div class="yt-shorts-header">
-                    <span class="yt-shorts-pill">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 3px; vertical-align: middle;">
-                            <path d="M10 15l5.19-3L10 9v6m11.5-6.6a2.6 2.6 0 00-1.8-1.8C18 6.1 12 6.1 12 6.1s-6 0-7.7.5a2.6 2.6 0 00-1.8 1.8A27.2 27.2 0 002 12a27.2 27.2 0 00.5 5.6 2.6 2.6 0 001.8 1.8c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.6 2.6 0 001.8-1.8A27.2 27.2 0 0022 12a27.2 27.2 0 00-.5-6.6z"/>
+            <!-- Right (38%): Up Next Broadcast Dispatches Queue (Fills height naturally, zero blank space) -->
+            <div class="youtube-queue-column">
+                <div class="yt-queue-header">
+                    <span class="yt-queue-pill">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px; vertical-align: middle;">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
                         </svg>
-                        SHORTS
+                        BROADCAST WIRE
                     </span>
-                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-shorts-subtag">
-                        @magazineafrique/shorts ↗
-                    </a>
+                    <span class="yt-queue-count">4 Episodes</span>
                 </div>
 
-                <div class="yt-shorts-rack">
-                    <!-- Reel 1 -->
-                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #292524 50%, #171513 100%);">
-                            <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                            </span>
-                            <div class="yt-short-caption-wrap">
-                                <span class="yt-short-cat">#FINTECH</span>
-                                <p class="yt-short-title">How Lagos became Africa's trillion-dollar tech capital</p>
-                                <span class="yt-short-views">Watch on Shorts ↗</span>
-                            </div>
+                <div class="yt-queue-list">
+                    <!-- Queue Item 1 -->
+                    <div class="yt-queue-item is-playing" data-video-id="n9XpwKKzokA" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ INVESTIGATIVE SERIES" data-title="The Dark Side of Nollywood No One Is Talking About" data-desc="An in-depth Gazette investigation uncovering power dynamics, production contracts, and the untold challenges inside Africa's largest film industry.">
+                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #241D17 0%, #171513 100%);">
+                            <span class="yt-queue-play-btn">▶</span>
+                            <span class="yt-queue-duration">14:20</span>
                         </div>
-                    </a>
+                        <div class="yt-queue-info">
+                            <span class="yt-queue-cat">#INVESTIGATIONS</span>
+                            <h4 class="yt-queue-item-title">The Dark Side of Nollywood No One Is Talking About</h4>
+                            <span class="yt-queue-meta">Magazine Afrique · Now Playing</span>
+                        </div>
+                    </div>
 
-                    <!-- Reel 2 -->
-                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #171513 0%, #35261A 50%, #1C1917 100%);">
-                            <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                            </span>
-                            <div class="yt-short-caption-wrap">
-                                <span class="yt-short-cat">#RESOURCES</span>
-                                <p class="yt-short-title">The rare earth deposits driving Africa's next economic surge</p>
-                                <span class="yt-short-views">Watch on Shorts ↗</span>
-                            </div>
+                    <!-- Queue Item 2 -->
+                    <div class="yt-queue-item" data-video-id="qtLWdnA6YGI" data-playlist-id="PLnGpogtv2UATgW12_6pUg-QLTfrZuECUf" data-kicker="★ GEOPOLITICS &amp; GOVERNANCE" data-title="Celebrity Influence in Nigerian Politics : City Boys, Tinubu &amp; The Power of Fame" data-desc="Analyzing the convergence of pop culture endorsements, youth voting blocs, and grassroots political machinery in contemporary Nigeria.">
+                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #35261A 100%);">
+                            <span class="yt-queue-play-btn">▶</span>
+                            <span class="yt-queue-duration">11:45</span>
                         </div>
-                    </a>
+                        <div class="yt-queue-info">
+                            <span class="yt-queue-cat">#POLITICS</span>
+                            <h4 class="yt-queue-item-title">Celebrity Influence in Nigerian Politics : City Boys &amp; Tinubu</h4>
+                            <span class="yt-queue-meta">Correspondent Wire · Stream</span>
+                        </div>
+                    </div>
 
-                    <!-- Reel 3 -->
-                    <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #2A2018 50%, #171513 100%);">
-                            <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-                            </span>
-                            <div class="yt-short-caption-wrap">
-                                <span class="yt-short-cat">#LEADERSHIP</span>
-                                <p class="yt-short-title">Pan-African founders reshaping global finance &amp; logistics</p>
-                                <span class="yt-short-views">Watch on Shorts ↗</span>
-                            </div>
+                    <!-- Queue Item 3 -->
+                    <div class="yt-queue-item" data-playlist-id="PLnGpogtv2UASAbRuiVSsjFjeqH5S_DbKV" data-kicker="★ BUSINESS &amp; MACRO MARKETS" data-title="How Lagos Became Africa's Trillion-Dollar Tech Capital" data-desc="From Yaba's early incubators to global unicorn rounds: how Nigerian founders built a cross-border payments infrastructure that conquered the continent.">
+                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #1A251D 0%, #171513 100%);">
+                            <span class="yt-queue-play-btn">▶</span>
+                            <span class="yt-queue-duration">09:30</span>
                         </div>
-                    </a>
+                        <div class="yt-queue-info">
+                            <span class="yt-queue-cat">#FINTECH</span>
+                            <h4 class="yt-queue-item-title">How Lagos Became Africa's Trillion-Dollar Tech Capital</h4>
+                            <span class="yt-queue-meta">Business Desk · Stream</span>
+                        </div>
+                    </div>
+
+                    <!-- Queue Item 4 -->
+                    <div class="yt-queue-item" data-playlist-id="PLLAt7u0bxSBg" data-kicker="★ CONTINENTAL DOCUSERIES" data-title="The Rare Earth Minerals Driving Africa's Next Economic Surge" data-desc="Examining lithium deposits in Zimbabwe, cobalt in DRC, and renewable infrastructure driving continental beneficiation.">
+                        <div class="yt-queue-thumb-wrap" style="background: linear-gradient(135deg, #2D2319 0%, #171513 100%);">
+                            <span class="yt-queue-play-btn">▶</span>
+                            <span class="yt-queue-duration">16:50</span>
+                        </div>
+                        <div class="yt-queue-info">
+                            <span class="yt-queue-cat">#DOCUSERIES</span>
+                            <h4 class="yt-queue-item-title">The Rare Earth Minerals Driving Africa's Next Surge</h4>
+                            <span class="yt-queue-meta">Docuseries Desk · Stream</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
-    </section>
 
+        <!-- Dedicated Lower Shelf: Field Shorts & Vertical Reels (100% Poster Body, Zero Blank Beige Legs!) -->
+        <div class="yt-shorts-shelf">
+            <div class="yt-shorts-shelf-header">
+                <div class="yt-shorts-shelf-title">
+                    <span class="yt-shorts-pill">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px; vertical-align: middle;">
+                            <path d="M10 15l5.19-3L10 9v6m11.5-6.6a2.6 2.6 0 00-1.8-1.8C18 6.1 12 6.1 12 6.1s-6 0-7.7.5a2.6 2.6 0 00-1.8 1.8A27.2 27.2 0 002 12a27.2 27.2 0 00.5 5.6 2.6 2.6 0 001.8 1.8c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.6 2.6 0 001.8-1.8A27.2 27.2 0 0022 12a27.2 27.2 0 00-.5-6.6z"/>
+                        </svg>
+                        FIELD SHORTS
+                    </span>
+                    <span class="yt-shorts-shelf-desc">Vertical Despatches &amp; On-the-Ground Correspondent Reels</span>
+                </div>
+                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-shorts-channel-link">
+                    @magazineafrique/shorts ↗
+                </a>
+            </div>
+
+            <div class="yt-shorts-shelf-grid">
+                <!-- Reel 1 -->
+                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(23, 21, 19, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #1C1917;">
+                        <span class="yt-short-shelf-play">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </span>
+                        <div class="yt-short-shelf-caption">
+                            <span class="yt-short-shelf-cat">#FINTECH</span>
+                            <h4 class="yt-short-shelf-title">How Lagos became Africa's trillion-dollar tech capital</h4>
+                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Reel 2 -->
+                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(35, 26, 17, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #241D17;">
+                        <span class="yt-short-shelf-play">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </span>
+                        <div class="yt-short-shelf-caption">
+                            <span class="yt-short-shelf-cat">#RESOURCES</span>
+                            <h4 class="yt-short-shelf-title">The rare earth deposits driving Africa's next economic surge</h4>
+                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Reel 3 -->
+                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(26, 37, 29, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #1B211C;">
+                        <span class="yt-short-shelf-play">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </span>
+                        <div class="yt-short-shelf-caption">
+                            <span class="yt-short-shelf-cat">#LEADERSHIP</span>
+                            <h4 class="yt-short-shelf-title">Pan-African founders reshaping global finance &amp; logistics</h4>
+                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Reel 4 -->
+                <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-shelf-card">
+                    <div class="yt-short-shelf-wrap" style="background: linear-gradient(180deg, rgba(45, 30, 20, 0.4) 0%, rgba(23, 21, 19, 0.95) 100%), #261B14;">
+                        <span class="yt-short-shelf-play">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                        </span>
+                        <div class="yt-short-shelf-caption">
+                            <span class="yt-short-shelf-cat">#CULTURE</span>
+                            <h4 class="yt-short-shelf-title">Nollywood's global cinematic renaissance &amp; streaming surge</h4>
+                            <span class="yt-short-shelf-cta">Watch on Shorts ↗</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
+
     </section>
 
     <!-- Clean Editorial Hairline Divider -->

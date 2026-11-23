@@ -112,19 +112,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // YouTube Playlist Switcher for Gazette Broadcasts
+  // YouTube Playlist & Broadcast Queue Switcher for Gazette Broadcasts
   const playlistTabs = document.querySelectorAll('.yt-playlist-tab-btn');
+  const queueItems = document.querySelectorAll('.yt-queue-item');
   const ytPlayer = document.getElementById('gazette-youtube-player');
+  const kickerEl = document.getElementById('yt-active-kicker');
+  const titleLink = document.querySelector('#yt-active-title a');
+  const descEl = document.getElementById('yt-active-desc');
+
   if (playlistTabs.length && ytPlayer) {
     playlistTabs.forEach(tab => {
       tab.addEventListener('click', function(e) {
         e.preventDefault();
         const playlistId = this.getAttribute('data-playlist');
         if (playlistId) {
-          ytPlayer.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(playlistId);
+          ytPlayer.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(playlistId) + '&autoplay=1';
           playlistTabs.forEach(t => t.classList.remove('is-active'));
           this.classList.add('is-active');
+          if (queueItems.length) {
+            queueItems.forEach(q => q.classList.remove('is-playing'));
+          }
         }
+      });
+    });
+  }
+
+  if (queueItems.length && ytPlayer) {
+    queueItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const videoId = this.getAttribute('data-video-id');
+        const playlistId = this.getAttribute('data-playlist-id');
+        const kicker = this.getAttribute('data-kicker');
+        const title = this.getAttribute('data-title');
+        const desc = this.getAttribute('data-desc');
+
+        if (videoId) {
+          ytPlayer.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '?autoplay=1&rel=0';
+        } else if (playlistId) {
+          ytPlayer.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(playlistId) + '&autoplay=1';
+        }
+
+        if (kicker && kickerEl) kickerEl.textContent = kicker;
+        if (title && titleLink) titleLink.textContent = title;
+        if (desc && descEl) descEl.textContent = desc;
+
+        queueItems.forEach(q => q.classList.remove('is-playing'));
+        this.classList.add('is-playing');
       });
     });
   }

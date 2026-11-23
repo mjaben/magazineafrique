@@ -122,6 +122,7 @@ if (!function_exists('magazineafrique_handle_virtual_routes')) {
             }
         }
     }
+    add_action('init', 'magazineafrique_handle_virtual_routes', 5);
     add_action('template_redirect', 'magazineafrique_handle_virtual_routes', 1);
 }
 

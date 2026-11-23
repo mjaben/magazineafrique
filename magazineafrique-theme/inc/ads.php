@@ -106,8 +106,8 @@ if (!function_exists('magazineafrique_enqueue_adsense_script')) {
             }
             .vintage-ad-box {
                 background: transparent;
-                border: 1px dashed var(--border-color, #4A433B);
-                padding: 0.5rem;
+                border: none !important;
+                padding: 0;
                 display: block !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
@@ -124,8 +124,12 @@ if (!function_exists('magazineafrique_enqueue_adsense_script')) {
             .vintage-ad-box ins.adsbygoogle[data-ad-status="unfilled"] {
                 display: none !important;
             }
+            .vintage-ad-box ins.adsbygoogle[data-ad-status="filled"] ~ .ad-house-fallback,
+            .vintage-ad-box:has(ins.adsbygoogle[data-ad-status="filled"]) .ad-house-fallback {
+                display: none !important;
+            }
             [data-theme="dark"] .vintage-ad-box {
-                border-color: #3D3730;
+                border-color: transparent;
             }
             .ad-house-fallback {
                 display: flex;
@@ -286,6 +290,16 @@ if (!function_exists('magazineafrique_render_article_ad_1')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback">
+                    <div class="ad-house-fallback-left">
+                        <div class="ad-house-fallback-kicker">✦ Pan-African Brand Reach Inventory</div>
+                        <h4 class="ad-house-fallback-title">Reach 1.8M+ Continental Decision Makers &amp; Founders</h4>
+                        <p class="ad-house-fallback-desc">Promote your brand directly across our investigative dossiers and regional economic briefings.</p>
+                    </div>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn">
+                        Reserve Ad Space →
+                    </a>
+                </div>
             </div>
         </div>
         <?php
@@ -333,6 +347,16 @@ if (!function_exists('magazineafrique_render_article_ad_2')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback">
+                    <div class="ad-house-fallback-left">
+                        <div class="ad-house-fallback-kicker">✦ Pan-African Brand Reach Inventory</div>
+                        <h4 class="ad-house-fallback-title">Reach 1.8M+ Continental Decision Makers &amp; Founders</h4>
+                        <p class="ad-house-fallback-desc">Promote your brand directly across our investigative dossiers and regional economic briefings.</p>
+                    </div>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn">
+                        Reserve Ad Space →
+                    </a>
+                </div>
             </div>
         </div>
         <?php
@@ -375,6 +399,14 @@ if (!function_exists('magazineafrique_render_ad_sidebar')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback" style="padding: 1.25rem 1rem; text-align: center; flex-direction: column;">
+                    <div class="ad-house-fallback-kicker" style="font-size: 0.58rem;">✦ Continental Brand Reach</div>
+                    <h4 class="ad-house-fallback-title" style="font-size: 0.95rem; margin-bottom: 0.5rem;">Reach 1.8M+ Decision Makers</h4>
+                    <p class="ad-house-fallback-desc" style="font-size: 0.72rem; margin-bottom: 0.75rem;">Premium sidebar placement across all desks.</p>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn" style="width: 100%; text-align: center; box-sizing: border-box;">
+                        Reserve Ad →
+                    </a>
+                </div>
             </div>
         </div>
         <?php
