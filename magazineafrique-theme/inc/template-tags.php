@@ -259,3 +259,76 @@ if (!function_exists('magazineafrique_mobile_menu_fallback')) {
         echo '</ul>';
     }
 }
+
+/**
+ * Retrieve Series category data: category object, subcategories, tags, and query posts
+ */
+if (!function_exists('magazineafrique_get_series_data')) {
+    function magazineafrique_get_series_data($count = 4, $exclude_ids = array()) {
+        // 1. Find or create 'Series' category
+        $series_cat = get_category_by_slug('series');
+        if (!$series_cat) {
+            $series_cat = get_term_by('name', 'Series', 'category');
+        }
+
+        // If not found, attempt to register automatically
+        if (!$series_cat && function_exists('wp_insert_term')) {
+            $inserted = wp_insert_term('Series', 'category', array(
+                'slug'        => 'series',
+                'description' => 'Multi-part investigative series, serial dossiers, and long-form projects.'
+            ));
+            if (!is_wp_error($inserted) && isset($inserted['term_id'])) {
+                $series_cat = get_category($inserted['term_id']);
+            }
+        }
+
+        $subcategories = array();
+        $query = null;
+
+        if ($series_cat && !is_wp_error($series_cat)) {
+            // 2. Fetch child subcategories under Series
+            $subcategories = get_categories(array(
+                'parent'     => $series_cat->term_id,
+                'hide_empty' => false,
+                'orderby'    => 'count',
+                'order'      => 'DESC'
+            ));
+
+            // 3. Query posts in Series (includes child subcategories by default in WP)
+            $args = array(
+                'cat'                 => $series_cat->term_id,
+                'posts_per_page'      => $count,
+                'post_status'         => 'publish',
+                'ignore_sticky_posts' => 1,
+            );
+            if (!empty($exclude_ids)) {
+                $args['post__not_in'] = $exclude_ids;
+            }
+            $query = new WP_Query($args);
+        }
+
+        // 4. Graceful fallback if Series has no published posts yet
+        if (empty($query) || !$query->have_posts()) {
+            $fallback_args = array(
+                'posts_per_page'      => $count,
+                'post_status'         => 'publish',
+                'ignore_sticky_posts' => 1,
+            );
+            $alt_cat = get_category_by_slug('investigations') ?: get_category_by_slug('business');
+            if ($alt_cat) {
+                $fallback_args['cat'] = $alt_cat->term_id;
+            }
+            if (!empty($exclude_ids)) {
+                $fallback_args['post__not_in'] = $exclude_ids;
+            }
+            $query = new WP_Query($fallback_args);
+        }
+
+        return array(
+            'category'      => $series_cat,
+            'subcategories' => $subcategories,
+            'query'         => $query,
+        );
+    }
+}
+

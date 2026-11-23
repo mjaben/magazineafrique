@@ -729,7 +729,151 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         6. HEALTH & WELLNESS INTELLIGENCE (Strictly Separate from Lifestyle)
+         6. THE CONTINENTAL SERIES & SPECIAL INVESTIGATIONS
+         Category: Series (with Sub-Categories and Thematic Tags)
+         UI: 4-Column Episodic Dossier Grid with Sub-Category Filter Ribbon
+         ========================================================================== -->
+    <section class="desk-section desk-series-showcase" aria-label="Special Series &amp; Investigative Dossiers">
+        <div class="desk-section-header series-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet series-bullet" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        <path d="M6 6h10"/>
+                        <path d="M6 10h10"/>
+                        <path d="M6 14h6"/>
+                        <path d="M2 6v14a2 2 0 0 0 2 2h14"/>
+                    </svg>
+                </span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Continental Series</h2>
+                <span class="desk-section-tag">MULTI-PART INVESTIGATIVE DOSSIERS · SERIALIZED REPORTS</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="desk-view-index-btn series-index-btn">
+                Series Index →
+            </a>
+        </div>
+
+        <?php
+        $series_data = function_exists('magazineafrique_get_series_data') ? magazineafrique_get_series_data(4, $displayed_post_ids) : array('category' => null, 'subcategories' => array(), 'query' => null);
+        $series_cat = isset($series_data['category']) ? $series_data['category'] : null;
+        $series_subcats = isset($series_data['subcategories']) ? $series_data['subcategories'] : array();
+        $series_query = isset($series_data['query']) ? $series_data['query'] : null;
+        $series_cat_id = ($series_cat && !is_wp_error($series_cat)) ? $series_cat->term_id : 0;
+        ?>
+
+        <!-- Sub-Category & Series Filter Ribbon -->
+        <div class="series-nav-ribbon">
+            <div class="series-ribbon-label">
+                <span>SUB-SERIES DOSSIERS:</span>
+            </div>
+            <div class="series-subcat-pills">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="series-subcat-pill active">
+                    ● All Series
+                </a>
+                <?php if (!empty($series_subcats)) : ?>
+                    <?php foreach ($series_subcats as $subcat) : ?>
+                        <a href="<?php echo esc_url(get_category_link($subcat->term_id)); ?>" class="series-subcat-pill">
+                            <?php echo esc_html($subcat->name); ?> (<?php echo esc_html($subcat->count); ?>)
+                        </a>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <?php
+                    $editorial_subtopics = array('Geopolitical Frontiers', 'Macroeconomic Inquiries', 'Critical Minerals', 'Continental Corridors');
+                    foreach ($editorial_subtopics as $stopic) :
+                    ?>
+                        <span class="series-subcat-pill series-subcat-editorial">
+                            <?php echo esc_html($stopic); ?>
+                        </span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- 4-Column Episodic Series Dossier Grid -->
+        <div class="series-dossier-grid">
+            <?php
+            if ($series_query && $series_query->have_posts()) :
+                $part_num = 0;
+                $roman_numerals = array('PART I', 'PART II', 'PART III', 'PART IV', 'PART V', 'PART VI');
+                while ($series_query->have_posts()) : $series_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+                    $p_id = get_the_ID();
+                    $part_badge = isset($roman_numerals[$part_num]) ? $roman_numerals[$part_num] : 'PART ' . ($part_num + 1);
+                    $part_num++;
+
+                    // Determine sub-category name
+                    $post_subcat_name = 'Special Report';
+                    $post_cats = get_the_category();
+                    if (!empty($post_cats)) {
+                        foreach ($post_cats as $pc) {
+                            if ($series_cat_id && $pc->parent == $series_cat_id) {
+                                $post_subcat_name = $pc->name;
+                                break;
+                            } elseif ($pc->slug !== 'series' && $post_subcat_name === 'Special Report') {
+                                $post_subcat_name = $pc->name;
+                            }
+                        }
+                    }
+
+                    $post_tags = get_the_tags();
+            ?>
+                <article class="series-dossier-card">
+                    <div class="series-card-top-bar">
+                        <div class="series-subcat-cluster">
+                            <span class="series-marker-dot">●</span>
+                            <span class="series-subcat-name"><?php echo esc_html($post_subcat_name); ?></span>
+                        </div>
+                        <span class="series-part-badge"><?php echo esc_html($part_badge); ?></span>
+                    </div>
+
+                    <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="series-card-media-wrap" aria-label="<?php the_title_attribute(); ?>">
+                            <?php the_post_thumbnail('magazine-card', array('class' => 'series-card-img', 'alt' => get_the_title())); ?>
+                            <span class="series-ribbon-flag">SERIES</span>
+                        </a>
+                    <?php endif; ?>
+
+                    <div class="series-card-content">
+                        <h3 class="series-card-title vintage-newspaper-headline">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+
+                        <p class="series-card-excerpt">
+                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                        </p>
+
+                        <!-- Tags Strip -->
+                        <?php if ($post_tags) : ?>
+                            <div class="series-card-tags">
+                                <?php foreach (array_slice($post_tags, 0, 3) as $st) : ?>
+                                    <a href="<?php echo esc_url(get_tag_link($st->term_id)); ?>" class="series-tag-pill">
+                                        #<?php echo esc_html($st->name); ?>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="series-card-footer">
+                            <span class="series-card-date"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                            <a href="<?php the_permalink(); ?>" class="series-read-link">
+                                Read Installment →
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         7. HEALTH & WELLNESS INTELLIGENCE (Strictly Separate from Lifestyle)
          UI: 3-Card Medical & Longevity Research Grid
          ========================================================================== -->
     <section class="desk-section desk-health-wellness" aria-label="Health &amp; Longevity">
