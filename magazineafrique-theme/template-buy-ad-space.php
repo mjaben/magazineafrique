@@ -36,7 +36,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           <span class="ticker-val" style="color: #FBBF24;"><?php echo esc_html($rot_state ? $rot_state['shift_name'] : 'Shift Alpha'); ?> (RESET IN <?php echo esc_html($rot_state ? $rot_state['formatted_remaining'] : '05h 00m'); ?>)</span>
           <span style="color: #78716C; margin: 0 6px;">·</span>
           <span class="ticker-label">BASE RATE:</span>
-          <span class="ticker-val">₦5,000 / $5.00 CPM</span>
+          <span class="ticker-val">₦2,000 / $2.00 CPM (1k Imps = 2k)</span>
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
         <span class="section-kicker">AVAILABLE DISPLAY INVENTORY</span>
         <h2 class="section-title">Continental Ad Spots &amp; Broadsheet Placement</h2>
         <p class="section-desc">
-          Pricing is strictly tiered according to placement prominence. Prime top-of-site positions command an elevated reach premium, while broadsheet baseline positions start at our standard ₦5,000 base rate.
+          Pricing is strictly tiered according to placement prominence. Prime top-of-site positions command an elevated reach premium, while broadsheet baseline positions start at our accessible ₦2,000 (2k) base rate per 1,000 impressions.
         </p>
       </div>
 
@@ -219,6 +219,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             <div class="calc-control-group">
               <label class="control-label">2. Select Guaranteed Impression Reach</label>
               <div class="impression-pills">
+                <button type="button" class="imp-pill" data-imps="1000" onclick="setImpressionPackage(1000)">1,000 imps (2k Base)</button>
+                <button type="button" class="imp-pill" data-imps="5000" onclick="setImpressionPackage(5000)">5,000 imps</button>
                 <button type="button" class="imp-pill" data-imps="10000" onclick="setImpressionPackage(10000)">10,000 imps</button>
                 <button type="button" class="imp-pill active" data-imps="25000" onclick="setImpressionPackage(25000)">25,000 imps</button>
                 <button type="button" class="imp-pill" data-imps="50000" onclick="setImpressionPackage(50000)">50,000 imps</button>
@@ -226,9 +228,9 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
               </div>
 
               <div class="custom-imp-wrap">
-                <label for="custom_imps_input" class="custom-imp-label">Or Custom Impressions Volume (Min. 5,000):</label>
+                <label for="custom_imps_input" class="custom-imp-label">Or Custom Impressions Volume (Min. 1,000):</label>
                 <div class="custom-imp-input-group">
-                  <input type="number" id="custom_imps_input" class="custom-imp-field" value="25000" min="5000" step="5000" oninput="onCustomImpsInput(this.value)">
+                  <input type="number" id="custom_imps_input" class="custom-imp-field" value="25000" min="1000" step="1000" oninput="onCustomImpsInput(this.value)">
                   <span class="input-suffix">Guaranteed Readers</span>
                 </div>
               </div>
@@ -660,11 +662,12 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
   window.onCustomImpsInput = function(val) {
     var imps = parseInt(val, 10);
-    if (!imps || imps < 5000) {
-      imps = 5000;
+    if (!imps || imps < 1000) {
+      imps = 1000;
     }
     currentImpressions = imps;
     $('.imp-pill').removeClass('active');
+    $('.imp-pill[data-imps="' + imps + '"]').addClass('active');
     $('#form_impressions').val(currentImpressions);
     recalculateRates();
   };

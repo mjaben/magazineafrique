@@ -94,13 +94,20 @@ if (!function_exists('magazineafrique_get_ad_bank_details')) {
  */
 if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
     function magazineafrique_get_ad_spots_matrix() {
+        // Enforce 2k base rate for lowest space (bottom) if at legacy 5k default
+        $bottom_ngn = get_option('magafrique_cpm_bottom_ngn');
+        if ($bottom_ngn === false || floatval($bottom_ngn) == 5000) {
+            update_option('magafrique_cpm_bottom_ngn', 2000);
+            update_option('magafrique_cpm_bottom_usd', 2.00);
+        }
+
         return array(
             'header_masthead' => array(
                 'id'            => 'header_masthead',
                 'title'         => 'Prime Masthead Leaderboard',
                 'placement'     => 'Top of Masthead (Immediate Viewport)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_header_masthead_ngn', 10000)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_header_masthead_usd', 10.00)),
+                'cpm_ngn'       => floatval(get_option('magafrique_cpm_header_masthead_ngn', 7500)),
+                'cpm_usd'       => floatval(get_option('magafrique_cpm_header_masthead_usd', 7.50)),
                 'tier'          => 'Prime Position',
                 'badge'         => 'HIGHEST VISIBILITY',
                 'dimensions'    => '728x90 / 970x90 Desktop · 320x50 Mobile',
@@ -110,8 +117,8 @@ if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
                 'id'            => 'in_article',
                 'title'         => 'Mid-Dossier Editorial Core',
                 'placement'     => 'Embedded Within Investigative Articles',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_in_article_ngn', 8000)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_in_article_usd', 8.00)),
+                'cpm_ngn'       => floatval(get_option('magafrique_cpm_in_article_ngn', 5000)),
+                'cpm_usd'       => floatval(get_option('magafrique_cpm_in_article_usd', 5.00)),
                 'tier'          => 'Core Engagement',
                 'badge'         => 'LONGEST DWELL TIME',
                 'dimensions'    => 'Fluid Native / 300x250 Medium Rectangle',
@@ -121,8 +128,8 @@ if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
                 'id'            => 'sidebar',
                 'title'         => 'Continental Telegraph Sidebar',
                 'placement'     => 'Sticky Reading Companion (Desktop & Tablet)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_sidebar_ngn', 6500)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_sidebar_usd', 6.50)),
+                'cpm_ngn'       => floatval(get_option('magafrique_cpm_sidebar_ngn', 3500)),
+                'cpm_usd'       => floatval(get_option('magafrique_cpm_sidebar_usd', 3.50)),
                 'tier'          => 'Persistent Reach',
                 'badge'         => 'HIGH VIEWABILITY',
                 'dimensions'    => '300x250 / 300x600 Half-Page Box',
@@ -132,10 +139,10 @@ if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
                 'id'            => 'bottom',
                 'title'         => 'Broadsheet Bottom Leaderboard',
                 'placement'     => 'Above Footer (All Reports & Home)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_bottom_ngn', 5000)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_bottom_usd', 5.00)),
+                'cpm_ngn'       => floatval(get_option('magafrique_cpm_bottom_ngn', 2000)),
+                'cpm_usd'       => floatval(get_option('magafrique_cpm_bottom_usd', 2.00)),
                 'tier'          => 'Baseline Reach',
-                'badge'         => 'BASE RATE',
+                'badge'         => 'BASE RATE (2K)',
                 'dimensions'    => '728x90 / 970x90 Desktop · 300x250 Mobile',
                 'description'   => 'Broadsheet full-width closing placement seen by all engaged readers completing briefings, dispatches, and sector archives.'
             )
@@ -1727,7 +1734,7 @@ add_action('admin_post_magazineafrique_admin_create_ad_campaign', function() {
 
     $spot_key = sanitize_text_field($_POST['spot']);
     $spot_data = isset($spots[$spot_key]) ? $spots[$spot_key] : $spots['bottom'];
-    $impressions = max(5000, intval($_POST['impressions_booked']));
+    $impressions = max(1000, intval($_POST['impressions_booked']));
     $cpm = floatval($spot_data['cpm_ngn']);
     $total_amount = ($impressions / 1000) * $cpm;
 
@@ -1784,7 +1791,7 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
         $phone        = sanitize_text_field($_POST['contact_phone'] ?? '');
         $country      = sanitize_text_field($_POST['country'] ?? '');
         $spot_key     = sanitize_text_field($_POST['spot_key'] ?? $_POST['spot'] ?? 'header_masthead');
-        $impressions  = max(5000, intval($_POST['impressions'] ?? 10000));
+        $impressions  = max(1000, intval($_POST['impressions'] ?? 1000));
         $dest_url     = esc_url_raw($_POST['destination_url'] ?? '');
         $target_desk  = sanitize_text_field($_POST['target_desk'] ?? 'all');
         $currency     = sanitize_text_field($_POST['currency'] ?? 'NGN');
