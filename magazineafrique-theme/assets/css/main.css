@@ -2141,6 +2141,57 @@ body {
   transform: scale(1.04);
 }
 
+/* Ensure Feed Social Cards never display a solid red pill or background */
+.social-card .btn-live-like,
+.social-card .social-like-btn,
+.social-like-btn {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0.2rem 0.3rem !important;
+  color: var(--text-secondary, #6E675F) !important;
+}
+
+.social-card .btn-live-like:hover,
+.social-card .social-like-btn:hover,
+.social-like-btn:hover,
+.social-card .btn-live-like:focus,
+.social-card .social-like-btn:focus,
+.social-like-btn:focus,
+.social-card .btn-live-like:active,
+.social-card .social-like-btn:active,
+.social-like-btn:active,
+.social-card .btn-live-like.has-liked,
+.social-card .social-like-btn.has-liked,
+.social-like-btn.has-liked {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #E11D48 !important;
+}
+
+.social-card .btn-live-like svg,
+.social-card .social-like-btn svg,
+.social-like-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.2 !important;
+}
+
+.social-card .btn-live-like.has-liked svg,
+.social-card .social-like-btn.has-liked svg,
+.social-like-btn.has-liked svg {
+  fill: #E11D48 !important;
+  stroke: #E11D48 !important;
+}
+
 .share-live-cluster {
   display: inline-flex;
   align-items: center;

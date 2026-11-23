@@ -72,6 +72,24 @@ if (!function_exists('magazineafrique_setup_ad_campaigns_table')) {
 }
 
 /**
+ * 1b. Official Commercial Remittance & Bank Settlement Details
+ * Eco Bank | Magazine Afrique Limited | 0089765434
+ * Receipt Submission Hotline: 09082533705 on WhatsApp
+ */
+if (!function_exists('magazineafrique_get_ad_bank_details')) {
+    function magazineafrique_get_ad_bank_details() {
+        return array(
+            'bank_name'       => get_option('magafrique_ad_bank_name', 'Eco Bank'),
+            'account_name'    => get_option('magafrique_ad_account_name', 'Magazine Afrique Limited'),
+            'account_number'  => get_option('magafrique_ad_account_number', '0089765434'),
+            'whatsapp_number' => get_option('magafrique_ad_whatsapp_number', '09082533705'),
+            'whatsapp_intl'   => get_option('magafrique_ad_whatsapp_intl', '2349082533705'),
+            'advisory'        => 'Send receipt to 09082533705 on WhatsApp for faster response on any issue.'
+        );
+    }
+}
+
+/**
  * 2. CPM Rate & Spot Inventory Matrix
  */
 if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
@@ -318,6 +336,17 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             echo '<div class="notice notice-success is-dismissible"><p>✓ Rotation settings saved: ' . $period . '-hour interval with ' . esc_html($mode) . ' mode.</p></div>';
         }
 
+        // Process Official Remittance & Bank Settings Form
+        if (isset($_POST['magafrique_save_bank_details']) && check_admin_referer('magafrique_save_bank_details_nonce')) {
+            update_option('magafrique_ad_bank_name', sanitize_text_field($_POST['ad_bank_name'] ?? 'Eco Bank'));
+            update_option('magafrique_ad_account_name', sanitize_text_field($_POST['ad_account_name'] ?? 'Magazine Afrique Limited'));
+            update_option('magafrique_ad_account_number', sanitize_text_field($_POST['ad_account_number'] ?? '0089765434'));
+            update_option('magafrique_ad_whatsapp_number', sanitize_text_field($_POST['ad_whatsapp_number'] ?? '09082533705'));
+            update_option('magafrique_ad_whatsapp_intl', sanitize_text_field($_POST['ad_whatsapp_intl'] ?? '2349082533705'));
+            echo '<div class="notice notice-success is-dismissible"><p>✓ Official Commercial Bank Account &amp; WhatsApp Receipt routing settings saved.</p></div>';
+        }
+
+        $bank_details = magazineafrique_get_ad_bank_details();
         $rot_state = magazineafrique_get_ad_rotation_state();
 
         // Query Campaign Totals & Metrics
@@ -539,6 +568,85 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 }
             })();
             </script>
+
+            <!-- Official Remittance & Wire Instructions Desk (Eco Bank | 0089765434 | WhatsApp 09082533705) -->
+            <div style="background: #171513; border: 2px solid #D97706; border-radius: 4px; padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 6px 18px rgba(0,0,0,0.55);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <span style="background: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 3px; display: inline-block; margin-bottom: 0.35rem;">
+                            OFFICIAL MONETIZATION REMITTANCE
+                        </span>
+                        <h3 style="color: #FFFFFF; font-family: 'Newsreader', Georgia, serif; font-size: 1.35rem; font-weight: 800; margin: 0;">
+                            Commercial Bank Account &amp; WhatsApp Receipt Routing Desk
+                        </h3>
+                    </div>
+                    <button type="button" onclick="var el = document.getElementById('edit-bank-details-drawer'); el.style.display = (el.style.display === 'none' ? 'block' : 'none');" class="button" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px;">
+                        ⚙ Edit Remittance Credentials
+                    </button>
+                </div>
+
+                <!-- Bank Details Display Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                    <div style="background: #12100E; border: 1px solid rgba(255,255,255,0.1); padding: 1rem; border-radius: 3px;">
+                        <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #78716C; text-transform: uppercase;">Bank Institution</span>
+                        <strong style="color: #FAF7F2; font-size: 1.15rem;"><?php echo esc_html($bank_details['bank_name']); ?></strong>
+                    </div>
+                    <div style="background: #12100E; border: 1px solid rgba(255,255,255,0.1); padding: 1rem; border-radius: 3px;">
+                        <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #78716C; text-transform: uppercase;">Beneficiary Account Name</span>
+                        <strong style="color: #FAF7F2; font-size: 1.1rem;"><?php echo esc_html($bank_details['account_name']); ?></strong>
+                    </div>
+                    <div style="background: #12100E; border: 1px solid rgba(217, 119, 6, 0.4); padding: 1rem; border-radius: 3px;">
+                        <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #D97706; text-transform: uppercase;">Account Number (10 Digits)</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 3px;">
+                            <strong style="color: #FBBF24; font-family: 'Geist Mono', monospace; font-size: 1.35rem; letter-spacing: 0.08em;"><?php echo esc_html($bank_details['account_number']); ?></strong>
+                            <button type="button" onclick="navigator.clipboard.writeText('<?php echo esc_js($bank_details['account_number']); ?>'); this.innerText='COPIED!'; var b=this; setTimeout(function(){ b.innerText='COPY'; }, 2000);" class="button button-small" style="background: #D97706; color: #171513; border: none; font-weight: 800; font-family: 'Geist Mono', monospace; font-size: 10px;">COPY</button>
+                        </div>
+                    </div>
+                    <div style="background: #12100E; border: 1px solid rgba(37, 211, 102, 0.4); padding: 1rem; border-radius: 3px;">
+                        <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #25D366; text-transform: uppercase;">WhatsApp Receipt Desk</span>
+                        <strong style="color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 1.15rem;"><?php echo esc_html($bank_details['whatsapp_number']); ?></strong>
+                        <span style="display: block; font-size: 10.5px; color: #A39A8E; margin-top: 2px;">Receipt verification hotline</span>
+                    </div>
+                </div>
+
+                <!-- Advisory Callout Banner -->
+                <div style="background: rgba(217, 119, 6, 0.1); border-left: 3px solid #D97706; padding: 0.75rem 1rem; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FBBF24; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                    <span>📌 <strong>Official Policy Advisory:</strong> Send receipt to <strong><?php echo esc_html($bank_details['whatsapp_number']); ?></strong> on WhatsApp for faster response on any issue.</span>
+                    <a href="https://wa.me/<?php echo esc_attr($bank_details['whatsapp_intl']); ?>?text=Hello+Magazine+Afrique+Commercial+Desk" target="_blank" style="color: #25D366; text-decoration: none; font-weight: 700;">Test WhatsApp Link ↗</a>
+                </div>
+
+                <!-- Edit Drawer (Hidden by default) -->
+                <div id="edit-bank-details-drawer" style="display: none; margin-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.25rem;">
+                    <form method="post">
+                        <?php wp_nonce_field('magafrique_save_bank_details_nonce'); ?>
+                        <input type="hidden" name="magafrique_save_bank_details" value="1">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2; margin-bottom: 4px;">Bank Name</label>
+                                <input type="text" name="ad_bank_name" value="<?php echo esc_attr($bank_details['bank_name']); ?>" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; padding: 6px 10px; font-family: 'Geist Mono', monospace; font-size: 12px;" required>
+                            </div>
+                            <div>
+                                <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2; margin-bottom: 4px;">Beneficiary Account Name</label>
+                                <input type="text" name="ad_account_name" value="<?php echo esc_attr($bank_details['account_name']); ?>" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; padding: 6px 10px; font-family: 'Geist Mono', monospace; font-size: 12px;" required>
+                            </div>
+                            <div>
+                                <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2; margin-bottom: 4px;">Account Number</label>
+                                <input type="text" name="ad_account_number" value="<?php echo esc_attr($bank_details['account_number']); ?>" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; padding: 6px 10px; font-family: 'Geist Mono', monospace; font-size: 12px;" required>
+                            </div>
+                            <div>
+                                <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2; margin-bottom: 4px;">WhatsApp Number (Local Display)</label>
+                                <input type="text" name="ad_whatsapp_number" value="<?php echo esc_attr($bank_details['whatsapp_number']); ?>" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; padding: 6px 10px; font-family: 'Geist Mono', monospace; font-size: 12px;" required>
+                            </div>
+                            <div>
+                                <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 11px; color: #FAF7F2; margin-bottom: 4px;">WhatsApp Intl (wa.me format)</label>
+                                <input type="text" name="ad_whatsapp_intl" value="<?php echo esc_attr($bank_details['whatsapp_intl']); ?>" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FAF7F2; padding: 6px 10px; font-family: 'Geist Mono', monospace; font-size: 12px;" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="button button-primary" style="background: #D97706; border-color: #D97706; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace;">Save Remittance Credentials</button>
+                    </form>
+                </div>
+            </div>
+
             <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; font-family: 'Geist Mono', monospace; font-size: 11px;">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=magazineafrique-brand-ads&status_filter=all')); ?>" style="padding: 4px 10px; border-radius: 3px; text-decoration: none; <?php echo $current_filter === 'all' ? 'background: #D97706; color: #171513; font-weight: 800;' : 'background: rgba(255,255,255,0.06); color: #FAF7F2;'; ?>">
                     All (<?php echo esc_html($total_campaigns); ?>)
@@ -641,7 +749,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                             </div>
 
                             <!-- Action Bar -->
-                            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
                                 <?php if ($camp->status !== 'active') : ?>
                                     <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=activate&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: #10B981; border-color: #10B981; color: #000000; font-weight: 800; font-family: 'Geist Mono', monospace; font-size: 10.5px;">
                                         ✓ Approve &amp; Make Live
@@ -649,6 +757,20 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                 <?php else : ?>
                                     <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=magazineafrique-brand-ads&action=pause&campaign_id=' . $camp->id), 'magafrique_ad_action')); ?>" class="button button-small" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 10.5px;">
                                         Pause
+                                    </a>
+                                <?php endif; ?>
+
+                                <?php
+                                $raw_p = !empty($camp->contact_phone) ? $camp->contact_phone : '';
+                                $clean_p = preg_replace('/[^0-9]/', '', $raw_p);
+                                if (!empty($clean_p) && substr($clean_p, 0, 1) === '0') {
+                                    $clean_p = '234' . substr($clean_p, 1);
+                                }
+                                if (!empty($clean_p)) :
+                                    $wa_client_msg = urlencode("Hello " . $camp->brand_name . " (" . $camp->contact_name . "), Magazine Afrique Commercial Desk here regarding your ad booking #" . $camp->booking_code . " (" . $camp->spot_title . "). Kindly share your Eco Bank payment receipt here so we can activate your banner immediately.");
+                                ?>
+                                    <a href="https://wa.me/<?php echo esc_attr($clean_p); ?>?text=<?php echo $wa_client_msg; ?>" target="_blank" class="button button-small" style="background: #25D366; border-color: #25D366; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace; font-size: 10.5px;">
+                                        💬 WhatsApp Receipt Desk
                                     </a>
                                 <?php endif; ?>
 
@@ -817,7 +939,7 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
         $email        = sanitize_email($_POST['contact_email'] ?? '');
         $phone        = sanitize_text_field($_POST['contact_phone'] ?? '');
         $country      = sanitize_text_field($_POST['country'] ?? '');
-        $spot_key     = sanitize_text_field($_POST['spot'] ?? 'bottom');
+        $spot_key     = sanitize_text_field($_POST['spot_key'] ?? $_POST['spot'] ?? 'header_masthead');
         $impressions  = max(5000, intval($_POST['impressions'] ?? 10000));
         $dest_url     = esc_url_raw($_POST['destination_url'] ?? '');
         $target_desk  = sanitize_text_field($_POST['target_desk'] ?? 'all');
@@ -829,21 +951,28 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
 
         $spots = magazineafrique_get_ad_spots_matrix();
         if (!isset($spots[$spot_key])) {
-            $spot_key = 'bottom';
+            $spot_key = 'header_masthead';
         }
         $spot_data = $spots[$spot_key];
 
         $cpm = ($currency === 'USD') ? $spot_data['cpm_usd'] : $spot_data['cpm_ngn'];
         $total_amount = ($impressions / 1000) * $cpm;
 
-        // Handle Creative Upload
+        // Handle Creative Upload (support both creative_asset and creative_file input names)
+        $file_key = '';
+        if (!empty($_FILES['creative_asset']['name'])) {
+            $file_key = 'creative_asset';
+        } elseif (!empty($_FILES['creative_file']['name'])) {
+            $file_key = 'creative_file';
+        }
+
         $creative_url = '';
-        if (!empty($_FILES['creative_file']['name'])) {
+        if (!empty($file_key)) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
             require_once ABSPATH . 'wp-admin/includes/image.php';
             require_once ABSPATH . 'wp-admin/includes/media.php';
 
-            $attachment_id = media_handle_upload('creative_file', 0);
+            $attachment_id = media_handle_upload($file_key, 0);
             if (!is_wp_error($attachment_id)) {
                 $creative_url = wp_get_attachment_url($attachment_id);
             }
@@ -884,21 +1013,66 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
             wp_send_json_error(array('message' => 'Unable to record booking into database. Please try again or contact commercial@magazineafrique.org.'));
         }
 
-        // Send Administrative Notification
+        // Fetch Official Bank Settlement Details
+        $bank = magazineafrique_get_ad_bank_details();
+        $formatted_total = ($currency === 'USD' ? '$' : '₦') . number_format($total_amount);
+
+        // 1. Send Administrative Notification
         $admin_email = get_option('admin_email');
         $subject = "[Brand Reach Ad Booking] #$booking_code — $brand_name";
-        $message = "New Brand Reach Ad Space Reservation received:\n\n" .
-                   "Booking Code: $booking_code\n" .
-                   "Brand: $brand_name\n" .
-                   "Contact: $contact_name ($email, $phone)\n" .
-                   "Spot: " . $spot_data['title'] . "\n" .
+        $message = "New Brand Reach Ad Space Reservation received on Continental Desk:\n\n" .
+                   "Booking Code          : #$booking_code\n" .
+                   "Brand                 : $brand_name\n" .
+                   "Contact Officer       : $contact_name ($email, $phone)\n" .
+                   "Jurisdiction          : $country\n" .
+                   "Target Space          : " . $spot_data['title'] . "\n" .
                    "Guaranteed Impressions: " . number_format($impressions) . "\n" .
-                   "CPM Rate: " . ($currency === 'USD' ? '$' : '₦') . number_format($cpm) . "\n" .
-                   "Total Budget: " . ($currency === 'USD' ? '$' : '₦') . number_format($total_amount) . "\n" .
-                   "Destination: $dest_url\n" .
-                   "Creative Asset: $creative_url\n\n" .
-                   "Review and approve this campaign in WP-Admin > Gazette Desk > Brand Reach Ads.";
+                   "CPM Rate              : " . ($currency === 'USD' ? '$' : '₦') . number_format($cpm) . "\n" .
+                   "Total Investment      : $formatted_total\n" .
+                   "Destination URL       : $dest_url\n" .
+                   "Creative Asset        : $creative_url\n\n" .
+                   "REMITTANCE ROUTING:\n" .
+                   "Bank: " . $bank['bank_name'] . "\n" .
+                   "Account Name: " . $bank['account_name'] . "\n" .
+                   "Account Number: " . $bank['account_number'] . "\n" .
+                   "WhatsApp Receipt Line: " . $bank['whatsapp_number'] . "\n\n" .
+                   "Review and approve in WP-Admin > Gazette Desk > Brand Reach Ads.";
         wp_mail(array($admin_email, 'commercial@magazineafrique.org'), $subject, $message);
+
+        // 2. Send Automated Branded Confirmation Email to Advertiser Desk
+        $client_subject = "[Commercial Invoice & Remittance Wire] Ad Space Booking #$booking_code — $brand_name";
+        $client_message = "Dear $contact_name,\n\n" .
+            "Thank you for acquiring sovereign broadsheet ad space with Magazine Afrique.\n\n" .
+            "CAMPAIGN RESERVATION DOSSIER:\n" .
+            "====================================================\n" .
+            "Official Booking Reference : #$booking_code\n" .
+            "Brand / Organization       : $brand_name\n" .
+            "Selected Ad Space          : " . $spot_data['title'] . "\n" .
+            "Guaranteed Reach Delivery  : " . number_format($impressions) . " verified readers\n" .
+            "Contract Investment Total  : $formatted_total\n" .
+            "Destination URL            : $dest_url\n" .
+            "====================================================\n\n" .
+            "OFFICIAL REMITTANCE & WIRE INSTRUCTIONS:\n" .
+            "----------------------------------------------------\n" .
+            "Bank Institution           : " . $bank['bank_name'] . "\n" .
+            "Beneficiary Account Name   : " . $bank['account_name'] . "\n" .
+            "Account Number (10 Digits) : " . $bank['account_number'] . "\n" .
+            "----------------------------------------------------\n\n" .
+            "IMPORTANT RECEIPT ROUTING ADVISORY:\n" .
+            "Send receipt to " . $bank['whatsapp_number'] . " on WhatsApp for faster response on any issue.\n\n" .
+            "Direct 1-Click WhatsApp Receipt Link:\n" .
+            "https://wa.me/" . $bank['whatsapp_intl'] . "?text=" . urlencode("Hello Magazine Afrique Commercial Desk, here is the payment receipt for Brand Reach Booking #" . $booking_code . " ($brand_name, $formatted_total).") . "\n\n" .
+            "Upon receipt confirmation, our editorial ad server immediately activates your banner asset across all 54 jurisdictions.\n\n" .
+            "Warm regards,\n" .
+            "Continental Commercial Syndicate Desk\n" .
+            "Magazine Afrique — Sovereign Pan-African Journalism\n" .
+            "commercial@magazineafrique.org";
+
+        $headers = array('Content-Type: text/plain; charset=UTF-8', 'From: Magazine Afrique Commercial <commercial@magazineafrique.org>');
+        wp_mail($email, $client_subject, $client_message, $headers);
+
+        $wa_prefill = 'Hello Magazine Afrique Commercial Desk, I have transferred payment for Ad Space Booking #' . $booking_code . ' (' . $brand_name . ', ' . $formatted_total . '). Here is my payment receipt.';
+        $wa_link = 'https://wa.me/' . $bank['whatsapp_intl'] . '?text=' . urlencode($wa_prefill);
 
         wp_send_json_success(array(
             'message'        => 'Booking reserved successfully! Our commercial desk has received your creative dossier.',
@@ -908,7 +1082,13 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
             'impressions'    => number_format($impressions),
             'currency'       => $currency,
             'total_amount'   => number_format($total_amount),
-            'instructions'   => 'Your campaign has been logged under reference #' . $booking_code . '. An invoice with sovereign wire instructions has been dispatched to ' . $email . '. Upon confirmation, your brand reach campaign goes live immediately.'
+            'bank_name'      => $bank['bank_name'],
+            'account_name'   => $bank['account_name'],
+            'account_number' => $bank['account_number'],
+            'whatsapp_num'   => $bank['whatsapp_number'],
+            'whatsapp_intl'  => $bank['whatsapp_intl'],
+            'whatsapp_link'  => $wa_link,
+            'instructions'   => 'Your campaign has been logged under reference #' . $booking_code . '. An invoice with Eco Bank wire remittance instructions has been dispatched to ' . $email . '. Send receipt to ' . $bank['whatsapp_number'] . ' on WhatsApp for faster response on any issue.'
         ));
     }
     add_action('wp_ajax_magazineafrique_submit_ad_booking', 'magazineafrique_ajax_submit_ad_booking');

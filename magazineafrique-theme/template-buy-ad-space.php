@@ -10,6 +10,14 @@ get_header();
 
 $spots_matrix = function_exists('magazineafrique_get_ad_spots_matrix') ? magazineafrique_get_ad_spots_matrix() : array();
 $rot_state = function_exists('magazineafrique_get_ad_rotation_state') ? magazineafrique_get_ad_rotation_state() : false;
+$bank_details = function_exists('magazineafrique_get_ad_bank_details') ? magazineafrique_get_ad_bank_details() : array(
+    'bank_name'       => 'Eco Bank',
+    'account_name'    => 'Magazine Afrique Limited',
+    'account_number'  => '0089765434',
+    'whatsapp_number' => '09082533705',
+    'whatsapp_intl'   => '2349082533705',
+    'advisory'        => 'Send receipt to 09082533705 on WhatsApp for faster response on any issue.'
+);
 $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 ?>
 
@@ -424,19 +432,49 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           <div class="sidebar-info-card wire-info-card">
             <h3 class="info-card-title">Commercial Wire Settlement</h3>
             <p class="wire-desc">
-              Following booking transmission, a pro-forma commercial invoice is automatically issued. Bank wire transfers are accepted via:
+              Direct brand reservations are settled via verified institutional wire transfer or commercial electronic bank transfer:
             </p>
-            <div class="settlement-banks">
-              <div class="bank-pill">
-                <span class="bank-currency">NGN</span>
-                <span class="bank-details">Zenith Bank Plc · Magazine Afrique Commercial</span>
+
+            <div class="remittance-official-box" style="background: var(--bg-card-subtle, #F7F2E8); border: 2px solid var(--text-primary, #171513); padding: 1.25rem; border-radius: 4px; margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+                <span style="font-family: 'Geist Mono', monospace; font-size: 0.65rem; font-weight: 800; background: #D97706; color: #171513; padding: 2px 6px; border-radius: 2px; text-transform: uppercase;">
+                  Official Bank Details
+                </span>
+                <span style="font-family: 'Geist Mono', monospace; font-size: 0.6875rem; color: var(--text-muted, #78716C);">NGN Wire</span>
               </div>
-              <div class="bank-pill">
-                <span class="bank-currency">USD / EUR</span>
-                <span class="bank-details">Standard Chartered Bank · Swift Continental Wire</span>
+              <div style="margin-bottom: 0.5rem;">
+                <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.625rem; color: var(--text-muted, #78716C); text-transform: uppercase;">Bank Institution</span>
+                <strong style="font-size: 1.05rem; color: var(--text-primary, #171513); font-family: 'Playfair Display', Georgia, serif;"><?php echo esc_html($bank_details['bank_name']); ?></strong>
+              </div>
+              <div style="margin-bottom: 0.5rem;">
+                <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.625rem; color: var(--text-muted, #78716C); text-transform: uppercase;">Beneficiary Account Name</span>
+                <strong style="font-size: 0.95rem; color: var(--text-primary, #171513); font-family: 'Playfair Display', Georgia, serif;"><?php echo esc_html($bank_details['account_name']); ?></strong>
+              </div>
+              <div style="background: #171513; border: 1px solid #D97706; padding: 0.75rem; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+                <div>
+                  <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.58rem; color: #A8A29E; text-transform: uppercase; letter-spacing: 0.08em;">Account Number</span>
+                  <span style="font-family: 'Geist Mono', monospace; font-size: 1.25rem; font-weight: 900; color: #FBBF24; letter-spacing: 0.08em;" id="sidebar_acc_num"><?php echo esc_html($bank_details['account_number']); ?></span>
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText('<?php echo esc_js($bank_details['account_number']); ?>'); this.innerText='COPIED!'; var b=this; setTimeout(function(){ b.innerText='COPY'; }, 2000);" style="background: #D97706; border: none; color: #171513; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 800; padding: 5px 10px; border-radius: 2px; cursor: pointer;">
+                  COPY
+                </button>
               </div>
             </div>
-            <span class="wire-dispatch-note">Paystack corporate settlement link provided upon confirmation.</span>
+
+            <!-- Fast-Track Receipt Routing Callout -->
+            <div class="whatsapp-routing-alert" style="background: rgba(217, 119, 6, 0.1); border-left: 3px solid #D97706; padding: 0.85rem; margin-bottom: 1rem; border-radius: 0 3px 3px 0;">
+              <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.72rem; font-weight: 700; color: #D97706; margin-bottom: 3px;">
+                ⚡ FAST-TRACK ACTIVATION ADVISORY:
+              </span>
+              <p style="margin: 0 0 0.5rem; font-size: 0.8125rem; line-height: 1.45; color: var(--text-primary, #171513);">
+                Send receipt to <strong><?php echo esc_html($bank_details['whatsapp_number']); ?></strong> on WhatsApp for faster response on any issue.
+              </p>
+              <a href="https://wa.me/<?php echo esc_attr($bank_details['whatsapp_intl']); ?>?text=<?php echo urlencode('Hello Magazine Afrique Commercial Desk, I am remitting payment for Ad Space Booking.'); ?>" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-family: 'Geist Mono', monospace; font-size: 0.75rem; font-weight: 800; color: #15803D; text-decoration: none;">
+                Send Receipt via WhatsApp ↗
+              </a>
+            </div>
+
+            <span class="wire-dispatch-note">Automated pro-forma invoice is dispatched to your email upon transmission.</span>
           </div>
         </div>
       </div>
@@ -487,19 +525,59 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           </div>
         </div>
 
+        <!-- Official Remittance Bank Details Box Inside Modal -->
+        <div class="modal-bank-remittance-card" style="background: #11100F; border: 1px solid #D97706; padding: 1rem; border-radius: 3px; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span style="font-family: 'Geist Mono', monospace; font-size: 0.625rem; font-weight: 800; color: #D97706; letter-spacing: 0.08em; text-transform: uppercase;">
+              OFFICIAL WIRE REMITTANCE
+            </span>
+            <span style="font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: #A8A29E;">Instant Processing</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.8125rem;">
+            <div>
+              <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.58rem; color: #78716C; text-transform: uppercase;">Bank</span>
+              <strong style="color: #FAF7F2;"><?php echo esc_html($bank_details['bank_name']); ?></strong>
+            </div>
+            <div>
+              <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.58rem; color: #78716C; text-transform: uppercase;">Account Name</span>
+              <strong style="color: #FAF7F2;"><?php echo esc_html($bank_details['account_name']); ?></strong>
+            </div>
+          </div>
+          <div style="background: rgba(217, 119, 6, 0.12); border: 1px dashed #D97706; padding: 0.6rem 0.85rem; border-radius: 2px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.58rem; color: #A8A29E; text-transform: uppercase;">Account Number</span>
+              <span style="font-family: 'Geist Mono', monospace; font-size: 1.25rem; font-weight: 900; color: #FBBF24; letter-spacing: 0.08em;"><?php echo esc_html($bank_details['account_number']); ?></span>
+            </div>
+            <button type="button" onclick="navigator.clipboard.writeText('<?php echo esc_js($bank_details['account_number']); ?>'); this.innerText='COPIED!'; var b=this; setTimeout(function(){ b.innerText='COPY'; }, 2000);" style="background: #D97706; border: none; color: #171513; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 800; padding: 4px 8px; border-radius: 2px; cursor: pointer;">
+              COPY
+            </button>
+          </div>
+        </div>
+
+        <!-- WhatsApp Receipt Routing Notice -->
+        <div class="modal-whatsapp-advisory" style="background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.35); padding: 0.85rem; border-radius: 3px; margin-bottom: 1.25rem; text-align: center;">
+          <span style="display: block; font-family: 'Geist Mono', monospace; font-size: 0.72rem; font-weight: 800; color: #25D366; text-transform: uppercase; margin-bottom: 4px;">
+            💬 WhatsApp Receipt Routing
+          </span>
+          <p style="margin: 0; font-size: 0.8125rem; line-height: 1.45; color: #FAF7F2;">
+            Send receipt to <strong><?php echo esc_html($bank_details['whatsapp_number']); ?></strong> on WhatsApp for faster response on any issue.
+          </p>
+        </div>
+
         <div class="modal-next-steps">
           <strong>Next Action:</strong>
-          <span>A confirmation dispatch has been sent to your email. Our commercial representative will contact your desk on WhatsApp / phone to confirm creative activation.</span>
+          <span>A copy of this invoice has been sent to your email. You can transmit payment proof directly via WhatsApp below for instantaneous ad slot activation.</span>
         </div>
       </div>
 
       <div class="modal-footer">
+        <a id="modal_whatsapp_link" href="https://wa.me/<?php echo esc_attr($bank_details['whatsapp_intl']); ?>" target="_blank" class="modal-btn modal-btn-whatsapp" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Send Receipt on WhatsApp (<?php echo esc_html($bank_details['whatsapp_number']); ?>) ↗
+        </a>
         <button type="button" class="modal-btn modal-btn-primary" onclick="closeSuccessModal()">
           Acknowledged &amp; Return
         </button>
-        <a id="modal_whatsapp_link" href="#" target="_blank" class="modal-btn modal-btn-whatsapp">
-          Connect with Commercial Desk on WhatsApp ↗
-        </a>
       </div>
     </div>
   </div>
@@ -690,9 +768,10 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           $('#modal_impressions').text(Number(data.impressions).toLocaleString() + ' Guaranteed Readers');
           $('#modal_total_amount').text(data.currency === 'USD' ? '$' + Number(data.total_amount).toLocaleString() : '₦' + Number(data.total_amount).toLocaleString());
 
-          // WhatsApp link
-          var waText = encodeURIComponent('Hello Magazine Afrique Commercial Desk, I have just booked brand reach ad space for ' + data.brand_name + ' (Booking Code: ' + data.booking_code + '). Total: ' + data.currency + ' ' + Number(data.total_amount).toLocaleString());
-          $('#modal_whatsapp_link').attr('href', 'https://wa.me/2348120000000?text=' + waText);
+          // WhatsApp link with Eco Bank payment receipt prefilled routing
+          var waNumber = data.whatsapp_intl || '<?php echo esc_js($bank_details['whatsapp_intl']); ?>';
+          var waText = encodeURIComponent('Hello Magazine Afrique Commercial Desk, I have just booked brand reach ad space for ' + data.brand_name + ' (Booking Code: ' + data.booking_code + '). Total: ' + data.currency + ' ' + Number(data.total_amount).toLocaleString() + '. Attached is my payment receipt to Eco Bank (0089765434).');
+          $('#modal_whatsapp_link').attr('href', 'https://wa.me/' + waNumber + '?text=' + waText);
 
           $('#ad-success-modal').fadeIn(200);
           $form[0].reset();

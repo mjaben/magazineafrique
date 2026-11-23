@@ -367,35 +367,86 @@ $total_followed_count = count($followed_cats) + count($followed_tags);
     gap: 0.75rem;
 }
 
-/* Modern Like Button */
+/* Modern Minimalist Like Button (Clean SVG, No Red Pill Capsule) */
+.social-card .btn-live-like,
+.social-card .social-like-btn,
 .social-like-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: none;
-    border: none;
-    padding: 0.2rem;
-    cursor: pointer;
-    color: var(--text-secondary, #6E675F);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    transition: transform 0.15s ease, color 0.15s ease;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.25rem !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0.2rem 0.3rem !important;
+    cursor: pointer !important;
+    color: var(--text-secondary, #6E675F) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.6875rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    transition: transform 0.15s ease, color 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
-.social-like-btn:hover {
-    transform: scale(1.1);
-    color: #E11D48;
-}
-.social-like-btn.has-liked {
+.social-card .btn-live-like:hover,
+.social-card .social-like-btn:hover,
+.social-like-btn:hover,
+.social-card .btn-live-like:focus,
+.social-card .social-like-btn:focus,
+.social-like-btn:focus,
+.social-card .btn-live-like:active,
+.social-card .social-like-btn:active,
+.social-like-btn:active {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transform: scale(1.1) !important;
     color: #E11D48 !important;
 }
-.social-like-btn svg {
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.social-card .btn-live-like.has-liked,
+.social-card .social-like-btn.has-liked,
+.social-like-btn.has-liked,
+.social-card .btn-live-like.has-liked:hover,
+.social-card .social-like-btn.has-liked:hover,
+.social-like-btn.has-liked:hover,
+.social-card .btn-live-like.has-liked:focus,
+.social-card .social-like-btn.has-liked:focus,
+.social-like-btn.has-liked:focus {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    color: #E11D48 !important;
+    transform: none !important;
 }
+.social-card .btn-live-like svg,
+.social-card .social-like-btn svg,
+.social-like-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2.2 !important;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.2s ease, stroke 0.2s ease !important;
+}
+.social-card .btn-live-like.has-liked svg,
+.social-card .social-like-btn.has-liked svg,
 .social-like-btn.has-liked svg {
-    fill: #E11D48;
-    stroke: #E11D48;
-    transform: scale(1.15);
+    fill: #E11D48 !important;
+    stroke: #E11D48 !important;
+    transform: scale(1.15) !important;
+}
+.social-card .live-like-counter,
+.social-like-btn .live-like-counter {
+    font-size: 0.6875rem !important;
+    font-weight: 700 !important;
+    color: inherit !important;
 }
 
 /* Modern Minimalist Bookmark Button (Clean SVG Icon) */
