@@ -8268,26 +8268,7 @@ body {
    Interactive 16:9 Widescreen Playlist Player & 9:16 Vertical Shorts Reels
    ========================================================================== */
 .desk-youtube-broadcasts {
-  margin: 3.5rem 0 4rem;
-  background: #EFE9DE;
-  border: 2.5px solid #000000;
-  box-shadow: 6px 6px 0px #000000;
-  border-radius: 6px;
-  padding: 2.25rem 2rem;
-  box-sizing: border-box;
-}
-
-[data-theme="dark"] .desk-youtube-broadcasts {
-  background: #0C0A09;
-  border-color: #000000;
-  box-shadow: 6px 6px 0px #000000;
-}
-
-@media (max-width: 640px) {
-  .desk-youtube-broadcasts {
-    padding: 1.25rem 0.85rem !important;
-    margin: 2.5rem 0 3rem !important;
-  }
+  margin: 2.75rem 0 3.5rem;
 }
 
 .yt-network-header {
