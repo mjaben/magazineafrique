@@ -310,16 +310,29 @@ if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
                     </ul>
                 </li>
 
-                <!-- Lifestyle & Culture -->
+                <!-- Lifestyle (Pure African Luxury, Living & Style) -->
                 <li class="drawer-has-submenu">
-                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Lifestyle &amp; Culture</a>
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Lifestyle &amp; Living</a>
                     <ul class="drawer-sub-links">
                         <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Living &amp; Style</a></li>
-                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">Culture &amp; Heritage</a></li>
-                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health &amp; Wellness</a></li>
-                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's &amp; Guides</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">African Haute Couture</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Travel &amp; Escapes</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Design &amp; Architecture</a></li>
                     </ul>
                 </li>
+
+                <!-- Health & Wellness (Distinct from Lifestyle) -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Health &amp; Longevity</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Public Health &amp; Research</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Wellness &amp; Longevity</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Botanicals &amp; Nutrition</a></li>
+                    </ul>
+                </li>
+
+                <!-- How-To's (Distinct from Lifestyle) -->
+                <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> How-To's &amp; Manuals</a></li>
 
                 <!-- Entertainment -->
                 <li class="drawer-has-submenu">

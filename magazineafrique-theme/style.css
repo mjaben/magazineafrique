@@ -4,7 +4,7 @@ Theme URI: https://magazineafrique.org
 Author: Magazine Afrique Team
 Author URI: https://magazineafrique.org
 Description: A modern, ultra-fast, African-rooted editorial theme for Magazine Afrique. Features warm alabaster light mode, server-side paywall engine, Google-compliant NewsArticle SEO schema, zero-CLS Google Ads containers, and newsletter integration.
-Version: 1.7.0
+Version: 1.7.1
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
@@ -893,31 +893,10 @@ Text Domain: magazineafrique
 }
 
 /* ==========================================================================
-   EDITORIAL MASTHEAD FOOTER & CENTERED RULE DIVIDER
+   EDITORIAL MASTHEAD FOOTER
    ========================================================================== */
 .footer-editorial-rule {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin: 3.5rem auto 1.5rem;
-  padding: 0 1rem;
-  max-width: 1200px;
-  color: #D4AF37;
-}
-
-.footer-editorial-rule .rule-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
-}
-
-.footer-editorial-rule .rule-glyph {
-  font-size: 1.125rem;
-  color: #D4AF37;
-  opacity: 0.9;
-  user-select: none;
-  line-height: 1;
+  display: none !important;
 }
 
 .site-footer {

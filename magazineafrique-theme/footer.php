@@ -14,13 +14,6 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
 }
 ?>
 
-<!-- Centered Pan-African Editorial Rule Divider -->
-<div class="footer-editorial-rule container-editorial" aria-hidden="true">
-    <span class="rule-line"></span>
-    <span class="rule-glyph">❖</span>
-    <span class="rule-line"></span>
-</div>
-
 <footer class="site-footer" id="colophon">
     <div class="container-editorial">
         <!-- Top Editorial Masthead Banner -->

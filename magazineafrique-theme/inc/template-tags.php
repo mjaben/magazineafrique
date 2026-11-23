@@ -130,18 +130,33 @@ if (!function_exists('magazineafrique_render_editorial_nav')) {
                 </ul>
             </li>
 
-            <!-- 4. Lifestyle & Living (with sub-menu - Essence Style) -->
+            <!-- 4. Lifestyle & Living (Pure African Luxury, Fashion, Design & Travel - NOT News, NOT Health, NOT How-To's) -->
             <li class="menu-item menu-item-has-children">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Lifestyle</a>
                 <ul class="sub-menu">
                     <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Living &amp; Style</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">Culture &amp; Heritage</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health &amp; Wellness</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's &amp; Guides</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">African Haute Couture</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Travel &amp; Escapes</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Design &amp; Architecture</a></li>
                 </ul>
             </li>
 
-            <!-- 5. Entertainment & Culture (with sub-menu) -->
+            <!-- 5. Health & Longevity (Distinct from Lifestyle) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Public Health &amp; Research</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Wellness &amp; Longevity</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Botanicals &amp; Nutrition</a></li>
+                </ul>
+            </li>
+
+            <!-- 6. How-To's & Practical Guides (Distinct from Lifestyle) -->
+            <li class="menu-item">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's</a>
+            </li>
+
+            <!-- 7. Entertainment & Culture (with sub-menu) -->
             <li class="menu-item menu-item-has-children">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Entertainment</a>
                 <ul class="sub-menu">
@@ -150,22 +165,27 @@ if (!function_exists('magazineafrique_render_editorial_nav')) {
                 </ul>
             </li>
 
-            <!-- 6. Sports -->
+            <!-- 8. Sports -->
             <li class="menu-item">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('sports')); ?>">Sports</a>
             </li>
 
-            <!-- 7. Education -->
+            <!-- 9. Education -->
             <li class="menu-item">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('education')); ?>">Education</a>
             </li>
 
-            <!-- 8. Biography -->
+            <!-- 10. Biography -->
             <li class="menu-item">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>">Biography</a>
             </li>
 
-            <!-- 9. Opinion & Commentary (with sub-menu) -->
+            <!-- 11. Culture & History -->
+            <li class="menu-item">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">History &amp; Archive</a>
+            </li>
+
+            <!-- 12. Opinion & Commentary (with sub-menu) -->
             <li class="menu-item menu-item-has-children">
                 <a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">Opinion</a>
                 <ul class="sub-menu">
@@ -174,7 +194,7 @@ if (!function_exists('magazineafrique_render_editorial_nav')) {
                 </ul>
             </li>
 
-            <!-- 10. Club Prestige -->
+            <!-- 13. Club Prestige -->
             <li class="nav-item-prestige"><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige</a></li>
         </ul>
         <?php
