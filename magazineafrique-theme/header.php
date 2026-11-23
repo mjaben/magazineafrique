@@ -201,23 +201,26 @@
 <!-- Desktop Calm Category Navigation Bar -->
 <nav class="desktop-editorial-nav" aria-label="Main Navigation">
     <div class="container-editorial">
-        <ul class="editorial-nav-list">
-            <li><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
-            <?php
-            $nav_cats = get_categories(array('number' => 7, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC', 'exclude' => array(1)));
-            foreach ($nav_cats as $cat) {
-                if (strtolower($cat->slug) === 'uncategorized') continue;
-                echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
-            }
-            ?>
-            <li class="nav-item-prestige"><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige</a></li>
-        </ul>
+        <?php
+        if (has_nav_menu('primary')) {
+            wp_nav_menu(array(
+                'theme_location' => 'primary',
+                'container'      => false,
+                'menu_class'     => 'editorial-nav-list',
+                'depth'          => 3,
+                'fallback_cb'    => 'magazineafrique_render_editorial_nav',
+            ));
+        } else {
+            magazineafrique_render_editorial_nav();
+        }
+        ?>
     </div>
 </nav>
 
 <?php 
 // Header Leaderboard Ad Slot (Slot 4687046934)
-if (function_exists('magazineafrique_render_ad_header')) {
+// Only show on non-front-page to keep homepage hero strictly 100% visible in the above-the-fold viewport!
+if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
     magazineafrique_render_ad_header();
 }
 ?>
@@ -271,15 +274,79 @@ if (function_exists('magazineafrique_render_ad_header')) {
 
         <!-- Broadsheet Categorized Navigation -->
         <nav class="drawer-nav-content">
-            <div class="drawer-section-heading">— EDITORIAL DESKS —</div>
+            <div class="drawer-section-heading">— EDITORIAL DESKS &amp; WIRE —</div>
             <ul class="drawer-menu-links">
                 <li><a href="<?php echo esc_url(home_url('/')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">❖</span> Gazette Front Page</a></li>
-                <?php
-                foreach ($nav_cats as $cat) {
-                    if (strtolower($cat->slug) === 'uncategorized') continue;
-                    echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '" class="drawer-link-item"><span class="drawer-item-bullet">·</span> ' . esc_html($cat->name) . '</a></li>';
-                }
-                ?>
+                
+                <!-- News Desk -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> News &amp; Geopolitics</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>">International News</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('politics')); ?>">Politics</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('africa')); ?>">Africa Wire</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('better-nigeria')); ?>">Better Nigeria</a></li>
+                    </ul>
+                </li>
+
+                <!-- Business Desk -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Business &amp; Economy</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>">Markets &amp; Enterprise</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('economy')); ?>">Economy &amp; AfCFTA</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech &amp; Banking</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Crypto &amp; Digital Assets</a></li>
+                    </ul>
+                </li>
+
+                <!-- Technology Desk -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Technology &amp; Innovation</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>">Tech Innovations &amp; AI</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech Infrastructure</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Web3 &amp; Blockchain</a></li>
+                    </ul>
+                </li>
+
+                <!-- Lifestyle & Culture -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Lifestyle &amp; Culture</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Living &amp; Style</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">Culture &amp; Heritage</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health &amp; Wellness</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's &amp; Guides</a></li>
+                    </ul>
+                </li>
+
+                <!-- Entertainment -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Entertainment &amp; Celebrities</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Music &amp; Cinema</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('celebrities')); ?>">Celebrities &amp; Icons</a></li>
+                    </ul>
+                </li>
+
+                <!-- Sports -->
+                <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('sports')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Sports</a></li>
+
+                <!-- Education -->
+                <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('education')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Education &amp; Academia</a></li>
+
+                <!-- Biography -->
+                <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Biography &amp; Changemakers</a></li>
+
+                <!-- Opinion -->
+                <li class="drawer-has-submenu">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>" class="drawer-link-item"><span class="drawer-item-bullet">·</span> Opinion &amp; Chronicle</a>
+                    <ul class="drawer-sub-links">
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">The Gazette Chronicle</a></li>
+                        <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('editorial')); ?>">Editorial Board</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="drawer-section-heading" style="margin-top: 1.5rem;">— READER SERVICES &amp; WIRE —</div>

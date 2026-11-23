@@ -80,18 +80,147 @@ if (!function_exists('magazineafrique_posted_by')) {
 }
 
 /**
+ * Desktop Nav Menu Fallback with Rich Editorial Categories & Sub-menus
+ */
+if (!function_exists('magazineafrique_get_cat_url')) {
+    function magazineafrique_get_cat_url($slug) {
+        $cat = get_category_by_slug($slug);
+        if ($cat) {
+            return get_category_link($cat->term_id);
+        }
+        return home_url('/category/' . sanitize_title($slug) . '/');
+    }
+}
+
+if (!function_exists('magazineafrique_render_editorial_nav')) {
+    function magazineafrique_render_editorial_nav() {
+        ?>
+        <ul class="editorial-nav-list">
+            <li class="menu-item"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
+            
+            <!-- 1. News & Geopolitics (with sub-menu) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>">News</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>">International News</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('politics')); ?>">Politics</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('africa')); ?>">Africa Wire</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('better-nigeria')); ?>">Better Nigeria</a></li>
+                </ul>
+            </li>
+
+            <!-- 2. Business & Economy (with sub-menu) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>">Business</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>">Markets &amp; Enterprise</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('economy')); ?>">Economy &amp; AfCFTA</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech &amp; Banking</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Crypto &amp; Digital Assets</a></li>
+                </ul>
+            </li>
+
+            <!-- 3. Technology (with sub-menu) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>">Technology</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>">Tech Innovations &amp; AI</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech Leapfrogging</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Web3 &amp; Blockchain</a></li>
+                </ul>
+            </li>
+
+            <!-- 4. Lifestyle & Living (with sub-menu - Essence Style) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Lifestyle</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Living &amp; Style</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">Culture &amp; Heritage</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health &amp; Wellness</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's &amp; Guides</a></li>
+                </ul>
+            </li>
+
+            <!-- 5. Entertainment & Culture (with sub-menu) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Entertainment</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Music &amp; Cinema</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('celebrities')); ?>">Celebrities &amp; Icons</a></li>
+                </ul>
+            </li>
+
+            <!-- 6. Sports -->
+            <li class="menu-item">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('sports')); ?>">Sports</a>
+            </li>
+
+            <!-- 7. Education -->
+            <li class="menu-item">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('education')); ?>">Education</a>
+            </li>
+
+            <!-- 8. Biography -->
+            <li class="menu-item">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>">Biography</a>
+            </li>
+
+            <!-- 9. Opinion & Commentary (with sub-menu) -->
+            <li class="menu-item menu-item-has-children">
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">Opinion</a>
+                <ul class="sub-menu">
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">The Gazette Chronicle</a></li>
+                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('editorial')); ?>">Editorial Board</a></li>
+                </ul>
+            </li>
+
+            <!-- 10. Club Prestige -->
+            <li class="nav-item-prestige"><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige</a></li>
+        </ul>
+        <?php
+    }
+}
+
+/**
+ * Safely query posts by slug(s) or fallback to latest posts
+ */
+if (!function_exists('magazineafrique_query_category_posts')) {
+    function magazineafrique_query_category_posts($slugs, $count = 3, $exclude_ids = array()) {
+        if (!is_array($slugs)) {
+            $slugs = array($slugs);
+        }
+        $args = array(
+            'category_name'       => implode(',', $slugs),
+            'posts_per_page'      => $count,
+            'post_status'         => 'publish',
+            'ignore_sticky_posts' => 1,
+        );
+        if (!empty($exclude_ids)) {
+            $args['post__not_in'] = $exclude_ids;
+        }
+        $query = new WP_Query($args);
+        // Fallback to latest posts if category is empty or does not have enough posts
+        if (!$query->have_posts()) {
+            $fallback_args = array(
+                'posts_per_page'      => $count,
+                'post_status'         => 'publish',
+                'ignore_sticky_posts' => 1,
+            );
+            if (!empty($exclude_ids)) {
+                $fallback_args['post__not_in'] = $exclude_ids;
+            }
+            $query = new WP_Query($fallback_args);
+        }
+        return $query;
+    }
+}
+
+/**
  * Desktop Nav Menu Fallback
  */
 if (!function_exists('magazineafrique_desktop_menu_fallback')) {
     function magazineafrique_desktop_menu_fallback() {
-        echo '<ul class="nav-links">';
-        echo '<li><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
-        $cats = get_categories(array('number' => 7, 'hide_empty' => false, 'orderby' => 'count', 'order' => 'DESC'));
-        foreach ($cats as $cat) {
-            echo '<li><a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
-        }
-        echo '<li><a href="' . esc_url(home_url('/subscribe/')) . '" style="color: #D97706;">★ Club Prestige</a></li>';
-        echo '</ul>';
+        magazineafrique_render_editorial_nav();
     }
 }
 

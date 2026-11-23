@@ -2354,10 +2354,10 @@ body.magafrique-users-grid-mode form {
   display: none !important;
 }
 
-/* Flexbox Multi-Column Grid Architecture (Guaranteed Never to Collapse in Chrome/Blink) */
+/* CSS Grid Multi-Column Architecture (Guaranteed Responsive Multi-Column Grid in all Browsers) */
 .plugins-php .wp-list-table.plugins tbody {
-  display: flex !important;
-  flex-wrap: wrap !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
   gap: 1.25rem !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -2373,9 +2373,10 @@ body.magafrique-users-grid-mode form {
 .plugins-php .wp-list-table.plugins tr.inactive {
   display: flex !important;
   flex-direction: column !important;
-  flex: 1 1 340px !important;
-  min-width: 290px !important;
-  max-width: calc(33.333% - 0.85rem) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
   background: #171513 !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 8px !important;
@@ -2383,51 +2384,33 @@ body.magafrique-users-grid-mode form {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease !important;
   position: relative !important;
-  box-sizing: border-box !important;
   height: auto !important;
-}
-
-@media (min-width: 1600px) {
-  .plugins-php .wp-list-table.plugins tr.active,
-  .plugins-php .wp-list-table.plugins tr.inactive {
-    max-width: calc(25% - 0.95rem) !important;
-  }
-}
-
-@media (max-width: 1100px) {
-  .plugins-php .wp-list-table.plugins tr.active,
-  .plugins-php .wp-list-table.plugins tr.inactive {
-    max-width: calc(50% - 0.65rem) !important;
-  }
-}
-
-@media (max-width: 680px) {
-  .plugins-php .wp-list-table.plugins tr.active,
-  .plugins-php .wp-list-table.plugins tr.inactive {
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
-    min-width: 100% !important;
-  }
+  margin: 0 !important;
 }
 
 /* ZERO GREEN: Distinct Savannah Gold for Active Plugins */
-.plugins-php .wp-list-table.plugins tr.active {
-  border-left: 4px solid #D97706 !important;
-  background: #191714 !important;
-}
-
+.plugins-php .wp-list-table.plugins tr.active,
 .plugins-php .wp-list-table.plugins tr.active th,
 .plugins-php .wp-list-table.plugins tr.active td,
-.plugins-php .wp-list-table.plugins tr.active th.check-column,
+.plugins tr.active,
 .plugins tr.active th,
 .plugins tr.active td {
-  border-left: none !important;
+  border-left: 4px solid #D97706 !important;
   box-shadow: none !important;
 }
 
-.plugins-php .wp-list-table.plugins tr.inactive {
+.plugins-php .wp-list-table.plugins tr.active {
+  background: #191714 !important;
+}
+
+.plugins-php .wp-list-table.plugins tr.inactive,
+.plugins-php .wp-list-table.plugins tr.inactive th,
+.plugins-php .wp-list-table.plugins tr.inactive td,
+.plugins tr.inactive,
+.plugins tr.inactive th,
+.plugins tr.inactive td {
   border-left: 4px solid rgba(255, 255, 255, 0.18) !important;
-  opacity: 0.9 !important;
+  box-shadow: none !important;
 }
 
 .plugins-php .wp-list-table.plugins tr:hover {
@@ -2553,10 +2536,10 @@ body.magafrique-users-grid-mode .wp-list-table.users tfoot {
   display: none !important;
 }
 
-/* Flexbox Multi-Column Grid Architecture (Guaranteed Never to Collapse in Chrome/Blink) */
+/* CSS Grid Multi-Column Architecture (Guaranteed Responsive Multi-Column Grid in all Browsers) */
 body.magafrique-users-grid-mode .wp-list-table.users tbody {
-  display: flex !important;
-  flex-wrap: wrap !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
   gap: 1.25rem !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -2571,9 +2554,10 @@ body.magafrique-users-grid-mode .wp-list-table.users tbody {
 body.magafrique-users-grid-mode .wp-list-table.users tr {
   display: flex !important;
   flex-direction: column !important;
-  flex: 1 1 320px !important;
-  min-width: 290px !important;
-  max-width: calc(33.333% - 0.85rem) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
   background: #171513 !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 8px !important;
@@ -2581,28 +2565,8 @@ body.magafrique-users-grid-mode .wp-list-table.users tr {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease !important;
   position: relative !important;
-  box-sizing: border-box !important;
   height: auto !important;
-}
-
-@media (min-width: 1600px) {
-  body.magafrique-users-grid-mode .wp-list-table.users tr {
-    max-width: calc(25% - 0.95rem) !important;
-  }
-}
-
-@media (max-width: 1100px) {
-  body.magafrique-users-grid-mode .wp-list-table.users tr {
-    max-width: calc(50% - 0.65rem) !important;
-  }
-}
-
-@media (max-width: 680px) {
-  body.magafrique-users-grid-mode .wp-list-table.users tr {
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
-    min-width: 100% !important;
-  }
+  margin: 0 !important;
 }
 
 body.magafrique-users-grid-mode .wp-list-table.users tr:hover {
