@@ -31,8 +31,100 @@ if (!function_exists('magazineafrique_init_session')) {
 }
 
 /**
- * 2. Virtual Router & Auto Page Creator (Guarantees zero 404s for /subscribe/, /login/, /profile/, /onboarding/, /notifications/)
+ * 2. Virtual Router & Auto Page Creator (Guarantees zero 404s for /feed/, /subscribe/, /login/, /profile/, /onboarding/, /notifications/)
  */
+if (!function_exists('magazineafrique_handle_virtual_routes')) {
+    function magazineafrique_handle_virtual_routes() {
+        global $wp_query;
+        $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+        // Route: /feed/ (Browser view for reader personalized feed)
+        if ($path === 'feed' || $path === 'wire' || $path === 'for-you') {
+            $accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
+            // If explicit RSS reader client, let WP handle RSS XML
+            if (strpos($accept, 'application/rss+xml') !== false || strpos($accept, 'application/xml') !== false) {
+                return;
+            }
+            $feed_template = get_template_directory() . '/template-feed.php';
+            if (file_exists($feed_template)) {
+                status_header(200);
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $feed_template;
+                exit;
+            }
+        }
+
+        // Route: /login/ or /signin/
+        if ($path === 'login' || $path === 'signin') {
+            $onboarding_template = get_template_directory() . '/template-onboarding.php';
+            if (file_exists($onboarding_template)) {
+                status_header(200);
+                $_GET['mode'] = 'login';
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $onboarding_template;
+                exit;
+            }
+        }
+
+        // Route: /onboarding/ or /register/ or /join/ or /enroll/
+        if ($path === 'onboarding' || $path === 'register' || $path === 'join' || $path === 'enroll') {
+            $onboarding_template = get_template_directory() . '/template-onboarding.php';
+            if (file_exists($onboarding_template)) {
+                status_header(200);
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $onboarding_template;
+                exit;
+            }
+        }
+
+        // Route: /subscribe/ or /club/ or /prestige/ or /membership/ or /plans/
+        if ($path === 'subscribe' || $path === 'club' || $path === 'prestige' || $path === 'membership' || $path === 'plans') {
+            $subscribe_template = get_template_directory() . '/template-subscribe.php';
+            if (file_exists($subscribe_template)) {
+                status_header(200);
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $subscribe_template;
+                exit;
+            }
+        }
+
+        // Route: /profile/ or /edit-profile/
+        if ($path === 'profile' || $path === 'edit-profile') {
+            $profile_template = get_template_directory() . '/template-profile.php';
+            if (file_exists($profile_template)) {
+                status_header(200);
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $profile_template;
+                exit;
+            }
+        }
+
+        // Route: /notifications/ or /alerts/
+        if ($path === 'notifications' || $path === 'alerts') {
+            $notif_template = get_template_directory() . '/template-notifications.php';
+            if (file_exists($notif_template)) {
+                status_header(200);
+                if (isset($wp_query)) {
+                    $wp_query->is_404 = false;
+                }
+                include $notif_template;
+                exit;
+            }
+        }
+    }
+    add_action('template_redirect', 'magazineafrique_handle_virtual_routes', 1);
+}
+
 if (!function_exists('magazineafrique_route_profile_pages')) {
     function magazineafrique_route_profile_pages($template) {
         $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -62,6 +154,7 @@ if (!function_exists('magazineafrique_route_profile_pages')) {
             $onboarding_template = __DIR__ . '/../template-onboarding.php';
             if (file_exists($onboarding_template)) {
                 status_header(200);
+                $_GET['mode'] = 'login';
                 return $onboarding_template;
             }
         }
@@ -99,15 +192,19 @@ if (!function_exists('magazineafrique_route_profile_pages')) {
 }
 
 /**
- * Programmatically create Profile, Onboarding, Subscribe, Login, and Notifications pages in WP database
+ * Programmatically create Profile, Onboarding, Subscribe, Login, Feed, and Notifications pages in WP database
  */
 if (!function_exists('magazineafrique_ensure_system_pages')) {
     function magazineafrique_ensure_system_pages() {
-        if (get_transient('magafrique_pages_checked_v3')) {
+        if (get_transient('magafrique_pages_checked_v5')) {
             return;
         }
 
         $pages = array(
+            'feed' => array(
+                'title'    => 'The Pan-African Reader Feed',
+                'template' => 'template-feed.php'
+            ),
             'profile' => array(
                 'title'    => 'Reader Profile',
                 'template' => 'template-profile.php'
@@ -157,7 +254,7 @@ if (!function_exists('magazineafrique_ensure_system_pages')) {
             flush_rewrite_rules(false);
         }
 
-        set_transient('magafrique_pages_checked_v3', true, DAY_IN_SECONDS);
+        set_transient('magafrique_pages_checked_v5', true, DAY_IN_SECONDS);
     }
     add_action('init', 'magazineafrique_ensure_system_pages', 20);
 }

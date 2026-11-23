@@ -135,6 +135,15 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
         <span class="vintage-nav-label">Gazette</span>
     </a>
 
+    <a href="<?php echo esc_url(home_url('/feed/')); ?>" class="vintage-nav-item <?php echo (is_page('feed') || is_page('live-feed') || trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === 'feed') ? 'active' : ''; ?>">
+        <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 11a9 9 0 0 1 9 9"></path>
+            <path d="M4 4a16 16 0 0 1 16 16"></path>
+            <circle cx="5" cy="19" r="1"></circle>
+        </svg>
+        <span class="vintage-nav-label">Feed</span>
+    </a>
+
     <button type="button" id="bottom-menu-toggle" class="vintage-nav-item" aria-label="Open Categories Menu">
         <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
@@ -168,7 +177,7 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
             <span class="vintage-nav-label">Profile</span>
         </a>
     <?php else : ?>
-        <a href="<?php echo esc_url(home_url('/login/')); ?>" class="vintage-nav-item <?php echo is_page('login') ? 'active' : ''; ?>">
+        <a href="<?php echo esc_url(home_url('/onboarding/?mode=login')); ?>" class="vintage-nav-item <?php echo (is_page('login') || (is_page('onboarding') && isset($_GET['mode']) && $_GET['mode'] === 'login')) ? 'active' : ''; ?>">
             <svg class="vintage-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
                 <polyline points="10 17 15 12 10 7"/>

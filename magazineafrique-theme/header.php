@@ -146,7 +146,7 @@
                     <span class="reader-pill-icon">👤</span>
                 </a>
             <?php else : ?>
-                <a href="<?php echo esc_url(home_url('/login/')); ?>" class="header-auth-text-link" title="Reader Sign In / Enroll">
+                <a href="<?php echo esc_url(home_url('/onboarding/?mode=login')); ?>" class="header-auth-text-link" title="Reader Sign In / Enroll">
                     Sign In
                 </a>
             <?php endif; ?>
@@ -267,7 +267,7 @@ if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
                 </div>
                 <div class="session-actions-row">
                     <a href="<?php echo esc_url(home_url('/onboarding/')); ?>" class="vintage-session-btn btn-enroll">[ ✍ Enroll Free ]</a>
-                    <a href="<?php echo esc_url(home_url('/login/')); ?>" class="vintage-session-btn">[ ⎆ Sign In ]</a>
+                    <a href="<?php echo esc_url(home_url('/onboarding/?mode=login')); ?>" class="vintage-session-btn">[ ⎆ Sign In ]</a>
                 </div>
             </div>
         <?php endif; ?>

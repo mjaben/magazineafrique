@@ -92,6 +92,8 @@ if (!function_exists('magazineafrique_enqueue_adsense_script')) {
                 margin: 1.5rem auto;
                 text-align: center;
                 clear: both;
+                width: 100%;
+                box-sizing: border-box;
             }
             .vintage-ad-label {
                 font-family: 'JetBrains Mono', monospace;
@@ -103,19 +105,90 @@ if (!function_exists('magazineafrique_enqueue_adsense_script')) {
                 margin-bottom: 0.35rem;
             }
             .vintage-ad-box {
-                background: var(--bg-card-subtle, #EFE9DE);
+                background: transparent;
                 border: 1px dashed var(--border-color, #4A433B);
                 padding: 0.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
                 margin: 0 auto;
+                position: relative;
                 overflow: hidden;
             }
+            .vintage-ad-box ins.adsbygoogle {
+                display: block !important;
+                width: 100% !important;
+                min-width: 280px;
+                min-height: 90px;
+            }
+            .vintage-ad-box ins.adsbygoogle[data-ad-status="unfilled"] {
+                display: none !important;
+            }
             [data-theme="dark"] .vintage-ad-box {
-                background: #24211E;
                 border-color: #3D3730;
+            }
+            .ad-house-fallback {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 1rem 1.5rem;
+                background: linear-gradient(135deg, #171513 0%, #2A241F 100%);
+                color: #FAF7F2;
+                border: 2px solid #000000;
+                box-shadow: 4px 4px 0px #000000;
+                border-radius: 3px;
+                text-align: left;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .ad-house-fallback-left {
+                flex: 1 1 300px;
+            }
+            .ad-house-fallback-kicker {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.625rem;
+                font-weight: 800;
+                color: #D97706;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.2rem;
+            }
+            .ad-house-fallback-title {
+                font-family: 'Playfair Display', Georgia, serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #FAF7F2;
+                margin: 0 0 0.25rem;
+                line-height: 1.3;
+            }
+            .ad-house-fallback-desc {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                font-size: 0.78rem;
+                color: #D6CEC3;
+                margin: 0;
+                line-height: 1.4;
+            }
+            .ad-house-fallback-btn {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                font-size: 0.75rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                background-color: #B85D18;
+                color: #FAF7F2 !important;
+                padding: 0.55rem 1.1rem;
+                border: 2px solid #000000;
+                box-shadow: 3px 3px 0px #000000;
+                border-radius: 2px;
+                text-decoration: none !important;
+                white-space: nowrap;
+                transition: transform 0.15s ease;
+            }
+            .ad-house-fallback-btn:hover {
+                background-color: #C25E00;
+                transform: translate(-1px, -1px);
             }
         </style>
         <?php
@@ -160,6 +233,16 @@ if (!function_exists('magazineafrique_render_ad_header')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback">
+                    <div class="ad-house-fallback-left">
+                        <div class="ad-house-fallback-kicker">✦ Pan-African Brand Reach Inventory</div>
+                        <h4 class="ad-house-fallback-title">Reach 1.8M+ Continental Decision Makers &amp; Founders</h4>
+                        <p class="ad-house-fallback-desc">Promote your brand directly across our investigative dossiers and regional economic briefings.</p>
+                    </div>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn">
+                        Reserve Ad Space →
+                    </a>
+                </div>
             </div>
         </div>
         <?php
@@ -335,6 +418,16 @@ if (!function_exists('magazineafrique_render_ad_bottom')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback">
+                    <div class="ad-house-fallback-left">
+                        <div class="ad-house-fallback-kicker">✦ Pan-African Brand Reach Inventory</div>
+                        <h4 class="ad-house-fallback-title">Reach 1.8M+ Continental Decision Makers &amp; Founders</h4>
+                        <p class="ad-house-fallback-desc">Promote your brand directly across our investigative dossiers and regional economic briefings.</p>
+                    </div>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn">
+                        Reserve Ad Space →
+                    </a>
+                </div>
             </div>
         </div>
         <?php
@@ -362,6 +455,16 @@ if (!function_exists('magazineafrique_render_ad_mid_home')) {
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <div class="ad-house-fallback">
+                    <div class="ad-house-fallback-left">
+                        <div class="ad-house-fallback-kicker">✦ Pan-African Brand Reach Inventory</div>
+                        <h4 class="ad-house-fallback-title">Reach 1.8M+ Continental Decision Makers &amp; Founders</h4>
+                        <p class="ad-house-fallback-desc">Promote your brand directly across our investigative dossiers and regional economic briefings.</p>
+                    </div>
+                    <a href="<?php echo esc_url(home_url('/advertise/')); ?>" class="ad-house-fallback-btn">
+                        Reserve Ad Space →
+                    </a>
+                </div>
             </div>
         </div>
         <?php

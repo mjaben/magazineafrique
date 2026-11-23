@@ -320,7 +320,7 @@ get_header(); ?>
                             </a>
                         <?php endif; ?>
                         <div class="lifestyle-postcard-body">
-                            <h3 class="lifestyle-postcard-title vintage-newspaper-headline">
+                            <h3 class="lifestyle-postcard-title">
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h3>
                             <p class="lifestyle-postcard-excerpt">
@@ -503,10 +503,11 @@ get_header(); ?>
                 <div class="yt-shorts-rack">
                     <!-- Reel 1 -->
                     <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
+                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #292524 50%, #171513 100%);">
                             <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">▶</span>
+                            <span class="yt-short-play-badge">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                            </span>
                             <div class="yt-short-caption-wrap">
                                 <span class="yt-short-cat">#FINTECH</span>
                                 <p class="yt-short-title">How Lagos became Africa's trillion-dollar tech capital</p>
@@ -517,10 +518,11 @@ get_header(); ?>
 
                     <!-- Reel 2 -->
                     <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
+                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #171513 0%, #35261A 50%, #1C1917 100%);">
                             <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">▶</span>
+                            <span class="yt-short-play-badge">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                            </span>
                             <div class="yt-short-caption-wrap">
                                 <span class="yt-short-cat">#RESOURCES</span>
                                 <p class="yt-short-title">The rare earth deposits driving Africa's next economic surge</p>
@@ -531,10 +533,11 @@ get_header(); ?>
 
                     <!-- Reel 3 -->
                     <a href="https://www.youtube.com/@magazineafrique/shorts" target="_blank" rel="noopener" class="yt-short-reel-card">
-                        <div class="yt-short-aspect-wrap">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/african-city.png'); ?>" alt="Shorts Reel" class="yt-short-img" />
+                        <div class="yt-short-aspect-wrap" style="background: linear-gradient(135deg, #1C1917 0%, #2A2018 50%, #171513 100%);">
                             <div class="yt-short-scrim"></div>
-                            <span class="yt-short-play-badge">▶</span>
+                            <span class="yt-short-play-badge">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                            </span>
                             <div class="yt-short-caption-wrap">
                                 <span class="yt-short-cat">#LEADERSHIP</span>
                                 <p class="yt-short-title">Pan-African founders reshaping global finance &amp; logistics</p>
@@ -638,16 +641,25 @@ get_header(); ?>
                     $displayed_post_ids[] = get_the_ID();
             ?>
                 <article class="manual-guide-card">
-                    <div class="manual-guide-header">
-                        <span class="manual-step-badge">GUIDE #0<?php echo $h_num; ?></span>
-                        <span class="manual-type-pill">[ PRACTICAL MANUAL ]</span>
-                    </div>
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="manual-guide-thumb-wrap">
+                            <a href="<?php the_permalink(); ?>" class="manual-guide-thumb-link" aria-label="<?php the_title_attribute(); ?>">
+                                <?php the_post_thumbnail('magazine-card', array('class' => 'manual-guide-thumb-img', 'loading' => 'lazy')); ?>
+                            </a>
+                            <span class="manual-step-badge">GUIDE #0<?php echo $h_num; ?></span>
+                        </div>
+                    <?php else : ?>
+                        <div class="manual-guide-header">
+                            <span class="manual-step-badge">GUIDE #0<?php echo $h_num; ?></span>
+                            <span class="manual-type-pill">[ PRACTICAL MANUAL ]</span>
+                        </div>
+                    <?php endif; ?>
                     <div class="manual-guide-body">
                         <h3 class="manual-guide-title vintage-newspaper-headline">
                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                         </h3>
                         <p class="manual-guide-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
                         </p>
                     </div>
                     <div class="manual-guide-footer">
