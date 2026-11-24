@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Buy Ad Space / Brand Reach Advertising
- * Description: Dedicated broadsheet brand reach advertising booking page with live interactive CPM calculator and creative upload desk.
+ * Description: Dedicated broadsheet brand reach advertising booking page with live interactive daily rate calculator and creative upload desk.
  *
  * @package MagazineAfrique
  */
@@ -36,7 +36,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           <span class="ticker-val" style="color: #FBBF24;"><?php echo esc_html($rot_state ? $rot_state['shift_name'] : 'Shift Alpha'); ?> (RESET IN <?php echo esc_html($rot_state ? $rot_state['formatted_remaining'] : '05h 00m'); ?>)</span>
           <span style="color: #78716C; margin: 0 6px;">·</span>
           <span class="ticker-label">BASE RATE:</span>
-          <span class="ticker-val">₦2,000 / $2.00 CPM (1k Imps = 2k)</span>
+          <span class="ticker-val">₦2,000 / $2.00 per day (Min ₦2k/day · Max 56 Days)</span>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             Acquire Sovereign Continental Reach: Broadsheet Brand Display Inventory
           </h1>
           <p class="ad-hero-deck">
-            Magazine Afrique operates strictly on a guaranteed Brand Reach model. We do not run intrusive affiliate popups, deceptive redirects, or spammy performance clutter. Every booking secures verified Cost-Per-Thousand (CPM) impressions delivered directly to ministers, diplomats, C-suite executives, and institutional investors across Africa.
+            Magazine Afrique operates strictly on a continuous daily broadsheet placement model. We do not run intrusive affiliate popups, deceptive redirects, or spammy performance clutter. Every booking secures verified broadsheet placement per day delivered directly to ministers, diplomats, C-suite executives, and institutional investors across Africa.
           </p>
 
           <div class="ad-hero-actions">
@@ -97,7 +97,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             </div>
           </div>
           <div class="ad-hero-card-footer">
-            <span class="footer-guarantee">✓ Verified Impression Delivery · Cryptographic Audit Ledger</span>
+            <span class="footer-guarantee">✓ Continuous Daily Placement · Cryptographic Audit Ledger</span>
           </div>
         </div>
       </div>
@@ -525,16 +525,16 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             <h3 class="info-card-title">Broadsheet Brand Standards</h3>
             <ul class="standards-list">
               <li>
-                <strong>Brand Reach Guarantee:</strong> Your banner is served across high-authority analytical essays and broadsheet dispatches until your contracted impression count is 100% fulfilled.
+                <strong>Brand Reach Guarantee:</strong> Your banner is served continuously across high-authority analytical essays and broadsheet dispatches throughout your booked flight duration (1 to 56 days).
               </li>
               <li>
-                <strong>No Bot Fraud:</strong> Magazine Afrique uses server-side tokenized verification to filter automated scrapers and ensure real human reader impressions.
+                <strong>No Bot Fraud:</strong> Magazine Afrique uses server-side tokenized verification to filter automated scrapers and ensure real human executive readership.
               </li>
               <li>
-                <strong>Priority Slot Override:</strong> Direct Brand Reach partners take instant priority over programmatic Google AdSense slots.
+                <strong>Priority Slot Override:</strong> Direct Brand Reach partners take sovereign priority over programmatic Google AdSense slots throughout the active flight days.
               </li>
               <li>
-                <strong>Instant Reversion:</strong> Once contracted impressions are delivered, the slot seamlessly reverts to Google AdSense without causing layout shifts.
+                <strong>Instant Reversion:</strong> Once your booked flight period concludes, the slot seamlessly reverts to programmatic inventory without causing layout shifts.
               </li>
             </ul>
           </div>

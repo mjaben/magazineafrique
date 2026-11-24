@@ -1,16 +1,16 @@
 <?php
 /**
- * Magazine Afrique — Brand Reach Ad Inventory & CPM Booking Engine
+ * Magazine Afrique — Brand Reach Ad Inventory & Daily Rate Placement Engine
  * 
  * Rules:
- * - Brand Reach Only (Cost Per Mille / 1,000 Impressions model).
- * - Higher fees for good/premium spots (Masthead, Mid-Article) than lower spots (Bottom).
- * - Baseline CPM: ₦5,000 / 1,000 impressions.
+ * - Brand Reach Only (Daily Placement & Flight Duration Model, 1 to 56 Days).
+ * - Minimum rate starts at ₦2,000 / day ($2.00 / day) for lowest ad spot.
+ * - Optional Social Media Video Sponsorship (+₦30,000 / 4 Days / 100k views guaranteed).
  * - Spot Tiers:
- *   1. Prime Masthead Leaderboard (Top):       ₦10,000 ($10.00) / 1,000 impressions
- *   2. Mid-Dossier In-Article (Core Read):      ₦8,000  ($8.00)  / 1,000 impressions
- *   3. Continental Telegraph Sidebar (Sticky):  ₦6,500  ($6.50)  / 1,000 impressions
- *   4. Broadsheet Bottom Leaderboard (Footer):  ₦5,000  ($5.00)  / 1,000 impressions
+ *   1. Prime Masthead Leaderboard (Top):       ₦7,500 ($7.50) / day
+ *   2. Mid-Dossier In-Article (Core Read):      ₦5,000 ($5.00) / day
+ *   3. Continental Telegraph Sidebar (Sticky):  ₦3,500 ($3.50) / day
+ *   4. Broadsheet Bottom Leaderboard (Footer):  ₦2,000 ($2.00) / day (Base Rate)
  * 
  * @package MagazineAfrique
  */
@@ -415,8 +415,8 @@ if (!function_exists('magazineafrique_register_brand_ads_admin_menu')) {
 
         add_submenu_page(
             'magazineafrique-brand-ads',
-            'CPM Rates & Ad Spots',
-            'CPM Pricing & Spots',
+            'Daily Rates & Ad Spots',
+            'Daily Pricing & Spots',
             'manage_options',
             'magazineafrique-ad-rates',
             function() {
@@ -452,7 +452,7 @@ if (!function_exists('magazineafrique_register_brand_ads_admin_menu')) {
         // Also maintain under Gazette Desk
         add_submenu_page(
             'magazineafrique-desk',
-            'Brand Reach Ads — Inventory & CPM Campaigns',
+            'Brand Reach Ads — Inventory & Daily Campaigns',
             'Buy Ad Space (Brand Reach)' . $badge,
             'manage_options',
             'magazineafrique-brand-ads',
@@ -537,7 +537,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                     "Official Booking Reference : #{$camp->booking_code}\n" .
                     "Brand / Organization       : {$camp->brand_name}\n" .
                     "Selected Ad Space          : {$camp->spot_title}\n" .
-                    "Guaranteed Reach Delivery  : " . number_format($camp->impressions_booked) . " verified readers\n" .
+                    "Contracted Flight Duration : " . ($camp->days_booked ?? 7) . " day(s) continuous placement" . (!empty($camp->has_social_video) ? " + Social Video Feature (100k views)" : "") . "\n" .
                     "Contract Investment Total  : $formatted_total\n" .
                     "Destination URL            : {$camp->destination_url}\n" .
                     "====================================================\n\n" .
@@ -864,14 +864,14 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                         </div>
                     </div>
 
-                    <!-- Metric: Impressions Fulfilled -->
+                    <!-- Metric: Reader Views Fulfilled -->
                     <div style="background: #171513; border: 1px solid rgba(255,255,255,0.12); padding: 1.25rem; border-radius: 4px; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
-                        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Guaranteed Impressions</div>
+                        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;">Reader Views Served</div>
                         <div style="font-family: 'Geist Mono', monospace; font-size: 1.75rem; font-weight: 800; color: #FFFFFF;">
                             <?php echo number_format($total_impressions_served); ?>
                         </div>
                         <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #78716C; margin-top: 2px;">
-                            Booked: <?php echo number_format($total_impressions_booked); ?> (<?php echo ($total_impressions_booked > 0) ? round(($total_impressions_served / $total_impressions_booked) * 100, 1) : 0; ?>% delivered)
+                            Delivered across active daily broadsheet flights
                         </div>
                     </div>
 
@@ -1242,7 +1242,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 </div>
 
             <!-- ============================================================= -->
-            <!-- TAB 3: CPM PRICING & INVENTORY SPOTS                          -->
+            <!-- TAB 3: DAILY PRICING & INVENTORY SPOTS                        -->
             <!-- ============================================================= -->
             <?php elseif ($active_tab === 'rates') : ?>
 

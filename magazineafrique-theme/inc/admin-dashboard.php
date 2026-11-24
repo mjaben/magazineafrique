@@ -546,7 +546,7 @@ if (!function_exists('magazineafrique_render_admin_desk_page')) {
                             Direct Brand Reach &amp; Buy Ad Space Management Desk
                         </h3>
                         <p style="color: var(--art-text-sub); font-size: 13px; margin: 0 0 1rem; max-width: 650px; line-height: 1.5;">
-                            Review incoming advertiser creative banners, approve Eco Bank wire payments to launch ads live, chat directly with advertisers on WhatsApp, and configure sovereign CPM pricing rates.
+                            Review incoming advertiser creative banners, approve Eco Bank wire payments to launch ads live, chat directly with advertisers on WhatsApp, and configure sovereign daily placement rates.
                         </p>
                     </div>
                     <div>

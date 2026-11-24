@@ -379,7 +379,7 @@ if (!is_front_page() && function_exists('magazineafrique_render_ad_header')) {
                         <span class="prestige-star" style="color: #FBBF24;">📢</span>
                         <div>
                             <strong style="display:block; font-size: 0.8125rem; color: #FAF7F2;">Buy Ad Space (Brand Reach)</strong>
-                            <span style="font-size: 0.6875rem; color: #FBBF24;">Guaranteed 1,000s Impressions · 54 Countries</span>
+                            <span style="font-size: 0.6875rem; color: #FBBF24;">Daily Broadsheet Placement · 54 Countries</span>
                         </div>
                     </a>
                 </li>
