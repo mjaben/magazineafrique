@@ -185,7 +185,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             </div>
 
             <button type="button" class="select-spot-btn" onclick="selectSpotFromCard('<?php echo esc_attr($spot_key); ?>')" style="background: #D97706 !important; color: #171513 !important; border: 1.5px solid #D97706 !important; font-weight: 800 !important; cursor: pointer;">
-              <span>Select This Space</span>
+              <span><?php echo $spot_key === 'header_masthead' ? '✓ Selected Space' : 'Select This Space'; ?></span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left: 6px; display: inline-block; vertical-align: middle;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </div>
@@ -760,7 +760,12 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
   window.selectSpotFromCard = function(spotKey) {
     $('.ad-spot-card').removeClass('is-selected');
-    $('.ad-spot-card[data-spot-key="' + spotKey + '"]').addClass('is-selected');
+    $('.select-spot-btn span').text('Select This Space');
+
+    var $card = $('.ad-spot-card[data-spot-key="' + spotKey + '"]');
+    $card.addClass('is-selected');
+    $card.find('.select-spot-btn span').text('✓ Selected Space');
+
     $('input[name="calc_spot"][value="' + spotKey + '"]').prop('checked', true).trigger('change');
     // Smooth scroll to calculator
     var target = document.getElementById('ad-calculator');
