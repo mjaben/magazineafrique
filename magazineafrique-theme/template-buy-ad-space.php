@@ -111,7 +111,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
         <span class="section-kicker">AVAILABLE DISPLAY INVENTORY</span>
         <h2 class="section-title">Continental Ad Spots &amp; Broadsheet Placement</h2>
         <p class="section-desc">
-          Pricing is strictly tiered according to placement prominence. Prime top-of-site positions command an elevated reach premium, while broadsheet baseline positions start at our accessible ₦2,000 (2k) base rate per 1,000 impressions.
+          Pricing is strictly tiered according to placement prominence. Prime top-of-site positions command an elevated reach premium, while broadsheet baseline positions start at our accessible ₦2,000 (2k) base rate per day. Advertisers can choose flight duration from 1 day up to 56 days maximum.
         </p>
       </div>
 
@@ -122,7 +122,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           <div class="policy-card-tag">CONTINENTAL INVENTORY STANDARD</div>
           <h3 class="policy-card-title">5-Hour Balanced Space Rotation Protocol</h3>
           <p class="policy-card-text">
-            To prevent ad clutter and maintain a fair balance with programmatic Google Ads across our 54 jurisdictions, brand reach ad spaces rotate in dedicated <strong>5-hour high-attention shifts</strong>. Direct brand ads and Google Ads are strictly exclusive and never collide in the same spot. <strong>Your contracted CPM impressions only decrement when your banner is actively delivered</strong> during live rotation windows.
+            To prevent ad clutter and maintain a fair balance with programmatic Google Ads across our 54 jurisdictions, brand reach ad spaces rotate in dedicated <strong>5-hour high-attention shifts</strong>. Direct brand ads and Google Ads are strictly exclusive and never collide in the same spot. <strong>Your contracted daily broadsheet placement runs actively throughout your booked flight window</strong> during live direct shifts.
           </p>
         </div>
         <div class="policy-card-status">
@@ -135,7 +135,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
       <div class="ad-inventory-grid">
         <?php foreach ($spots_matrix as $spot_key => $spot): ?>
-          <div class="ad-spot-card <?php echo $spot_key === 'header_masthead' ? 'is-prime is-selected' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
+          <div class="ad-spot-card <?php echo $spot_key === 'header_masthead' ? 'is-prime is-selected' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-daily-ngn="<?php echo esc_attr($spot['daily_rate_ngn'] ?? $spot['cpm_ngn']); ?>" data-daily-usd="<?php echo esc_attr($spot['daily_rate_usd'] ?? $spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
             <div class="spot-card-badge-row">
               <span class="spot-tag"><?php echo esc_html($spot['badge']); ?></span>
               <span class="spot-tier-chip"><?php
@@ -176,12 +176,12 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             </div>
 
             <div class="spot-pricing-block">
-              <span class="rate-prefix">BRAND REACH RATE</span>
+              <span class="rate-prefix">DAILY PLACEMENT RATE</span>
               <div class="rate-number">
-                <span class="currency-symbol">₦</span><?php echo number_format($spot['cpm_ngn']); ?>
-                <span class="rate-unit">/ 1,000 imps</span>
+                <span class="currency-symbol">₦</span><?php echo number_format($spot['daily_rate_ngn'] ?? $spot['cpm_ngn']); ?>
+                <span class="rate-unit">/ day</span>
               </div>
-              <span class="usd-alt">Equivalent to $<?php echo number_format($spot['cpm_usd'], 2); ?> USD CPM</span>
+              <span class="usd-alt">Equivalent to $<?php echo number_format($spot['daily_rate_usd'] ?? $spot['cpm_usd'], 2); ?> USD / day</span>
             </div>
 
             <button type="button" class="select-spot-btn" onclick="selectSpotFromCard('<?php echo esc_attr($spot_key); ?>')" style="background: #D97706 !important; color: #171513 !important; border: 1.5px solid #D97706 !important; font-weight: 800 !important; cursor: pointer;">
@@ -191,17 +191,63 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           </div>
         <?php endforeach; ?>
       </div>
+
+      <!-- Social Media Video Sponsorship Spotlight Card -->
+      <div class="social-video-spotlight-card">
+        <div class="social-spotlight-badge-row">
+          <span class="social-spotlight-tag">MULTI-CHANNEL VIDEO SYNDICATION</span>
+          <span class="social-feature-chip">FIXED FEE PACKAGE</span>
+        </div>
+        <div class="social-spotlight-grid">
+          <div class="social-spotlight-text">
+            <h3 class="social-spotlight-title">Also Feature Your Brand in Our Social Media Videos</h3>
+            <p class="social-spotlight-desc">
+              Deliver viral institutional reach across Magazine Afrique video broadcasts on <strong>YouTube Shorts, TikTok, Instagram Reels &amp; X Video</strong>.
+            </p>
+            <div class="social-spotlight-perks-row">
+              <div class="social-perk-item">
+                <span class="perk-icon">⚡</span>
+                <div class="perk-info">
+                  <strong>₦30,000 Fixed Fee</strong>
+                  <span>($30 USD equivalent)</span>
+                </div>
+              </div>
+              <div class="social-perk-item">
+                <span class="perk-icon">⏱</span>
+                <div class="perk-info">
+                  <strong>4 Days Flight</strong>
+                  <span>Broadcasted across all channels</span>
+                </div>
+              </div>
+              <div class="social-perk-item">
+                <span class="perk-icon">👁</span>
+                <div class="perk-info">
+                  <strong>100,000+ Brand Views</strong>
+                  <span>Guaranteed minimum delivery</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="social-spotlight-cta-col">
+            <button type="button" class="social-spotlight-btn" onclick="addSocialVideoToCalculator()">
+              <span>Include In Rate Calculator ↓</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- 4. Interactive Live CPM Calculator & Order Configurator -->
+  <!-- 4. Interactive Live Rate Calculator & Order Configurator -->
   <section id="ad-calculator" class="ad-portal-calculator">
     <div class="ad-portal-container">
       <div class="calculator-card-wrap">
         <div class="calc-header-row">
           <div>
-            <span class="calc-kicker">INTERACTIVE COST ESTIMATOR</span>
-            <h2 class="calc-title">Configure Your Campaign Volume</h2>
+            <span class="calc-kicker">INTERACTIVE FLIGHT ESTIMATOR</span>
+            <h2 class="calc-title">Configure Your Campaign Flight Duration</h2>
           </div>
           <div class="currency-toggle-group">
             <span class="curr-label">Currency:</span>
@@ -223,7 +269,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
                     <div class="radio-content">
                       <div class="radio-title-row">
                         <span class="radio-title"><?php echo esc_html($spot['title']); ?></span>
-                        <span class="radio-cpm mono" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>">₦<?php echo number_format($spot['cpm_ngn']); ?> CPM</span>
+                        <span class="radio-cpm mono" data-daily-ngn="<?php echo esc_attr($spot['daily_rate_ngn'] ?? $spot['cpm_ngn']); ?>" data-daily-usd="<?php echo esc_attr($spot['daily_rate_usd'] ?? $spot['cpm_usd']); ?>">₦<?php echo number_format($spot['daily_rate_ngn'] ?? $spot['cpm_ngn']); ?> / day</span>
                       </div>
                       <span class="radio-desc"><?php echo esc_html(!empty($spot['placement']) ? $spot['placement'] : (!empty($spot['location']) ? $spot['location'] : '')); ?></span>
                     </div>
@@ -232,26 +278,51 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
               </div>
             </div>
 
-            <!-- Step B: Select Impression Target -->
+            <!-- Step B: Select Flight Days (1 to 56 Days) -->
             <div class="calc-control-group">
-              <label class="control-label">2. Select Guaranteed Impression Reach</label>
-              <div class="impression-pills">
-                <button type="button" class="imp-pill" data-imps="1000" onclick="setImpressionPackage(1000)">1,000 imps (2k Base)</button>
-                <button type="button" class="imp-pill" data-imps="5000" onclick="setImpressionPackage(5000)">5,000 imps</button>
-                <button type="button" class="imp-pill" data-imps="10000" onclick="setImpressionPackage(10000)">10,000 imps</button>
-                <button type="button" class="imp-pill active" data-imps="25000" onclick="setImpressionPackage(25000)">25,000 imps</button>
-                <button type="button" class="imp-pill" data-imps="50000" onclick="setImpressionPackage(50000)">50,000 imps</button>
-                <button type="button" class="imp-pill" data-imps="100000" onclick="setImpressionPackage(100000)">100,000 imps</button>
+              <label class="control-label">2. Select Campaign Flight Duration (Days · Max 56 Days)</label>
+              <div class="duration-pills">
+                <button type="button" class="day-pill" data-days="1" onclick="setFlightDays(1)">1 Day (Min · ₦2k Base)</button>
+                <button type="button" class="day-pill" data-days="3" onclick="setFlightDays(3)">3 Days</button>
+                <button type="button" class="day-pill active" data-days="7" onclick="setFlightDays(7)">7 Days (1 Wk)</button>
+                <button type="button" class="day-pill" data-days="14" onclick="setFlightDays(14)">14 Days (2 Wks)</button>
+                <button type="button" class="day-pill" data-days="30" onclick="setFlightDays(30)">30 Days (1 Mo)</button>
+                <button type="button" class="day-pill" data-days="56" onclick="setFlightDays(56)">56 Days (Max)</button>
               </div>
 
-              <div class="custom-imp-wrap">
-                <label for="custom_imps_input" class="custom-imp-label">Or Custom Impressions Volume (Min. 1,000):</label>
-                <div class="custom-imp-input-group">
-                  <input type="number" id="custom_imps_input" class="custom-imp-field" value="25000" min="1000" step="1000" oninput="onCustomImpsInput(this.value)">
-                  <span class="input-suffix">Guaranteed Readers</span>
+              <div class="custom-days-wrap">
+                <label for="custom_days_input" class="custom-days-label">Or Custom Flight Duration (1 to 56 Days):</label>
+                <div class="custom-days-input-group">
+                  <input type="number" id="custom_days_input" class="custom-days-field" value="7" min="1" max="56" step="1" oninput="onCustomDaysInput(this.value)">
+                  <span class="input-suffix">Days of Placement (Max 56)</span>
                 </div>
               </div>
             </div>
+
+            <!-- Step C: Social Media Video Feature Add-on -->
+            <div class="calc-control-group">
+              <label class="control-label">3. Optional Social Media Video Sponsorship</label>
+              <div class="social-addon-card" id="social_addon_box" onclick="toggleSocialVideoClick(event)">
+                <div class="social-addon-checkbox-col">
+                  <input type="checkbox" id="calc_social_video" onchange="toggleSocialVideo(this.checked)" onclick="event.stopPropagation()">
+                </div>
+                <div class="social-addon-content">
+                  <div class="social-addon-head">
+                    <span class="social-addon-title">Feature on Our Social Media Videos</span>
+                    <span class="social-addon-fee-badge" id="social_addon_fee_badge">+ ₦30,000 Fixed Fee</span>
+                  </div>
+                  <p class="social-addon-desc">
+                    Your ad and brand sponsorship are professionally produced and featured in Magazine Afrique social media video broadcasts across <strong>YouTube Shorts, TikTok, Instagram Reels &amp; X Video</strong>.
+                  </p>
+                  <div class="social-addon-perks">
+                    <span class="perk-tag">✓ 4 Days Fixed Flight</span>
+                    <span class="perk-tag">✓ Guaranteed 100,000+ Brand Views</span>
+                    <span class="perk-tag">✓ Produced For Vertical Video</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Right: Live Real-Time Invoice Summary -->
@@ -268,16 +339,20 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
                   <span class="line-val" id="summary_spot_title">Spot 1: Master Masthead Leaderboard</span>
                 </div>
                 <div class="summary-line">
-                  <span class="line-label">Base CPM Rate</span>
-                  <span class="line-val mono" id="summary_cpm_rate">₦10,000 per 1,000</span>
+                  <span class="line-label">Daily Placement Rate</span>
+                  <span class="line-val mono" id="summary_daily_rate">₦7,500 / day</span>
                 </div>
                 <div class="summary-line">
-                  <span class="line-label">Guaranteed Impressions</span>
-                  <span class="line-val mono" id="summary_impressions">25,000 Readers</span>
+                  <span class="line-label">Flight Duration</span>
+                  <span class="line-val mono" id="summary_flight_days">7 Days (Continuous Placement)</span>
                 </div>
                 <div class="summary-line">
-                  <span class="line-label">Model</span>
-                  <span class="line-val">Guaranteed Brand Reach</span>
+                  <span class="line-label">Broadsheet Display</span>
+                  <span class="line-val mono" id="summary_subtotal">₦52,500</span>
+                </div>
+                <div class="summary-line" id="summary_social_line" style="display: none;">
+                  <span class="line-label" style="color: #C084FC;">Social Video Feature</span>
+                  <span class="line-val mono" id="summary_social_val" style="color: #C084FC; font-weight: 700;">+ ₦30,000 (100k Views · 4 Days)</span>
                 </div>
                 <div class="summary-line">
                   <span class="line-label">Ad Serving Priority</span>
@@ -287,8 +362,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
               <div class="summary-total-block">
                 <span class="total-caption">TOTAL AD INVESTMENT</span>
-                <div class="total-figure" id="summary_total_display">₦250,000</div>
-                <span class="total-vat-note">Inclusive of verified impression auditing and live performance reporting.</span>
+                <div class="total-figure" id="summary_total_display">₦52,500</div>
+                <span class="total-vat-note">Inclusive of verified broadsheet flight delivery and cryptographic audit logs.</span>
               </div>
 
               <a href="#ad-booking-desk" class="summary-cta-btn" onclick="syncCalculatorToBookingForm()">
@@ -297,7 +372,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
               <div class="commercial-hotline-strip">
                 <span>Direct Commercial Desk Support:</span>
-                <a href="https://wa.me/2348120000000?text=Hello%20Magazine%20Afrique%20Commercial%20Desk,%20I%20am%20inquiring%20about%20booking%20brand%20reach%20display%20inventory." target="_blank" rel="noopener">
+                <a href="https://wa.me/2349082533705?text=Hello%20Magazine%20Afrique%20Commercial%20Desk,%20I%20am%20inquiring%20about%20booking%20brand%20reach%20display%20inventory." target="_blank" rel="noopener">
                   WhatsApp Commercial Hotline ↗
                 </a>
               </div>
@@ -327,7 +402,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             <input type="hidden" name="nonce" value="<?php echo esc_attr($nonce); ?>">
             <input type="hidden" id="form_spot_key" name="spot_key" value="header_masthead">
             <input type="hidden" id="form_currency" name="currency" value="NGN">
-            <input type="hidden" id="form_impressions" name="impressions" value="25000">
+            <input type="hidden" id="form_days" name="days" value="7">
+            <input type="hidden" id="form_social_video" name="social_video" value="0">
 
             <div class="form-row two-cols">
               <div class="form-group">
@@ -367,6 +443,17 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
               <input type="url" id="destination_url" name="destination_url" class="field-input" placeholder="https://yourbrand.com/annual-report" required>
             </div>
 
+            <!-- Social Media Video Sponsorship Checkbox Option in Form -->
+            <div class="form-group social-form-toggle-wrap">
+              <label class="social-form-checkbox-label">
+                <input type="checkbox" id="form_social_video_checkbox" onchange="syncSocialVideoFromForm(this.checked)">
+                <span class="social-checkbox-copy">
+                  <strong style="color: #FBBF24;">Include Social Media Video Feature (+₦30,000 / $30 USD)</strong>
+                  <span style="display: block; font-size: 0.75rem; color: #A8A29E; margin-top: 2px;">Fixed 4-day flight with guaranteed 100,000+ views across YouTube Shorts, TikTok, Reels &amp; X Video.</span>
+                </span>
+              </label>
+            </div>
+
             <!-- Creative Banner Upload Dropzone -->
             <div class="form-group">
               <label class="field-label">Display Creative Banner Asset <span class="req">*</span></label>
@@ -395,8 +482,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             </div>
 
             <div class="form-group">
-              <label for="notes" class="field-label">Special Campaign Instructions / Sector Targeting (Optional)</label>
-              <textarea id="notes" name="notes" rows="3" class="field-textarea" placeholder="Specify any editorial desk preferences (Finance, Energy, Diplomacy) or campaign flight dates..."></textarea>
+              <label for="notes" class="field-label">Special Campaign Instructions / Video Details (Optional)</label>
+              <textarea id="notes" name="notes" rows="3" class="field-textarea" placeholder="Specify any editorial desk preferences or provide your brand social handles / video assets..."></textarea>
             </div>
 
             <!-- Booking Overview Banner Inside Form -->
@@ -406,12 +493,16 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
                 <span class="m-val" id="form_manifest_spot">Spot 1: Master Masthead Leaderboard</span>
               </div>
               <div class="manifest-item">
-                <span class="m-label">Target Reach:</span>
-                <span class="m-val" id="form_manifest_imps">25,000 Guaranteed Impressions</span>
+                <span class="m-label">Flight Duration:</span>
+                <span class="m-val" id="form_manifest_duration">7 Days</span>
               </div>
               <div class="manifest-item">
-                <span class="m-label">Total Amount:</span>
-                <span class="m-val highlight" id="form_manifest_total">₦250,000</span>
+                <span class="m-label">Social Video:</span>
+                <span class="m-val" id="form_manifest_social">Not Selected</span>
+              </div>
+              <div class="manifest-item">
+                <span class="m-label">Total Remittance:</span>
+                <span class="m-val highlight" id="form_manifest_total">₦52,500</span>
               </div>
             </div>
 
@@ -423,7 +514,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             </button>
 
             <p class="form-compliance-notice">
-              By submitting, your organization agrees to Magazine Afrique's Editorial Brand Standards. Direct campaigns take priority over programmatic tags and serve until the booked impressions quota is fully delivered.
+              By submitting, your organization agrees to Magazine Afrique's Editorial Brand Standards. Direct campaigns take sovereign priority over programmatic tags throughout your booked flight days.
             </p>
           </form>
         </div>
@@ -535,11 +626,15 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
             <span class="cell-v" id="modal_spot_title">-</span>
           </div>
           <div class="modal-summary-cell">
-            <span class="cell-l">Guaranteed Reach</span>
-            <span class="cell-v mono" id="modal_impressions">-</span>
+            <span class="cell-l">Flight Duration</span>
+            <span class="cell-v mono" id="modal_duration">-</span>
           </div>
           <div class="modal-summary-cell">
-            <span class="cell-l">Total Amount</span>
+            <span class="cell-l">Social Video</span>
+            <span class="cell-v mono" id="modal_social">-</span>
+          </div>
+          <div class="modal-summary-cell" style="grid-column: 1 / -1;">
+            <span class="cell-l">Total Investment</span>
             <span class="cell-v mono highlight" id="modal_total_amount">-</span>
           </div>
         </div>
@@ -605,7 +700,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
 <script>
 /**
- * Magazine Afrique Brand Reach Advertising Portal Controller
+ * Magazine Afrique Brand Reach Advertising Portal Controller (Daily Rate & Flight Model)
  */
 (function($) {
   'use strict';
@@ -614,7 +709,11 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
   var spotsMatrix = <?php echo json_encode($spots_matrix); ?>;
   var currentCurrency = 'NGN';
   var currentSpot = 'header_masthead';
-  var currentImpressions = 25000;
+  var currentDays = 7;
+  var maxDays = 56;
+  var hasSocialVideo = false;
+  var socialFeeNGN = 30000;
+  var socialFeeUSD = 30.00;
 
   // Live 5-Hour Rotation Countdown Timer on Buy Ad Space Page
   var rotSeconds = <?php echo (int) ($rot_state ? $rot_state['seconds_remaining'] : 18000); ?>;
@@ -652,7 +751,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
     // Update dropzone dimension hint
     if (spotsMatrix[spotKey]) {
-      var dHint = 'Recommended: ' + spotsMatrix[spotKey].desktop_dim + ' (Desktop) · ' + spotsMatrix[spotKey].mobile_dim + ' (Mobile)';
+      var dHint = 'Recommended: ' + (spotsMatrix[spotKey].desktop_dim || '970×250') + ' (Desktop) · ' + (spotsMatrix[spotKey].mobile_dim || '320×100') + ' (Mobile)';
       $('#dropzone_dim_hint').text(dHint);
     }
 
@@ -670,46 +769,101 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
     }
   };
 
-  window.setImpressionPackage = function(imps) {
-    currentImpressions = parseInt(imps, 10);
-    $('.imp-pill').removeClass('active');
-    $('.imp-pill[data-imps="' + imps + '"]').addClass('active');
-    $('#custom_imps_input').val(currentImpressions);
-    $('#form_impressions').val(currentImpressions);
+  window.setFlightDays = function(days) {
+    days = parseInt(days, 10);
+    if (!days || days < 1) days = 1;
+    if (days > maxDays) days = maxDays;
+    currentDays = days;
+
+    $('.day-pill').removeClass('active');
+    $('.day-pill[data-days="' + days + '"]').addClass('active');
+    $('#custom_days_input').val(currentDays);
+    $('#form_days').val(currentDays);
     recalculateRates();
   };
 
-  window.onCustomImpsInput = function(val) {
-    var imps = parseInt(val, 10);
-    if (!imps || imps < 1000) {
-      imps = 1000;
+  window.onCustomDaysInput = function(val) {
+    var days = parseInt(val, 10);
+    if (!days || days < 1) days = 1;
+    if (days > maxDays) {
+      days = maxDays;
+      $('#custom_days_input').val(maxDays);
     }
-    currentImpressions = imps;
-    $('.imp-pill').removeClass('active');
-    $('.imp-pill[data-imps="' + imps + '"]').addClass('active');
-    $('#form_impressions').val(currentImpressions);
+    currentDays = days;
+    $('.day-pill').removeClass('active');
+    $('.day-pill[data-days="' + days + '"]').addClass('active');
+    $('#form_days').val(currentDays);
     recalculateRates();
+  };
+
+  window.toggleSocialVideo = function(isChecked) {
+    hasSocialVideo = !!isChecked;
+    $('#calc_social_video').prop('checked', hasSocialVideo);
+    $('#form_social_video').val(hasSocialVideo ? '1' : '0');
+    $('#form_social_video_checkbox').prop('checked', hasSocialVideo);
+    if (hasSocialVideo) {
+      $('#social_addon_box').addClass('is-active');
+    } else {
+      $('#social_addon_box').removeClass('is-active');
+    }
+    recalculateRates();
+  };
+
+  window.toggleSocialVideoClick = function(e) {
+    var current = $('#calc_social_video').prop('checked');
+    window.toggleSocialVideo(!current);
+  };
+
+  window.syncSocialVideoFromForm = function(checked) {
+    window.toggleSocialVideo(checked);
+  };
+
+  window.addSocialVideoToCalculator = function() {
+    window.toggleSocialVideo(true);
+    var target = document.getElementById('ad-calculator');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   function recalculateRates() {
     var spot = spotsMatrix[currentSpot];
     if (!spot) return;
 
-    var cpmRate = currentCurrency === 'USD' ? spot.cpm_usd : spot.cpm_ngn;
-    var total = Math.round((currentImpressions / 1000) * cpmRate);
-    var formattedTotal = currentCurrency === 'USD' ? '$' + total.toLocaleString() : '₦' + total.toLocaleString();
-    var formattedRate = currentCurrency === 'USD' ? '$' + cpmRate.toFixed(2) + ' per 1,000' : '₦' + cpmRate.toLocaleString() + ' per 1,000';
+    var dailyRate = currentCurrency === 'USD' ? (spot.daily_rate_usd || spot.cpm_usd) : (spot.daily_rate_ngn || spot.cpm_ngn);
+    var broadsheetSubtotal = Math.round(currentDays * dailyRate);
+    var socialFee = hasSocialVideo ? (currentCurrency === 'USD' ? socialFeeUSD : socialFeeNGN) : 0;
+    var grandTotal = broadsheetSubtotal + socialFee;
 
-    // Update summary column
+    var sym = currentCurrency === 'USD' ? '$' : '₦';
+    var formattedDaily = sym + Number(dailyRate).toLocaleString() + ' / day';
+    var formattedSubtotal = sym + Number(broadsheetSubtotal).toLocaleString();
+    var formattedGrandTotal = sym + Number(grandTotal).toLocaleString();
+    var formattedSocialFee = sym + Number(currentCurrency === 'USD' ? socialFeeUSD : socialFeeNGN).toLocaleString();
+
+    // Update social badge text with current currency
+    $('#social_addon_fee_badge').text('+ ' + formattedSocialFee + ' Fixed Fee');
+
+    // Update summary lines
     $('#summary_spot_title').text(spot.title);
-    $('#summary_cpm_rate').text(formattedRate);
-    $('#summary_impressions').text(currentImpressions.toLocaleString() + ' Readers');
-    $('#summary_total_display').text(formattedTotal);
+    $('#summary_daily_rate').text(formattedDaily);
+    $('#summary_flight_days').text(currentDays + (currentDays === 1 ? ' Day' : ' Days') + ' (Continuous Placement)');
+    $('#summary_subtotal').text(formattedSubtotal);
+    
+    if (hasSocialVideo) {
+      $('#summary_social_line').show();
+      $('#summary_social_val').text('+ ' + formattedSocialFee + ' (100k Views · 4 Days)');
+    } else {
+      $('#summary_social_line').hide();
+    }
+    
+    $('#summary_total_display').text(formattedGrandTotal);
 
-    // Update form manifest banner
+    // Update form manifest
     $('#form_manifest_spot').text(spot.title);
-    $('#form_manifest_imps').text(currentImpressions.toLocaleString() + ' Guaranteed Impressions');
-    $('#form_manifest_total').text(formattedTotal);
+    $('#form_manifest_duration').text(currentDays + (currentDays === 1 ? ' Day' : ' Days'));
+    $('#form_manifest_social').text(hasSocialVideo ? 'Included (+ 100k Views · 4 Days)' : 'None (Broadsheet Only)');
+    $('#form_manifest_total').text(formattedGrandTotal);
   }
 
   window.syncCalculatorToBookingForm = function() {
@@ -787,12 +941,14 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
           $('#modal_booking_code').text(data.booking_code);
           $('#modal_brand_name').text(data.brand_name);
           $('#modal_spot_title').text(data.spot_title);
-          $('#modal_impressions').text(Number(data.impressions).toLocaleString() + ' Guaranteed Readers');
+          $('#modal_duration').text(data.days + (data.days === 1 ? ' Day' : ' Days') + ' (' + data.daily_rate + ')');
+          $('#modal_social').text(data.has_social ? '✓ 4-Day Feature (100k Views Guaranteed)' : 'None (Broadsheet Only)');
           $('#modal_total_amount').text(data.currency === 'USD' ? '$' + Number(data.total_amount).toLocaleString() : '₦' + Number(data.total_amount).toLocaleString());
 
           // WhatsApp link with Eco Bank payment receipt prefilled routing
           var waNumber = data.whatsapp_intl || '<?php echo esc_js($bank_details['whatsapp_intl']); ?>';
-          var waText = encodeURIComponent('Hello Magazine Afrique Commercial Desk, I have just booked brand reach ad space for ' + data.brand_name + ' (Booking Code: ' + data.booking_code + '). Total: ' + data.currency + ' ' + Number(data.total_amount).toLocaleString() + '. Attached is my payment receipt to Eco Bank (0089765434).');
+          var socialText = data.has_social ? ' + Social Video Feature (100k views)' : '';
+          var waText = encodeURIComponent('Hello Magazine Afrique Commercial Desk, I have just booked brand reach ad space for ' + data.brand_name + ' (Booking Code: #' + data.booking_code + '). Flight: ' + data.days + ' days' + socialText + '. Total: ' + data.currency + ' ' + Number(data.total_amount).toLocaleString() + '. Attached is my payment receipt to Eco Bank (0089765434).');
           $('#modal_whatsapp_link').attr('href', 'https://wa.me/' + waNumber + '?text=' + waText);
 
           $('#ad-success-modal').fadeIn(200);

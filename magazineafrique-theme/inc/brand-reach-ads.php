@@ -38,9 +38,14 @@ if (!function_exists('magazineafrique_setup_ad_campaigns_table')) {
             country varchar(100) DEFAULT '',
             spot varchar(64) NOT NULL,
             spot_title varchar(255) NOT NULL,
-            cpm_rate decimal(10,2) NOT NULL,
+            daily_rate decimal(10,2) NOT NULL DEFAULT 2000.00,
+            cpm_rate decimal(10,2) NOT NULL DEFAULT 2000.00,
             currency varchar(10) DEFAULT 'NGN',
-            impressions_booked bigint(20) NOT NULL,
+            days_booked int(11) NOT NULL DEFAULT 1,
+            has_social_video tinyint(1) NOT NULL DEFAULT 0,
+            social_video_fee decimal(10,2) NOT NULL DEFAULT 0.00,
+            social_video_views_guaranteed bigint(20) NOT NULL DEFAULT 100000,
+            impressions_booked bigint(20) NOT NULL DEFAULT 0,
             impressions_served bigint(20) DEFAULT 0,
             clicks bigint(20) DEFAULT 0,
             total_amount decimal(12,2) NOT NULL,
@@ -48,6 +53,7 @@ if (!function_exists('magazineafrique_setup_ad_campaigns_table')) {
             destination_url text NOT NULL,
             target_desk varchar(100) DEFAULT 'all',
             start_date date DEFAULT NULL,
+            end_date date DEFAULT NULL,
             status varchar(32) DEFAULT 'pending_review',
             payment_status varchar(32) DEFAULT 'unpaid',
             admin_notes text,
@@ -59,6 +65,29 @@ if (!function_exists('magazineafrique_setup_ad_campaigns_table')) {
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta($sql);
+
+        // Safe upgrade for existing database installations
+        $cols = $wpdb->get_col("DESCRIBE $table_name", 0);
+        if (!empty($cols)) {
+            if (!in_array('days_booked', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN days_booked int(11) NOT NULL DEFAULT 1 AFTER currency");
+            }
+            if (!in_array('daily_rate', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN daily_rate decimal(10,2) NOT NULL DEFAULT 2000.00 AFTER spot_title");
+            }
+            if (!in_array('has_social_video', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN has_social_video tinyint(1) NOT NULL DEFAULT 0 AFTER clicks");
+            }
+            if (!in_array('social_video_fee', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN social_video_fee decimal(10,2) NOT NULL DEFAULT 0.00 AFTER has_social_video");
+            }
+            if (!in_array('social_video_views_guaranteed', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN social_video_views_guaranteed bigint(20) NOT NULL DEFAULT 100000 AFTER social_video_fee");
+            }
+            if (!in_array('end_date', $cols)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN end_date date DEFAULT NULL AFTER start_date");
+            }
+        }
     }
     add_action('after_switch_theme', 'magazineafrique_setup_ad_campaigns_table');
     // Ensure table exists on init if missing
@@ -90,85 +119,119 @@ if (!function_exists('magazineafrique_get_ad_bank_details')) {
 }
 
 /**
- * 2. CPM Rate & Spot Inventory Matrix
+ * 1c. Social Media Video Syndication Package
+ * Fixed fee: 30k for 4 days · Guaranteed 100k brand views across video dispatches
+ */
+if (!function_exists('magazineafrique_get_social_video_package')) {
+    function magazineafrique_get_social_video_package() {
+        return array(
+            'title'            => 'Social Media Video Syndication & Brand Feature',
+            'fee_ngn'          => 30000,
+            'fee_usd'          => 30.00,
+            'duration_days'    => 4,
+            'guaranteed_views' => 100000,
+            'channels'         => 'YouTube Shorts, TikTok, Instagram Reels & X Video',
+            'badge'            => '100K BRAND VIEWS GUARANTEED',
+            'tagline'          => 'Fixed fee: ₦30,000 for 4 days · Guaranteed 100,000 brand views',
+            'description'      => 'Your ad and brand sponsorship are professionally produced and featured across Magazine Afrique social media video broadcasts (TikTok, YouTube, Instagram Reels & X Video). Fixed 4-day broadcast flight delivering a contractual guarantee of 100,000+ verified views.'
+        );
+    }
+}
+
+/**
+ * 2. Daily Rate & Spot Inventory Matrix (Priced Per Day, Min ₦2,000/day, Max 56 Days)
  */
 if (!function_exists('magazineafrique_get_ad_spots_matrix')) {
     function magazineafrique_get_ad_spots_matrix() {
-        // Enforce 2k base rate for lowest space (bottom) if at legacy 5k default
-        $bottom_ngn = get_option('magafrique_cpm_bottom_ngn');
+        // Enforce 2k base daily rate for lowest space (bottom)
+        $bottom_ngn = get_option('magafrique_rate_bottom_ngn', get_option('magafrique_cpm_bottom_ngn'));
         if ($bottom_ngn === false || floatval($bottom_ngn) == 5000) {
+            update_option('magafrique_rate_bottom_ngn', 2000);
+            update_option('magafrique_rate_bottom_usd', 2.00);
             update_option('magafrique_cpm_bottom_ngn', 2000);
             update_option('magafrique_cpm_bottom_usd', 2.00);
         }
 
         return array(
             'header_masthead' => array(
-                'id'            => 'header_masthead',
-                'title'         => 'Prime Masthead Leaderboard',
-                'placement'     => 'Top of Masthead (Immediate Viewport)',
-                'location'      => 'Top of Masthead (Immediate Viewport)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_header_masthead_ngn', 7500)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_header_masthead_usd', 7.50)),
-                'tier'          => 'Prime Position',
-                'tier_number'   => '1',
-                'badge'         => 'HIGHEST VISIBILITY',
-                'dimensions'    => '728x90 / 970x90 Desktop · 320x50 Mobile',
-                'desktop_dim'   => '728x90 / 970x90',
-                'mobile_dim'    => '320x50',
-                'viewability'   => '100% Guaranteed',
-                'desc'          => 'Unmatched initial impact on every desktop, tablet, and mobile visit. Positioned directly below the dateline header.',
-                'description'   => 'Unmatched initial impact on every desktop, tablet, and mobile visit. Positioned directly below the dateline header.'
+                'id'             => 'header_masthead',
+                'title'          => 'Prime Masthead Leaderboard',
+                'placement'      => 'Top of Masthead (Immediate Viewport)',
+                'location'       => 'Top of Masthead (Immediate Viewport)',
+                'daily_rate_ngn' => floatval(get_option('magafrique_rate_header_masthead_ngn', get_option('magafrique_cpm_header_masthead_ngn', 7500))),
+                'daily_rate_usd' => floatval(get_option('magafrique_rate_header_masthead_usd', get_option('magafrique_cpm_header_masthead_usd', 7.50))),
+                'cpm_ngn'        => floatval(get_option('magafrique_rate_header_masthead_ngn', get_option('magafrique_cpm_header_masthead_ngn', 7500))),
+                'cpm_usd'        => floatval(get_option('magafrique_rate_header_masthead_usd', get_option('magafrique_cpm_header_masthead_usd', 7.50))),
+                'rate_label'     => '₦7,500 / day',
+                'tier'           => 'Prime Position',
+                'tier_number'    => '1',
+                'badge'          => 'HIGHEST IMPACT',
+                'dimensions'     => '728x90 / 970x90 Desktop · 320x50 Mobile',
+                'desktop_dim'    => '728x90 / 970x90',
+                'mobile_dim'     => '320x50',
+                'viewability'    => '100% Guaranteed',
+                'desc'           => 'Unmatched initial impact on every desktop, tablet, and mobile visit across 54 jurisdictions. Positioned directly below the dateline header.',
+                'description'    => 'Unmatched initial impact on every desktop, tablet, and mobile visit across 54 jurisdictions. Positioned directly below the dateline header.'
             ),
             'in_article' => array(
-                'id'            => 'in_article',
-                'title'         => 'Mid-Dossier Editorial Core',
-                'placement'     => 'Embedded Within Investigative Articles',
-                'location'      => 'Embedded Within Investigative Articles',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_in_article_ngn', 5000)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_in_article_usd', 5.00)),
-                'tier'          => 'Core Engagement',
-                'tier_number'   => '2',
-                'badge'         => 'LONGEST DWELL TIME',
-                'dimensions'    => 'Fluid Native / 300x250 Medium Rectangle',
-                'desktop_dim'   => '300x250 Fluid',
-                'mobile_dim'    => '300x250 Box',
-                'viewability'   => '98% High-Dwell',
-                'desc'          => 'High-attention interstitial placement inserted right after article lead paragraphs when reader focus is at its maximum peak.',
-                'description'   => 'High-attention interstitial placement inserted right after article lead paragraphs when reader focus is at its maximum peak.'
+                'id'             => 'in_article',
+                'title'          => 'Mid-Dossier Editorial Core',
+                'placement'      => 'Embedded Within Investigative Articles',
+                'location'       => 'Embedded Within Investigative Articles',
+                'daily_rate_ngn' => floatval(get_option('magafrique_rate_in_article_ngn', get_option('magafrique_cpm_in_article_ngn', 5000))),
+                'daily_rate_usd' => floatval(get_option('magafrique_rate_in_article_usd', get_option('magafrique_cpm_in_article_usd', 5.00))),
+                'cpm_ngn'        => floatval(get_option('magafrique_rate_in_article_ngn', get_option('magafrique_cpm_in_article_ngn', 5000))),
+                'cpm_usd'        => floatval(get_option('magafrique_rate_in_article_usd', get_option('magafrique_cpm_in_article_usd', 5.00))),
+                'rate_label'     => '₦5,000 / day',
+                'tier'           => 'Core Engagement',
+                'tier_number'    => '2',
+                'badge'          => 'LONGEST DWELL TIME',
+                'dimensions'     => 'Fluid Native / 300x250 Medium Rectangle',
+                'desktop_dim'    => '300x250 Fluid',
+                'mobile_dim'     => '300x250 Box',
+                'viewability'    => '98% High-Dwell',
+                'desc'           => 'High-attention interstitial placement inserted right after article lead paragraphs when reader focus is at its maximum peak.',
+                'description'    => 'High-attention interstitial placement inserted right after article lead paragraphs when reader focus is at its maximum peak.'
             ),
             'sidebar' => array(
-                'id'            => 'sidebar',
-                'title'         => 'Continental Telegraph Sidebar',
-                'placement'     => 'Sticky Reading Companion (Desktop & Tablet)',
-                'location'      => 'Sticky Reading Companion (Desktop & Tablet)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_sidebar_ngn', 3500)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_sidebar_usd', 3.50)),
-                'tier'          => 'Persistent Reach',
-                'tier_number'   => '3',
-                'badge'         => 'HIGH VIEWABILITY',
-                'dimensions'    => '300x250 / 300x600 Half-Page Box',
-                'desktop_dim'   => '300x250 / 300x600',
-                'mobile_dim'    => '300x250 Box',
-                'viewability'   => '95% Persistent',
-                'desc'          => 'Stays persistently in reader view as visitors scroll through real-time intelligence feeds and long-form analysis.',
-                'description'   => 'Stays persistently in reader view as visitors scroll through real-time intelligence feeds and long-form analysis.'
+                'id'             => 'sidebar',
+                'title'          => 'Continental Telegraph Sidebar',
+                'placement'      => 'Sticky Reading Companion (Desktop & Tablet)',
+                'location'       => 'Sticky Reading Companion (Desktop & Tablet)',
+                'daily_rate_ngn' => floatval(get_option('magafrique_rate_sidebar_ngn', get_option('magafrique_cpm_sidebar_ngn', 3500))),
+                'daily_rate_usd' => floatval(get_option('magafrique_rate_sidebar_usd', get_option('magafrique_cpm_sidebar_usd', 3.50))),
+                'cpm_ngn'        => floatval(get_option('magafrique_rate_sidebar_ngn', get_option('magafrique_cpm_sidebar_ngn', 3500))),
+                'cpm_usd'        => floatval(get_option('magafrique_rate_sidebar_usd', get_option('magafrique_cpm_sidebar_usd', 3.50))),
+                'rate_label'     => '₦3,500 / day',
+                'tier'           => 'Persistent Reach',
+                'tier_number'    => '3',
+                'badge'          => 'HIGH VIEWABILITY',
+                'dimensions'     => '300x250 / 300x600 Half-Page Box',
+                'desktop_dim'    => '300x250 / 300x600',
+                'mobile_dim'     => '300x250 Box',
+                'viewability'    => '95% Persistent',
+                'desc'           => 'Stays persistently in reader view as visitors scroll through real-time intelligence feeds and long-form analysis.',
+                'description'    => 'Stays persistently in reader view as visitors scroll through real-time intelligence feeds and long-form analysis.'
             ),
             'bottom' => array(
-                'id'            => 'bottom',
-                'title'         => 'Broadsheet Bottom Leaderboard',
-                'placement'     => 'Above Footer (All Reports & Home)',
-                'location'      => 'Above Footer (All Reports & Home)',
-                'cpm_ngn'       => floatval(get_option('magafrique_cpm_bottom_ngn', 2000)),
-                'cpm_usd'       => floatval(get_option('magafrique_cpm_bottom_usd', 2.00)),
-                'tier'          => 'Baseline Reach',
-                'tier_number'   => '4',
-                'badge'         => 'BASE RATE (2K)',
-                'dimensions'    => '728x90 / 970x90 Desktop · 300x250 Mobile',
-                'desktop_dim'   => '728x90 / 970x90',
-                'mobile_dim'    => '300x250 Mobile',
-                'viewability'   => '90% Guaranteed',
-                'desc'          => 'Broadsheet full-width closing placement seen by all engaged readers completing briefings, dispatches, and sector archives.',
-                'description'   => 'Broadsheet full-width closing placement seen by all engaged readers completing briefings, dispatches, and sector archives.'
+                'id'             => 'bottom',
+                'title'          => 'Broadsheet Bottom Leaderboard',
+                'placement'      => 'Above Footer (All Reports & Home)',
+                'location'       => 'Above Footer (All Reports & Home)',
+                'daily_rate_ngn' => floatval(get_option('magafrique_rate_bottom_ngn', 2000)),
+                'daily_rate_usd' => floatval(get_option('magafrique_rate_bottom_usd', 2.00)),
+                'cpm_ngn'        => floatval(get_option('magafrique_rate_bottom_ngn', 2000)),
+                'cpm_usd'        => floatval(get_option('magafrique_rate_bottom_usd', 2.00)),
+                'rate_label'     => '₦2,000 / day',
+                'tier'           => 'Baseline Reach',
+                'tier_number'    => '4',
+                'badge'          => 'BASE RATE (₦2K/DAY)',
+                'dimensions'     => '728x90 / 970x90 Desktop · 300x250 Mobile',
+                'desktop_dim'    => '728x90 / 970x90',
+                'mobile_dim'     => '300x250 Mobile',
+                'viewability'    => '90% Guaranteed',
+                'desc'           => 'Broadsheet full-width closing placement seen by all engaged readers completing briefings, dispatches, and sector archives.',
+                'description'    => 'Broadsheet full-width closing placement seen by all engaged readers completing briefings, dispatches, and sector archives.'
             )
         );
     }
@@ -511,15 +574,22 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 $current_user = wp_get_current_user();
                 $approver_name = $current_user && !empty($current_user->display_name) ? $current_user->display_name : 'Commercial Admin';
                 
+                $camp = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $campaign_id));
+                $days = max(1, min(56, intval($camp->days_booked ?? 1)));
+                $start_date = current_time('Y-m-d');
+                $end_date = date('Y-m-d', strtotime("+$days days", strtotime($start_date)));
+
                 $wpdb->update($table_name, array(
                     'status'         => 'active',
                     'payment_status' => 'paid',
+                    'start_date'     => $start_date,
+                    'end_date'       => $end_date,
                     'admin_notes'    => 'Payment approved and launched live on ' . current_time('mysql') . ' by ' . $approver_name
                 ), array('id' => $campaign_id));
 
-                $camp = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $campaign_id));
                 if ($camp && !empty($camp->contact_email)) {
                     $formatted_total = ($camp->currency === 'USD' ? '$' : '₦') . number_format($camp->total_amount);
+                    $social_note = !empty($camp->has_social_video) ? "Included — 4 Days Video Broadcast (Guaranteed 100,000 Views)" : "Standard Broadsheet Only";
                     $live_subject = "[Campaign Live] Payment Approved & Verified — Ad Space #{$camp->booking_code} is Now Live on Magazine Afrique";
                     $live_message = "Dear {$camp->contact_name},\n\n" .
                         "We are pleased to inform you that your Eco Bank payment has been formally verified and approved by the Magazine Afrique Commercial Directorate.\n\n" .
@@ -528,14 +598,16 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                         "Booking Reference      : #{$camp->booking_code}\n" .
                         "Brand / Enterprise     : {$camp->brand_name}\n" .
                         "Target Ad Space        : {$camp->spot_title}\n" .
-                        "Contracted Impressions : " . number_format($camp->impressions_booked) . " verified reader impressions\n" .
+                        "Flight Duration        : {$days} Days (Continuous Placement)\n" .
+                        "Live Flight Window     : {$start_date} through {$end_date}\n" .
+                        "Social Video Feature   : {$social_note}\n" .
                         "Settled Investment     : $formatted_total (PAID & VERIFIED)\n" .
                         "Destination URL        : {$camp->destination_url}\n" .
                         "Live Publication Wire  : " . home_url('/') . "\n" .
                         "====================================================\n\n" .
                         "Your creative asset is now actively rotating in prime broadsheet position across our pan-African edition and global diaspora readership.\n\n" .
                         "You can verify your live banner directly on the publication wire at: " . home_url('/') . "\n\n" .
-                        "For any campaign adjustments, CTR reports, or additional impression reservations, contact our syndicate desk directly via WhatsApp at " . $bank_details['whatsapp_number'] . ".\n\n" .
+                        "For any campaign adjustments, performance stats, or flight extensions, contact our syndicate desk directly via WhatsApp at " . $bank_details['whatsapp_number'] . ".\n\n" .
                         "Respectfully,\n" .
                         "Commercial & Brand Reach Syndicate\n" .
                         "Magazine Afrique — Sovereign Pan-African Journalism\n" .
@@ -581,26 +653,33 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             $edit_id = intval($_POST['campaign_id']);
             $edit_spot_key = sanitize_text_field($_POST['spot']);
             $edit_spot = isset($spots[$edit_spot_key]) ? $spots[$edit_spot_key] : $spots['bottom'];
-            $edit_imps = max(1000, intval($_POST['impressions_booked']));
+            $edit_days = max(1, min(56, intval($_POST['days_booked'] ?? $_POST['impressions_booked'] ?? 7)));
+            $edit_has_social = !empty($_POST['has_social_video']) ? 1 : 0;
             $edit_currency = sanitize_text_field($_POST['currency'] ?? 'NGN');
-            $edit_cpm = ($edit_currency === 'USD') ? floatval($edit_spot['cpm_usd']) : floatval($edit_spot['cpm_ngn']);
-            $edit_total = ($edit_imps / 1000) * $edit_cpm;
+            $edit_daily_rate = ($edit_currency === 'USD') ? floatval($edit_spot['daily_rate_usd'] ?? $edit_spot['cpm_usd']) : floatval($edit_spot['daily_rate_ngn'] ?? $edit_spot['cpm_ngn']);
+            $social_fee = $edit_has_social ? (($edit_currency === 'USD') ? 30.00 : 30000.00) : 0.00;
+            $edit_total = ($edit_days * $edit_daily_rate) + $social_fee;
 
             $update_data = array(
-                'brand_name'         => sanitize_text_field($_POST['brand_name']),
-                'contact_name'       => sanitize_text_field($_POST['contact_name']),
-                'contact_email'      => sanitize_email($_POST['contact_email']),
-                'contact_phone'      => sanitize_text_field($_POST['contact_phone'] ?? ''),
-                'country'            => sanitize_text_field($_POST['country'] ?? ''),
-                'spot'               => $edit_spot_key,
-                'spot_title'         => $edit_spot['title'],
-                'cpm_rate'           => $edit_cpm,
-                'currency'           => $edit_currency,
-                'impressions_booked' => $edit_imps,
-                'total_amount'       => $edit_total,
-                'destination_url'    => esc_url_raw($_POST['destination_url']),
-                'status'             => sanitize_text_field($_POST['status']),
-                'payment_status'     => sanitize_text_field($_POST['payment_status']),
+                'brand_name'                    => sanitize_text_field($_POST['brand_name']),
+                'contact_name'                  => sanitize_text_field($_POST['contact_name']),
+                'contact_email'                 => sanitize_email($_POST['contact_email']),
+                'contact_phone'                 => sanitize_text_field($_POST['contact_phone'] ?? ''),
+                'country'                       => sanitize_text_field($_POST['country'] ?? ''),
+                'spot'                          => $edit_spot_key,
+                'spot_title'                    => $edit_spot['title'],
+                'daily_rate'                    => $edit_daily_rate,
+                'cpm_rate'                      => $edit_daily_rate,
+                'currency'                      => $edit_currency,
+                'days_booked'                   => $edit_days,
+                'has_social_video'              => $edit_has_social,
+                'social_video_fee'              => $social_fee,
+                'social_video_views_guaranteed' => $edit_has_social ? 100000 : 0,
+                'impressions_booked'            => $edit_days * 10000,
+                'total_amount'                  => $edit_total,
+                'destination_url'               => esc_url_raw($_POST['destination_url']),
+                'status'                        => sanitize_text_field($_POST['status']),
+                'payment_status'                => sanitize_text_field($_POST['payment_status']),
             );
 
             if (!empty($_FILES['creative_file']['name'])) {
@@ -624,14 +703,20 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
         if (isset($_POST['magafrique_save_cpm_rates']) && check_admin_referer('magafrique_save_cpm_rates_nonce')) {
             foreach ($spots as $s_key => $s_data) {
                 if (isset($_POST['cpm_' . $s_key . '_ngn'])) {
-                    update_option('magafrique_cpm_' . $s_key . '_ngn', max(100, floatval($_POST['cpm_' . $s_key . '_ngn'])));
+                    $min_rate = ($s_key === 'bottom') ? 2000 : 500;
+                    $val_ngn = max($min_rate, floatval($_POST['cpm_' . $s_key . '_ngn']));
+                    update_option('magafrique_rate_' . $s_key . '_ngn', $val_ngn);
+                    update_option('magafrique_cpm_' . $s_key . '_ngn', $val_ngn);
                 }
                 if (isset($_POST['cpm_' . $s_key . '_usd'])) {
-                    update_option('magafrique_cpm_' . $s_key . '_usd', max(1, floatval($_POST['cpm_' . $s_key . '_usd'])));
+                    $min_usd = ($s_key === 'bottom') ? 2.00 : 0.50;
+                    $val_usd = max($min_usd, floatval($_POST['cpm_' . $s_key . '_usd']));
+                    update_option('magafrique_rate_' . $s_key . '_usd', $val_usd);
+                    update_option('magafrique_cpm_' . $s_key . '_usd', $val_usd);
                 }
             }
             $spots = magazineafrique_get_ad_spots_matrix();
-            echo '<div class="notice notice-success is-dismissible"><p>✓ Sovereign CPM pricing matrix updated. Live calculator now reflects new rates.</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p>✓ Sovereign daily placement pricing matrix updated. Live calculator now reflects new rates.</p></div>';
         }
 
         // ---------------------------------------------------------------------
@@ -930,27 +1015,36 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                             <strong style="color: #FBBF24;"><?php echo esc_html($camp->spot_title); ?></strong>
                                         </div>
                                         <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E; margin-bottom: 3px;">
-                                            <span>CPM Rate:</span>
-                                            <span><?php echo $camp->currency === 'USD' ? '$' : '₦'; ?><?php echo number_format($camp->cpm_rate); ?> / 1k imps</span>
+                                            <span>Flight Duration:</span>
+                                            <strong style="color: #FAF7F2;"><?php echo esc_html($camp->days_booked ?? 1); ?> Day(s) (Max 56)</strong>
                                         </div>
-                                        <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E;">
+                                        <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E; margin-bottom: 3px;">
+                                            <span>Daily Rate:</span>
+                                            <span><?php echo $camp->currency === 'USD' ? '$' : '₦'; ?><?php echo number_format($camp->daily_rate ?? $camp->cpm_rate); ?> / day</span>
+                                        </div>
+                                        <?php if (!empty($camp->has_social_video)) : ?>
+                                            <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 10.5px; color: #C084FC; margin-bottom: 3px; background: rgba(139, 92, 246, 0.1); padding: 2px 6px; border-radius: 2px;">
+                                                <span>Social Media Video:</span>
+                                                <strong>✓ 100k Views (4 Days)</strong>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($camp->start_date) && !empty($camp->end_date)) : ?>
+                                            <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 10px; color: #78716C; margin-bottom: 3px;">
+                                                <span>Flight Window:</span>
+                                                <span><?php echo esc_html($camp->start_date); ?> → <?php echo esc_html($camp->end_date); ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 4px; margin-top: 4px;">
                                             <span>Total Investment:</span>
                                             <strong style="color: #34D399; font-size: 12px;"><?php echo $camp->currency === 'USD' ? '$' : '₦'; ?><?php echo number_format($camp->total_amount); ?></strong>
                                         </div>
                                     </div>
 
-                                    <!-- Progress Bar (Served vs Booked) -->
+                                    <!-- Flight Delivery Counter -->
                                     <div style="margin-bottom: 0.85rem;">
                                         <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 10px; color: #A39A8E; margin-bottom: 4px;">
-                                            <span>Delivery: <?php echo number_format($camp->impressions_served); ?> / <?php echo number_format($camp->impressions_booked); ?> imps</span>
-                                            <span style="font-weight: 700; color: #FAF7F2;"><?php echo esc_html($pct); ?>%</span>
-                                        </div>
-                                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
-                                            <div style="width: <?php echo esc_attr($pct); ?>%; height: 100%; background: #D97706;"></div>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 9.5px; color: #78716C; margin-top: 3px;">
-                                            <span>Clicks: <?php echo number_format($camp->clicks); ?></span>
-                                            <span>CTR: <?php echo esc_html($ctr_camp); ?>%</span>
+                                            <span>Delivered Reader Views: <?php echo number_format($camp->impressions_served); ?></span>
+                                            <span>Clicks: <?php echo number_format($camp->clicks); ?> (CTR: <?php echo esc_html($ctr_camp); ?>%)</span>
                                         </div>
                                     </div>
 
@@ -1155,13 +1249,13 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                 <div style="background: #171513; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.6);">
                     <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 1rem; margin-bottom: 1.5rem;">
                         <span style="background: #D97706; color: #171513; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 3px; display: inline-block; margin-bottom: 0.35rem;">
-                            INVENTORY PRICING DESK
+                            DAILY RATE INVENTORY DESK
                         </span>
                         <h2 style="color: #FFFFFF; font-family: 'Newsreader', Georgia, serif; font-size: 1.65rem; font-weight: 800; margin: 0 0 0.35rem;">
-                            Broadsheet CPM Pricing &amp; Spot Inventory Matrix
+                            Broadsheet Daily Placement Rates &amp; Spot Inventory Matrix
                         </h2>
                         <p style="color: #A39A8E; font-size: 13px; margin: 0; line-height: 1.5;">
-                            Configure the sovereign Cost-Per-Thousand (CPM) rates for each placement across Magazine Afrique. Higher rates apply to premium high-dwell placements like the Master Masthead and In-Article core. Changes directly power the live rate calculator on the public Buy Ad Space page.
+                            Configure the sovereign per-day rates for each placement across Magazine Afrique. Base rate starts at ₦2,000/day for the lowest ad space (Broadsheet Bottom Leaderboard). Advertisers can select up to 56 days max.
                         </p>
                     </div>
 
@@ -1187,26 +1281,50 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                         <?php echo esc_html($s['description']); ?>
                                     </p>
                                     <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #78716C; margin-bottom: 1rem;">
-                                        Dimensions: <?php echo esc_html($s['dimensions']); ?>
+                                        Placement: <?php echo esc_html($s['placement']); ?>
                                     </div>
 
                                     <!-- Price Inputs -->
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                                         <div>
-                                            <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #D97706; margin-bottom: 4px;">CPM Rate (NGN ₦)</label>
-                                            <input type="number" name="cpm_<?php echo esc_attr($s_id); ?>_ngn" value="<?php echo esc_attr($s['cpm_ngn']); ?>" min="500" step="100" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FBBF24; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; border-radius: 3px;" required>
+                                            <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #D97706; margin-bottom: 4px;">Daily Rate (NGN ₦ / day)</label>
+                                            <input type="number" name="cpm_<?php echo esc_attr($s_id); ?>_ngn" value="<?php echo esc_attr($s['daily_rate_ngn'] ?? $s['cpm_ngn']); ?>" min="<?php echo ($s_id === 'bottom') ? '2000' : '500'; ?>" step="100" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #FBBF24; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; border-radius: 3px;" required>
                                         </div>
                                         <div>
-                                            <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #34D399; margin-bottom: 4px;">CPM Rate (USD $)</label>
-                                            <input type="number" name="cpm_<?php echo esc_attr($s_id); ?>_usd" value="<?php echo esc_attr($s['cpm_usd']); ?>" min="1" step="0.25" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #34D399; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; border-radius: 3px;" required>
+                                            <label style="display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: #34D399; margin-bottom: 4px;">Daily Rate (USD $ / day)</label>
+                                            <input type="number" name="cpm_<?php echo esc_attr($s_id); ?>_usd" value="<?php echo esc_attr($s['daily_rate_usd'] ?? $s['cpm_usd']); ?>" min="<?php echo ($s_id === 'bottom') ? '2' : '0.5'; ?>" step="0.25" style="width: 100%; background: #171513; border: 1px solid rgba(255,255,255,0.2); color: #34D399; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; border-radius: 3px;" required>
                                         </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
 
+                        <!-- Social Media Video Sponsorship Package Card In Admin Desk -->
+                        <?php $social_pkg = magazineafrique_get_social_video_package(); ?>
+                        <div style="background: linear-gradient(135deg, rgba(88, 28, 135, 0.25) 0%, rgba(23, 21, 19, 0.98) 100%), #171513; border: 2px solid #8B5CF6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 800; background: rgba(139, 92, 246, 0.25); color: #C084FC; border: 1px solid rgba(139, 92, 246, 0.5); padding: 3px 8px; border-radius: 2px;">
+                                    <?php echo esc_html($social_pkg['badge']); ?>
+                                </span>
+                                <span style="font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 800; color: #FBBF24;">
+                                    FIXED FEE: ₦30,000 / $30 USD
+                                </span>
+                            </div>
+                            <h3 style="color: #FFFFFF; font-family: 'Newsreader', Georgia, serif; font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem;">
+                                <?php echo esc_html($social_pkg['title']); ?>
+                            </h3>
+                            <p style="font-size: 13px; color: #D6CEC3; margin: 0 0 0.85rem; line-height: 1.5;">
+                                <?php echo esc_html($social_pkg['description']); ?>
+                            </p>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-family: 'Geist Mono', monospace; font-size: 11px; color: #C084FC;">
+                                <span>✓ Channels: <?php echo esc_html($social_pkg['channels']); ?></span>
+                                <span>✓ Flight: <?php echo esc_html($social_pkg['duration_days']); ?> Days</span>
+                                <span>✓ Contractual Reach: <?php echo number_format($social_pkg['guaranteed_views']); ?>+ Brand Views</span>
+                            </div>
+                        </div>
+
                         <button type="submit" class="button button-primary" style="background: #D97706; border-color: #D97706; color: #171513; font-weight: 800; font-family: 'Geist Mono', monospace; padding: 8px 20px; font-size: 12px;">
-                            Save CPM Pricing Matrix
+                            Save Daily Placement Pricing Matrix
                         </button>
                     </form>
                 </div>
@@ -1386,7 +1504,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                             <select name="spot" required style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 9px 12px; border-radius: 3px; font-family: inherit; font-size: 13px;">
                                 <?php foreach ($spots as $s_id => $s) : ?>
                                     <option value="<?php echo esc_attr($s_id); ?>">
-                                        <?php echo esc_html($s['title']); ?> (CPM: ₦<?php echo number_format($s['cpm_ngn']); ?> / $<?php echo number_format($s['cpm_usd'], 2); ?> per 1k)
+                                        <?php echo esc_html($s['title']); ?> (Rate: ₦<?php echo number_format($s['daily_rate_ngn'] ?? $s['cpm_ngn']); ?> / $<?php echo number_format($s['daily_rate_usd'] ?? $s['cpm_usd'], 2); ?> per day)
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -1394,8 +1512,8 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                             <div>
-                                <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Impressions Booked *</label>
-                                <input type="number" name="impressions_booked" value="25000" min="5000" step="1000" required style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 9px 12px; border-radius: 3px; font-family: inherit; font-size: 13px;" />
+                                <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Flight Duration (Days, 1 to 56 max) *</label>
+                                <input type="number" name="days_booked" value="7" min="1" max="56" required style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 9px 12px; border-radius: 3px; font-family: inherit; font-size: 13px;" />
                             </div>
                             <div>
                                 <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Initial Flight Status</label>
@@ -1404,6 +1522,13 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                     <option value="pending_review">Pending Review (Hold until confirmed)</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(217, 119, 6, 0.08); border: 1px solid rgba(217, 119, 6, 0.3); border-radius: 3px;">
+                            <label style="display: flex; align-items: center; gap: 8px; color: #FBBF24; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; margin: 0;">
+                                <input type="checkbox" name="has_social_video" value="1" style="accent-color: #D97706;" />
+                                <span>Include Social Media Video Syndication (+₦30,000 · 4 Days · 100,000 Views Guaranteed)</span>
+                            </label>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
@@ -1480,7 +1605,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                         <select id="edit_spot" name="spot" style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 8px 10px; border-radius: 3px; font-size: 13px;">
                             <?php foreach ($spots as $s_id => $s) : ?>
                                 <option value="<?php echo esc_attr($s_id); ?>">
-                                    <?php echo esc_html($s['title']); ?> (CPM: ₦<?php echo number_format($s['cpm_ngn']); ?>)
+                                    <?php echo esc_html($s['title']); ?> (Daily: ₦<?php echo number_format($s['daily_rate_ngn'] ?? $s['cpm_ngn']); ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -1488,8 +1613,8 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
                         <div>
-                            <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Impressions Booked</label>
-                            <input type="number" id="edit_impressions_booked" name="impressions_booked" min="1000" step="1000" style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 8px 10px; border-radius: 3px; font-size: 13px;" required />
+                            <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Flight Days (1 to 56 max) *</label>
+                            <input type="number" id="edit_days_booked" name="days_booked" min="1" max="56" style="width: 100%; background: #1F1D1A; border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; padding: 8px 10px; border-radius: 3px; font-size: 13px;" required />
                         </div>
                         <div>
                             <label style="display: block; color: #FAF7F2; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px;">Currency</label>
@@ -1498,6 +1623,13 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                 <option value="USD">USD ($)</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div style="margin-bottom: 1rem; padding: 0.6rem 0.75rem; background: rgba(217, 119, 6, 0.08); border: 1px solid rgba(217, 119, 6, 0.3); border-radius: 3px;">
+                        <label style="display: flex; align-items: center; gap: 8px; color: #FBBF24; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; margin: 0;">
+                            <input type="checkbox" id="edit_has_social_video" name="has_social_video" value="1" style="accent-color: #D97706;" />
+                            <span>Include Social Media Video (+₦30k / $30 · 4 Days · 100k Views)</span>
+                        </label>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
@@ -1636,7 +1768,7 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
                                 <div>Bank: <strong>Eco Bank</strong></div>
                                 <div>Beneficiary: <strong>Magazine Afrique Limited</strong></div>
                                 <div>Account Number: <strong style="color: #FBBF24; font-family: 'Geist Mono', monospace;">0089765434</strong></div>
-                                <div>Contracted Impressions: <strong id="review_impressions_val">-</strong> readers</div>
+                                <div>Contracted Flight: <strong id="review_impressions_val" style="color: #FBBF24;">-</strong></div>
                                 <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: baseline;">
                                     <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #A39A8E;">Total Wire Sum:</span>
                                     <strong id="review_total_amount_val" style="color: #34D399; font-size: 1.35rem; font-family: 'Geist Mono', monospace;">-</strong>
@@ -1691,7 +1823,11 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             badge.style.color = isPaid ? '#34D399' : '#FBBF24';
             
             var sym = (camp.currency === 'USD') ? '$' : '₦';
-            document.getElementById('review_impressions_val').textContent = Number(camp.impressions_booked || 0).toLocaleString();
+            var durationText = (camp.days_booked || 1) + ((camp.days_booked == 1) ? ' Day Flight' : ' Days Flight');
+            if (parseInt(camp.has_social_video) === 1) {
+                durationText += ' + Social Video (100k views)';
+            }
+            document.getElementById('review_impressions_val').textContent = durationText;
             document.getElementById('review_total_amount_val').textContent = sym + Number(camp.total_amount || 0).toLocaleString();
             
             // WhatsApp routing link
@@ -1724,7 +1860,8 @@ if (!function_exists('magazineafrique_render_brand_ads_admin_page')) {
             document.getElementById('edit_contact_phone').value = camp.contact_phone || '';
             document.getElementById('edit_country').value = camp.country || '';
             document.getElementById('edit_spot').value = camp.spot || 'bottom';
-            document.getElementById('edit_impressions_booked').value = camp.impressions_booked || 25000;
+            document.getElementById('edit_days_booked').value = camp.days_booked || 7;
+            document.getElementById('edit_has_social_video').checked = (parseInt(camp.has_social_video) === 1);
             document.getElementById('edit_currency').value = camp.currency || 'NGN';
             document.getElementById('edit_status').value = camp.status || 'pending_review';
             document.getElementById('edit_payment_status').value = camp.payment_status || 'unpaid';
@@ -1758,9 +1895,10 @@ add_action('admin_post_magazineafrique_admin_create_ad_campaign', function() {
 
     $spot_key = sanitize_text_field($_POST['spot']);
     $spot_data = isset($spots[$spot_key]) ? $spots[$spot_key] : $spots['bottom'];
-    $impressions = max(1000, intval($_POST['impressions_booked']));
-    $cpm = floatval($spot_data['cpm_ngn']);
-    $total_amount = ($impressions / 1000) * $cpm;
+    $days = max(1, min(56, intval($_POST['days_booked'] ?? $_POST['days'] ?? 7)));
+    $has_social_video = !empty($_POST['has_social_video']) ? 1 : 0;
+    $daily_rate = floatval($spot_data['daily_rate_ngn'] ?? $spot_data['cpm_ngn']);
+    $total_amount = ($days * $daily_rate) + ($has_social_video ? 30000.00 : 0.00);
 
     $creative_url = '';
     if (!empty($_FILES['creative_file']['name'])) {
@@ -1776,26 +1914,35 @@ add_action('admin_post_magazineafrique_admin_create_ad_campaign', function() {
 
     $booking_code = 'MA-AD-' . wp_rand(10000, 99999);
     $status = sanitize_text_field($_POST['status']);
+    $start_date = ($status === 'active') ? current_time('Y-m-d') : null;
+    $end_date = ($status === 'active') ? date('Y-m-d', strtotime("+$days days")) : null;
 
     $wpdb->insert($table_name, array(
-        'booking_code'       => $booking_code,
-        'brand_name'         => sanitize_text_field($_POST['brand_name']),
-        'contact_name'       => sanitize_text_field($_POST['contact_name']),
-        'contact_email'      => sanitize_email($_POST['contact_email']),
-        'contact_phone'      => sanitize_text_field($_POST['contact_phone'] ?? ''),
-        'spot'               => $spot_key,
-        'spot_title'         => $spot_data['title'],
-        'cpm_rate'           => $cpm,
-        'currency'           => 'NGN',
-        'impressions_booked' => $impressions,
-        'impressions_served' => 0,
-        'clicks'             => 0,
-        'total_amount'       => $total_amount,
-        'creative_url'       => esc_url_raw($creative_url),
-        'destination_url'    => esc_url_raw($_POST['destination_url']),
-        'status'             => $status,
-        'payment_status'     => ($status === 'active') ? 'paid' : 'unpaid',
-        'created_at'         => current_time('mysql')
+        'booking_code'                  => $booking_code,
+        'brand_name'                    => sanitize_text_field($_POST['brand_name']),
+        'contact_name'                  => sanitize_text_field($_POST['contact_name']),
+        'contact_email'                 => sanitize_email($_POST['contact_email']),
+        'contact_phone'                 => sanitize_text_field($_POST['contact_phone'] ?? ''),
+        'spot'                          => $spot_key,
+        'spot_title'                    => $spot_data['title'],
+        'daily_rate'                    => $daily_rate,
+        'cpm_rate'                      => $daily_rate,
+        'currency'                      => 'NGN',
+        'days_booked'                   => $days,
+        'has_social_video'              => $has_social_video,
+        'social_video_fee'              => $has_social_video ? 30000.00 : 0.00,
+        'social_video_views_guaranteed' => $has_social_video ? 100000 : 0,
+        'impressions_booked'            => $days * 10000,
+        'impressions_served'            => 0,
+        'clicks'                        => 0,
+        'total_amount'                  => $total_amount,
+        'creative_url'                  => esc_url_raw($creative_url),
+        'destination_url'               => esc_url_raw($_POST['destination_url']),
+        'start_date'                    => $start_date,
+        'end_date'                      => $end_date,
+        'status'                        => $status,
+        'payment_status'                => ($status === 'active') ? 'paid' : 'unpaid',
+        'created_at'                    => current_time('mysql')
     ));
 
     wp_safe_redirect(admin_url('admin.php?page=magazineafrique-brand-ads&created=1'));
@@ -1815,7 +1962,8 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
         $phone        = sanitize_text_field($_POST['contact_phone'] ?? '');
         $country      = sanitize_text_field($_POST['country'] ?? '');
         $spot_key     = sanitize_text_field($_POST['spot_key'] ?? $_POST['spot'] ?? 'header_masthead');
-        $impressions  = max(1000, intval($_POST['impressions'] ?? 1000));
+        $days         = max(1, min(56, intval($_POST['days'] ?? $_POST['flight_days'] ?? 1)));
+        $has_social_video = (!empty($_POST['social_video']) && $_POST['social_video'] !== '0' && $_POST['social_video'] !== 'false') ? 1 : 0;
         $dest_url     = esc_url_raw($_POST['destination_url'] ?? '');
         $target_desk  = sanitize_text_field($_POST['target_desk'] ?? 'all');
         $currency     = sanitize_text_field($_POST['currency'] ?? 'NGN');
@@ -1826,12 +1974,14 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
 
         $spots = magazineafrique_get_ad_spots_matrix();
         if (!isset($spots[$spot_key])) {
-            $spot_key = 'header_masthead';
+            $spot_key = 'bottom';
         }
         $spot_data = $spots[$spot_key];
 
-        $cpm = ($currency === 'USD') ? $spot_data['cpm_usd'] : $spot_data['cpm_ngn'];
-        $total_amount = ($impressions / 1000) * $cpm;
+        $daily_rate = ($currency === 'USD') ? $spot_data['daily_rate_usd'] : $spot_data['daily_rate_ngn'];
+        $broadsheet_total = $days * $daily_rate;
+        $social_fee = $has_social_video ? (($currency === 'USD') ? 30.00 : 30000.00) : 0.00;
+        $total_amount = $broadsheet_total + $social_fee;
 
         // Handle Creative Upload (support both creative_asset and creative_file input names)
         $file_key = '';
@@ -1862,26 +2012,31 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
         $booking_code = 'MA-AD-' . wp_rand(10000, 99999);
 
         $inserted = $wpdb->insert($table_name, array(
-            'booking_code'       => $booking_code,
-            'brand_name'         => $brand_name,
-            'contact_name'       => $contact_name,
-            'contact_email'      => $email,
-            'contact_phone'      => $phone,
-            'country'            => $country,
-            'spot'               => $spot_key,
-            'spot_title'         => $spot_data['title'],
-            'cpm_rate'           => $cpm,
-            'currency'           => $currency,
-            'impressions_booked' => $impressions,
-            'impressions_served' => 0,
-            'clicks'             => 0,
-            'total_amount'       => $total_amount,
-            'creative_url'       => $creative_url,
-            'destination_url'    => $dest_url,
-            'target_desk'        => $target_desk,
-            'status'             => 'pending_review',
-            'payment_status'     => 'unpaid',
-            'created_at'         => current_time('mysql')
+            'booking_code'                  => $booking_code,
+            'brand_name'                    => $brand_name,
+            'contact_name'                  => $contact_name,
+            'contact_email'                 => $email,
+            'contact_phone'                 => $phone,
+            'country'                       => $country,
+            'spot'                          => $spot_key,
+            'spot_title'                    => $spot_data['title'],
+            'daily_rate'                    => $daily_rate,
+            'cpm_rate'                      => $daily_rate,
+            'currency'                      => $currency,
+            'days_booked'                   => $days,
+            'has_social_video'              => $has_social_video,
+            'social_video_fee'              => $social_fee,
+            'social_video_views_guaranteed' => $has_social_video ? 100000 : 0,
+            'impressions_booked'            => $days * 10000,
+            'impressions_served'            => 0,
+            'clicks'                        => 0,
+            'total_amount'                  => $total_amount,
+            'creative_url'                  => $creative_url,
+            'destination_url'               => $dest_url,
+            'target_desk'                   => $target_desk,
+            'status'                        => 'pending_review',
+            'payment_status'                => 'unpaid',
+            'created_at'                    => current_time('mysql')
         ));
 
         if (!$inserted) {
@@ -1891,6 +2046,8 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
         // Fetch Official Bank Settlement Details
         $bank = magazineafrique_get_ad_bank_details();
         $formatted_total = ($currency === 'USD' ? '$' : '₦') . number_format($total_amount);
+        $formatted_daily = ($currency === 'USD' ? '$' : '₦') . number_format($daily_rate);
+        $social_summary  = $has_social_video ? 'YES — Included (+ ' . ($currency === 'USD' ? '$30' : '₦30,000') . ' / 4 Days Fixed / Guaranteed 100,000 Video Views across YouTube, TikTok, Reels & X)' : 'Not Included (Broadsheet display only)';
 
         // 1. Send Administrative Notification
         $admin_email = get_option('admin_email');
@@ -1901,8 +2058,9 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
                    "Contact Officer       : $contact_name ($email, $phone)\n" .
                    "Jurisdiction          : $country\n" .
                    "Target Space          : " . $spot_data['title'] . "\n" .
-                   "Guaranteed Impressions: " . number_format($impressions) . "\n" .
-                   "CPM Rate              : " . ($currency === 'USD' ? '$' : '₦') . number_format($cpm) . "\n" .
+                   "Daily Placement Rate  : $formatted_daily / day\n" .
+                   "Flight Duration       : $days Day(s) (Continuous Placement · Max 56 Days)\n" .
+                   "Social Video Feature  : $social_summary\n" .
                    "Total Investment      : $formatted_total\n" .
                    "Destination URL       : $dest_url\n" .
                    "Creative Asset        : $creative_url\n\n" .
@@ -1923,7 +2081,9 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
             "Official Booking Reference : #$booking_code\n" .
             "Brand / Organization       : $brand_name\n" .
             "Selected Ad Space          : " . $spot_data['title'] . "\n" .
-            "Guaranteed Reach Delivery  : " . number_format($impressions) . " verified readers\n" .
+            "Daily Placement Rate       : $formatted_daily per day\n" .
+            "Contracted Flight Duration : $days Day(s) of continuous broadsheet placement\n" .
+            "Social Media Video Feature : $social_summary\n" .
             "Contract Investment Total  : $formatted_total\n" .
             "Destination URL            : $dest_url\n" .
             "====================================================\n\n" .
@@ -1954,7 +2114,9 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
             'booking_code'   => $booking_code,
             'brand_name'     => $brand_name,
             'spot_title'     => $spot_data['title'],
-            'impressions'    => number_format($impressions),
+            'days'           => $days,
+            'has_social'     => $has_social_video,
+            'daily_rate'     => $formatted_daily,
             'currency'       => $currency,
             'total_amount'   => number_format($total_amount),
             'bank_name'      => $bank['bank_name'],
@@ -1963,7 +2125,7 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
             'whatsapp_num'   => $bank['whatsapp_number'],
             'whatsapp_intl'  => $bank['whatsapp_intl'],
             'whatsapp_link'  => $wa_link,
-            'instructions'   => 'Your campaign has been logged under reference #' . $booking_code . '. An invoice with Eco Bank wire remittance instructions has been dispatched to ' . $email . '. Send receipt to ' . $bank['whatsapp_number'] . ' on WhatsApp for faster response on any issue.'
+            'instructions'   => 'Your campaign has been logged under reference #' . $booking_code . ' for ' . $days . ' day(s)' . ($has_social_video ? ' with 4-day social media video feature (100k views guaranteed)' : '') . '. An invoice with Eco Bank wire remittance instructions has been dispatched to ' . $email . '. Send receipt to ' . $bank['whatsapp_number'] . ' on WhatsApp for faster response on any issue.'
         ));
     }
     add_action('wp_ajax_magazineafrique_submit_ad_booking', 'magazineafrique_ajax_submit_ad_booking');
@@ -1973,8 +2135,8 @@ if (!function_exists('magazineafrique_ajax_submit_ad_booking')) {
 /**
  * 7. Active Brand Reach Ad Retrival & Serving
  * Queries database for active direct brand campaigns.
- * If one is active and has remaining impressions, serves it and increments impressions.
- * If none active, impressions exhausted, or current 5-hour shift is reserved for Google Ads,
+ * If one is active within its flight window, serves it and increments delivery counter.
+ * If none active or current 5-hour shift is reserved for Google Ads,
  * returns false (falls back to Google AdSense).
  */
 if (!function_exists('magazineafrique_get_active_brand_ad')) {
@@ -1999,29 +2161,37 @@ if (!function_exists('magazineafrique_get_active_brand_ad')) {
             return false;
         }
 
-        // Query active campaign with remaining impressions
+        $today = current_time('Y-m-d');
+
+        // Query active campaign within flight days or legacy impressions
         // If multiple active campaigns exist, serve round-robin by lowest impressions_served
         $campaign = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $table_name 
              WHERE status = 'active' 
              AND spot = %s 
-             AND impressions_served < impressions_booked 
+             AND (
+                 (end_date IS NOT NULL AND end_date >= %s)
+                 OR (end_date IS NULL AND (impressions_booked = 0 OR impressions_served < impressions_booked))
+             )
              ORDER BY impressions_served ASC, id ASC LIMIT 1",
-            $spot_key
+            $spot_key,
+            $today
         ));
 
         if (!$campaign) {
             return false;
         }
 
-        // Atomically increment impressions served
+        // Atomically increment impressions served (delivery counter)
         $wpdb->query($wpdb->prepare(
             "UPDATE $table_name SET impressions_served = impressions_served + 1 WHERE id = %d",
             $campaign->id
         ));
 
-        // Auto-complete if impressions reached
-        if (($campaign->impressions_served + 1) >= $campaign->impressions_booked) {
+        // Auto-complete if end_date has elapsed
+        if (!empty($campaign->end_date) && $campaign->end_date < $today) {
+            $wpdb->update($table_name, array('status' => 'completed'), array('id' => $campaign->id));
+        } elseif (empty($campaign->end_date) && $campaign->impressions_booked > 0 && ($campaign->impressions_served + 1) >= $campaign->impressions_booked) {
             $wpdb->update($table_name, array('status' => 'completed'), array('id' => $campaign->id));
         }
 
