@@ -21,6 +21,230 @@ $bank_details = function_exists('magazineafrique_get_ad_bank_details') ? magazin
 $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 ?>
 
+<style>
+/* ==========================================================================
+   BUY AD SPACE PORTAL - BULLETPROOF HIGH-CONTRAST THEME SYSTEM
+   ========================================================================== */
+
+/* Light Mode Defaults */
+.ad-space-portal {
+  background-color: #FAF8F5 !important;
+  color: #171513 !important;
+}
+.ad-portal-inventory {
+  background-color: #FAF8F5 !important;
+  border-bottom: 1px solid #E7DEC8 !important;
+}
+.ad-portal-calculator {
+  background-color: #F4EFE6 !important;
+  border-bottom: 1px solid #E7DEC8 !important;
+}
+.ad-portal-booking {
+  background-color: #FAF8F5 !important;
+}
+.ad-space-portal .section-heading-box .section-title {
+  color: #171513 !important;
+}
+.ad-space-portal .section-heading-box .section-desc {
+  color: #44403C !important;
+}
+.ad-space-portal .section-heading-box .section-kicker {
+  color: #D97706 !important;
+}
+.ad-space-portal .ad-hero-title {
+  color: #171513 !important;
+}
+.ad-space-portal .ad-hero-deck {
+  color: #44403C !important;
+}
+.ad-space-portal .spot-card-title {
+  color: #171513 !important;
+}
+.ad-space-portal .spot-card-desc {
+  color: #57534E !important;
+}
+.ad-space-portal .calc-title {
+  color: #171513 !important;
+}
+.ad-space-portal .control-label {
+  color: #171513 !important;
+}
+.ad-space-portal .radio-title {
+  color: #171513 !important;
+}
+.ad-space-portal .form-title {
+  color: #171513 !important;
+}
+.ad-space-portal .form-subtitle {
+  color: #57534E !important;
+}
+.ad-space-portal .field-label {
+  color: #171513 !important;
+}
+.ad-space-portal .info-card-title {
+  color: #171513 !important;
+}
+.ad-space-portal .standards-list li {
+  color: #44403C !important;
+}
+.ad-space-portal .standards-list strong {
+  color: #171513 !important;
+}
+
+/* Dark Mode (When html or body has [data-theme="dark"]) */
+[data-theme="dark"] .ad-space-portal {
+  background-color: #0E0D0C !important;
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .ad-portal-masthead-strip {
+  background: #171513 !important;
+  border-bottom-color: #D97706 !important;
+}
+[data-theme="dark"] .ad-portal-hero {
+  background: #141210 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+[data-theme="dark"] .ad-hero-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .ad-hero-deck {
+  color: #D6CEC3 !important;
+}
+[data-theme="dark"] .ad-portal-inventory {
+  background-color: #0E0D0C !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+[data-theme="dark"] .ad-space-portal .section-heading-box .section-title,
+[data-theme="dark"] .section-heading-box .section-title,
+[data-theme="dark"] .section-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .ad-space-portal .section-heading-box .section-desc,
+[data-theme="dark"] .section-heading-box .section-desc,
+[data-theme="dark"] .section-desc {
+  color: #D6CEC3 !important;
+}
+[data-theme="dark"] .ad-space-portal .section-heading-box .section-kicker,
+[data-theme="dark"] .section-heading-box .section-kicker,
+[data-theme="dark"] .section-kicker {
+  color: #FBBF24 !important;
+}
+[data-theme="dark"] .ad-spot-card {
+  background-color: #171513 !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+[data-theme="dark"] .ad-spot-card.is-prime {
+  background-color: #1C1914 !important;
+  border-color: #D97706 !important;
+}
+[data-theme="dark"] .spot-card-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .spot-card-desc {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .spot-specs-box {
+  background: #12100E !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+[data-theme="dark"] .spec-row {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+[data-theme="dark"] .spec-name {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .spec-val {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .rate-unit {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .usd-alt {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .ad-portal-calculator {
+  background-color: #12100E !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+[data-theme="dark"] .calculator-card-wrap {
+  background-color: #171513 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+[data-theme="dark"] .calc-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .control-label {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .spot-radio-label {
+  background: #141312 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+[data-theme="dark"] .radio-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .radio-desc {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .custom-days-label {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .input-suffix {
+  color: #A8A29E !important;
+}
+[data-theme="dark"] .ad-portal-booking {
+  background-color: #0E0D0C !important;
+}
+[data-theme="dark"] .booking-form-box {
+  background-color: #171513 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+[data-theme="dark"] .form-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .form-subtitle {
+  color: #D6CEC3 !important;
+}
+[data-theme="dark"] .field-label {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .field-input,
+[data-theme="dark"] .field-textarea {
+  background-color: #11100F !important;
+  color: #FAF7F2 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+[data-theme="dark"] .sidebar-info-card {
+  background-color: #171513 !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .info-card-title {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .standards-list li {
+  color: #D6CEC3 !important;
+}
+[data-theme="dark"] .standards-list strong {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .remittance-official-box {
+  background-color: #11100F !important;
+  border-color: #D97706 !important;
+}
+[data-theme="dark"] .remittance-official-box strong,
+[data-theme="dark"] .remittance-official-box span {
+  color: #FAF7F2 !important;
+}
+[data-theme="dark"] .wire-desc {
+  color: #D6CEC3 !important;
+}
+[data-theme="dark"] .form-compliance-notice {
+  color: #A8A29E !important;
+}
+</style>
+
 <main id="primary" class="site-main ad-space-portal">
 
   <!-- 1. Commercial Desk Header Strip -->

@@ -4943,9 +4943,14 @@ body {
    ========================================================================== */
 
 .ad-space-portal {
-  background-color: var(--bg-primary, #FAF7F2);
-  color: var(--text-primary, #171513);
+  background-color: #FAF8F5;
+  color: #171513;
   font-family: 'Newsreader', Georgia, serif;
+}
+
+[data-theme="dark"] .ad-space-portal {
+  background-color: #0E0D0C !important;
+  color: #FAF7F2 !important;
 }
 
 .ad-portal-container {
@@ -5232,6 +5237,12 @@ body {
 .ad-portal-inventory {
   padding: 4rem 0;
   border-bottom: 1px solid var(--border-color, #E7DEC8);
+  background-color: #FAF8F5;
+}
+
+[data-theme="dark"] .ad-portal-inventory {
+  background-color: #0E0D0C !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .section-heading-box {
@@ -5251,19 +5262,31 @@ body {
   margin-bottom: 0.5rem;
 }
 
+[data-theme="dark"] .section-kicker {
+  color: #FBBF24 !important;
+}
+
 .section-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 2.25rem;
   font-weight: 900;
   letter-spacing: -0.01em;
   margin-bottom: 0.85rem;
-  color: var(--text-primary, #171513);
+  color: #171513;
+}
+
+[data-theme="dark"] .section-title {
+  color: #FAF7F2 !important;
 }
 
 .section-desc {
   font-size: 1.05rem;
-  color: var(--text-secondary, #57534E);
+  color: #57534E;
   line-height: 1.6;
+}
+
+[data-theme="dark"] .section-desc {
+  color: #D6CEC3 !important;
 }
 
 .ad-inventory-grid {
@@ -6298,6 +6321,11 @@ body {
 /* 5. Direct Booking Form Section */
 .ad-portal-booking {
   padding: 4.5rem 0;
+  background-color: #FAF8F5;
+}
+
+[data-theme="dark"] .ad-portal-booking {
+  background-color: #0E0D0C !important;
 }
 
 .booking-grid {
