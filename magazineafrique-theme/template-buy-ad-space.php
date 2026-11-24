@@ -135,27 +135,43 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
 
       <div class="ad-inventory-grid">
         <?php foreach ($spots_matrix as $spot_key => $spot): ?>
-          <div class="ad-spot-card <?php echo $spot_key === 'header_masthead' ? 'is-prime' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
+          <div class="ad-spot-card <?php echo $spot_key === 'header_masthead' ? 'is-prime is-selected' : ''; ?>" data-spot-key="<?php echo esc_attr($spot_key); ?>" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>" data-spot-title="<?php echo esc_attr($spot['title']); ?>">
             <div class="spot-card-badge-row">
               <span class="spot-tag"><?php echo esc_html($spot['badge']); ?></span>
-              <span class="spot-tier-chip">TIER <?php echo substr($spot_key, -1); ?></span>
+              <span class="spot-tier-chip"><?php
+                if (!empty($spot['tier'])) {
+                  echo esc_html(strtoupper($spot['tier']));
+                } elseif (!empty($spot['tier_number'])) {
+                  echo 'TIER ' . esc_html($spot['tier_number']);
+                } else {
+                  echo 'TIER 1';
+                }
+              ?></span>
             </div>
 
             <h3 class="spot-card-title"><?php echo esc_html($spot['title']); ?></h3>
-            <p class="spot-card-desc"><?php echo esc_html($spot['desc']); ?></p>
+            <p class="spot-card-desc"><?php echo esc_html(!empty($spot['description']) ? $spot['description'] : (!empty($spot['desc']) ? $spot['desc'] : 'Strategic brand reach display inventory.')); ?></p>
 
             <div class="spot-specs-box">
               <div class="spec-row">
                 <span class="spec-name">Placement</span>
-                <span class="spec-val"><?php echo esc_html($spot['location']); ?></span>
+                <span class="spec-val"><?php echo esc_html(!empty($spot['placement']) ? $spot['placement'] : (!empty($spot['location']) ? $spot['location'] : 'Broadsheet Primary')); ?></span>
               </div>
               <div class="spec-row">
                 <span class="spec-name">Dimensions</span>
-                <span class="spec-val mono"><?php echo esc_html($spot['desktop_dim']); ?> / <?php echo esc_html($spot['mobile_dim']); ?></span>
+                <span class="spec-val mono"><?php
+                  if (!empty($spot['dimensions'])) {
+                    echo esc_html($spot['dimensions']);
+                  } elseif (!empty($spot['desktop_dim']) || !empty($spot['mobile_dim'])) {
+                    echo esc_html(trim(($spot['desktop_dim'] ?? '') . ' / ' . ($spot['mobile_dim'] ?? ''), ' /'));
+                  } else {
+                    echo 'Responsive IAB Standard';
+                  }
+                ?></span>
               </div>
               <div class="spec-row">
                 <span class="spec-name">Guaranteed View</span>
-                <span class="spec-val"><?php echo esc_html($spot['viewability']); ?> Viewability</span>
+                <span class="spec-val"><?php echo esc_html(!empty($spot['viewability']) ? $spot['viewability'] : '100% Verified'); ?> Viewability</span>
               </div>
             </div>
 
@@ -168,8 +184,9 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
               <span class="usd-alt">Equivalent to $<?php echo number_format($spot['cpm_usd'], 2); ?> USD CPM</span>
             </div>
 
-            <button type="button" class="select-spot-btn" onclick="selectSpotFromCard('<?php echo esc_attr($spot_key); ?>')">
-              Select This Space
+            <button type="button" class="select-spot-btn" onclick="selectSpotFromCard('<?php echo esc_attr($spot_key); ?>')" style="background: #D97706 !important; color: #171513 !important; border: 1.5px solid #D97706 !important; font-weight: 800 !important; cursor: pointer;">
+              <span>Select This Space</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left: 6px; display: inline-block; vertical-align: middle;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </div>
         <?php endforeach; ?>
@@ -208,7 +225,7 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
                         <span class="radio-title"><?php echo esc_html($spot['title']); ?></span>
                         <span class="radio-cpm mono" data-cpm-ngn="<?php echo esc_attr($spot['cpm_ngn']); ?>" data-cpm-usd="<?php echo esc_attr($spot['cpm_usd']); ?>">₦<?php echo number_format($spot['cpm_ngn']); ?> CPM</span>
                       </div>
-                      <span class="radio-desc"><?php echo esc_html($spot['location']); ?></span>
+                      <span class="radio-desc"><?php echo esc_html(!empty($spot['placement']) ? $spot['placement'] : (!empty($spot['location']) ? $spot['location'] : '')); ?></span>
                     </div>
                   </label>
                 <?php endforeach; ?>
@@ -643,6 +660,8 @@ $nonce = wp_create_nonce('magazineafrique_ad_booking_nonce');
   };
 
   window.selectSpotFromCard = function(spotKey) {
+    $('.ad-spot-card').removeClass('is-selected');
+    $('.ad-spot-card[data-spot-key="' + spotKey + '"]').addClass('is-selected');
     $('input[name="calc_spot"][value="' + spotKey + '"]').prop('checked', true).trigger('change');
     // Smooth scroll to calculator
     var target = document.getElementById('ad-calculator');
