@@ -1,6 +1,6 @@
 # Magazine Afrique — Design System & Brand Guidelines
 > **Living Specification & Single Source of Truth**  
-> *Version: 1.9.6 · Last Updated: 2026-11-26*  
+> *Version: 1.9.7 · Last Updated: 2026-11-26*  
 > *Applies to: User Frontend (Desktop & Mobile) and WordPress Admin Console (ArtCraft)*
 
 ---
@@ -216,6 +216,12 @@ Featured images on single articles and landing pages must **never overflow horiz
 12. **Education & Society:** 2-column broadsheet knowledge split.
 13. **The Afrique Chronicle & Opinion:** 3-column sovereign essays & columnists gallery.
 14. **Pan-African Topic Radar** & **The Africa Brief (Circular Notice)**.
+
+### 5.1 Mobile Horizontal Swipe Decks (`<= 768px`)
+To keep the mobile homepage crisp and prevent endless vertical scrolling:
+- **2-Column Companion Decks** (`88%` slide width with right-edge peek, `scroll-snap-type: x mandatory`): Hero (`Lead Story` ⇄ `Continental Telegraph`), Business (`AfCFTA Dossier` ⇄ `Corporate Wire`), YouTube (`Video Player` ⇄ `Broadcast Wire Queue`), and How-To (`Featured Playbook` ⇄ `Quick-Action Workbook Ledger`).
+- **Unified Multi-Panel Swipe Carousels** (`84%` / `78%` / `72%` width): Entertainment & Sports (flattened via `display: contents` so the 2 Entertainment cards + Sports Arena slide as 3 side-by-side panels), Lifestyle, Series, History Vault, Technology, Health, Biography, Education, Chronicle & Opinion, and Field Shorts.
+- **Horizontal Chip Ribbons:** Series sub-categories and Pan-African Topic Radar chips scroll cleanly on one horizontal strip instead of wrapping vertically.
 
 ---
 

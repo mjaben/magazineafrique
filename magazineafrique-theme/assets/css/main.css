@@ -8254,6 +8254,8 @@ body {
 .biz-lead-btn {
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
   background: #B85D18;
   color: #FFFFFF !important;
   font-family: var(--font-sans, -apple-system, sans-serif);
@@ -12421,6 +12423,237 @@ body {
   .welcome-card-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   MOBILE HORIZONTAL SWIPE DECKS & COMPACT LANDING RHYTHM (<= 768px)
+   Places companion columns side-by-side in snap-slidable decks so the mobile
+   homepage feels crisp and app-like rather than endlessly stacked vertically.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Keep top dateline on one crisp line */
+  .dateline-inner {
+    font-size: 0.58rem !important;
+    gap: 0.5rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .dateline-city,
+  .dateline-edition {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Tighter mobile section cadence */
+  .desk-section {
+    margin-top: 1.35rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .editorial-section-divider {
+    margin: 1.15rem 0 !important;
+  }
+
+  .desk-lifestyle-fullwidth,
+  .desk-series-fullwidth {
+    padding: 2rem 0 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Unified Horizontal Snap-Scroll Decks Across Landing Page Sections */
+  .viewport-hero-grid,
+  .biz-ledger-grid,
+  .youtube-studio-grid,
+  .marquee-ent-sports-grid,
+  .howtos-playbook-grid,
+  .series-dossier-grid,
+  .bio-portrait-grid,
+  .grid-2col-knowledge,
+  .desk-chronicle-opinion .grid-aligned-3col,
+  .desk-health-wellness .grid-aligned-3col,
+  .lifestyle-postcards-grid,
+  .archive-vault-grid,
+  .tech-grid-4col,
+  .yt-shorts-shelf-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 0.9rem !important;
+    padding: 4px 1rem 14px 2px !important;
+    margin-left: -2px !important;
+    margin-right: -1rem !important;
+    scroll-padding-left: 2px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #B45309 transparent !important;
+  }
+
+  .viewport-hero-grid::-webkit-scrollbar,
+  .biz-ledger-grid::-webkit-scrollbar,
+  .youtube-studio-grid::-webkit-scrollbar,
+  .marquee-ent-sports-grid::-webkit-scrollbar,
+  .howtos-playbook-grid::-webkit-scrollbar,
+  .series-dossier-grid::-webkit-scrollbar,
+  .bio-portrait-grid::-webkit-scrollbar,
+  .grid-2col-knowledge::-webkit-scrollbar,
+  .desk-chronicle-opinion .grid-aligned-3col::-webkit-scrollbar,
+  .desk-health-wellness .grid-aligned-3col::-webkit-scrollbar,
+  .lifestyle-postcards-grid::-webkit-scrollbar,
+  .archive-vault-grid::-webkit-scrollbar,
+  .tech-grid-4col::-webkit-scrollbar,
+  .yt-shorts-shelf-grid::-webkit-scrollbar {
+    height: 3px !important;
+  }
+
+  .viewport-hero-grid::-webkit-scrollbar-thumb,
+  .biz-ledger-grid::-webkit-scrollbar-thumb,
+  .youtube-studio-grid::-webkit-scrollbar-thumb,
+  .marquee-ent-sports-grid::-webkit-scrollbar-thumb,
+  .howtos-playbook-grid::-webkit-scrollbar-thumb,
+  .series-dossier-grid::-webkit-scrollbar-thumb,
+  .bio-portrait-grid::-webkit-scrollbar-thumb,
+  .grid-2col-knowledge::-webkit-scrollbar-thumb,
+  .desk-chronicle-opinion .grid-aligned-3col::-webkit-scrollbar-thumb,
+  .desk-health-wellness .grid-aligned-3col::-webkit-scrollbar-thumb,
+  .lifestyle-postcards-grid::-webkit-scrollbar-thumb,
+  .archive-vault-grid::-webkit-scrollbar-thumb,
+  .tech-grid-4col::-webkit-scrollbar-thumb,
+  .yt-shorts-shelf-grid::-webkit-scrollbar-thumb {
+    background-color: #B45309 !important;
+    border-radius: 999px !important;
+  }
+
+  /* 2-Column Side-by-Side Companion Decks (Lead + Wire/Ledger Peek at 88%) */
+  .viewport-hero-grid > *,
+  .biz-ledger-grid > *,
+  .youtube-studio-grid > *,
+  .howtos-playbook-grid > * {
+    flex: 0 0 88% !important;
+    width: 88% !important;
+    max-width: 88% !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Entertainment & Sports: Flatten pair so 2 Ent Cards + Sports Arena slide as 3 panels */
+  .marquee-ent-sports-grid .ent-cards-pair {
+    display: contents !important;
+  }
+
+  .marquee-ent-sports-grid > .sports-arena-col,
+  .marquee-ent-sports-grid .ent-cards-pair > article {
+    flex: 0 0 84% !important;
+    width: 84% !important;
+    max-width: 84% !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Multi-Card Editorial Decks (84% peek of next card) */
+  .series-dossier-grid > *,
+  .bio-portrait-grid > *,
+  .grid-2col-knowledge > *,
+  .desk-chronicle-opinion .grid-aligned-3col > *,
+  .desk-health-wellness .grid-aligned-3col > *,
+  .lifestyle-postcards-grid > *,
+  .archive-vault-grid > * {
+    flex: 0 0 84% !important;
+    width: 84% !important;
+    max-width: 84% !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Compact 4-Col Tech & Vertical Shorts Decks */
+  .tech-grid-4col > * {
+    flex: 0 0 78% !important;
+    width: 78% !important;
+    max-width: 78% !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+  }
+
+  .yt-shorts-shelf-grid > * {
+    flex: 0 0 72% !important;
+    width: 72% !important;
+    max-width: 72% !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Compact inner spacing on side-by-side Wire & Workbook panels so height stays tight */
+  .biz-wire-ledger-box .biz-wire-card {
+    padding: 0.55rem 0.65rem !important;
+    gap: 0.65rem !important;
+  }
+
+  .biz-lead-footer {
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .manual-index-ledger .manual-index-row {
+    padding: 0.75rem 0.85rem !important;
+    gap: 0.65rem !important;
+  }
+
+  .manual-index-ledger .manual-row-thumb-wrap {
+    width: 62px !important;
+    height: 62px !important;
+  }
+
+  /* Series Sub-Category Filter Ribbon: Single Horizontal Swipeable Strip on Mobile */
+  .series-nav-ribbon {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 0.65rem !important;
+    padding: 0.55rem 0.75rem !important;
+    scrollbar-width: none !important;
+  }
+
+  .series-nav-ribbon::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .series-subcat-pills {
+    flex-wrap: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .series-subcat-pill {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Pan-African Topic Radar: Compact Horizontal Swipeable Chip Row on Mobile */
+  .vintage-dispatch-compass-strip .compass-tags-row {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 4px !important;
+    scrollbar-width: none !important;
+  }
+
+  .vintage-dispatch-compass-strip .compass-tags-row::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .vintage-dispatch-compass-strip .compass-topic-chip {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
   }
 }
 
