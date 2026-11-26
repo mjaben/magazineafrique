@@ -207,6 +207,23 @@ if (function_exists('magazineafrique_render_ad_bottom')) {
     </div>
 </div>
 
+<!-- Floating Broadsheet Scroll-to-Top Control (Tactile Box UI + Reading Progress) -->
+<button
+    type="button"
+    id="magafrique-scroll-top"
+    class="magafrique-scroll-top"
+    aria-label="<?php esc_attr_e('Scroll back to top', 'magazineafrique'); ?>"
+    title="<?php esc_attr_e('Back to top', 'magazineafrique'); ?>"
+    aria-hidden="true"
+    tabindex="-1"
+>
+    <svg class="magafrique-scroll-top-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+    <span class="magafrique-scroll-top-label">TOP</span>
+    <span class="magafrique-scroll-top-progress" aria-hidden="true"></span>
+</button>
+
 <?php wp_footer(); ?>
 </body>
 </html>

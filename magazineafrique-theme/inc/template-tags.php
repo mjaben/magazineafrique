@@ -92,110 +92,213 @@ if (!function_exists('magazineafrique_get_cat_url')) {
     }
 }
 
+/**
+ * Retrieve real WordPress top-level categories and their actual child sub-categories.
+ * Zero hardcoded or hallucinated menu items — only categories that exist in WordPress.
+ */
+if (!function_exists('magazineafrique_get_real_nav_categories')) {
+    function magazineafrique_get_real_nav_categories() {
+        $excluded_slugs = array('uncategorized', 'featured', 'sponsored');
+        $exclude_ids = array(1);
+        foreach ($excluded_slugs as $ex_slug) {
+            $ex_cat = get_category_by_slug($ex_slug);
+            if ($ex_cat && !is_wp_error($ex_cat)) {
+                $exclude_ids[] = (int) $ex_cat->term_id;
+            }
+        }
+        $exclude_ids = array_unique($exclude_ids);
+
+        $top_cats = get_categories(array(
+            'parent'     => 0,
+            'hide_empty' => true,
+            'exclude'    => $exclude_ids,
+            'orderby'    => 'name',
+            'order'      => 'ASC',
+        ));
+
+        if (empty($top_cats) || is_wp_error($top_cats)) {
+            return array();
+        }
+
+        // Order existing real categories cleanly to align with editorial desks
+        $preferred_order = array(
+            'africa',
+            'international-news',
+            'politics',
+            'business',
+            'economy',
+            'lifestyle',
+            'entertainment',
+            'sports',
+            'culture-history',
+            'technology',
+            'cryptocurrency',
+            'series',
+            'health',
+            'how-tos',
+            'biography',
+            'education',
+            'opinion',
+            'editorial',
+        );
+        $order_map = array_flip($preferred_order);
+
+        usort($top_cats, function ($a, $b) use ($order_map) {
+            $pos_a = isset($order_map[$a->slug]) ? $order_map[$a->slug] : 999;
+            $pos_b = isset($order_map[$b->slug]) ? $order_map[$b->slug] : 999;
+            if ($pos_a === $pos_b) {
+                return strcasecmp($a->name, $b->name);
+            }
+            return ($pos_a < $pos_b) ? -1 : 1;
+        });
+
+        $nav_tree = array();
+        foreach ($top_cats as $cat) {
+            if (in_array(strtolower($cat->slug), $excluded_slugs, true)) {
+                continue;
+            }
+
+            $children = get_categories(array(
+                'parent'     => $cat->term_id,
+                'hide_empty' => true,
+                'exclude'    => $exclude_ids,
+                'orderby'    => 'name',
+                'order'      => 'ASC',
+            ));
+
+            if (is_wp_error($children)) {
+                $children = array();
+            }
+
+            $nav_tree[] = array(
+                'term'     => $cat,
+                'children' => $children,
+            );
+        }
+
+        return $nav_tree;
+    }
+}
+
+/**
+ * Desktop Nav Menu Fallback — calm, unclustered single-row primary desks + "More" dropdown for remaining real categories.
+ * Strictly real WordPress categories & real sub-categories (zero hallucinated items).
+ */
 if (!function_exists('magazineafrique_render_editorial_nav')) {
     function magazineafrique_render_editorial_nav() {
+        $nav_tree = magazineafrique_get_real_nav_categories();
+
+        // Keep desktop bar calm and spacious: up to 8 primary desks + clean "More" menu for the rest
+        $primary_slugs = array(
+            'africa',
+            'politics',
+            'business',
+            'lifestyle',
+            'entertainment',
+            'technology',
+            'series',
+            'sports',
+        );
+        $primary_order = array_flip($primary_slugs);
+
+        $primary_items = array();
+        $overflow_items = array();
+
+        foreach ($nav_tree as $item) {
+            $slug = $item['term']->slug;
+            if (isset($primary_order[$slug])) {
+                $primary_items[] = $item;
+            } else {
+                $overflow_items[] = $item;
+            }
+        }
+
+        usort($primary_items, function ($a, $b) use ($primary_order) {
+            return $primary_order[$a['term']->slug] - $primary_order[$b['term']->slug];
+        });
+
+        // If fewer than 6 matched primary slugs (e.g. different category setup), promote from overflow up to 8 total
+        while (count($primary_items) < 8 && !empty($overflow_items)) {
+            $primary_items[] = array_shift($overflow_items);
+        }
         ?>
         <ul class="editorial-nav-list">
             <li class="menu-item"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
-            
-            <!-- 1. News & Geopolitics (with sub-menu) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>">News</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('international-news')); ?>">International News</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('politics')); ?>">Politics</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('africa')); ?>">Africa Wire</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('better-nigeria')); ?>">Better Nigeria</a></li>
-                </ul>
-            </li>
+            <?php foreach ($primary_items as $item) :
+                $cat = $item['term'];
+                $children = $item['children'];
+                $has_children = !empty($children);
+            ?>
+                <li class="menu-item<?php echo $has_children ? ' menu-item-has-children' : ''; ?>">
+                    <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"><?php echo esc_html($cat->name); ?></a>
+                    <?php if ($has_children) : ?>
+                        <ul class="sub-menu">
+                            <?php foreach ($children as $child) : ?>
+                                <li><a href="<?php echo esc_url(get_category_link($child->term_id)); ?>"><?php echo esc_html($child->name); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
 
-            <!-- 2. Business & Economy (with sub-menu) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>">Business</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('business')); ?>">Markets &amp; Enterprise</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('economy')); ?>">Economy &amp; AfCFTA</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech &amp; Banking</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Crypto &amp; Digital Assets</a></li>
-                </ul>
-            </li>
+            <?php if (!empty($overflow_items)) : ?>
+                <li class="menu-item menu-item-has-children nav-item-more">
+                    <a href="javascript:void(0)" role="button" aria-haspopup="true">More</a>
+                    <ul class="sub-menu sub-menu-align-right">
+                        <?php foreach ($overflow_items as $o_item) :
+                            $ocat = $o_item['term'];
+                        ?>
+                            <li>
+                                <a href="<?php echo esc_url(get_category_link($ocat->term_id)); ?>"><?php echo esc_html($ocat->name); ?></a>
+                            </li>
+                            <?php if (!empty($o_item['children'])) : ?>
+                                <?php foreach ($o_item['children'] as $ochild) : ?>
+                                    <li class="sub-menu-child-item">
+                                        <a href="<?php echo esc_url(get_category_link($ochild->term_id)); ?>">↳ <?php echo esc_html($ochild->name); ?></a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endif; ?>
+        </ul>
+        <?php
+    }
+}
 
-            <!-- 3. Technology (with sub-menu) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>">Technology</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>">Tech Innovations &amp; AI</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('fintech')); ?>">Fintech Leapfrogging</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('cryptocurrency')); ?>">Web3 &amp; Blockchain</a></li>
-                </ul>
+/**
+ * Side Drawer Navigation — strictly real WordPress categories & real sub-categories
+ */
+if (!function_exists('magazineafrique_render_drawer_nav')) {
+    function magazineafrique_render_drawer_nav() {
+        $nav_tree = magazineafrique_get_real_nav_categories();
+        ?>
+        <ul class="drawer-menu-links">
+            <li>
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="drawer-link-item">
+                    <span class="drawer-item-bullet" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                    Home
+                </a>
             </li>
-
-            <!-- 4. Lifestyle & Living (Pure African Luxury, Fashion, Design & Travel - NOT News, NOT Health, NOT How-To's) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Lifestyle</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Living &amp; Style</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">African Haute Couture</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Travel &amp; Escapes</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('lifestyle')); ?>">Design &amp; Architecture</a></li>
-                </ul>
-            </li>
-
-            <!-- 5. Health & Longevity (Distinct from Lifestyle) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Health</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Public Health &amp; Research</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Wellness &amp; Longevity</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>">Botanicals &amp; Nutrition</a></li>
-                </ul>
-            </li>
-
-            <!-- 6. How-To's & Practical Guides (Distinct from Lifestyle) -->
-            <li class="menu-item">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>">How-To's</a>
-            </li>
-
-            <!-- 7. Entertainment & Culture (with sub-menu) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Entertainment</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('entertainment')); ?>">Music &amp; Cinema</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('celebrities')); ?>">Celebrities &amp; Icons</a></li>
-                </ul>
-            </li>
-
-            <!-- 8. Sports -->
-            <li class="menu-item">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('sports')); ?>">Sports</a>
-            </li>
-
-            <!-- 9. Education -->
-            <li class="menu-item">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('education')); ?>">Education</a>
-            </li>
-
-            <!-- 10. Biography -->
-            <li class="menu-item">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>">Biography</a>
-            </li>
-
-            <!-- 11. Culture & History -->
-            <li class="menu-item">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>">History &amp; Archive</a>
-            </li>
-
-            <!-- 12. Opinion & Commentary (with sub-menu) -->
-            <li class="menu-item menu-item-has-children">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">Opinion</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>">The Gazette Chronicle</a></li>
-                    <li><a href="<?php echo esc_url(magazineafrique_get_cat_url('editorial')); ?>">Editorial Board</a></li>
-                </ul>
-            </li>
-
-            <!-- 13. Club Prestige -->
-            <li class="nav-item-prestige"><a href="<?php echo esc_url(home_url('/subscribe/')); ?>">Club Prestige</a></li>
+            <?php foreach ($nav_tree as $item) :
+                $cat = $item['term'];
+                $children = $item['children'];
+                $has_children = !empty($children);
+            ?>
+                <li<?php echo $has_children ? ' class="drawer-has-submenu"' : ''; ?>>
+                    <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" class="drawer-link-item">
+                        <span class="drawer-item-bullet">·</span> <?php echo esc_html($cat->name); ?>
+                    </a>
+                    <?php if ($has_children) : ?>
+                        <ul class="drawer-sub-links">
+                            <?php foreach ($children as $child) : ?>
+                                <li><a href="<?php echo esc_url(get_category_link($child->term_id)); ?>"><?php echo esc_html($child->name); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
         </ul>
         <?php
     }

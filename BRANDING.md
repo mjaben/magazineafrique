@@ -1,6 +1,6 @@
 # Magazine Afrique — Design System & Brand Guidelines
 > **Living Specification & Single Source of Truth**  
-> *Version: 1.4.0 · Last Updated: 2026-11-23*  
+> *Version: 1.9.6 · Last Updated: 2026-11-26*  
 > *Applies to: User Frontend (Desktop & Mobile) and WordPress Admin Console (ArtCraft)*
 
 ---
@@ -186,27 +186,36 @@ Featured images on single articles and landing pages must **never overflow horiz
   ```
 - Action button uses translucent white background (`rgba(255, 255, 255, 0.1)`), zero green blocks.
 
+### 4.6 Floating Broadsheet Scroll-to-Top Button (`#magafrique-scroll-top`)
+- Fixed to bottom-right (`bottom: 24px; right: 24px;` on desktop; `bottom: calc(68px + env(safe-area-inset-bottom, 0px)); right: 16px;` on mobile above the docked `.vintage-bottom-nav`), flipping cleanly to `left` in RTL (`[dir="rtl"]`) mode.
+- Uses the **Tactile Box UI** (`2px solid #231F1D` border, `4px 4px 0px #231F1D` offset shadow, warm white `#FFFFFF` surface in light mode; `#1A1715` surface, `rgba(255, 255, 255, 0.22)` border, `#000000` shadow, and `#FBBF24` Savannah Gold hover accent in dark mode).
+- Includes an integrated 3px bottom **reading-progress indicator bar** (`#B45309` light / `#FBBF24` dark).
+- Reveals smoothly after scrolling past `360px`, respects `prefers-reduced-motion: reduce`, manages `tabindex`/`aria-hidden` for accessibility, and automatically clears the WhatsApp Wire Pill on mobile when active.
+
+### 4.7 First-Time Viewer Welcome Modal (`#magafrique-welcome-modal`)
+- Appears for first-time viewers and immediately after local cache is purged (`magazineafriquePurgeCacheAndReload` clears dismissal state).
+- Prompts two clean one-tap actions inside a Tactile Box UI modal: **Install PWA App** (native `beforeinstallprompt` or inline iOS/browser guidance) and **Turn On Location** (`navigator.geolocation` for regional bourses and bureau alerts).
+- Dismissing sets a **7-day cooldown** (`magafrique_welcome_dismissed_at`).
+- **Never renders inside an installed PWA app** (`display-mode: standalone/fullscreen/minimal-ui`, `navigator.standalone`, or `android-app://`).
+
 ---
 
 ## 5. Landing Page Architecture (`front-page.php`)
 
-1. **Lead Broadsheet Banner:**
-   - Left 7 Columns: Main Lead Story (Kicker, Headline, Guaranteed Deck, Framed Photo, Drop-Cap Excerpt, Dateline Byline).
-   - Right 5 Columns: The Continental Telegraph with Frontier Wire framed box + secondary ledger dispatches.
-2. **Strategic Mid-Home Commercial Leaderboard:**
-   - Responsive leaderboard ad (`magazineafrique_render_ad_mid_home()`).
-3. **Pan-African Editorial Category Desks ("DISPATCHES BY DESK"):**
-   - 3-Column multi-desk broadsheet layout for key desks (e.g., Politics & Power, Business & Markets, Continental Culture).
-   - Each desk features:
-     - Desk masthead bar with `❖` glyph, Desk title, and `Desk Index →` link.
-     - Featured lead postcard with tactile box UI, image, meta, title, excerpt.
-     - 2 condensed telegraph wire bullet items (`› Headline`).
-4. **The Gazette Chronicle:**
-   - 6-card postcard grid with Tactile Box UI.
-5. **Pan-African Dispatch Compass:**
-   - Topic exploration strip with interactive category tags (`#Politics`, `#Business`, `#Macroeconomics`, `#Energy`, `#Fintech`, `#Culture`).
-6. **The Africa Brief (Circular Notice):**
-   - Newsletter circular notice box with tactile subscribe button.
+1. **Above-the-Fold Hero & Continental Telegraph** + **Mid-Home Commercial Leaderboard** (`magazineafrique_render_ad_mid_home()`).
+2. **Business & Enterprise:** Asymmetric Financial Dossier + AfCFTA Bourse Ribbon + Corporate Wire Ledger.
+3. **Lifestyle & Living:** Full-width inverted-contrast salon (`#141210` light / `#FAF7F2` dark) with Tactile Postcards.
+4. **Gazette Video Broadcasts (YouTube):** 12-playlist selector bar, widescreen player, broadcast wire queue, and Field Shorts shelf.
+5. **Entertainment & Sports:** Split Cinema & Music pair + dedicated Sports Arena column.
+6. **The Pan-African Archive Vault (History):** Classified historical dossier cards.
+7. **Technology & Innovation:** 4-column modern tech grid.
+8. **The Continental Series:** Full-bleed **Savannah Ochre brand-tinted band** (`#F5E6D3 → #ECD7BC` sandstone wash with `#92400E` borders & offset shadows in light mode; `#25190F → #1B120B` roasted umber with ochre-gold shadows in dark mode). Displays sub-category & reading time — **never displays `PART I` / `PART II` numbering**.
+9. **Health & Longevity:** 3-column medical & longevity research grid.
+10. **How-To's & Practical Manuals:** Asymmetric **Field Playbook & Workbook Ledger** (featured drafting blueprint card on the left + numbered horizontal quick-action rows `02`–`04` on the right — visually distinct from Health).
+11. **Biography & Changemakers:** Executive portrait gallery.
+12. **Education & Society:** 2-column broadsheet knowledge split.
+13. **The Afrique Chronicle & Opinion:** 3-column sovereign essays & columnists gallery.
+14. **Pan-African Topic Radar** & **The Africa Brief (Circular Notice)**.
 
 ---
 

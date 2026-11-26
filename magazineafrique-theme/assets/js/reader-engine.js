@@ -569,12 +569,16 @@
       if (scrollPercent >= 65) {
         hasShown = true;
         pill.style.display = 'block';
+        var scrollTopBtn = document.getElementById('magafrique-scroll-top');
+        if (scrollTopBtn) scrollTopBtn.classList.add('has-wa-pill-open');
       }
     }, { passive: true });
 
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         pill.style.display = 'none';
+        var scrollTopBtn = document.getElementById('magafrique-scroll-top');
+        if (scrollTopBtn) scrollTopBtn.classList.remove('has-wa-pill-open');
         localStorage.setItem(storageKey, Date.now().toString());
       });
     }
@@ -582,9 +586,65 @@
     if (joinBtn) {
       joinBtn.addEventListener('click', function () {
         pill.style.display = 'none';
+        var scrollTopBtn = document.getElementById('magafrique-scroll-top');
+        if (scrollTopBtn) scrollTopBtn.classList.remove('has-wa-pill-open');
         localStorage.setItem(joinedKey, '1');
       });
     }
+  }
+
+  // =========================================================================
+  // 11. Floating Broadsheet Scroll-to-Top Engine (Tactile Box + Progress)
+  // =========================================================================
+  function initScrollToTop() {
+    var btn = document.getElementById('magafrique-scroll-top');
+    if (!btn) return;
+
+    var revealThreshold = 360;
+    var ticking = false;
+
+    function syncScrollTopState() {
+      ticking = false;
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var progress = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+
+      btn.style.setProperty('--scroll-progress', progress.toFixed(1) + '%');
+
+      if (scrollTop > revealThreshold) {
+        if (!btn.classList.contains('is-visible')) {
+          btn.classList.add('is-visible');
+          btn.setAttribute('aria-hidden', 'false');
+          btn.setAttribute('tabindex', '0');
+        }
+      } else {
+        if (btn.classList.contains('is-visible')) {
+          btn.classList.remove('is-visible');
+          btn.setAttribute('aria-hidden', 'true');
+          btn.setAttribute('tabindex', '-1');
+        }
+      }
+    }
+
+    function requestSync() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(syncScrollTopState);
+      }
+    }
+
+    window.addEventListener('scroll', requestSync, { passive: true });
+    window.addEventListener('resize', requestSync, { passive: true });
+    syncScrollTopState();
+
+    btn.addEventListener('click', function () {
+      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReduced ? 'auto' : 'smooth'
+      });
+      btn.blur();
+    });
   }
 
   // =========================================================================
@@ -601,6 +661,7 @@
     initBookmarks();
     initTopicFollows();
     initStrategicWhatsAppWire();
+    initScrollToTop();
   });
 
 })();

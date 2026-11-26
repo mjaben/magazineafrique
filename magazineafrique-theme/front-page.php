@@ -2,7 +2,7 @@
 /**
  * Magazine Afrique — Front Page Template
  * Reuters & Essence Inspired Editorial Broadsheet
- * Distinct Layout UI for Each Section, Inverted Theme Contrast Section, & YouTube Video Broadcasts
+ * Distinct Layout UI for Each Section, Brand-Tinted Series Band, Playbook How-To Desk, & YouTube Broadcasts
  *
  * @package MagazineAfrique
  */
@@ -181,7 +181,7 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         1. STRATEGIC COMMERCIAL LEADERBOARD (Mid-Home Ad Zone)
+         STRATEGIC COMMERCIAL LEADERBOARD (Mid-Home Ad Zone)
          ========================================================================== -->
     <?php
     if (function_exists('magazineafrique_render_ad_mid_home')) {
@@ -190,13 +190,8 @@ get_header(); ?>
     ?>
 
     <!-- ==========================================================================
-         2. BUSINESS & ENTERPRISE DESK (UI: Financial Ledger Split - Reuters Inspired)
-         Asymmetrical 55/45: 1 Large Feature + 3 Horizontal Wire Rows
-         ========================================================================== -->
-    <!-- ==========================================================================
-         2. BUSINESS, ENTERPRISE & AfCFTA INTELLIGENCE DESK
+         1. BUSINESS, ENTERPRISE & AfCFTA INTELLIGENCE DESK
          UI: Asymmetric Financial Dossier & Continental Market Wire Ledger
-         Featuring Pan-African Bourse Ribbon, Dominant Lead & Live Dispatch Stack
          ========================================================================== -->
     <section class="desk-section desk-business-split" aria-label="Business &amp; Economy">
         <div class="desk-section-header biz-section-header">
@@ -210,21 +205,46 @@ get_header(); ?>
             </a>
         </div>
 
-        <!-- Pan-African Financial Indicators & Bourse Ribbon -->
+        <!-- Pan-African Financial Indicators & Bourse Ticker (Seamless Marquee on Desktop & Mobile) -->
         <div class="biz-markets-ribbon" aria-label="Key African Market Indices">
             <div class="biz-ribbon-tag">
                 <span class="biz-ribbon-pulse">●</span> AfCFTA BOURSE WIRE
             </div>
-            <div class="biz-ribbon-items">
-                <span class="biz-ticker-chip"><span class="ticker-sym">NGX 30</span> <span class="ticker-up">▲ 104,285 (+1.1%)</span></span>
-                <span class="biz-ticker-sep">/</span>
-                <span class="biz-ticker-chip"><span class="ticker-sym">JSE ALL SHARE</span> <span class="ticker-down">▼ 78,920 (-0.3%)</span></span>
-                <span class="biz-ticker-sep">/</span>
-                <span class="biz-ticker-chip"><span class="ticker-sym">EGX 30</span> <span class="ticker-up">▲ 31,450 (+0.8%)</span></span>
-                <span class="biz-ticker-sep">/</span>
-                <span class="biz-ticker-chip"><span class="ticker-sym">BRENT CRUDE</span> <span class="ticker-up">▲ $82.40/bbl</span></span>
-                <span class="biz-ticker-sep">/</span>
-                <span class="biz-ticker-chip"><span class="ticker-sym">COCOA FUTURES</span> <span class="ticker-up">▲ $7,650/t</span></span>
+            <div class="biz-ribbon-viewport">
+                <div class="biz-ribbon-track">
+                    <div class="biz-ribbon-items">
+                        <span class="biz-ticker-chip"><span class="ticker-sym">NGX 30</span> <span class="ticker-up">▲ 104,285 (+1.1%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">JSE ALL SHARE</span> <span class="ticker-down">▼ 78,920 (-0.3%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">EGX 30</span> <span class="ticker-up">▲ 31,450 (+0.8%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">BRVM COMP</span> <span class="ticker-up">▲ 272.40 (+0.3%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">NSE 20</span> <span class="ticker-up">▲ 1,842 (+0.4%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">BRENT CRUDE</span> <span class="ticker-up">▲ $82.40/bbl</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">COCOA FUTURES</span> <span class="ticker-up">▲ $7,650/t</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                    </div>
+                    <div class="biz-ribbon-items" aria-hidden="true">
+                        <span class="biz-ticker-chip"><span class="ticker-sym">NGX 30</span> <span class="ticker-up">▲ 104,285 (+1.1%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">JSE ALL SHARE</span> <span class="ticker-down">▼ 78,920 (-0.3%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">EGX 30</span> <span class="ticker-up">▲ 31,450 (+0.8%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">BRVM COMP</span> <span class="ticker-up">▲ 272.40 (+0.3%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">NSE 20</span> <span class="ticker-up">▲ 1,842 (+0.4%)</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">BRENT CRUDE</span> <span class="ticker-up">▲ $82.40/bbl</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                        <span class="biz-ticker-chip"><span class="ticker-sym">COCOA FUTURES</span> <span class="ticker-up">▲ $7,650/t</span></span>
+                        <span class="biz-ticker-sep">/</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -326,11 +346,7 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         3. LIFESTYLE & LIVING SALON (Full-Width Inverted Contrast Desk)
-         Pure African Luxury, Haute Couture, Design & Private Escapes
-         Inverted Theme: Dark in Light Mode (#141210) | Light in Dark Mode (#FAF7F2)
-         Tactile Postcard Design with Offset Hard Drop Shadow (6px 6px 0px #000)
-         Full-Width Viewport Spread (Not Boxed)
+         2. LIFESTYLE & LIVING SALON (Full-Width Inverted Contrast Desk)
          ========================================================================== -->
     <section class="desk-section desk-lifestyle-fullwidth desk-lifestyle-inverted" aria-label="Lifestyle &amp; Living">
         <div class="lifestyle-fullwidth-inner">
@@ -352,7 +368,6 @@ get_header(); ?>
                     while ($life_query->have_posts()) : $life_query->the_post();
                         $displayed_post_ids[] = get_the_ID();
 
-                        // 1 tag if available, otherwise nothing (not hardcoded 'LIFESTYLE')
                         $life_tags = get_the_tags();
                         $life_tag_name = '';
                         if (!empty($life_tags) && is_array($life_tags)) {
@@ -402,66 +417,8 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         4. PAN-AFRICAN ARCHIVE VAULT (Culture, History & Liberation Papers)
-         UI: Historic Classified Dossiers & Archival Records
-         ========================================================================== -->
-    <section class="desk-section desk-archive-vault" aria-label="Pan-African Culture &amp; History Archive">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><circle cx="12" cy="13" r="2"/><path d="M12 15v2"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Pan-African Archive Vault</h2>
-                <span class="desk-section-tag">CLASSIFIED HISTORICAL DOSSIERS · LIBERATION PAPERS</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>" class="desk-view-index-btn">
-                Archive Registry →
-            </a>
-        </div>
-
-        <div class="archive-vault-grid">
-            <?php
-            $hist_query = magazineafrique_query_category_posts(array('culture-history'), 3, $displayed_post_ids);
-            if ($hist_query->have_posts()) :
-                while ($hist_query->have_posts()) : $hist_query->the_post();
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <article class="archive-vault-card">
-                    <div class="vault-card-stamp-row">
-                        <span class="vault-stamp-tag">HISTORICAL RECORD</span>
-                        <span class="vault-serial-num">#DOSSIER-<?php the_ID(); ?></span>
-                    </div>
-                    <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" class="vault-thumb-wrap">
-                            <?php the_post_thumbnail('magazine-card', array('class' => 'vault-thumb-img')); ?>
-                        </a>
-                    <?php endif; ?>
-                    <div class="vault-card-body">
-                        <h3 class="vault-card-title vintage-newspaper-headline">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                        <p class="vault-card-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                        </p>
-                        <div class="vault-card-footer">
-                            <span>ARCHIVE RECORD · <?php echo esc_html(get_the_date('M Y')); ?></span>
-                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Unseal File →</a>
-                        </div>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         5. YOUTUBE MULTIMEDIA BROADCASTS NETWORK (Long-Form & Shorts)
+         3. YOUTUBE MULTIMEDIA BROADCASTS NETWORK (Long-Form & Shorts)
          Official Channel: @magazineafrique
-         Featuring Playlists: Investigations, Business, Culture, Leaders & Docuseries
          ========================================================================== -->
     <section class="desk-section desk-youtube-broadcasts" aria-label="YouTube Video Network">
         <div class="desk-section-header yt-network-header">
@@ -562,7 +519,7 @@ get_header(); ?>
                 </div>
             </div>
 
-            <!-- Right (38%): Up Next Broadcast Dispatches Queue (Fills height naturally, zero blank space) -->
+            <!-- Right (38%): Up Next Broadcast Dispatches Queue -->
             <div class="youtube-queue-column">
                 <div class="yt-queue-header">
                     <span class="yt-queue-pill">
@@ -639,7 +596,7 @@ get_header(); ?>
 
         </div>
 
-        <!-- Dedicated Lower Shelf: Field Shorts & Vertical Reels with High-Res Channel Thumbnails -->
+        <!-- Dedicated Lower Shelf: Field Shorts & Vertical Reels -->
         <div class="yt-shorts-shelf">
             <div class="yt-shorts-shelf-header">
                 <div class="yt-shorts-shelf-title">
@@ -729,384 +686,7 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         6. THE CONTINENTAL SERIES & SPECIAL INVESTIGATIONS
-         Category: Series (with Sub-Categories and Thematic Tags)
-         UI: 4-Column Episodic Dossier Grid with Sub-Category Filter Ribbon
-         ========================================================================== -->
-    <section class="desk-section desk-series-showcase" aria-label="Special Series &amp; Investigative Dossiers">
-        <div class="desk-section-header series-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet series-bullet" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                        <path d="M6 6h10"/>
-                        <path d="M6 10h10"/>
-                        <path d="M6 14h6"/>
-                        <path d="M2 6v14a2 2 0 0 0 2 2h14"/>
-                    </svg>
-                </span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Continental Series</h2>
-                <span class="desk-section-tag">MULTI-PART INVESTIGATIVE DOSSIERS · SERIALIZED REPORTS</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="desk-view-index-btn series-index-btn">
-                Series Index →
-            </a>
-        </div>
-
-        <?php
-        $series_data = function_exists('magazineafrique_get_series_data') ? magazineafrique_get_series_data(4, $displayed_post_ids) : array('category' => null, 'subcategories' => array(), 'query' => null);
-        $series_cat = isset($series_data['category']) ? $series_data['category'] : null;
-        $series_subcats = isset($series_data['subcategories']) ? $series_data['subcategories'] : array();
-        $series_query = isset($series_data['query']) ? $series_data['query'] : null;
-        $series_cat_id = ($series_cat && !is_wp_error($series_cat)) ? $series_cat->term_id : 0;
-        ?>
-
-        <!-- Sub-Category & Series Filter Ribbon -->
-        <div class="series-nav-ribbon">
-            <div class="series-ribbon-label">
-                <span>SUB-SERIES DOSSIERS:</span>
-            </div>
-            <div class="series-subcat-pills">
-                <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="series-subcat-pill active">
-                    ● All Series
-                </a>
-                <?php if (!empty($series_subcats)) : ?>
-                    <?php foreach ($series_subcats as $subcat) : ?>
-                        <a href="<?php echo esc_url(get_category_link($subcat->term_id)); ?>" class="series-subcat-pill">
-                            <?php echo esc_html($subcat->name); ?> (<?php echo esc_html($subcat->count); ?>)
-                        </a>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <?php
-                    $editorial_subtopics = array('Geopolitical Frontiers', 'Macroeconomic Inquiries', 'Critical Minerals', 'Continental Corridors');
-                    foreach ($editorial_subtopics as $stopic) :
-                    ?>
-                        <span class="series-subcat-pill series-subcat-editorial">
-                            <?php echo esc_html($stopic); ?>
-                        </span>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- 4-Column Episodic Series Dossier Grid -->
-        <div class="series-dossier-grid">
-            <?php
-            if ($series_query && $series_query->have_posts()) :
-                $part_num = 0;
-                $roman_numerals = array('PART I', 'PART II', 'PART III', 'PART IV', 'PART V', 'PART VI');
-                while ($series_query->have_posts()) : $series_query->the_post();
-                    $displayed_post_ids[] = get_the_ID();
-                    $p_id = get_the_ID();
-                    $part_badge = isset($roman_numerals[$part_num]) ? $roman_numerals[$part_num] : 'PART ' . ($part_num + 1);
-                    $part_num++;
-
-                    // Determine sub-category name
-                    $post_subcat_name = 'Special Report';
-                    $post_cats = get_the_category();
-                    if (!empty($post_cats)) {
-                        foreach ($post_cats as $pc) {
-                            if ($series_cat_id && $pc->parent == $series_cat_id) {
-                                $post_subcat_name = $pc->name;
-                                break;
-                            } elseif ($pc->slug !== 'series' && $post_subcat_name === 'Special Report') {
-                                $post_subcat_name = $pc->name;
-                            }
-                        }
-                    }
-
-                    $post_tags = get_the_tags();
-            ?>
-                <article class="series-dossier-card">
-                    <div class="series-card-top-bar">
-                        <div class="series-subcat-cluster">
-                            <span class="series-marker-dot">●</span>
-                            <span class="series-subcat-name"><?php echo esc_html($post_subcat_name); ?></span>
-                        </div>
-                        <span class="series-part-badge"><?php echo esc_html($part_badge); ?></span>
-                    </div>
-
-                    <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" class="series-card-media-wrap" aria-label="<?php the_title_attribute(); ?>">
-                            <?php the_post_thumbnail('magazine-card', array('class' => 'series-card-img', 'alt' => get_the_title())); ?>
-                            <span class="series-ribbon-flag">SERIES</span>
-                        </a>
-                    <?php endif; ?>
-
-                    <div class="series-card-content">
-                        <h3 class="series-card-title vintage-newspaper-headline">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-
-                        <p class="series-card-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                        </p>
-
-                        <!-- Tags Strip -->
-                        <?php if ($post_tags) : ?>
-                            <div class="series-card-tags">
-                                <?php foreach (array_slice($post_tags, 0, 3) as $st) : ?>
-                                    <a href="<?php echo esc_url(get_tag_link($st->term_id)); ?>" class="series-tag-pill">
-                                        #<?php echo esc_html($st->name); ?>
-                                    </a>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-
-                        <div class="series-card-footer">
-                            <span class="series-card-date"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
-                            <a href="<?php the_permalink(); ?>" class="series-read-link">
-                                Read Installment →
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         7. HEALTH & WELLNESS INTELLIGENCE (Strictly Separate from Lifestyle)
-         UI: 3-Card Medical & Longevity Research Grid
-         ========================================================================== -->
-    <section class="desk-section desk-health-wellness" aria-label="Health &amp; Longevity">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Health &amp; Longevity</h2>
-                <span class="desk-section-tag">PUBLIC HEALTH · RESEARCH · AFRICAN BOTANICALS</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>" class="desk-view-index-btn">
-                Health Index →
-            </a>
-        </div>
-
-        <div class="grid-aligned-3col">
-            <?php
-            $health_query = magazineafrique_query_category_posts(array('health'), 3, $displayed_post_ids);
-            if ($health_query->have_posts()) :
-                while ($health_query->have_posts()) : $health_query->the_post();
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <article class="standard-editorial-card">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" class="card-thumb-wrap">
-                            <?php the_post_thumbnail('magazine-card', array('class' => 'card-media-img')); ?>
-                        </a>
-                    <?php endif; ?>
-                    <div class="card-content-wrap">
-                        <div class="card-kicker-row">
-                            <span class="card-kicker-badge">HEALTH INTELLIGENCE</span>
-                            <span class="card-meta-dot">·</span>
-                            <span class="card-date-stamp"><?php echo esc_html(get_the_date('M j')); ?></span>
-                        </div>
-                        <h3 class="card-headline-clamped vintage-newspaper-headline">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                        <p class="card-excerpt-clamped">
-                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                        </p>
-                        <div class="card-footer-meta">
-                            <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Read Research →</a>
-                        </div>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         7. HOW-TO'S & PRACTICAL MASTERCLASSES (Strictly Separate from Lifestyle)
-         UI: Step-by-Step Practical Manual Cards
-         ========================================================================== -->
-    <section class="desk-section desk-howtos-guides" aria-label="How-To's &amp; Guides">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h6"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">How-To's &amp; Practical Manuals</h2>
-                <span class="desk-section-tag">STEP-BY-STEP GUIDES · BUSINESS PLAYBOOKS &amp; SKILLS</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>" class="desk-view-index-btn">
-                All Guides →
-            </a>
-        </div>
-
-        <div class="howtos-manual-grid">
-            <?php
-            $how_query = magazineafrique_query_category_posts(array('how-tos'), 3, $displayed_post_ids);
-            $h_num = 0;
-            if ($how_query->have_posts()) :
-                while ($how_query->have_posts()) : $how_query->the_post();
-                    $h_num++;
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <article class="manual-guide-card">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <div class="manual-guide-thumb-wrap">
-                            <a href="<?php the_permalink(); ?>" class="manual-guide-thumb-link" aria-label="<?php the_title_attribute(); ?>">
-                                <?php the_post_thumbnail('magazine-card', array('class' => 'manual-guide-thumb-img', 'loading' => 'lazy')); ?>
-                            </a>
-                            <span class="manual-step-badge">GUIDE #0<?php echo $h_num; ?></span>
-                        </div>
-                    <?php else : ?>
-                        <div class="manual-guide-header">
-                            <span class="manual-step-badge">GUIDE #0<?php echo $h_num; ?></span>
-                            <span class="manual-type-pill">[ PRACTICAL MANUAL ]</span>
-                        </div>
-                    <?php endif; ?>
-                    <div class="manual-guide-body">
-                        <h3 class="manual-guide-title vintage-newspaper-headline">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                        <p class="manual-guide-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                        </p>
-                    </div>
-                    <div class="manual-guide-footer">
-                        <span><?php echo esc_html(magazineafrique_reading_time()); ?> Manual</span>
-                        <a href="<?php the_permalink(); ?>" class="manual-action-link">Open Manual →</a>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         8. BIOGRAPHY & CONTINENTAL CHANGEMAKERS (UI: Executive Portrait Gallery)
-         ========================================================================== -->
-    <section class="desk-section desk-biography-profiles" aria-label="Biography &amp; Changemakers">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Biography &amp; Changemakers</h2>
-                <span class="desk-section-tag">STATESMEN · FOUNDERS · CONTINENTAL VOICES</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>" class="desk-view-index-btn">
-                Biography Index →
-            </a>
-        </div>
-
-        <div class="bio-portrait-grid">
-            <?php
-            $bio_query = magazineafrique_query_category_posts(array('biography'), 3, $displayed_post_ids);
-            if ($bio_query->have_posts()) :
-                while ($bio_query->have_posts()) : $bio_query->the_post();
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <article class="bio-profile-card">
-                    <div class="bio-card-top-row">
-                        <div class="bio-avatar-ring">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('thumbnail', array('class' => 'bio-avatar-img')); ?>
-                            <?php else : ?>
-                                <span class="bio-avatar-initial"><?php echo esc_html(substr(get_the_title(), 0, 1)); ?></span>
-                            <?php endif; ?>
-                        </div>
-                        <div class="bio-kicker-stack">
-                            <span class="bio-badge">EXECUTIVE PROFILE</span>
-                            <span class="bio-year"><?php echo esc_html(get_the_date('Y')); ?></span>
-                        </div>
-                    </div>
-                    <h3 class="bio-profile-name vintage-newspaper-headline">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                    </h3>
-                    <p class="bio-quote-deck">
-                        “<?php echo wp_trim_words(get_the_excerpt(), 18); ?>”
-                    </p>
-                    <div class="card-footer-meta">
-                        <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-                        <a href="<?php the_permalink(); ?>" class="card-read-more-link">Read Profile →</a>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         9. TECHNOLOGY & INNOVATION (UI: 4-Column Modern Tech Grid)
-         ========================================================================== -->
-    <section class="desk-section desk-technology-modern" aria-label="Technology &amp; Innovation">
-        <div class="desk-section-header">
-            <div class="desk-heading-left">
-                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Technology &amp; Innovation</h2>
-                <span class="desk-section-tag">LEAPFROGGING · AI · STARTUPS · CLEAN TECH</span>
-            </div>
-            <a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>" class="desk-view-index-btn">
-                Tech Desk →
-            </a>
-        </div>
-
-        <div class="tech-grid-4col">
-            <?php
-            $tech_query = magazineafrique_query_category_posts(array('technology', 'fintech'), 4, $displayed_post_ids);
-            if ($tech_query->have_posts()) :
-                while ($tech_query->have_posts()) : $tech_query->the_post();
-                    $displayed_post_ids[] = get_the_ID();
-            ?>
-                <article class="tech-card-compact">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" class="card-thumb-wrap">
-                            <?php the_post_thumbnail('magazine-card', array('class' => 'card-media-img')); ?>
-                        </a>
-                    <?php endif; ?>
-                    <div class="tech-card-body">
-                        <div class="card-kicker-row">
-                            <span class="card-kicker-badge">INNOVATION</span>
-                            <span class="card-meta-dot">·</span>
-                            <span class="card-date-stamp"><?php echo esc_html(get_the_date('M j')); ?></span>
-                        </div>
-                        <h4 class="tech-card-title vintage-newspaper-headline">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h4>
-                        <div class="tech-card-footer">
-                            <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
-                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Tech →</a>
-                        </div>
-                    </div>
-                </article>
-            <?php
-                endwhile;
-                wp_reset_postdata();
-            endif;
-            ?>
-        </div>
-    </section>
-
-    <!-- Clean Editorial Hairline Divider -->
-    <div class="editorial-section-divider"></div>
-
-    <!-- ==========================================================================
-         10. ENTERTAINMENT & SPORTS (UI: Split Pop-Culture & Athletics Marquee)
+         4. ENTERTAINMENT & SPORTS (UI: Split Pop-Culture & Athletics Marquee)
          ========================================================================== -->
     <section class="desk-section desk-entertainment-sports" aria-label="Entertainment &amp; Sports">
         <div class="desk-section-header">
@@ -1196,7 +776,472 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         11. EDUCATION & ACADEMIA (UI: 2-Column Broadsheet Knowledge Split)
+         5. PAN-AFRICAN ARCHIVE VAULT (History, Culture & Liberation Papers)
+         UI: Historic Classified Dossiers & Archival Records
+         ========================================================================== -->
+    <section class="desk-section desk-archive-vault" aria-label="Pan-African Culture &amp; History Archive">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><circle cx="12" cy="13" r="2"/><path d="M12 15v2"/></svg></span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Pan-African Archive Vault</h2>
+                <span class="desk-section-tag">CLASSIFIED HISTORICAL DOSSIERS · LIBERATION PAPERS</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('culture-history')); ?>" class="desk-view-index-btn">
+                Archive Registry →
+            </a>
+        </div>
+
+        <div class="archive-vault-grid">
+            <?php
+            $hist_query = magazineafrique_query_category_posts(array('culture-history'), 3, $displayed_post_ids);
+            if ($hist_query->have_posts()) :
+                while ($hist_query->have_posts()) : $hist_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <article class="archive-vault-card">
+                    <div class="vault-card-stamp-row">
+                        <span class="vault-stamp-tag">HISTORICAL RECORD</span>
+                        <span class="vault-serial-num">#DOSSIER-<?php the_ID(); ?></span>
+                    </div>
+                    <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="vault-thumb-wrap">
+                            <?php the_post_thumbnail('magazine-card', array('class' => 'vault-thumb-img')); ?>
+                        </a>
+                    <?php endif; ?>
+                    <div class="vault-card-body">
+                        <h3 class="vault-card-title vintage-newspaper-headline">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+                        <p class="vault-card-excerpt">
+                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                        </p>
+                        <div class="vault-card-footer">
+                            <span>ARCHIVE RECORD · <?php echo esc_html(get_the_date('M Y')); ?></span>
+                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Unseal File →</a>
+                        </div>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         6. TECHNOLOGY & INNOVATION (UI: 4-Column Modern Tech Grid)
+         ========================================================================== -->
+    <section class="desk-section desk-technology-modern" aria-label="Technology &amp; Innovation">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg></span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Technology &amp; Innovation</h2>
+                <span class="desk-section-tag">LEAPFROGGING · AI · STARTUPS · CLEAN TECH</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('technology')); ?>" class="desk-view-index-btn">
+                Tech Desk →
+            </a>
+        </div>
+
+        <div class="tech-grid-4col">
+            <?php
+            $tech_query = magazineafrique_query_category_posts(array('technology', 'fintech'), 4, $displayed_post_ids);
+            if ($tech_query->have_posts()) :
+                while ($tech_query->have_posts()) : $tech_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <article class="tech-card-compact">
+                    <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="card-thumb-wrap">
+                            <?php the_post_thumbnail('magazine-card', array('class' => 'card-media-img')); ?>
+                        </a>
+                    <?php endif; ?>
+                    <div class="tech-card-body">
+                        <div class="card-kicker-row">
+                            <span class="card-kicker-badge">INNOVATION</span>
+                            <span class="card-meta-dot">·</span>
+                            <span class="card-date-stamp"><?php echo esc_html(get_the_date('M j')); ?></span>
+                        </div>
+                        <h4 class="tech-card-title vintage-newspaper-headline">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h4>
+                        <div class="tech-card-footer">
+                            <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Tech →</a>
+                        </div>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         7. THE CONTINENTAL SERIES & SPECIAL INVESTIGATIONS
+         Full-Bleed Savannah Ochre Brand Band · Clean Dossier Cards (No Part Numbers)
+         ========================================================================== -->
+    <section class="desk-section desk-series-showcase desk-series-fullwidth" aria-label="Special Series &amp; Investigative Dossiers">
+        <div class="series-showcase-inner">
+            <div class="desk-section-header series-section-header">
+                <div class="desk-heading-left">
+                    <span class="desk-bullet series-bullet" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                            <path d="M6 6h10"/>
+                            <path d="M6 10h10"/>
+                            <path d="M6 14h6"/>
+                            <path d="M2 6v14a2 2 0 0 0 2 2h14"/>
+                        </svg>
+                    </span>
+                    <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Continental Series</h2>
+                    <span class="desk-section-tag">SPECIAL INVESTIGATIVE DOSSIERS · SERIALIZED REPORTS</span>
+                </div>
+                <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="desk-view-index-btn series-index-btn">
+                    Series Index →
+                </a>
+            </div>
+
+            <?php
+            $series_data = function_exists('magazineafrique_get_series_data') ? magazineafrique_get_series_data(4, $displayed_post_ids) : array('category' => null, 'subcategories' => array(), 'query' => null);
+            $series_cat = isset($series_data['category']) ? $series_data['category'] : null;
+            $series_subcats = isset($series_data['subcategories']) ? $series_data['subcategories'] : array();
+            $series_query = isset($series_data['query']) ? $series_data['query'] : null;
+            $series_cat_id = ($series_cat && !is_wp_error($series_cat)) ? $series_cat->term_id : 0;
+            ?>
+
+            <!-- Sub-Category & Series Filter Ribbon -->
+            <div class="series-nav-ribbon">
+                <div class="series-ribbon-label">
+                    <span>SUB-SERIES DOSSIERS:</span>
+                </div>
+                <div class="series-subcat-pills">
+                    <a href="<?php echo esc_url(magazineafrique_get_cat_url('series')); ?>" class="series-subcat-pill active">
+                        ● All Series
+                    </a>
+                    <?php if (!empty($series_subcats)) : ?>
+                        <?php foreach ($series_subcats as $subcat) : ?>
+                            <a href="<?php echo esc_url(get_category_link($subcat->term_id)); ?>" class="series-subcat-pill">
+                                <?php echo esc_html($subcat->name); ?> (<?php echo esc_html($subcat->count); ?>)
+                            </a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- 4-Column Series Dossier Grid -->
+            <div class="series-dossier-grid">
+                <?php
+                if ($series_query && $series_query->have_posts()) :
+                    while ($series_query->have_posts()) : $series_query->the_post();
+                        $displayed_post_ids[] = get_the_ID();
+
+                        // Determine sub-category name
+                        $post_subcat_name = 'Special Report';
+                        $post_cats = get_the_category();
+                        if (!empty($post_cats)) {
+                            foreach ($post_cats as $pc) {
+                                if ($series_cat_id && $pc->parent == $series_cat_id) {
+                                    $post_subcat_name = $pc->name;
+                                    break;
+                                } elseif ($pc->slug !== 'series' && $post_subcat_name === 'Special Report') {
+                                    $post_subcat_name = $pc->name;
+                                }
+                            }
+                        }
+
+                        $post_tags = get_the_tags();
+                ?>
+                    <article class="series-dossier-card">
+                        <div class="series-card-top-bar">
+                            <div class="series-subcat-cluster">
+                                <span class="series-marker-dot">●</span>
+                                <span class="series-subcat-name"><?php echo esc_html($post_subcat_name); ?></span>
+                            </div>
+                            <span class="series-read-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                        </div>
+
+                        <?php if (has_post_thumbnail()) : ?>
+                            <a href="<?php the_permalink(); ?>" class="series-card-media-wrap" aria-label="<?php the_title_attribute(); ?>">
+                                <?php the_post_thumbnail('magazine-card', array('class' => 'series-card-img', 'alt' => get_the_title())); ?>
+                                <span class="series-ribbon-flag">SERIES</span>
+                            </a>
+                        <?php endif; ?>
+
+                        <div class="series-card-content">
+                            <h3 class="series-card-title vintage-newspaper-headline">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+
+                            <p class="series-card-excerpt">
+                                <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                            </p>
+
+                            <!-- Tags Strip -->
+                            <?php if ($post_tags) : ?>
+                                <div class="series-card-tags">
+                                    <?php foreach (array_slice($post_tags, 0, 3) as $st) : ?>
+                                        <a href="<?php echo esc_url(get_tag_link($st->term_id)); ?>" class="series-tag-pill">
+                                            #<?php echo esc_html($st->name); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="series-card-footer">
+                                <span class="series-card-date"><?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                                <a href="<?php the_permalink(); ?>" class="series-read-link">
+                                    Read Dossier →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                <?php
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         8. HEALTH & WELLNESS INTELLIGENCE (UI: 3-Card Medical & Longevity Grid)
+         ========================================================================== -->
+    <section class="desk-section desk-health-wellness" aria-label="Health &amp; Longevity">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Health &amp; Longevity</h2>
+                <span class="desk-section-tag">PUBLIC HEALTH · RESEARCH · AFRICAN BOTANICALS</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('health')); ?>" class="desk-view-index-btn">
+                Health Index →
+            </a>
+        </div>
+
+        <div class="grid-aligned-3col">
+            <?php
+            $health_query = magazineafrique_query_category_posts(array('health'), 3, $displayed_post_ids);
+            if ($health_query->have_posts()) :
+                while ($health_query->have_posts()) : $health_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <article class="standard-editorial-card">
+                    <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="card-thumb-wrap">
+                            <?php the_post_thumbnail('magazine-card', array('class' => 'card-media-img')); ?>
+                        </a>
+                    <?php endif; ?>
+                    <div class="card-content-wrap">
+                        <div class="card-kicker-row">
+                            <span class="card-kicker-badge">HEALTH INTELLIGENCE</span>
+                            <span class="card-meta-dot">·</span>
+                            <span class="card-date-stamp"><?php echo esc_html(get_the_date('M j')); ?></span>
+                        </div>
+                        <h3 class="card-headline-clamped vintage-newspaper-headline">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+                        <p class="card-excerpt-clamped">
+                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
+                        </p>
+                        <div class="card-footer-meta">
+                            <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                            <a href="<?php the_permalink(); ?>" class="card-read-more-link">Read Research →</a>
+                        </div>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         9. HOW-TO'S & PRACTICAL MANUALS (UI: Asymmetric Field Playbook & Step Ledger)
+         Distinct horizontal blueprint layout — zero visual overlap with Health grid
+         ========================================================================== -->
+    <section class="desk-section desk-howtos-guides" aria-label="How-To's &amp; Guides">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/><path d="M6 14h6"/></svg></span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">How-To's &amp; Practical Manuals</h2>
+                <span class="desk-section-tag">STEP-BY-STEP PLAYBOOKS · ACTIONABLE FIELD GUIDES</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('how-tos')); ?>" class="desk-view-index-btn">
+                All Guides →
+            </a>
+        </div>
+
+        <div class="howtos-playbook-grid">
+            <?php
+            $how_query = magazineafrique_query_category_posts(array('how-tos'), 4, $displayed_post_ids);
+            $h_num = 0;
+            if ($how_query->have_posts()) :
+                while ($how_query->have_posts()) : $how_query->the_post();
+                    $h_num++;
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <?php if ($h_num === 1) : ?>
+                    <!-- Left: Featured Field Playbook Blueprint Card -->
+                    <article class="manual-featured-playbook">
+                        <div class="manual-blueprint-bar">
+                            <span class="manual-blueprint-code">FIELD MANUAL · 01</span>
+                            <span class="manual-blueprint-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                        </div>
+
+                        <?php if (has_post_thumbnail()) : ?>
+                            <a href="<?php the_permalink(); ?>" class="manual-playbook-media" aria-label="<?php the_title_attribute(); ?>">
+                                <?php the_post_thumbnail('magazine-hero', array('class' => 'manual-playbook-img', 'loading' => 'lazy')); ?>
+                                <span class="manual-playbook-stamp">PLAYBOOK</span>
+                            </a>
+                        <?php endif; ?>
+
+                        <div class="manual-playbook-body">
+                            <h3 class="manual-playbook-title vintage-newspaper-headline">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+                            <p class="manual-playbook-excerpt">
+                                <?php echo wp_trim_words(get_the_excerpt(), 26); ?>
+                            </p>
+                            <div class="manual-playbook-footer">
+                                <span class="manual-playbook-date">Updated <?php echo esc_html(get_the_date('M j, Y')); ?></span>
+                                <a href="<?php the_permalink(); ?>" class="manual-playbook-cta">
+                                    Open Playbook →
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Right: Stacked Numbered Practical Guide Ledger -->
+                    <div class="manual-index-ledger">
+                        <div class="manual-ledger-topbar">
+                            <span class="manual-ledger-heading">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                QUICK-ACTION FIELD GUIDES
+                            </span>
+                            <span class="manual-ledger-tag">WORKBOOK</span>
+                        </div>
+                        <div class="manual-ledger-list">
+                <?php else : ?>
+                    <!-- Compact Horizontal Numbered Guide Row -->
+                    <article class="manual-index-row">
+                        <div class="manual-row-num" aria-hidden="true">0<?php echo esc_html($h_num); ?></div>
+                        <div class="manual-row-body">
+                            <div class="manual-row-meta">
+                                <span class="manual-row-kicker">PRACTICAL GUIDE</span>
+                                <span class="card-meta-dot">·</span>
+                                <span class="manual-row-time"><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                            </div>
+                            <h4 class="manual-row-title vintage-newspaper-headline">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h4>
+                            <p class="manual-row-excerpt">
+                                <?php echo wp_trim_words(get_the_excerpt(), 14); ?>
+                            </p>
+                        </div>
+                        <?php if (has_post_thumbnail()) : ?>
+                            <a href="<?php the_permalink(); ?>" class="manual-row-thumb-wrap" aria-label="<?php the_title_attribute(); ?>">
+                                <?php the_post_thumbnail('magazine-thumb', array('class' => 'manual-row-thumb-img', 'loading' => 'lazy')); ?>
+                            </a>
+                        <?php endif; ?>
+                    </article>
+                <?php endif; ?>
+            <?php
+                endwhile;
+                if ($h_num >= 1) {
+                    echo '</div>'; // close manual-ledger-list
+                    echo '<div class="manual-ledger-footer">';
+                    echo '<a href="' . esc_url(magazineafrique_get_cat_url('how-tos')) . '" class="manual-ledger-all-link">Explore Complete How-To Library &amp; Checklists →</a>';
+                    echo '</div>';
+                    echo '</div>'; // close manual-index-ledger
+                }
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         10. BIOGRAPHY & CONTINENTAL CHANGEMAKERS (UI: Executive Portrait Gallery)
+         ========================================================================== -->
+    <section class="desk-section desk-biography-profiles" aria-label="Biography &amp; Changemakers">
+        <div class="desk-section-header">
+            <div class="desk-heading-left">
+                <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">Biography &amp; Changemakers</h2>
+                <span class="desk-section-tag">STATESMEN · FOUNDERS · CONTINENTAL VOICES</span>
+            </div>
+            <a href="<?php echo esc_url(magazineafrique_get_cat_url('biography')); ?>" class="desk-view-index-btn">
+                Biography Index →
+            </a>
+        </div>
+
+        <div class="bio-portrait-grid">
+            <?php
+            $bio_query = magazineafrique_query_category_posts(array('biography'), 3, $displayed_post_ids);
+            if ($bio_query->have_posts()) :
+                while ($bio_query->have_posts()) : $bio_query->the_post();
+                    $displayed_post_ids[] = get_the_ID();
+            ?>
+                <article class="bio-profile-card">
+                    <div class="bio-card-top-row">
+                        <div class="bio-avatar-ring">
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('thumbnail', array('class' => 'bio-avatar-img')); ?>
+                            <?php else : ?>
+                                <span class="bio-avatar-initial"><?php echo esc_html(substr(get_the_title(), 0, 1)); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="bio-kicker-stack">
+                            <span class="bio-badge">EXECUTIVE PROFILE</span>
+                            <span class="bio-year"><?php echo esc_html(get_the_date('Y')); ?></span>
+                        </div>
+                    </div>
+                    <h3 class="bio-profile-name vintage-newspaper-headline">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h3>
+                    <p class="bio-quote-deck">
+                        “<?php echo wp_trim_words(get_the_excerpt(), 18); ?>”
+                    </p>
+                    <div class="card-footer-meta">
+                        <span><?php echo esc_html(magazineafrique_reading_time()); ?></span>
+                        <a href="<?php the_permalink(); ?>" class="card-read-more-link">Read Profile →</a>
+                    </div>
+                </article>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </section>
+
+    <!-- Clean Editorial Hairline Divider -->
+    <div class="editorial-section-divider"></div>
+
+    <!-- ==========================================================================
+         11. EDUCATION & SOCIETY (UI: 2-Column Broadsheet Knowledge Split)
          ========================================================================== -->
     <section class="desk-section desk-education-split" aria-label="Education &amp; Society">
         <div class="desk-section-header">
@@ -1253,13 +1298,13 @@ get_header(); ?>
     <div class="editorial-section-divider"></div>
 
     <!-- ==========================================================================
-         12. THE GAZETTE CHRONICLE & SOVEREIGN OPINION (UI: Columnists Gallery)
+         12. THE AFRIQUE CHRONICLE & OPINION (UI: Columnists Gallery)
          ========================================================================== -->
-    <section class="desk-section desk-chronicle-opinion" aria-label="The Gazette Chronicle &amp; Opinion">
+    <section class="desk-section desk-chronicle-opinion" aria-label="The Afrique Chronicle &amp; Opinion">
         <div class="desk-section-header">
             <div class="desk-heading-left">
                 <span class="desk-bullet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg></span>
-                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Gazette Chronicle &amp; Opinion</h2>
+                <h2 class="desk-main-heading font-serif vintage-newspaper-headline">The Afrique Chronicle &amp; Opinion</h2>
                 <span class="desk-section-tag">SOVEREIGN ESSAYS · INTELLECTUAL COMMENTARY</span>
             </div>
             <a href="<?php echo esc_url(magazineafrique_get_cat_url('opinion')); ?>" class="desk-view-index-btn">

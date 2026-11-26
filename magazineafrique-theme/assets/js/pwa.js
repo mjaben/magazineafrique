@@ -85,6 +85,9 @@
     }
 
     sessionStorage.removeItem('magafrique_update_toast_dismissed');
+    try {
+      localStorage.removeItem('magafrique_welcome_dismissed_at');
+    } catch (e) {}
 
     const targetUrl = new URL(window.location.href);
     targetUrl.searchParams.set('v_reload', Date.now());
@@ -151,8 +154,12 @@
       return;
     }
 
-    // Display push alert banner after 2.5s delay
+    // Display push alert banner after 2.5s delay (defer if first-time Welcome Modal is open)
     setTimeout(() => {
+      const welcomeEl = document.getElementById('magafrique-welcome-modal');
+      if (welcomeEl && !welcomeEl.classList.contains('hidden')) {
+        return;
+      }
       if (pushBanner && Notification.permission !== 'granted') {
         pushBanner.classList.remove('hidden');
       }
@@ -226,7 +233,13 @@
   };
 
   const isStandaloneApp = () => {
-    return ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+    return (
+      ('standalone' in window.navigator && window.navigator.standalone === true) ||
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      (typeof document.referrer === 'string' && document.referrer.indexOf('android-app://') === 0)
+    );
   };
 
   // Capture beforeinstallprompt (Android / Chrome / Edge)
@@ -234,6 +247,178 @@
     e.preventDefault();
     deferredPrompt = e;
   });
+
+  // Track successful PWA installation
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    try {
+      localStorage.setItem('magafrique_pwa_installed', '1');
+    } catch (e) {}
+    const welcomeInstallBtn = document.getElementById('welcome-install-pwa-btn');
+    if (welcomeInstallBtn) {
+      welcomeInstallBtn.textContent = '✓ Installed';
+      welcomeInstallBtn.disabled = true;
+      welcomeInstallBtn.classList.add('is-done');
+    }
+  });
+
+  // =========================================================================
+  // 5. First-Time Viewer Welcome Modal (Install PWA + Turn On Location)
+  //    - Greets first-time viewers & after cache is cleared
+  //    - Reappears after 7 days if dismissed
+  //    - NEVER renders inside an installed PWA app
+  // =========================================================================
+  function initFirstTimeWelcomeModal() {
+    const welcomeModal = document.getElementById('magafrique-welcome-modal');
+    if (!welcomeModal) return;
+
+    // Never show inside an installed PWA app
+    if (isStandaloneApp()) {
+      welcomeModal.classList.add('hidden');
+      return;
+    }
+
+    const WELCOME_DISMISS_KEY = 'magafrique_welcome_dismissed_at';
+    let lastDismissed = null;
+    try {
+      lastDismissed = localStorage.getItem(WELCOME_DISMISS_KEY);
+    } catch (e) {}
+
+    // Respect 7-day cooldown after dismissal
+    if (lastDismissed && (Date.now() - parseInt(lastDismissed, 10)) < SEVEN_DAYS_MS) {
+      return;
+    }
+
+    const closeBtn = document.getElementById('welcome-close-btn');
+    const dismissBtn = document.getElementById('welcome-dismiss-btn');
+    const installBtn = document.getElementById('welcome-install-pwa-btn');
+    const pwaTip = document.getElementById('welcome-pwa-inline-tip');
+    const locBtn = document.getElementById('welcome-enable-location-btn');
+    const locStatus = document.getElementById('welcome-location-status');
+
+    function dismissWelcomeModal() {
+      welcomeModal.classList.add('hidden');
+      document.body.classList.remove('magafrique-welcome-open');
+      try {
+        localStorage.setItem(WELCOME_DISMISS_KEY, Date.now().toString());
+      } catch (e) {}
+    }
+
+    function markLocationDone(label) {
+      if (locBtn) {
+        locBtn.textContent = '✓ Active';
+        locBtn.disabled = true;
+        locBtn.classList.add('is-done');
+      }
+      if (locStatus && label) {
+        locStatus.textContent = label;
+        locStatus.classList.remove('hidden');
+      }
+    }
+
+    // Check existing geolocation permission if browser supports Permissions API
+    if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') {
+          markLocationDone('Location is already active for your regional edition.');
+        }
+      }).catch(() => {});
+    }
+
+    // Show modal cleanly after splashscreen clears
+    setTimeout(() => {
+      if (isStandaloneApp()) return;
+      welcomeModal.classList.remove('hidden');
+      document.body.classList.add('magafrique-welcome-open');
+    }, 1200);
+
+    // Dismiss handlers (X, Continue button, Backdrop click, ESC key)
+    if (closeBtn) closeBtn.addEventListener('click', dismissWelcomeModal);
+    if (dismissBtn) dismissBtn.addEventListener('click', dismissWelcomeModal);
+    welcomeModal.addEventListener('click', (e) => {
+      if (e.target === welcomeModal) {
+        dismissWelcomeModal();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !welcomeModal.classList.contains('hidden')) {
+        dismissWelcomeModal();
+      }
+    });
+
+    // Action 1: Install PWA
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt && !isIosDevice()) {
+          try {
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            if (choice && choice.outcome === 'accepted') {
+              installBtn.textContent = '✓ Installed';
+              installBtn.disabled = true;
+              installBtn.classList.add('is-done');
+              if (pwaTip) {
+                pwaTip.textContent = 'Magazine Afrique has been added to your device.';
+                pwaTip.classList.remove('hidden');
+              }
+            }
+          } catch (e) {}
+        } else if (isIosDevice()) {
+          if (pwaTip) {
+            pwaTip.textContent = 'On Safari: tap Share (↑) at the bottom bar, then choose "Add to Home Screen".';
+            pwaTip.classList.remove('hidden');
+          }
+        } else {
+          if (pwaTip) {
+            pwaTip.textContent = 'Open your browser menu (⋮) and choose "Install Magazine Afrique" or "Add to Home Screen".';
+            pwaTip.classList.remove('hidden');
+          }
+        }
+      });
+    }
+
+    // Action 2: Turn On Location
+    if (locBtn) {
+      locBtn.addEventListener('click', () => {
+        if (!('geolocation' in navigator)) {
+          if (locStatus) {
+            locStatus.textContent = 'Location services are not supported in this browser.';
+            locStatus.classList.remove('hidden');
+          }
+          return;
+        }
+
+        locBtn.disabled = true;
+        locBtn.textContent = 'Locating...';
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            try {
+              localStorage.setItem('magafrique_location_enabled', '1');
+              localStorage.setItem('magafrique_location_coords', JSON.stringify({
+                lat: Number(pos.coords.latitude.toFixed(2)),
+                lng: Number(pos.coords.longitude.toFixed(2)),
+                updatedAt: Date.now()
+              }));
+            } catch (e) {}
+            markLocationDone('✓ Location enabled for local bourses and bureau alerts.');
+          },
+          (err) => {
+            locBtn.disabled = false;
+            locBtn.textContent = 'Enable';
+            if (locStatus) {
+              locStatus.textContent = (err && err.code === 1)
+                ? 'Permission declined — you can allow location anytime in browser settings.'
+                : 'Unable to detect location right now. Please try again.';
+              locStatus.classList.remove('hidden');
+            }
+          },
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
+        );
+      });
+    }
+  }
 
   // Open Install Modal Function
   window.magazineafriqueOpenInstallGuide = () => {
@@ -297,6 +482,7 @@
   // DOM Ready
   // =========================================================================
   document.addEventListener('DOMContentLoaded', () => {
+    initFirstTimeWelcomeModal();
     initPushNotificationAlert();
   });
 

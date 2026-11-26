@@ -160,6 +160,74 @@ if (!function_exists('magazineafrique_render_pwa_banners')) {
             </div>
         </div>
 
+        <!-- 3b. First-Time Viewer Welcome Modal (Install PWA + Turn On Location)
+             Shows for first-time / cleared-cache viewers; 7-day dismiss cooldown; never inside installed PWA -->
+        <div id="magafrique-welcome-modal" class="magafrique-welcome-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="welcome-modal-heading">
+            <div class="magafrique-welcome-card">
+                <div class="welcome-card-header">
+                    <div class="welcome-brand-cluster">
+                        <img src="<?php echo esc_url($theme_uri . '/assets/images/icon-192.png'); ?>" alt="Magazine Afrique" width="40" height="40" class="welcome-app-icon" />
+                        <div>
+                            <span class="welcome-eyebrow">WELCOME TO MAGAZINE AFRIQUE</span>
+                            <h3 id="welcome-modal-heading" class="welcome-title">Personalize Your Edition</h3>
+                        </div>
+                    </div>
+                    <button type="button" id="welcome-close-btn" class="welcome-close-btn" aria-label="Dismiss welcome prompt">✕</button>
+                </div>
+
+                <div class="welcome-card-body">
+                    <p class="welcome-intro-text">
+                        Get faster offline reading and regional market dispatches tailored to your desk in two quick steps.
+                    </p>
+
+                    <div class="welcome-action-stack">
+                        <!-- Action 1: Install PWA App -->
+                        <div class="welcome-action-item" id="welcome-pwa-row">
+                            <div class="welcome-action-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                    <line x1="12" y1="18" x2="12.01" y2="18"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-action-copy">
+                                <strong class="welcome-action-title">Install the Magazine Afrique App</strong>
+                                <span class="welcome-action-desc">Instant home-screen access with offline reading.</span>
+                                <div id="welcome-pwa-inline-tip" class="welcome-inline-tip hidden" aria-live="polite"></div>
+                            </div>
+                            <button type="button" id="welcome-install-pwa-btn" class="welcome-action-btn welcome-btn-primary">
+                                Install App
+                            </button>
+                        </div>
+
+                        <!-- Action 2: Turn On Location -->
+                        <div class="welcome-action-item" id="welcome-location-row">
+                            <div class="welcome-action-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-action-copy">
+                                <strong class="welcome-action-title">Turn On Location</strong>
+                                <span class="welcome-action-desc">Unlock regional bourses, local editions, and bureau alerts.</span>
+                                <div id="welcome-location-status" class="welcome-inline-tip hidden" aria-live="polite"></div>
+                            </div>
+                            <button type="button" id="welcome-enable-location-btn" class="welcome-action-btn welcome-btn-secondary">
+                                Enable
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-card-footer">
+                    <span class="welcome-cooldown-note">You can dismiss and revisit this in 7 days.</span>
+                    <button type="button" id="welcome-dismiss-btn" class="welcome-dismiss-link">
+                        Continue to Edition →
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- 4. New Version / Cache Purge Toast Notification -->
         <div id="magafrique-update-toast" class="magafrique-update-toast" role="alert" aria-live="polite">
             <div class="toast-top-row">
